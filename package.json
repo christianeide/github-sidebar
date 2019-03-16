@@ -1,0 +1,51 @@
+{
+  "name": "github-sidebar",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Christian Sletten Eide",
+  "license": "MIT",
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ]
+  },
+  "scripts": {
+    "watch": "NODE_ENV=development webpack",
+    "build": "NODE_ENV=production webpack -p --config webpack.production.config.js --display-error-details --colors --progress"
+  },
+  "dependencies": {
+    "copy-webpack-plugin": "^5.0.1",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "superagent": "^4.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.1",
+    "file-loader": "^3.0.1",
+    "mini-css-extract-plugin": "^0.5.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "standard": "^12.0.1",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-chrome-extension-reloader": "^1.2.0",
+    "webpack-cli": "^3.3.0"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  }
+}

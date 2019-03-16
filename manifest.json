@@ -1,0 +1,30 @@
+{
+  "name": "Github Sidebar",
+  "description": "",
+  "author": "Christian Sletten Eide",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "permissions": [
+    "https://github.com/*",
+    "storage"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://github.com/*"
+      ],
+      "js": [
+        "content-script.js"
+      ],
+      "css": [
+        "style.css"
+      ]
+    }
+  ]
+
+}
