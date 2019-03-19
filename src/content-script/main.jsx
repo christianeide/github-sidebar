@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom'
 
 import './css/index.scss'
 
+import Header from './header.js'
+
 //* ********* React components **********/
 
 //* ********* Functions **********/
@@ -18,13 +20,32 @@ export default class App extends React.Component {
     }
   }
 
+  componentDidMount () {
+    console.log('componentdidmount')
+    // chrome.storage.local.set({ key: 'hei' }, function () {
+    //   console.log('Value is set to ' + 'hei')
+    // })
+    // setInterval(() => {
+    //   console.log('hei hei')
+    //   chrome.storage.local.get(['key'], function (result) {
+    //     console.log('Value currently is ' + result.key)
+    //   })
+    // }, 2000)
+  }
+
   render () {
     return (
-      <ul className={'react-extension'}>
-        <li><a href='https://github.com/nrkno/nora-core'>Nora Core</a></li>
-        <li><a href='https://github.com/nrkno/nora-module-browser'>Nora Module Browser</a></li>
-        <li><a href='https://github.com/nrkno/nora-render-nyheter'>Nora Render Nyheter</a></li>
-      </ul>
+      <React.Fragment>
+        <Header />
+
+        <main>
+          <ul>
+            <li><a href='https://github.com/nrkno/nora-core'>nora-core</a></li>
+            <li><a href='https://github.com/nrkno/nora-module-browser'>nora-nodule-browser</a></li>
+            <li><a href='https://github.com/nrkno/nora-render-nyheter'>nora-render-nyheter</a></li>
+          </ul>
+        </main>
+      </React.Fragment>
     )
   }
 }

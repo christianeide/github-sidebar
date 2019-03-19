@@ -1,13 +1,35 @@
 body {
-    padding-left: 300px !important;
-    background: red !important;
+    padding-left: $sidebarWidth!important;
 }
 
 #github-sidebar {
     position: fixed;
     height: 100%;
-    width: 300px;
+    width: $sidebarWidth;
     top: 0;
     left: 0;
+    background-color: $gray-100;
+    display: flex;
+    flex-direction: column;
+    
+    header {
+        background-color: $black;
+        padding: 12px;
+        color: $white;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    main {
+        flex: 1;
+        border-right: 1px solid $gray-500;
+    }
+
+
+
+      
+      
+      
+      
 }
 
