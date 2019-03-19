@@ -20,6 +20,12 @@ module.exports = {
     new CopyWebpackPlugin([ { from: './manifest.json' } ]),
     new MiniCssExtractPlugin({ filename: 'style.css' })
   ],
+  resolve: {
+    alias: {
+      'react': 'preact-compat',
+      'react-dom': 'preact-compat'
+    }
+  },
   module: {
     rules: [{
       test: /\.jsx?$/,
