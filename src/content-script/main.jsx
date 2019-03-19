@@ -5,7 +5,7 @@ import './css/index.scss'
 
 //* ********* React components **********/
 import Header from './components/Header/index.jsx'
-// import Repositories from './components/Repositories/index.jsx'
+import Repositories from './components/Repositories/index.jsx'
 
 //* ********* Functions **********/
 
@@ -14,7 +14,7 @@ class App extends React.Component {
     super()
 
     this.state = {
-      users: []
+      repositories: []
     }
   }
 
@@ -22,7 +22,7 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <Header />
-
+        <Repositories />
       </React.Fragment>
     )
   }
