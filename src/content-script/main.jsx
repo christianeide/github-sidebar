@@ -40,8 +40,18 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    console.log('MOUNT1')
+    this.fetchData()
 
+    this.interval = setInterval(() => {
+      this.fetchData()
+    }, 30000)
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.interval)
+  }
+
+  fetchData () {
     fetchDataFromAPI(this.state.repositories, (repositories) => {
       this.setState({ repositories })
     })

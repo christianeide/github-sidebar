@@ -11,13 +11,16 @@ export default class Item extends React.Component {
           <a href={`${url}/pulls`}>{prs.length} PRs</a>
         </div>
 
-        <ul>
-          {prs.map(pr => {
-            return <Pr
-              pr={pr}
-            />
-          })}
-        </ul>
+        {prs.length > 0
+          ? <ul>
+            {prs.map(pr => {
+              return <Pr
+                pr={pr}
+              />
+            })}
+          </ul>
+          : null
+        }
       </li>
     )
   }
