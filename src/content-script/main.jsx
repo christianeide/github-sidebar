@@ -49,13 +49,13 @@ class App extends React.Component {
 
   render () {
     return (
-      <React.Fragment>
+      <div className='sidebar'>
         <Header />
 
         <Repositories
           repositories={this.state.repositories}
         />
-      </React.Fragment>
+      </div>
     )
   }
 }

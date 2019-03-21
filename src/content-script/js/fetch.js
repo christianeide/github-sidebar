@@ -3,18 +3,27 @@ import { token } from '../../../testToken.js'
 
 const graphqlQuery = `
 query ($owner: String!, $name: String!) {
+  rateLimit {
+    cost
+    limit
+    remaining
+    resetAt
+  }
   repository(owner: $owner, name: $name) {
     name
     url
     owner {
       login
     }
-    pullRequests(last: 20, states: OPEN) {
+    pullRequests(last: 20, states: OPEN, orderBy: {field: UPDATED_AT, direction: DESC}) {
       edges {
         node {
           title
           url
           updatedAt
+          author {
+            login
+          }
           reviews(last: 1) {
             nodes {
               state
@@ -48,6 +57,7 @@ export function fetchDataFromAPI (repositories, callback) {
     })
   }))
     .then(axios.spread((...repositories) => {
+      console.log(repositories)
       // all requests are now complete
       const updateRepoStatus = repositories.map(repository => {
         const repo = repository.data.data.repository
@@ -60,7 +70,8 @@ export function fetchDataFromAPI (repositories, callback) {
             url: node.url,
             reviewStatus: node.reviews.nodes.length > 0 ? node.reviews.nodes[0].state : null,
             updatedAt: node.updatedAt,
-            comments: node.comments.totalCount
+            comments: node.comments.totalCount,
+            author: node.author.login
           }
         })
 

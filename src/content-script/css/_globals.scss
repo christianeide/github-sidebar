@@ -3,3 +3,7 @@
 @mixin fontSizeNormal {
     font-size: 1rem;
 }
+
+@mixin fontSizeSmall {
+    font-size: 0.75rem;
+}
