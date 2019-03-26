@@ -1,33 +1,39 @@
 import axios from 'axios'
-import { token } from '../../../testToken.js'
-import { query } from './graphql/index.js'
+import {
+  token
+} from '../../../testToken.js'
+import {
+  createPullRequestsQuery
+} from './graphql/index.js'
 
 export function fetchDataFromAPI (repositories, callback) {
-  axios.all(repositories.map(repo => {
-    return axios({
-      url: 'https://api.github.com/graphql',
-      method: 'post',
-      params: {
-        access_token: token
-      },
-      data: {
-        query,
-        variables: {
-          'owner': repo.owner,
-          'name': repo.name
-        }
-      }
-    })
-  }))
-    .then(axios.spread((...repositories) => {
-      console.log(repositories)
-      // all requests are now complete
-      const updateRepoStatus = repositories.map(repository => {
-        const repo = repository.data.data.repository
+  const query = createPullRequestsQuery(repositories)
+
+  axios({
+    url: 'https://api.github.com/graphql',
+    method: 'post',
+    params: {
+      access_token: token
+    },
+    data: {
+      query
+    }
+  })
+    .then((result) => {
+      const {
+        rateLimit,
+        ...repos
+      } = result.data.data
+
+      const updateRepoStatus = []
+      Object.keys(repos).forEach((key) => {
+        const repo = repos[key]
 
         // Mapping data from prs
         const prs = repo.pullRequests.edges.map(pr => {
-          const { node } = pr
+          const {
+            node
+          } = pr
           return {
             title: node.title,
             url: node.url,
@@ -38,14 +44,14 @@ export function fetchDataFromAPI (repositories, callback) {
           }
         })
 
-        return {
+        updateRepoStatus.push({
           name: repo.name,
           owner: repo.owner.login,
           url: repo.url,
           prs: prs
-        }
+        })
       })
 
-      return callback(updateRepoStatus)
-    }))
+      return callback(updateRepoStatus, rateLimit)
+    })
 }
