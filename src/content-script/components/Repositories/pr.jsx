@@ -1,6 +1,6 @@
 import React from 'react'
 import { commentIcon, pullRequestIcon } from '../../css/svgs.js'
-import { ago } from '../../js/timeAgo.js'
+import { ago } from '../../js/time.js'
 
 export default class Pr extends React.Component {
   showComments (comments) {

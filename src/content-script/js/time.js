@@ -2,16 +2,27 @@
 
 export function ago (val) {
   val = 0 | (Date.now() - val) / 1000
-  var unit; var length = { second: 60,
+  return calculateTime(val)
+}
+
+export function until (val) {
+  val = 0 | (val - Date.now()) / 1000
+  return calculateTime(val)
+}
+
+function calculateTime (val) {
+  const length = {
+    second: 60,
     minute: 60,
     hour: 24,
     day: 7,
     week: 4.35,
     month: 12,
-    year: 10000 }; var result
+    year: 10000
+  }
 
-  for (unit in length) {
-    result = val % length[unit]
+  for (let unit in length) {
+    const result = val % length[unit]
     if (!(val = 0 | val / length[unit])) { return result + ' ' + (result - 1 ? unit + 's' : unit) }
   }
 }

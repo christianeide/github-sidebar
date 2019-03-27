@@ -5,7 +5,9 @@ export default class Header extends React.Component {
     return (
       <header className='text-bold'>
         Github Sidebar
-        <a href='#' className='iconBtn'><i className='icon icon-gear' /></a>
+        <a href='#' className='iconBtn' onClick={this.props.showSettings}>
+          <i className='icon icon-gear' />
+        </a>
       </header>
     )
   }
