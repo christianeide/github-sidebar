@@ -1,19 +1,20 @@
 import axios from 'axios'
 import {
-  token
-} from '../../../testToken.js'
-import {
   createPullRequestsQuery
 } from './graphql/index.js'
 
-export function fetchDataFromAPI (repositories, callback) {
-  const query = createPullRequestsQuery(repositories)
+export function fetchDataFromAPI (settings, callback) {
+  if (!settings.token) return callback()
+
+  const query = createPullRequestsQuery(settings.repos)
+
+  console.log('fetchingdata', settings)
 
   axios({
     url: 'https://api.github.com/graphql',
     method: 'post',
     params: {
-      access_token: token
+      access_token: settings.token
     },
     data: {
       query

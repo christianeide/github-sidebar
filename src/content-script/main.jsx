@@ -1,3 +1,4 @@
+/* global chrome */
 
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -7,6 +8,7 @@ import './css/index.scss'
 //* ********* React components **********/
 import Header from './components/Header/index.jsx'
 import Repositories from './components/Repositories/index.jsx'
+import Settings from './components/Settings/index.jsx'
 
 //* ********* Functions **********/
 import { fetchDataFromAPI } from './js/fetch.js'
@@ -16,55 +18,104 @@ class App extends React.Component {
     super()
 
     this.state = {
-      repositories: [
-        {
-          name: 'nora-core',
-          owner: 'nrkno',
-          url: 'https://github.com/nrkno/nora-core',
-          prs: []
-        },
-        {
-          name: 'nora-module-browser',
-          owner: 'nrkno',
-          url: 'https://github.com/nrkno/nora-module-browser',
-          prs: []
-        },
-        {
-          name: 'nora-render-nyheter',
-          owner: 'nrkno',
-          url: 'https://github.com/nrkno/nora-render-nyheter',
-          prs: []
-        }
-      ]
+      repositories: [],
+      rateLimit: null,
+      showSettings: false,
+      settings: {
+        token: null,
+        autoUpdate: true,
+        updateEach: 30,
+        listItemOfType: 'pullRequest',
+        numberOfItems: 5,
+        updateFavicon: true,
+        viewportSide: 'left',
+        repos: [
+          {
+            name: 'nora-core',
+            owner: 'nrkno'
+          },
+          {
+            name: 'nora-module-browser',
+            owner: 'nrkno'
+          },
+          {
+            name: 'nora-render-nyheter',
+            owner: 'nrkno'
+          }
+        ]
+      }
     }
   }
 
   componentDidMount () {
-    this.fetchData()
+    chrome.storage.local.get(['settings', 'repositories', 'rateLimit'], result => {
+      this.setState(state => {
+        // merges default settings ond user settings
+        // TODO: remove this when settings is complete
+        const { settings: settingsRaw, ...data } = result
+        const settings = { ...state.settings, ...settingsRaw }
 
-    this.interval = setInterval(() => {
-      this.fetchData()
-    }, 30000)
+        return { settings, ...data }
+      })
+    })
+
+    // this.interval = setInterval(() => {
+    //   this.fetchData()
+    // }, 30000)
+  }
+
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    if (this.state.settings !== prevState.settings) {
+      this.fetchData(this.state.settings)
+    }
   }
 
   componentWillUnmount () {
     clearInterval(this.interval)
   }
 
-  fetchData () {
-    fetchDataFromAPI(this.state.repositories, (repositories) => {
-      this.setState({ repositories })
+  fetchData (settings) {
+    fetchDataFromAPI(settings, (repositories, rateLimit) => {
+      if (repositories && rateLimit) {
+        this.setState({ repositories, rateLimit })
+
+        // Save repository to storage for faster reloads
+        chrome.storage.local.set({ repositories, rateLimit })
+      }
     })
   }
 
+  handleShowSettings = (e) => {
+    e.preventDefault()
+    this.setState({ showSettings: !this.state.showSettings })
+  }
+
+  handleSaveSettings = (settings) => {
+    this.setState({ settings, showSettings: !this.state.showSettings })
+
+    chrome.storage.local.set({ settings })
+  }
+
   render () {
+    const { showSettings } = this.state
+
     return (
       <div className='sidebar'>
-        <Header />
+        <Header showSettings={this.handleShowSettings} />
 
-        <Repositories
-          repositories={this.state.repositories}
-        />
+        {showSettings
+          ? (
+            <Settings
+              rateLimit={this.state.rateLimit}
+              settings={this.state.settings}
+              saveSettings={this.handleSaveSettings}
+            />
+          ) : (
+            <Repositories
+              repositories={this.state.repositories}
+            />
+          )
+        }
       </div>
     )
   }

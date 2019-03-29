@@ -34,6 +34,7 @@ export default class Settings extends React.Component {
   render () {
     console.log(this.state)
     const { rateLimit } = this.props
+    console.log(rateLimit)
 
     const remaing = rateLimit ? <em>({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in {this.timeUntil(rateLimit.resetAt)})</em> : null
 
@@ -43,7 +44,7 @@ export default class Settings extends React.Component {
           This extension requires an access token from Github to load data. <br />
           <a href='https://github.com/settings/tokens/new?scopes=repo&description=Github%20sidebar%20browser%20extension' target='_blank' >
             Create an access token
-          </a> and paste it below.
+          </a> and paste it below. <em>(We have pre-selected the necessary scopes)</em>
 
           <input type='text' name='token' value={this.state.token} onChange={this.handleInputChange} placeholder='Access token' />
           {remaing}
