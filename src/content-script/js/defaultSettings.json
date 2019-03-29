@@ -1,0 +1,27 @@
+{
+    "token": null,
+    "autoUpdate": true,
+    "updateEach": 30,
+    "listItemOfType": "pullRequest",
+    "numberOfItems": 5,
+    "updateFavicon": true,
+    "viewportSide": "left",
+    "repos": [
+        {
+            "name": "nora-core",
+            "owner": "nrkno"
+        },
+        {
+            "name": "nora-module-browser",
+            "owner": "nrkno"
+        },
+        {
+            "name": "nora-render-nyheter",
+            "owner": "nrkno"
+        },
+        {
+            "name": "octotree",
+            "owner": "ovity"
+        }
+    ]
+}

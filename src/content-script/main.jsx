@@ -4,6 +4,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import './css/index.scss'
+import defaultSettings from './js/defaultSettings.json'
 
 //* ********* React components **********/
 import Header from './components/Header/index.jsx'
@@ -17,33 +18,13 @@ class App extends React.Component {
   constructor () {
     super()
 
+    const settings = defaultSettings
+
     this.state = {
       repositories: [],
       rateLimit: null,
       showSettings: false,
-      settings: {
-        token: null,
-        autoUpdate: true,
-        updateEach: 30,
-        listItemOfType: 'pullRequest',
-        numberOfItems: 5,
-        updateFavicon: true,
-        viewportSide: 'left',
-        repos: [
-          {
-            name: 'nora-core',
-            owner: 'nrkno'
-          },
-          {
-            name: 'nora-module-browser',
-            owner: 'nrkno'
-          },
-          {
-            name: 'nora-render-nyheter',
-            owner: 'nrkno'
-          }
-        ]
-      }
+      settings
     }
   }
 
