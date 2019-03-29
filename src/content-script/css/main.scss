@@ -114,9 +114,14 @@ body {
 
             label {
                 font-weight: normal;
+                display: block;
+                margin-bottom: 1rem;
+                border-bottom: 1px solid $gray-500;
+                padding-bottom: 1rem;
             }
 
-            input {
+            input[type='text'],
+            input[type='number'] {
                 width: 100%;
                 margin-bottom: 0.5rem;
                 padding: 0.3rem 0.5rem;
@@ -124,6 +129,14 @@ body {
 
             em {
                 @include fontSizeSmall();
+                display: block;
+            }
+
+            .disabled {
+                color: $gray-500;
+                input {
+                    color: $gray-500;
+                }
             }
 
             button {

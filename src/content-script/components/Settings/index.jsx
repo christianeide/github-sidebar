@@ -12,10 +12,12 @@ export default class Settings extends React.Component {
     }
   }
 
-  handleInputChange =(event) => {
+  handleInputChange = (event) => {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
+
+    console.log('name', name, 'value', value)
 
     this.setState({
       [name]: value
@@ -27,8 +29,21 @@ export default class Settings extends React.Component {
     return until(d.getTime())
   }
 
-  handleSaveSettings =() => {
+  handleSaveSettings = () => {
     this.props.saveSettings(this.state)
+  }
+
+  handleAddPage =() => {
+    const href = window.location.pathname
+    const urlItems = href.split('/')
+    const repo = {
+      owner: urlItems[1],
+      name: urlItems[2]
+    }
+
+    this.setState(prevState => ({
+      repos: [...prevState.repos, repo]
+    }))
   }
 
   render () {
@@ -46,47 +61,60 @@ export default class Settings extends React.Component {
             Create an access token
           </a> and paste it below. <em>(We have pre-selected the necessary scopes)</em>
 
-          <input type='text' name='token' value={this.state.token} onChange={this.handleInputChange} placeholder='Access token' />
+          <input
+            type='text'
+            name='token'
+            value={this.state.token}
+            onChange={this.handleInputChange}
+            placeholder='Access token' />
           {remaing}
         </label>
 
-        {/* <label>
-          Auto-update data in the background when a page is idle? <em>(Data from GitHub is always fetched when the page reloads)</em>
+        <button onClick={this.handleAddPage}>Add current page</button>
+
+        <label>
           <input
-            name='autouodate'
             type='checkbox'
-            checked={this.state.autouodate}
+            name='autoUpdate'
+            checked={this.state.autoUpdate}
+            onChange={this.handleInputChange}
+          /> Autoupdate data in the background when a page is idle? <em>(Data is always updated when the page reloads)</em>
+        </label>
+
+        <label className={this.state.autoUpdate ? '' : 'disabled'}>
+          Minutes before autoupdate
+          <input
+            type='number'
+            name='autoRefresh'
+            min='1'
+            max='1000'
+            disabled={!this.state.autoUpdate}
+            value={this.state.autoRefresh}
             onChange={this.handleInputChange}
           />
         </label>
 
         <label>
-          Time before autoupdate
+          Show items from
+          <select name='listItemOfType' value={this.state.listItemOfType} onChange={this.handleInputChange}>
+            <option value='none'>None</option>
+            <option value='pullRequests'>Pull requests</option>
+            <option value='issues'>Issues</option>
+          </select>
+        </label>
+
+        <label className={this.state.listItemOfType === 'none' ? 'disabled' : ''}>
+          Number of recent items to load
           <input
-            name='autouodate'
-            type='checkbox'
-            checked={this.state.autouodate}
+            type='number'
+            name='numberOfItems'
+            min='0'
+            max='10'
+            disabled={this.state.listItemOfType === 'none'}
+            value={this.state.numberOfItems}
             onChange={this.handleInputChange}
           />
         </label>
-
-        <label>
-          Show
-          <input
-            name='autouodate'
-            type='radio'
-            checked={this.state.autouodate}
-            onChange={this.handleInputChange}
-          />
-          <input
-            name='autouodate'
-            type='radio'
-            checked={this.state.autouodate}
-            onChange={this.handleInputChange}
-          />
-        </label>
-
-        <label /> */}
 
         <button onClick={this.handleSaveSettings}>Save settings</button>
       </main>
