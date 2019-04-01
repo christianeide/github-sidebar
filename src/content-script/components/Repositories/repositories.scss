@@ -13,9 +13,9 @@
             }
 
             .repository {
-                padding: 1rem;
+                padding: 0.8rem;
                 border-bottom: 1px solid $gray-500;
-                
+
                 &:nth-child(even) {
                     background: darken($gray-100, 2%);
                 }
@@ -27,7 +27,8 @@
                 }
 
                 ul {
-                    margin-top: 1rem;
+                    margin-top: .8rem;
+                    padding-left: .6rem;
                 }
             }
         }
