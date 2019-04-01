@@ -1,6 +1,6 @@
 import React from 'react'
 import Repository from './repository.jsx'
-import './main.scss'
+import './repositories.scss'
 
 export default class Repositories extends React.Component {
   render () {
