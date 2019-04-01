@@ -21,7 +21,7 @@ export default class Pr extends React.Component {
     const { title, url, comments, updatedAt, reviewStatus, author } = this.props.pr
 
     return (
-      <li className={`pr ${reviewStatus}`}>
+      <li className={`listItem ${reviewStatus}`}>
         <a href={url}>
 
           <div className='pullIcon'>

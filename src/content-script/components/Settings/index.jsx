@@ -1,5 +1,7 @@
 import React from 'react'
+import SortRepos from './sortRepos.jsx'
 import { until } from '../../js/time.js'
+import arrayMove from 'array-move'
 
 export default class Settings extends React.Component {
   constructor (props) {
@@ -46,10 +48,23 @@ export default class Settings extends React.Component {
     }))
   }
 
+  handleSortRepos = ({ oldIndex, newIndex }) => {
+    this.setState(({ repos }) => ({
+      repos: arrayMove(repos, oldIndex, newIndex)
+    }))
+  }
+
+  handleRemoveRepo = (e) => {
+    const indexToRemove = parseInt(e.target.getAttribute('data-index'))
+
+    this.setState(({ repos }) => ({
+      repos: repos.filter((repo, index) => index !== indexToRemove)
+    }))
+  }
+
   render () {
     console.log(this.state)
     const { rateLimit } = this.props
-    console.log(rateLimit)
 
     const remaing = rateLimit ? <em>({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in {this.timeUntil(rateLimit.resetAt)})</em> : null
 
@@ -71,6 +86,11 @@ export default class Settings extends React.Component {
         </label>
 
         <button onClick={this.handleAddPage}>Add current page</button>
+        <SortRepos
+          repos={this.state.repos}
+          sortRepos={this.handleSortRepos}
+          removeRepo={this.handleRemoveRepo}
+        />
 
         <label>
           <input
