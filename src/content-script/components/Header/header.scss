@@ -4,11 +4,47 @@
 #github-sidebar {
     .sidebar {
         header {
-            background-color: $black;
+            // background-color: $black;
+            border-right: 1px solid lighten($black, 10%);
+            background: linear-gradient(90deg, $black, lighten($black, 4%));
             padding: 12px;
             color: $white;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+
+            .iconBtn {
+                color: $white;
+                width: 1rem;
+                margin-top: -1.2rem;
+
+                &:hover {
+                    color: rgba($white, .7);
+                }
+            }
+
+            .icon {
+                position: relative;
+            }
+
+            .icon:before,
+            .icon:after {
+                position: absolute;
+                content: "";
+                display: block;
+            }
+
+            // Icons by sti#fi
+            // https://codepen.io/stiffi/pen/ysbCd
+            /* Gear */
+            .icon-gear:before {
+                width: 1rem;
+                height: 1rem;
+                box-shadow: 0 0 0 4px inset;
+                border-radius: 16px;
+                border: 1px dashed;
+                top: 1px;
+            }
         }
     }
 }
