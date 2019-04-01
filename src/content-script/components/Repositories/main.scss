@@ -1,0 +1,31 @@
+@import "../../css/globals.scss";
+
+
+#github-sidebar {
+    .sidebar {
+        main {
+            flex: 1;
+            border-right: 1px solid $gray-500;
+            overflow-y: scroll;
+
+            ul {
+                list-style-type: none;
+            }
+
+            .repository {
+                padding: 1rem;
+                border-bottom: 1px solid $gray-500;
+
+                .heading {
+                    display: flex;
+                    justify-content: space-between;
+                    font-weight: bold;
+                }
+
+                ul {
+                    margin-top: 1rem;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+@import "../../css/globals.scss";
+
+
+#github-sidebar {
+    .sidebar {
+        header {
+            background-color: $black;
+            padding: 12px;
+            color: $white;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}

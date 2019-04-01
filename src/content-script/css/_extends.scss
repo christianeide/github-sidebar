@@ -1,0 +1,34 @@
+@import "./_variables.scss";
+
+%listItem {
+    background-color: $white;
+    border: 1px solid $gray-500;
+    border-left-width: 4px;
+    border-radius: 3px;
+    margin: 0.25rem 0;
+    padding: 0.5rem;
+    color: $black;
+}
+
+%text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+%content {
+    flex: 1 1 auto;
+}
+
+%top {
+    display: flex;
+    justify-content: space-between;
+}
+
+%remove {
+    font-weight: unset;
+    font-size: 1.5rem;
+    margin-top: -0.5rem;
+    margin-bottom: -0.5rem;
+    color: $gray-500;
+}

@@ -2,6 +2,7 @@ import React from 'react'
 import SortRepos from './sortRepos.jsx'
 import { until } from '../../js/time.js'
 import arrayMove from 'array-move'
+import './settings.scss'
 
 export default class Settings extends React.Component {
   constructor (props) {
