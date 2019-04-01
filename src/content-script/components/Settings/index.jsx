@@ -136,6 +136,23 @@ export default class Settings extends React.Component {
           />
         </label>
 
+        <label className={this.state.listItemOfType === 'none' ? 'hide' : ''}>
+          <input
+            type='checkbox'
+            name='updateFavicon'
+            checked={this.state.updateFavicon}
+            onChange={this.handleInputChange}
+          /> Show a badge in favicon if new {this.state.listItemOfType}?
+        </label>
+
+        <label>
+          Show Github Sidebar on
+          <select name='viewportSide' value={this.state.viewportSide} onChange={this.handleInputChange}>
+            <option value='left'>Left</option>
+            <option value='right'>Right</option>
+          </select>
+        </label>
+
         <button onClick={this.handleSaveSettings}>Save settings</button>
       </main>
     )
