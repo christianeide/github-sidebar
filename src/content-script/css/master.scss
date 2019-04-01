@@ -18,6 +18,10 @@ body {
         display: flex;
         flex-direction: column;
 
+        .link-muted {
+            color: $gray-800;
+        }
+
         .listItem {
             @extend %listItem;
 

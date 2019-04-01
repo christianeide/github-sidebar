@@ -15,6 +15,10 @@
             .repository {
                 padding: 1rem;
                 border-bottom: 1px solid $gray-500;
+                
+                &:nth-child(even) {
+                    background: darken($gray-100, 2%);
+                }
 
                 .heading {
                     display: flex;

@@ -8,7 +8,7 @@ export default class Item extends React.Component {
       <li className='repository'>
         <div className='heading'>
           <a href={url}>{owner}/{name}</a>
-          <a href={`${url}/pulls`}>{prs.length} PRs</a>
+          <a href={`${url}/pulls`} className='link-muted'>{prs.length} PRs</a>
         </div>
 
         {prs.length > 0
