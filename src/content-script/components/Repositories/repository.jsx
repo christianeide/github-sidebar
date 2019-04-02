@@ -6,8 +6,8 @@ export default class Item extends React.Component {
     const { name, url, prs, totalItems, owner } = this.props.data
     return (
       <li className='repository'>
-        <div className='heading'>
-          <a href={url}>{owner}/{name}</a>
+        <div className='heading text-truncate'>
+          <a href={url} className='text-truncate'>{owner}/{name}</a>
           <a href={`${url}/pulls`} className='link-muted'>{totalItems} PRs</a>
         </div>
 
