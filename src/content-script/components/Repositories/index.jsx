@@ -11,7 +11,7 @@ export default class Repositories extends React.Component {
       <main>
         <ul className='repositories'>
           {this.props.repositories.map(repo => {
-            return <Repository data={repo} key={repo.url} />
+            return <Repository data={repo} key={repo.url} type={this.props.type} />
           })}
         </ul>
       </main>

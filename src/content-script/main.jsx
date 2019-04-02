@@ -101,6 +101,7 @@ class App extends React.Component {
           ) : (
             <Repositories
               repositories={this.state.repositories}
+              type={this.state.settings.listItemOfType}
             />
           )
         }

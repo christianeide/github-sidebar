@@ -3,12 +3,23 @@ import Pr from './pr.jsx'
 
 export default class Item extends React.Component {
   render () {
-    const { name, url, items, totalItems, owner } = this.props.data
+    const { data: { name, url, items, totalItems, owner }, type } = this.props
+
+    const item = type === 'pullRequests'
+      ? {
+        text: 'PRs',
+        url: '/pulls'
+      }
+      : {
+        text: 'issues',
+        url: '/issues'
+      }
+
     return (
       <li className='repository'>
         <div className='heading text-truncate'>
           <a href={url} className='text-truncate'>{owner}/{name}</a>
-          <a href={`${url}/pulls`} className='link-muted'>{totalItems} PRs</a>
+          <a href={`${url}/${item.url}`} className='link-muted'>{totalItems} {item.text}</a>
         </div>
 
         {items.length > 0
