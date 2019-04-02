@@ -18,27 +18,32 @@ class App extends React.Component {
   constructor () {
     super()
 
-    const settings = defaultSettings
-
     this.state = {
       repositories: [],
       rateLimit: null,
       showSettings: false,
-      settings
+      settings: null
     }
   }
 
   componentDidMount () {
-    chrome.storage.local.get(['settings', 'repositories', 'rateLimit'], result => {
-      this.setState(state => {
-        // merges default settings ond user settings
-        // TODO: remove this when settings is complete
-        const { settings: settingsRaw, ...data } = result
-        const settings = { ...state.settings, ...settingsRaw }
+    // chrome.storage.local.clear(function () {
+    //   var error = chrome.runtime.lastError
+    //   if (error) {
+    //     console.error(error)
+    //   }
+    // })
 
-        return { settings, ...data }
+    chrome.storage.local.get(['settings', 'repositories', 'rateLimit'],
+      ({ settings: settingsRaw, ...data }) => {
+        // merges default settings and user settings
+        const settings = { ...defaultSettings, ...settingsRaw }
+
+        // Show settings if there is no token
+        const showSettings = !settings.token
+
+        this.setState({ settings, showSettings, ...data })
       })
-    })
 
     // this.interval = setInterval(() => {
     //   this.fetchData()
@@ -78,7 +83,9 @@ class App extends React.Component {
   }
 
   render () {
-    const { showSettings } = this.state
+    const { showSettings, settings } = this.state
+
+    if (!settings) return null
 
     return (
       <div className='sidebar'>

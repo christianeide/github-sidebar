@@ -13,6 +13,10 @@ body {
     background-color: $gray-100;
     z-index: 1000;
 
+    .text-truncate {
+        @extend %text-truncate;
+    }
+
     .sidebar {
         height: 100%;
         display: flex;
@@ -50,10 +54,6 @@ body {
                 margin-right: .5rem;
             }
 
-            .text-truncate {
-                @extend %text-truncate;
-            }
-
             .content {
                 @extend %content;
 
@@ -63,7 +63,7 @@ body {
                     .comments {
                         @include fontSizeSmall();
                         color: $gray-800;
-                        min-width: 1.6rem;
+                        min-width: 1.7rem;
                     }
 
                     .remove {

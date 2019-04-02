@@ -3,7 +3,7 @@
     "autoUpdate": true,
     "autoRefresh": 30,
     "listItemOfType": "pullRequests",
-    "numberOfItems": 5,
+    "numberOfItems": 10,
     "updateFavicon": true,
     "viewportSide": "left",
     "repos": [
