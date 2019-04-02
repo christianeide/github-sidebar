@@ -118,7 +118,6 @@ export default class Settings extends React.Component {
         <label>
           Show items from
           <select name='listItemOfType' value={this.state.listItemOfType} onChange={this.handleInputChange}>
-            <option value='none'>None</option>
             <option value='pullRequests'>Pull requests</option>
             <option value='issues'>Issues</option>
           </select>
