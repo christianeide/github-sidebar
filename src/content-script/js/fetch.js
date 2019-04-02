@@ -19,17 +19,14 @@ export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems 
     .then((result) => {
       console.log('fetched data: ', result)
 
-      const {
-        rateLimit,
-        ...repos
-      } = result.data.data
+      const { rateLimit, ...repos } = result.data.data
 
       const updateRepoStatus = []
       Object.keys(repos).forEach((key) => {
         const repo = repos[key]
 
-        // Mapping data from prs
-        const prs = repo[listItemOfType].edges.map(({ node }) => {
+        // Mapping data from items
+        const items = repo[listItemOfType].edges.map(({ node }) => {
           return {
             title: node.title,
             url: node.url,
@@ -45,7 +42,7 @@ export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems 
           owner: repo.owner.login,
           url: repo.url,
           totalItems: repo[listItemOfType].totalCount,
-          prs: prs
+          items
         })
       })
 

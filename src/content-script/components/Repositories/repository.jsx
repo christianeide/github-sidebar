@@ -3,7 +3,7 @@ import Pr from './pr.jsx'
 
 export default class Item extends React.Component {
   render () {
-    const { name, url, prs, totalItems, owner } = this.props.data
+    const { name, url, items, totalItems, owner } = this.props.data
     return (
       <li className='repository'>
         <div className='heading text-truncate'>
@@ -11,9 +11,9 @@ export default class Item extends React.Component {
           <a href={`${url}/pulls`} className='link-muted'>{totalItems} PRs</a>
         </div>
 
-        {prs.length > 0
+        {items.length > 0
           ? <ul>
-            {prs.map(pr => {
+            {items.map(pr => {
               return <Pr
                 pr={pr}
               />
