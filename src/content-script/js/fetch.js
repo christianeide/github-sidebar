@@ -1,7 +1,5 @@
 import axios from 'axios'
-import {
-  createPullRequestsQuery
-} from './graphql/index.js'
+import { createPullRequestsQuery } from './graphql/index.js'
 
 export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems }, callback) {
   if (!token) return callback()
@@ -31,14 +29,11 @@ export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems 
         const repo = repos[key]
 
         // Mapping data from prs
-        const prs = repo.pullRequests.edges.map(pr => {
-          const {
-            node
-          } = pr
+        const prs = repo[listItemOfType].edges.map(({ node }) => {
           return {
             title: node.title,
             url: node.url,
-            reviewStatus: node.reviews.nodes.length > 0 ? node.reviews.nodes[0].state : null,
+            reviewStatus: node.review && node.reviews.nodes.length > 0 ? node.reviews.nodes[0].state : null,
             updatedAt: node.updatedAt,
             comments: node.comments.totalCount,
             author: node.author.login
@@ -49,7 +44,7 @@ export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems 
           name: repo.name,
           owner: repo.owner.login,
           url: repo.url,
-          totalItems: repo.pullRequests.totalCount,
+          totalItems: repo[listItemOfType].totalCount,
           prs: prs
         })
       })

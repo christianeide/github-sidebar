@@ -28,7 +28,7 @@ function repositoriesQuery ({ owner, name }, type, numberOfItems, index) {
 const types = {
   pullRequests: (numberOfItems) => {
     return `
-      pullRequests(last: ${numberOfItems}, states: OPEN, orderBy: {field: UPDATED_AT, direction: DESC}) {
+      pullRequests(first: ${numberOfItems}, states: OPEN, orderBy: {field: UPDATED_AT, direction: DESC}) {
         totalCount
         edges {
           node {
@@ -42,6 +42,26 @@ const types = {
               nodes {
                 state
               }
+            }
+            comments {
+              totalCount
+            }
+          }
+        }
+      }   
+  `
+  },
+  issues: (numberOfItems) => {
+    return `
+      issues(first: ${numberOfItems}, states: OPEN, orderBy: {field: UPDATED_AT, direction: DESC}) {
+        totalCount
+        edges {
+          node {
+            title
+            url
+            updatedAt
+            author {
+              login
             }
             comments {
               totalCount

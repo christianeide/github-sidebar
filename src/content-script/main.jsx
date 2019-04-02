@@ -4,7 +4,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import './css/index.scss'
-import defaultSettings from './js/defaultSettings.json'
 
 //* ********* React components **********/
 import Header from './components/Header/index.jsx'
@@ -13,6 +12,7 @@ import Settings from './components/Settings/index.jsx'
 
 //* ********* Functions **********/
 import { fetchDataFromAPI } from './js/fetch.js'
+import defaultSettings from './js/defaultSettings.json'
 
 class App extends React.Component {
   constructor () {
