@@ -3,24 +3,24 @@ import {
   createPullRequestsQuery
 } from './graphql/index.js'
 
-export function fetchDataFromAPI (settings, callback) {
-  if (!settings.token) return callback()
+export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems }, callback) {
+  if (!token) return callback()
 
-  const query = createPullRequestsQuery(settings.repos)
-
-  console.log('fetchingdata', settings)
+  const query = createPullRequestsQuery(repos, listItemOfType, numberOfItems)
 
   axios({
     url: 'https://api.github.com/graphql',
     method: 'post',
     params: {
-      access_token: settings.token
+      access_token: token
     },
     data: {
       query
     }
   })
     .then((result) => {
+      console.log('fetched data: ', result)
+
       const {
         rateLimit,
         ...repos
@@ -49,6 +49,7 @@ export function fetchDataFromAPI (settings, callback) {
           name: repo.name,
           owner: repo.owner.login,
           url: repo.url,
+          totalItems: repo.pullRequests.totalCount,
           prs: prs
         })
       })
