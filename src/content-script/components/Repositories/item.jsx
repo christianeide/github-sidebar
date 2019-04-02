@@ -1,5 +1,5 @@
 import React from 'react'
-import { commentIcon, pullRequestIcon } from '../../css/svgs.js'
+import { commentIcon, typeIcons } from '../../css/svgs.js'
 import { ago } from '../../js/time.js'
 
 export default class Item extends React.Component {
@@ -18,14 +18,14 @@ export default class Item extends React.Component {
   }
 
   render () {
-    const { title, url, comments, updatedAt, reviewStatus, author } = this.props.item
+    const { item: { title, url, comments, updatedAt, reviewStatus, author }, type } = this.props
 
     return (
       <li className={`listItem ${reviewStatus}`}>
         <a href={url}>
 
           <div className='pullIcon'>
-            {pullRequestIcon}
+            {typeIcons[type]}
           </div>
 
           <div className='content text-truncate'>

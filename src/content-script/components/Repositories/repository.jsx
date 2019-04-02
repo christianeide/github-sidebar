@@ -25,7 +25,7 @@ export default class Repository extends React.Component {
         {items.length > 0
           ? <ul>
             {items.map(item => {
-              return <Item item={item} />
+              return <Item item={item} type={type} />
             })}
           </ul>
           : null
