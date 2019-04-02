@@ -1,7 +1,7 @@
 import React from 'react'
-import Pr from './pr.jsx'
+import Item from './item.jsx'
 
-export default class Item extends React.Component {
+export default class Repository extends React.Component {
   render () {
     const { data: { name, url, items, totalItems, owner }, type } = this.props
 
@@ -24,10 +24,8 @@ export default class Item extends React.Component {
 
         {items.length > 0
           ? <ul>
-            {items.map(pr => {
-              return <Pr
-                pr={pr}
-              />
+            {items.map(item => {
+              return <Item item={item} />
             })}
           </ul>
           : null

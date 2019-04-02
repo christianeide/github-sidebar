@@ -2,7 +2,7 @@ import React from 'react'
 import { commentIcon, pullRequestIcon } from '../../css/svgs.js'
 import { ago } from '../../js/time.js'
 
-export default class Pr extends React.Component {
+export default class Item extends React.Component {
   showComments (comments) {
     if (!comments) return null
     return (
@@ -18,7 +18,7 @@ export default class Pr extends React.Component {
   }
 
   render () {
-    const { title, url, comments, updatedAt, reviewStatus, author } = this.props.pr
+    const { title, url, comments, updatedAt, reviewStatus, author } = this.props.item
 
     return (
       <li className={`listItem ${reviewStatus}`}>
