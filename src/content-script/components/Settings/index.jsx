@@ -96,7 +96,30 @@ export default class Settings extends React.Component {
               sortRepos={this.handleSortRepos}
               removeRepo={this.handleRemoveRepo}
             />
-            <button className='add' onClick={this.handleAddPage}>Add current page</button>
+            <button className='add' onClick={this.handleAddPage}>Add current repository</button>
+          </li>
+
+          <li className='list'>
+            <h4>Items</h4>
+            <label>Show items from
+              <select name='listItemOfType' value={this.state.listItemOfType} onChange={this.handleInputChange}>
+                <option value='pullRequests'>Pull requests</option>
+                <option value='issues'>Issues</option>
+              </select>
+            </label>
+
+            <label className='margin-top'>
+              Number of items to load
+              <input
+                type='number'
+                name='numberOfItems'
+                min='0'
+                max='10'
+                disabled={this.state.listItemOfType === 'none'}
+                value={this.state.numberOfItems}
+                onChange={this.handleInputChange}
+              />
+            </label>
           </li>
 
           <li className='list'>
@@ -120,29 +143,6 @@ export default class Settings extends React.Component {
                 max='1000'
                 disabled={!this.state.autoUpdate}
                 value={this.state.autoRefresh}
-                onChange={this.handleInputChange}
-              />
-            </label>
-          </li>
-
-          <li className='list'>
-            <h4>Items</h4>
-            <label>Show items from
-              <select name='listItemOfType' value={this.state.listItemOfType} onChange={this.handleInputChange}>
-                <option value='pullRequests'>Pull requests</option>
-                <option value='issues'>Issues</option>
-              </select>
-            </label>
-
-            <label className='margin-top'>
-              Number of recent items to load
-              <input
-                type='number'
-                name='numberOfItems'
-                min='0'
-                max='10'
-                disabled={this.state.listItemOfType === 'none'}
-                value={this.state.numberOfItems}
                 onChange={this.handleInputChange}
               />
             </label>

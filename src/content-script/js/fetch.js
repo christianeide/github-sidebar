@@ -2,8 +2,6 @@ import axios from 'axios'
 import { createPullRequestsQuery } from './graphql/index.js'
 
 export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems }, callback) {
-  if (!token) return callback()
-
   const query = createPullRequestsQuery(repos, listItemOfType, numberOfItems)
 
   axios({

@@ -34,7 +34,7 @@
                 display: block;
             }
 
-            // Icons by sti#fi
+            // Icon by sti#fi
             // https://codepen.io/stiffi/pen/ysbCd
             /* Gear */
             .icon-gear:before {
@@ -44,6 +44,76 @@
                 border-radius: 16px;
                 border: 1px dashed;
                 top: 1px;
+            }
+
+
+            // Loading icon from https://loading.io/css/
+            .icon-loader {
+                display: inline-block;
+                position: relative;
+                top: -0.8rem;
+                left: 1rem;
+                opacity: .4;
+
+                div {
+                    position: absolute;
+                    top: 0;
+                    width: .8rem;
+                    height: .8rem;
+                    border-radius: 50%;
+                    background: $white;
+                    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+
+                    &:nth-child(1) {
+                        left: 0;
+                        animation: lds-ellipsis1 0.6s infinite;
+                    }
+
+                    &:nth-child(2) {
+                        left: 0;
+                        animation: lds-ellipsis2 0.6s infinite;
+                    }
+
+                    &:nth-child(3) {
+                        left: 1.25rem;
+                        animation: lds-ellipsis2 0.6s infinite;
+                    }
+
+                    &:nth-child(4) {
+                        left: 2.4375rem;
+                        animation: lds-ellipsis3 0.6s infinite;
+                    }
+
+                    @keyframes lds-ellipsis1 {
+                        0% {
+                            transform: scale(0);
+                        }
+
+                        100% {
+                            transform: scale(1);
+                        }
+                    }
+
+                    @keyframes lds-ellipsis2 {
+                        0% {
+                            transform: translate(0, 0);
+                        }
+
+                        100% {
+                            transform: translate(1.2rem, 0);
+                        }
+                    }
+
+                    @keyframes lds-ellipsis3 {
+                        0% {
+                            transform: scale(1);
+                        }
+
+                        100% {
+                            transform: scale(0);
+                        }
+                    }
+                }
             }
         }
     }

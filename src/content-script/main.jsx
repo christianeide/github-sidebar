@@ -22,7 +22,8 @@ class App extends React.Component {
       repositories: [],
       rateLimit: null,
       showSettings: false,
-      settings: null
+      settings: null,
+      loading: true
     }
   }
 
@@ -42,7 +43,7 @@ class App extends React.Component {
         // Show settings if there is no token
         const showSettings = !settings.token
 
-        this.setState({ settings, showSettings, ...data })
+        this.setState({ settings, showSettings, loading: false, ...data })
       })
 
     // this.interval = setInterval(() => {
@@ -61,9 +62,13 @@ class App extends React.Component {
   }
 
   fetchData (settings) {
+    if (!settings.token) return
+
+    this.setState({ loading: true })
+
     fetchDataFromAPI(settings, (repositories, rateLimit) => {
       if (repositories && rateLimit) {
-        this.setState({ repositories, rateLimit })
+        this.setState({ repositories, rateLimit, loading: false })
 
         // Save repository to storage for faster reloads
         chrome.storage.local.set({ repositories, rateLimit })
@@ -89,7 +94,10 @@ class App extends React.Component {
 
     return (
       <div className='sidebar'>
-        <Header showSettings={this.handleShowSettings} />
+        <Header
+          showSettings={this.handleShowSettings}
+          loading={this.state.loading}
+        />
 
         {showSettings
           ? (
