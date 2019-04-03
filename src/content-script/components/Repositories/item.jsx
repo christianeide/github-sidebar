@@ -12,11 +12,6 @@ export default class Item extends React.Component {
     )
   }
 
-  timeAgo (updatedAt) {
-    const d = new Date(updatedAt)
-    return ago(d.getTime())
-  }
-
   render () {
     const { item: { title, url, comments, updatedAt, reviewStatus, author }, type } = this.props
 
@@ -38,7 +33,7 @@ export default class Item extends React.Component {
             </div>
 
             <span className='bottom'>
-              By {author}, updated {this.timeAgo(updatedAt)} ago
+              By {author}, updated {ago(updatedAt)} ago
             </span>
           </div>
 

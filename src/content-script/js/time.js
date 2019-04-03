@@ -1,11 +1,17 @@
 // From https://github.com/odyniec/tinyAgo-js
 
-export function ago (val) {
+export function ago (time) {
+  const d = new Date(time)
+  let val = d.getTime()
+
   val = 0 | (Date.now() - val) / 1000
   return calculateTime(val)
 }
 
-export function until (val) {
+export function until (time) {
+  const d = new Date(time)
+  let val = d.getTime()
+
   val = 0 | (val - Date.now()) / 1000
   return calculateTime(val)
 }

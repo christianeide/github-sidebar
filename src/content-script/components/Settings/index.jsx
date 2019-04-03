@@ -24,16 +24,11 @@ export default class Settings extends React.Component {
     this.setState({ [name]: value })
   }
 
-  timeUntil (updatedAt) {
-    const d = new Date(updatedAt)
-    return until(d.getTime())
-  }
-
   handleSaveSettings = () => {
     this.props.saveSettings(this.state)
   }
 
-  handleAddPage =() => {
+  handleAddPage = () => {
     const href = window.location.pathname
     const urlItems = href.split('/')
     const repo = {
@@ -64,7 +59,7 @@ export default class Settings extends React.Component {
     console.log(this.state)
     const { rateLimit } = this.props
 
-    const remaing = rateLimit ? <em>({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in {this.timeUntil(rateLimit.resetAt)})</em> : null
+    const remaing = rateLimit ? <em>({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in {until(rateLimit.resetAt)})</em> : null
 
     return (
       <main className='settings'>
