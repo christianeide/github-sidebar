@@ -21,11 +21,7 @@ export default class Settings extends React.Component {
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
 
-    console.log('name', name, 'value', value)
-
-    this.setState({
-      [name]: value
-    })
+    this.setState({ [name]: value })
   }
 
   timeUntil (updatedAt) {
@@ -72,89 +68,112 @@ export default class Settings extends React.Component {
 
     return (
       <main className='settings'>
-        <label>
-          This extension requires an access token from Github to load data. <br />
-          <a href='https://github.com/settings/tokens/new?scopes=repo&description=Github%20sidebar%20browser%20extension' target='_blank' >
+        <ul>
+          <li className='list'>
+            <h4>Access token</h4>
+
+            <label>This extension requires an access token from Github to load data. <br />
+              <a href='https://github.com/settings/tokens/new?scopes=repo&description=Github%20sidebar%20browser%20extension' target='_blank' >
             Create an access token
-          </a> and paste it below. <em>(We have pre-selected the necessary scopes)</em>
+              </a> and paste it below. <em>(We have pre-selected the necessary scopes)</em>
 
-          <input
-            type='text'
-            name='token'
-            value={this.state.token}
-            onChange={this.handleInputChange}
-            placeholder='Access token' />
-          {remaing}
-        </label>
+              <input
+                type='text'
+                name='token'
+                value={this.state.token}
+                onChange={this.handleInputChange}
+                placeholder='Access token' />
+            </label>
 
-        <button onClick={this.handleAddPage}>Add current page</button>
-        <SortRepos
-          repos={this.state.repos}
-          sortRepos={this.handleSortRepos}
-          removeRepo={this.handleRemoveRepo}
-        />
+            {remaing}
+          </li>
 
-        <label>
-          <input
-            type='checkbox'
-            name='autoUpdate'
-            checked={this.state.autoUpdate}
-            onChange={this.handleInputChange}
-          /> Autoupdate data in the background when a page is idle? <em>(Data is always updated when the page reloads)</em>
-        </label>
+          <li className='list'>
+            <h4>Repositories</h4>
+            <p>Navigate to a Github-repository you want to monitor and click the button below.</p>
+            <SortRepos
+              repos={this.state.repos}
+              sortRepos={this.handleSortRepos}
+              removeRepo={this.handleRemoveRepo}
+            />
+            <button className='add' onClick={this.handleAddPage}>Add current page</button>
+          </li>
 
-        <label className={this.state.autoUpdate ? '' : 'disabled'}>
-          Minutes before autoupdate
-          <input
-            type='number'
-            name='autoRefresh'
-            min='1'
-            max='1000'
-            disabled={!this.state.autoUpdate}
-            value={this.state.autoRefresh}
-            onChange={this.handleInputChange}
-          />
-        </label>
+          <li className='list'>
+            <h4>Autoupdate</h4>
+            <label>
+              <input
+                type='checkbox'
+                name='autoUpdate'
+                checked={this.state.autoUpdate}
+                onChange={this.handleInputChange}
+              /> Update data in the background when a page is idle?
+            </label>
+            <em>(Data is always updated on page reloads)</em>
 
-        <label>
-          Show items from
-          <select name='listItemOfType' value={this.state.listItemOfType} onChange={this.handleInputChange}>
-            <option value='pullRequests'>Pull requests</option>
-            <option value='issues'>Issues</option>
-          </select>
-        </label>
+            <label className={`margin-top ${this.state.autoUpdate ? '' : 'disabled'}`}>
+              Time before autoupdate (min.)
+              <input
+                type='number'
+                name='autoRefresh'
+                min='1'
+                max='1000'
+                disabled={!this.state.autoUpdate}
+                value={this.state.autoRefresh}
+                onChange={this.handleInputChange}
+              />
+            </label>
+          </li>
 
-        <label className={this.state.listItemOfType === 'none' ? 'disabled' : ''}>
-          Number of recent items to load
-          <input
-            type='number'
-            name='numberOfItems'
-            min='0'
-            max='10'
-            disabled={this.state.listItemOfType === 'none'}
-            value={this.state.numberOfItems}
-            onChange={this.handleInputChange}
-          />
-        </label>
+          <li className='list'>
+            <h4>Items</h4>
+            <label>Show items from
+              <select name='listItemOfType' value={this.state.listItemOfType} onChange={this.handleInputChange}>
+                <option value='pullRequests'>Pull requests</option>
+                <option value='issues'>Issues</option>
+              </select>
+            </label>
 
-        <label className={this.state.listItemOfType === 'none' ? 'hide' : ''}>
-          <input
-            type='checkbox'
-            name='updateFavicon'
-            checked={this.state.updateFavicon}
-            onChange={this.handleInputChange}
-          /> Show a badge in favicon if new {this.state.listItemOfType}?
-        </label>
+            <label className='margin-top'>
+              Number of recent items to load
+              <input
+                type='number'
+                name='numberOfItems'
+                min='0'
+                max='10'
+                disabled={this.state.listItemOfType === 'none'}
+                value={this.state.numberOfItems}
+                onChange={this.handleInputChange}
+              />
+            </label>
+          </li>
 
-        <label>
-          Show Github Sidebar on
-          <select name='viewportSide' value={this.state.viewportSide} onChange={this.handleInputChange}>
-            <option value='left'>Left</option>
-            <option value='right'>Right</option>
-          </select>
-        </label>
+          <li className='list'>
+            <h4>Favicon</h4>
+            <label>
+              <input
+                type='checkbox'
+                name='updateFavicon'
+                checked={this.state.updateFavicon}
+                onChange={this.handleInputChange}
+              /> Show a badge in favicon if new items?
+            </label>
+          </li>
+
+          <li className='list'>
+            <h4>View</h4>
+            <label>Show Github Sidebar on
+              <select name='viewportSide' value={this.state.viewportSide} onChange={this.handleInputChange}>
+                <option value='left'>Left</option>
+                <option value='right'>Right</option>
+              </select>
+            </label>
+          </li>
+
+        </ul>
 
         <button onClick={this.handleSaveSettings}>Save settings</button>
+
       </main>
     )
   }
