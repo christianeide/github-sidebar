@@ -29,6 +29,8 @@
             em {
                 @include fontSizeSmall();
                 display: block;
+                opacity: .6;
+                white-space: nowrap;
             }
 
             select {
