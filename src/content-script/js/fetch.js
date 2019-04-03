@@ -30,7 +30,7 @@ export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems 
           return {
             title: node.title,
             url: node.url,
-            reviewStatus: node.review && node.reviews.nodes.length > 0 ? node.reviews.nodes[0].state : null,
+            reviewStatus: node.reviews && node.reviews.nodes.length > 0 ? node.reviews.nodes[0].state : null,
             updatedAt: node.updatedAt,
             comments: node.comments.totalCount,
             author: node.author.login

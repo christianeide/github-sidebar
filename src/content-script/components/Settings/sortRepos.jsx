@@ -33,7 +33,8 @@ export default class SortableComponent extends React.Component {
       onSortEnd={this.props.sortRepos}
       helperClass='github-sidebar-sort'
       removeRepo={this.props.removeRepo}
-      pressDelay={150}
+      pressDelay={50}
+      lockAxis='y'
     />
   }
 }

@@ -63,7 +63,7 @@ body {
                     .comments {
                         @include fontSizeSmall();
                         color: $gray-800;
-                        min-width: 1.7rem;
+                        min-width: auto;
                     }
 
                     .remove {
