@@ -29,6 +29,9 @@ function calculateTime (val) {
 
   for (let unit in length) {
     const result = val % length[unit]
-    if (!(val = 0 | val / length[unit])) { return result + ' ' + (result - 1 ? unit + 's' : unit) }
+    if (!(val = 0 | val / length[unit])) {
+      if (result < 0) return '0 minutes'
+      return result + ' ' + (result - 1 ? unit + 's' : unit)
+    }
   }
 }
