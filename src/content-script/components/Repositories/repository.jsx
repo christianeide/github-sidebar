@@ -7,11 +7,11 @@ export default class Repository extends React.Component {
 
     const item = type === 'pullRequests'
       ? {
-        text: 'PRs',
+        text: 'PR',
         url: '/pulls'
       }
       : {
-        text: 'issues',
+        text: 'issue',
         url: '/issues'
       }
 
@@ -19,7 +19,7 @@ export default class Repository extends React.Component {
       <li className='repository'>
         <div className='heading text-truncate'>
           <a href={url} className='text-truncate'>{owner}/{name}</a>
-          <a href={`${url}/${item.url}`} className='link-muted'>{totalItems} {item.text}</a>
+          <a href={`${url}/${item.url}`} className='link-muted'>{totalItems} {item.text}{totalItems === 1 ? '' : 's'}</a>
         </div>
 
         {items.length > 0
