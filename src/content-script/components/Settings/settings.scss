@@ -73,6 +73,18 @@
                 &.add {
                     margin-top: 0.5rem;
                 }
+
+                &[disabled] {
+                    background: $gray-500;
+                    color: $gray-100;
+                    font-style: italic;
+                    cursor: unset;
+                    border: $gray-500;
+
+                    &:hover {
+                        border-color: $gray-500;
+                    }
+                }
             }
 
             .listItem:hover {

@@ -2,6 +2,7 @@ import React from 'react'
 import SortRepos from './sortRepos.jsx'
 import { until } from '../../js/time.js'
 import arrayMove from 'array-move'
+import { getCurrentPath, canAddRepository } from './getPath.js'
 
 import './settings.scss'
 
@@ -25,16 +26,14 @@ export default class Settings extends React.Component {
   }
 
   handleSaveSettings = () => {
+    // Sends state up to parent
     this.props.saveSettings(this.state)
   }
 
   handleAddPage = () => {
-    const href = window.location.pathname
-    const urlItems = href.split('/')
-    const repo = {
-      owner: urlItems[1],
-      name: urlItems[2]
-    }
+    const repo = getCurrentPath()
+
+    if (!repo) return
 
     this.setState(prevState => ({
       repos: [...prevState.repos, repo]
@@ -60,6 +59,8 @@ export default class Settings extends React.Component {
     const { rateLimit } = this.props
 
     const remaing = rateLimit ? <em>({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in {until(rateLimit.resetAt)})</em> : null
+
+    const canAddRepo = canAddRepository(this.state.repos)
 
     return (
       <main className='settings'>
@@ -91,7 +92,7 @@ export default class Settings extends React.Component {
               sortRepos={this.handleSortRepos}
               removeRepo={this.handleRemoveRepo}
             />
-            <button className='add' onClick={this.handleAddPage}>Add current repository</button>
+            <button className='add' onClick={this.handleAddPage} disabled={!canAddRepo}>Add current repository</button>
           </li>
 
           <li className='list'>
