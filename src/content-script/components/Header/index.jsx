@@ -12,10 +12,13 @@ export default class Header extends React.Component {
   }
 
   setHeight = () => {
-    // Githubs header item
-    const height = document.getElementsByClassName('Header-old')[0].offsetHeight
+    // Set the sidebar header height to same same as githubs header section
+    const githubHeader = document.getElementsByClassName('js-header-wrapper')
+    if (githubHeader.length > 0) {
+      const height = githubHeader[0].offsetHeight
 
-    this.setState({ height })
+      this.setState({ height })
+    }
   }
 
   render () {
