@@ -47,8 +47,8 @@ class App extends React.Component {
       })
 
     // this.interval = setInterval(() => {
-    //   this.fetchData()
-    // }, 30000)
+    //   this.fetchData(this.state.settings)
+    // }, 1000)
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
@@ -66,13 +66,13 @@ class App extends React.Component {
 
     this.setState({ loading: true })
 
-    fetchDataFromAPI(settings, (repositories, rateLimit) => {
-      if (repositories && rateLimit) {
-        this.setState({ repositories, rateLimit, loading: false })
+    fetchDataFromAPI(settings, (err, repositories, rateLimit) => {
+      if (err) return this.setState({ loading: false })
 
-        // Save repository to storage for faster reloads
-        chrome.storage.local.set({ repositories, rateLimit })
-      }
+      this.setState({ repositories, rateLimit, loading: false })
+
+      // Save repository to storage for faster reloads
+      chrome.storage.local.set({ repositories, rateLimit })
     })
   }
 
