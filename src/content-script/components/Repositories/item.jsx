@@ -1,5 +1,5 @@
 import React from 'react'
-import { commentIcon, typeIcons } from '../../css/svgs.js'
+import Icons from '../../images/svgs/icons.js'
 import { ago } from '../../js/time.js'
 
 export default class Item extends React.Component {
@@ -7,7 +7,7 @@ export default class Item extends React.Component {
     if (!comments) return null
     return (
       <div className='comments'>
-        { commentIcon } { comments }
+        <Icons icon='comment' /> { comments }
       </div>
     )
   }
@@ -20,7 +20,7 @@ export default class Item extends React.Component {
         <a href={url}>
 
           <div className='pullIcon'>
-            {typeIcons[type]}
+            <Icons icon={type} />
           </div>
 
           <div className='content text-truncate'>
