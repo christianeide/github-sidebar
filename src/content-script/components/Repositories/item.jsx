@@ -19,7 +19,7 @@ export default class Item extends React.Component {
       <li className={`listItem ${reviewStatus}`}>
         <a href={url}>
 
-          <div className='pullIcon'>
+          <div className='itemIcon'>
             <Icons icon={type} />
           </div>
 

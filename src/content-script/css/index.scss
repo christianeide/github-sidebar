@@ -13,10 +13,32 @@ body {
     background-color: $gray-100;
     z-index: 1000;
 
+
+    // Generic classes
     .text-truncate {
         @extend %text-truncate;
     }
 
+    .text-green {
+        color: $green;
+    }
+
+    .v-align-middle {
+        vertical-align: middle !important;
+    }
+
+    .align-center {
+        display: flex;
+        align-items: center;
+    }
+
+    .icon {
+        vertical-align: text-bottom;
+        display: inline-block;
+        fill: currentColor;
+    }
+
+    // Design
     .sidebar {
         height: 100%;
         display: flex;
@@ -50,7 +72,7 @@ body {
                 }
             }
 
-            .pullIcon {
+            .itemIcon {
                 margin-right: .5rem;
             }
 

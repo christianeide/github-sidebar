@@ -1,5 +1,6 @@
 import React from 'react'
 import './header.scss'
+import Icons from '../../images/svgs/icons.js'
 
 export default class Header extends React.Component {
   componentDidMount () {
@@ -22,16 +23,16 @@ export default class Header extends React.Component {
   }
 
   render () {
-    const loader = this.props.loading ? <div class='icon-loader'><div /><div /><div /><div /></div> : null
+    const loader = this.props.loading ? <Icons icon='loader' className='loader' /> : null
 
     return (
       <header className='text-bold' style={{ height: this.state.height }}>
-        <span>
+        <span className='align-center'>
         Github Sidebar
           {loader}
         </span>
         <a href='#' className='iconBtn' onClick={this.props.showSettings}>
-          <i className='icon icon-gear' />
+          <Icons icon='settings' />
         </a>
       </header>
     )
