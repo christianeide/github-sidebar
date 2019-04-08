@@ -23,11 +23,13 @@ class App extends React.Component {
       rateLimit: null,
       showSettings: false,
       settings: null,
-      loading: true
+      loading: true,
+      errors: [ ]
     }
   }
 
   componentDidMount () {
+    // Uncomment this to erase chrome storage for developent
     // chrome.storage.local.clear(function () {
     //   var error = chrome.runtime.lastError
     //   if (error) {
@@ -67,7 +69,7 @@ class App extends React.Component {
     this.setState({ loading: true })
 
     fetchDataFromAPI(settings, (err, repositories, rateLimit) => {
-      if (err) return this.setState({ loading: false })
+      if (err) return this.handleErrorMessage(err)
 
       this.setState({ repositories, rateLimit, loading: false })
 
@@ -87,6 +89,17 @@ class App extends React.Component {
     chrome.storage.local.set({ settings })
   }
 
+  handleClearErrors = () => {
+    this.setState({ errors: [] })
+  }
+
+  handleErrorMessage = (errMsg) => {
+    this.setState(prevState => ({
+      errors: [...prevState.errors, ...errMsg],
+      loading: false
+    }))
+  }
+
   render () {
     const { showSettings, settings } = this.state
 
@@ -97,6 +110,8 @@ class App extends React.Component {
         <Header
           showSettings={this.handleShowSettings}
           loading={this.state.loading}
+          errors={this.state.errors}
+          clearErrors={this.handleClearErrors}
         />
 
         {showSettings

@@ -1,6 +1,7 @@
 import React from 'react'
 import './header.scss'
 import Icons from '../../images/svgs/icons.js'
+import Errors from './errors.jsx'
 
 export default class Header extends React.Component {
   componentDidMount () {
@@ -23,7 +24,9 @@ export default class Header extends React.Component {
   }
 
   render () {
-    const loader = this.props.loading ? <Icons icon='loader' className='loader' /> : null
+    const { loading, errors, clearErrors, showSettings } = this.props
+
+    const loader = loading ? <Icons icon='loader' className='loader' /> : null
 
     return (
       <header className='text-bold' style={{ height: this.state.height }}>
@@ -31,9 +34,16 @@ export default class Header extends React.Component {
         Github Sidebar
           {loader}
         </span>
-        <a href='#' className='iconBtn' onClick={this.props.showSettings}>
-          <Icons icon='settings' />
-        </a>
+        <span className='align-center'>
+          <Errors
+            errors={errors}
+            clearErrors={clearErrors}
+          />
+
+          <a href='#' className='iconBtn' onClick={showSettings}>
+            <Icons icon='settings' />
+          </a>
+        </span>
       </header>
     )
   }

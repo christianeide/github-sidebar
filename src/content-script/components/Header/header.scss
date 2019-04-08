@@ -12,6 +12,12 @@
             justify-content: space-between;
             align-items: center;
 
+            .loader {
+                margin-left: 1rem;
+                opacity: .4;
+                height: 5rem;
+            }
+
             .iconBtn {
                 color: $white;
 
@@ -20,10 +26,63 @@
                 }
             }
 
-            .loader {
-                margin-left: 1rem;
-                opacity: .4;
-                height: 5rem;
+            .warningBtn {
+                color: $red;
+                margin-right: .5rem;
+
+                &:hover {
+                    color: rgba($red, .7);
+                }
+            }
+
+            .error {
+                ul {
+                    position: absolute;
+                    background: $gray-100;
+                    color: $black;
+                    list-style-type: none;
+                    border: 1px solid $gray-500;
+                    z-index: 4000;
+                    width: $sidebarWidth - 1;
+                    box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 6px 0px;
+                    margin-top: 1rem;
+                    padding: .4rem 1rem;
+                    left: 0.5rem;
+                    padding: 0.4rem;
+
+                    &:after {
+                        bottom: 100%;
+                        left: 86%;
+                        border: solid transparent;
+                        content: " ";
+                        height: 0;
+                        width: 0;
+                        position: absolute;
+                        pointer-events: none;
+                        border-color: rgba($gray-100, 0);
+                        border-bottom-color: $gray-100;
+                        border-width: 10px;
+                        margin-left: -10px;
+                    }
+
+                    li {
+                        border-width: 1px;
+
+                        &:first-child {
+                            margin-top: 0;
+                        }
+
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+
+                        p {
+                            color: $gray-800;
+                            margin: 0;
+                            @include fontSizeSmall();
+                        }
+                    }
+                }
             }
         }
     }

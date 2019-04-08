@@ -16,8 +16,17 @@ export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems 
   })
     .then((result) => {
       console.log('fetched data: ', result)
+
       if (result.data.errors) {
-        return callback(new Error('Received erros in query'))
+        const userError = result.data.errors.map(item => {
+          return {
+            title: 'Error in API query to Github ',
+            message: item.message,
+            time: +new Date()
+          }
+        })
+
+        return callback(userError)
       }
 
       const { rateLimit, ...repos } = result.data.data
@@ -49,8 +58,13 @@ export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems 
 
       return callback(null, updateRepoStatus, rateLimit)
     })
-    .catch(error => {
-      // returns errors
-      return callback(error)
+    .catch((error, msg) => {
+      const userError = [{
+        title: error.message,
+        message: error.response.data.message,
+        time: +new Date()
+      }]
+
+      return callback(userError)
     })
 }
