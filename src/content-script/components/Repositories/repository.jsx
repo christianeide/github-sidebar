@@ -8,11 +8,11 @@ export default class Repository extends React.Component {
     const item = type === 'pullRequests'
       ? {
         text: 'PR',
-        url: '/pulls'
+        url: 'pulls'
       }
       : {
         text: 'issue',
-        url: '/issues'
+        url: 'issues'
       }
 
     return (
