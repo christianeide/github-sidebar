@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { createPullRequestsQuery } from './graphql/index.js'
+import { createPullRequestsQuery } from './graphql.js'
 
 export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems }, callback) {
   const query = createPullRequestsQuery(repos, listItemOfType, numberOfItems)
@@ -15,8 +15,6 @@ export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems 
     }
   })
     .then((result) => {
-      console.log('fetched data: ', result)
-
       if (result.data.errors) {
         const userError = result.data.errors.map(item => {
           return {
@@ -59,6 +57,7 @@ export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems 
       return callback(null, updateRepoStatus, rateLimit)
     })
     .catch((error, msg) => {
+      console.log(error)
       const userError = [{
         title: error.message,
         message: error.response.data.message,

@@ -1,3 +1,5 @@
+/* global chrome */
+
 import React from 'react'
 import Icons from '../../images/svgs/icons.js'
 import { ago } from '../../js/time.js'
@@ -33,7 +35,7 @@ export default class Errors extends React.Component {
       // After the user toggles errorview, we remove errors
       // See no reason to use time and screenposition
       // for displaying errors to users
-      if (!this.state.showErrors) this.props.clearErrors()
+      if (!this.state.showErrors) chrome.runtime.sendMessage({ type: 'clearErrors' })
     })
   }
 
