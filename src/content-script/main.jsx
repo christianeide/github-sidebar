@@ -12,7 +12,6 @@ import Settings from './components/Settings/index.jsx'
 
 //* ********* Functions **********/
 import { fetchDataFromAPI } from './js/fetch.js'
-import defaultSettings from './js/defaultSettings.json'
 
 class App extends React.Component {
   constructor () {
@@ -20,37 +19,29 @@ class App extends React.Component {
 
     this.state = {
       repositories: [],
-      rateLimit: null,
+      rateLimit: undefined,
       showSettings: false,
-      settings: null,
-      loading: true,
-      errors: [ ]
+      settings: undefined,
+      loading: undefined,
+      errors: []
     }
+
+    this.listenToBackground = null
   }
 
   componentDidMount () {
     // Uncomment this to erase chrome storage for developent
     // chrome.storage.local.clear(function () {
-    //   var error = chrome.runtime.lastError
-    //   if (error) {
-    //     console.error(error)
-    //   }
+    //   const error = chrome.runtime.lastError
+    //   if (error) console.error(error)
     // })
 
-    chrome.storage.local.get(['settings', 'repositories', 'rateLimit'],
-      ({ settings: settingsRaw, ...data }) => {
-        // merges default settings and user settings
-        const settings = { ...defaultSettings, ...settingsRaw }
+    // Get preloaded data
+    chrome.runtime.sendMessage({ type: 'init' }, initialState => {
+      this.setState({ ...initialState })
+    })
 
-        // Show settings if there is no token
-        const showSettings = !settings.token
-
-        this.setState({ settings, showSettings, loading: false, ...data })
-      })
-
-    // this.interval = setInterval(() => {
-    //   this.fetchData(this.state.settings)
-    // }, 1000)
+    this.listenToBackground = chrome.runtime.onMessage.addListener(this.receiveFromBackground)
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
@@ -60,7 +51,14 @@ class App extends React.Component {
   }
 
   componentWillUnmount () {
-    clearInterval(this.interval)
+    clearInterval(this.listenToBackground)
+  }
+
+  receiveFromBackground = (data) => {
+    console.log(data)
+
+    const { type, ...newState } = data
+    this.setState({ ...newState })
   }
 
   fetchData (settings) {
@@ -84,9 +82,9 @@ class App extends React.Component {
   }
 
   handleSaveSettings = (settings) => {
-    this.setState({ settings, showSettings: !this.state.showSettings })
+    this.setState({ showSettings: !this.state.showSettings })
 
-    chrome.storage.local.set({ settings })
+    chrome.runtime.sendMessage({ type: 'saveSettings', settings })
   }
 
   handleClearErrors = () => {
