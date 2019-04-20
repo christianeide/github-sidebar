@@ -1,4 +1,5 @@
 /* global chrome */
+
 import defaultSettings from './js/defaultSettings.json'
 import { fetchDataFromAPI } from './js/fetch.js'
 
@@ -24,6 +25,7 @@ let showSettings
       repositories = storageData.repositories
       rateLimit = storageData.rateLimit
 
+      // Always fetch on startup
       fetchData()
 
       autoFetch.start(fetchData, settings.autoRefresh)
@@ -53,26 +55,30 @@ let autoFetch = {
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'init') {
-    sendResponse({ settings, showSettings, repositories, rateLimit })
-  } else if (request.type === 'saveSettings') {
-    // If refreshperiod has changed
-    if (settings.autoRefresh !== request.settings.autoRefresh) autoFetch.change(request.settings.autoRefresh)
+  switch (request.type) {
+    case 'init':
+      sendResponse({ settings, showSettings, repositories, rateLimit })
+      break
 
-    // Update main settings
-    settings = request.settings
+    case 'saveSettings':
+      // If refreshperiod has changed
+      if (settings.autoRefresh !== request.settings.autoRefresh) autoFetch.change(request.settings.autoRefresh)
 
-    // Save settings to storage
-    chrome.storage.local.set({ settings })
+      // Update main settings
+      settings = request.settings
+      // Save settings to storage
+      chrome.storage.local.set({ settings })
+      // Distribute settings to all tabs
+      sendToAllTabs({ settings })
 
-    // Distribute settings to all tabs
-    sendToAllTabs({ settings })
+      // Do a new fetch when we have new settings
+      fetchData()
+      break
 
-    // Do a new fetch when we have new settings
-    fetchData()
-  } else if (request.type === 'clearErrors') {
-    errors = []
-    sendToAllTabs({ errors })
+    case 'clearErrors':
+      errors = []
+      sendToAllTabs({ errors })
+      break
   }
 })
 
