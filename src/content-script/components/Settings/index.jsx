@@ -148,16 +148,6 @@ export default class Settings extends React.Component {
             </label>
           </li>
 
-          <li className='list'>
-            <h4>View</h4>
-            <label>Show Github Sidebar on
-              <select name='viewportSide' value={this.state.viewportSide} onChange={this.handleInputChange}>
-                <option value='left'>Left</option>
-                <option value='right'>Right</option>
-              </select>
-            </label>
-          </li>
-
         </ul>
 
         <button onClick={this.handleSaveSettings}>Save settings</button>
