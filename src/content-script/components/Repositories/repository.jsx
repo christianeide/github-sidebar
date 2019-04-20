@@ -3,7 +3,7 @@ import Item from './item.jsx'
 
 export default class Repository extends React.Component {
   render () {
-    const { data: { name, url, items, totalItems, owner }, type } = this.props
+    const { data: { name, url, items, totalItems, owner }, type, numberOfItems } = this.props
 
     const item = type === 'pullRequests'
       ? {
@@ -15,11 +15,13 @@ export default class Repository extends React.Component {
         url: 'issues'
       }
 
+    const nrItems = numberOfItems >= totalItems ? `` : `${numberOfItems} of`
+
     return (
       <li className='repository'>
         <div className='heading text-truncate'>
           <a href={url} className='text-truncate'>{owner}/{name}</a>
-          <a href={`${url}/${item.url}`} className='link-muted'>{totalItems} {item.text}{totalItems === 1 ? '' : 's'}</a>
+          <a href={`${url}/${item.url}`} className='link-muted'>{nrItems} {totalItems} {item.text}{totalItems === 1 ? '' : 's'}</a>
         </div>
 
         {items.length > 0
