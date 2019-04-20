@@ -1,7 +1,7 @@
 {
     "token": null,
     "autoUpdate": true,
-    "autoRefresh": 30,
+    "autoRefresh": 1,
     "listItemOfType": "pullRequests",
     "numberOfItems": 10,
     "updateFavicon": true,
