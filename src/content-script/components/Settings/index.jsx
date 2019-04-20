@@ -123,16 +123,6 @@ export default class Settings extends React.Component {
           <li className='list'>
             <h4>Autoupdate</h4>
             <label>
-              <input
-                type='checkbox'
-                name='autoUpdate'
-                checked={this.state.autoUpdate}
-                onChange={this.handleInputChange}
-              /> Update data in the background when a page is idle?
-            </label>
-            <em>(Data is always updated on page reloads)</em>
-
-            <label className={`margin-top ${this.state.autoUpdate ? '' : 'disabled'}`}>
               Time before autoupdate (min.)
               <input
                 type='number'
