@@ -16,11 +16,11 @@ class App extends React.Component {
 
     this.state = {
       repositories: [],
+      errors: [],
       rateLimit: undefined,
       showSettings: false,
       settings: undefined,
-      loading: false,
-      errors: []
+      loading: false
     }
 
     this.listenToBackground = null
@@ -44,14 +44,8 @@ class App extends React.Component {
   }
 
   handleShowSettings = (e) => {
-    e.preventDefault()
+    if (e) e.preventDefault()
     this.setState({ showSettings: !this.state.showSettings })
-  }
-
-  handleSaveSettings = (settings) => {
-    this.setState({ showSettings: !this.state.showSettings })
-
-    chrome.runtime.sendMessage({ type: 'saveSettings', settings })
   }
 
   render () {
@@ -72,7 +66,7 @@ class App extends React.Component {
             <Settings
               rateLimit={this.state.rateLimit}
               settings={this.state.settings}
-              saveSettings={this.handleSaveSettings}
+              showSettings={this.handleShowSettings}
             />
           ) : (
             <Repositories

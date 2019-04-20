@@ -4,7 +4,7 @@ export function createPullRequestsQuery (repositories, type, numberOfItems) {
     return repositoriesQuery(repo, type, numberOfItems, index)
   })
 
-  return `queryW {
+  return `query {
             rateLimit {
               limit
               remaining

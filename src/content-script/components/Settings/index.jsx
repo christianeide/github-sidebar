@@ -1,3 +1,5 @@
+/* global chrome */
+
 import React from 'react'
 import SortRepos from './sortRepos.jsx'
 import { until } from '../../js/time.js'
@@ -26,8 +28,9 @@ export default class Settings extends React.Component {
   }
 
   handleSaveSettings = () => {
-    // Sends state up to parent
-    this.props.saveSettings(this.state)
+    chrome.runtime.sendMessage({ type: 'saveSettings', settings: this.state })
+    // Toggles visibility of settings
+    this.props.showSettings()
   }
 
   handleAddPage = () => {
@@ -55,7 +58,6 @@ export default class Settings extends React.Component {
   }
 
   render () {
-    console.log(this.state)
     const { rateLimit } = this.props
 
     const remaing = rateLimit ? <em>({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in {until(rateLimit.resetAt)})</em> : null
