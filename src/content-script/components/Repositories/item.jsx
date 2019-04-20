@@ -17,7 +17,7 @@ export default class Item extends React.Component {
 
     return (
       <li className={`listItem ${reviewStatus}`}>
-        <a href={url}>
+        <a href={url} title={title}>
 
           <div className='itemIcon'>
             <Icons icon={type} />
