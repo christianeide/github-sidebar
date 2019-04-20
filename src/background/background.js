@@ -2,7 +2,6 @@
 import defaultSettings from './js/defaultSettings.json'
 import { fetchDataFromAPI } from './js/fetch.js'
 
-let refreshTimer = null
 let errors = []
 let settings
 let repositories
@@ -26,17 +25,40 @@ let showSettings
       rateLimit = storageData.rateLimit
 
       fetchData()
+
+      autoFetch.start(fetchData, settings.autoRefresh)
     })
 })()
 
-refreshTimer = setInterval(() => {
-  fetchData()
-}, 15000)
+let autoFetch = {
+  timer: undefined,
+  cb: undefined,
+  start: (cb, interval) => {
+    autoFetch.timer = setInterval(cb, autoFetch.calculateMS(interval))
+    autoFetch.cb = cb
+  },
+  stop: () => {
+    if (!autoFetch.timer) return
+    clearInterval(autoFetch.timer)
+  },
+  change: (interval) => {
+    if (!autoFetch.timer) return
+    clearInterval(autoFetch.timer)
+    setInterval(autoFetch.cb, autoFetch.calculateMS(interval))
+  },
+  calculateMS: (min) => {
+    // return min * 60 * 1000
+    return min * 1000
+  }
+}
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'init') {
     sendResponse({ settings, showSettings, repositories, rateLimit })
   } else if (request.type === 'saveSettings') {
+    // If refreshperiod has changed
+    if (settings.autoRefresh !== request.settings.autoRefresh) autoFetch.change(request.settings.autoRefresh)
+
     // Update main settings
     settings = request.settings
 
