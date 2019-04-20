@@ -44,8 +44,9 @@ body {
         display: flex;
         flex-direction: column;
 
-        .link-muted {
+        .prLink {
             color: $gray-800;
+            margin-left: 1rem;
         }
 
         .listItem {

@@ -22,7 +22,7 @@ export default class Repository extends React.Component {
       <li className='repository'>
         <div className='heading text-truncate'>
           <a href={url} className='text-truncate' title={repoName}>{repoName}</a>
-          <a href={`${url}/${item.url}`} className='link-muted'>{nrItems} {totalItems} {item.text}{totalItems === 1 ? '' : 's'}</a>
+          <a href={`${url}/${item.url}`} className='prLink'>{nrItems} {totalItems} {item.text}{totalItems === 1 ? '' : 's'}</a>
         </div>
 
         {items.length > 0
