@@ -9,10 +9,10 @@ let repositories
 let rateLimit
 
 // Uncomment this to erase chrome storage for developent
-chrome.storage.local.clear(function () {
-  const error = chrome.runtime.lastError
-  if (error) console.error(error)
-});
+// chrome.storage.local.clear(function () {
+//   const error = chrome.runtime.lastError
+//   if (error) console.error(error)
+// });
 
 (function getInitialLocalStorage () {
   chrome.storage.local.get(['settings', 'repositories', 'rateLimit'],
@@ -55,12 +55,10 @@ let autoFetch = {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.type) {
     case 'init':
-      // sendResponse({ settings, showSettings, repositories, rateLimit })
       sendResponse({ settings, repositories, rateLimit })
       break
 
     case 'saveSettings':
-      console.log('save')
       // If refreshperiod has changed
       if (request.settings.autoRefresh &&
         settings.autoRefresh !== request.settings.autoRefresh) {
