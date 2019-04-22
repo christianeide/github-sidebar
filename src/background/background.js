@@ -26,20 +26,20 @@ let rateLimit
       // Always fetch on startup
       fetchData()
 
-      autoFetch.start(fetchData, settings.autoRefresh)
+      autoFetch.start(settings.autoRefresh)
     })
 })()
 
 let autoFetch = {
   timer: undefined,
-  cb: undefined,
-  start: (cb, interval) => {
-    autoFetch.timer = setInterval(cb, autoFetch.calculateMS(interval))
-    autoFetch.cb = cb
+  cb: fetchData,
+  start: (interval) => {
+    autoFetch.timer = setInterval(autoFetch.cb, autoFetch.calculateMS(interval))
   },
   stop: () => {
     if (!autoFetch.timer) return
     clearInterval(autoFetch.timer)
+    autoFetch.timer = undefined
   },
   change: (interval) => {
     if (!autoFetch.timer) return
@@ -56,6 +56,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.type) {
     case 'init':
       sendResponse({ settings, repositories, rateLimit })
+
+      // If autofetching is not running, we will start it up again
+      if (!autoFetch.timer) autoFetch.start(settings.autoRefresh)
       break
 
     case 'saveSettings':
@@ -90,7 +93,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 function sendToAllTabs (data) {
   console.log('send to all tabs')
-  chrome.tabs.query({ url: '*://*.github.com/*' }, tabs => {
+  chrome.tabs.query({ url: '*://*.github.com/*' }, (tabs) => {
+    // If there no longer are any tabs, we stop autofetching to let this script unload
+    if (tabs.length === 0) return autoFetch.stop()
+
     tabs.forEach(tab => {
       chrome.tabs.sendMessage(tab.id, data)
     })
