@@ -50,7 +50,14 @@ class App extends React.Component {
   }
 
   render () {
-    const { showSettings, settings } = this.state
+    const {
+      showSettings,
+      settings,
+      loading,
+      errors,
+      rateLimit,
+      repositories
+    } = this.state
 
     if (!settings) return null
     if (!settings.token) return <Splash />
@@ -59,20 +66,19 @@ class App extends React.Component {
       <div className='sidebar'>
         <Header
           showSettings={this.handleShowSettings}
-          loading={this.state.loading}
-          errors={this.state.errors}
+          loading={loading}
+          errors={errors}
         />
 
         {showSettings
           ? (
             <Settings
-              rateLimit={this.state.rateLimit}
-              settings={this.state.settings}
+              rateLimit={rateLimit}
+              settings={settings}
             />
           ) : (
             <Repositories
-              repositories={this.state.repositories}
-              type={this.state.settings.listItemOfType}
+              repositories={repositories}
               settings={settings}
               showSettings={this.handleShowSettings}
             />

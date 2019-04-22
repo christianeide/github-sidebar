@@ -13,26 +13,24 @@ export default class Errors extends React.Component {
     }
   }
 
-  errorList = () => {
-    return this.state.showErrors
-      ? (
-        <ul>
-          {this.props.errors.map(element => {
-            return (
-              <li className='listItem'>
-                <h5>{element.title}</h5>
-                <p>{element.message} <i>({ago(element.time)} ago)</i></p>
-              </li>
-            )
-          })}
-        </ul>
-      )
-      : null
+  errorList = (errors) => {
+    return (
+      <ul>
+        {errors.map(element => {
+          return (
+            <li className='listItem'>
+              <h5>{element.title}</h5>
+              <p>{element.message} <i>({ago(element.time)} ago)</i></p>
+            </li>
+          )
+        })}
+      </ul>
+    )
   }
 
   toggleErrors = () => {
     this.setState({ showErrors: !this.state.showErrors }, () => {
-      // After the user toggles errorview, we remove errors
+      // After the user hides errorview, we remove errors
       // See no reason to use time and screenposition
       // for displaying errors to users
       if (!this.state.showErrors) chrome.runtime.sendMessage({ type: 'clearErrors' })
@@ -40,7 +38,9 @@ export default class Errors extends React.Component {
   }
 
   render () {
-    if (this.props.errors.length === 0) return null
+    const { errors } = this.props
+
+    if (errors.length === 0) return null
 
     return (
       <div className='error'>
@@ -49,7 +49,7 @@ export default class Errors extends React.Component {
           <Icons icon='error' />
         </a>
 
-        {this.errorList()}
+        {this.state.showErrors && this.errorList(errors)}
       </div>
     )
   }
