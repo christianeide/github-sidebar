@@ -44,7 +44,7 @@ class App extends React.Component {
     this.setState({ ...newState })
   }
 
-  handleShowSettings = (e) => {
+  handlToggleSettings = (e) => {
     if (e) e.preventDefault()
     this.setState({ showSettings: !this.state.showSettings })
   }
@@ -65,7 +65,7 @@ class App extends React.Component {
     return (
       <div className='sidebar'>
         <Header
-          showSettings={this.handleShowSettings}
+          toggleSettings={this.handlToggleSettings}
           loading={loading}
           errors={errors}
         />
@@ -80,7 +80,7 @@ class App extends React.Component {
             <Repositories
               repositories={repositories}
               settings={settings}
-              showSettings={this.handleShowSettings}
+              toggleSettings={this.handlToggleSettings}
             />
           )
         }

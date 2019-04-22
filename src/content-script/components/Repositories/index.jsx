@@ -6,7 +6,7 @@ import './repositories.scss'
 export default function Repositories (props) {
   const {
     repositories,
-    showSettings,
+    toggleSettings,
     settings: {
       listItemOfType,
       numberOfItems
@@ -16,7 +16,7 @@ export default function Repositories (props) {
   console.log('render', repositories)
 
   if (repositories.length === 0) {
-    return <NoRepos showSettings={showSettings} />
+    return <NoRepos toggleSettings={toggleSettings} />
   }
 
   return (
