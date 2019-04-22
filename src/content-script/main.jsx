@@ -74,6 +74,7 @@ class App extends React.Component {
               repositories={this.state.repositories}
               type={this.state.settings.listItemOfType}
               settings={settings}
+              showSettings={this.handleShowSettings}
             />
           )
         }

@@ -23,6 +23,22 @@
                     padding-left: .6rem;
                 }
             }
+
+            &.noRepos {
+                padding: 2rem;
+                display: flex;
+
+                .justifier {
+                    margin: auto;
+
+                    p {
+                        color: $gray-800;
+                        line-height: 1rem;
+                    }
+                }
+            }
         }
+
+
     }
 }
