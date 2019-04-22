@@ -26,15 +26,13 @@ const SortableList = SortableContainer(({ items, removeRepo }) => {
   )
 })
 
-export default class SortableComponent extends React.Component {
-  render () {
-    return <SortableList
-      items={this.props.repos}
-      onSortEnd={this.props.sortRepos}
-      helperClass='github-sidebar-sort'
-      removeRepo={this.props.removeRepo}
-      pressDelay={50}
-      lockAxis='y'
-    />
-  }
+export default function SortableComponent (props) {
+  return <SortableList
+    items={props.repos}
+    onSortEnd={props.sortRepos}
+    helperClass='github-sidebar-sort'
+    removeRepo={props.removeRepo}
+    pressDelay={50}
+    lockAxis='y'
+  />
 }
