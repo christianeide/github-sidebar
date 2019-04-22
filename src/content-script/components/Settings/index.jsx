@@ -130,10 +130,7 @@ export default class Settings extends React.Component {
           <li className='list'>
             <h4>Access token</h4>
 
-            <label>This extension requires an access token from Github to load data. <br />
-              <a href='https://github.com/settings/tokens/new?scopes=repo&description=Github%20sidebar%20browser%20extension' target='_blank' >
-            Create an access token
-              </a> and paste it below. <em>(The necessary scopes are pre-selected)</em>
+            <label>
 
               <input
                 type='text'
