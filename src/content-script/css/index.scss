@@ -44,6 +44,73 @@ body {
         display: flex;
         flex-direction: column;
 
+        ul {
+            list-style-type: none;
+        }
+
+        main {
+            flex: 1;
+            border-right: 1px solid $gray-500;
+            overflow-y: scroll;
+        }
+
+        label {
+            font-weight: normal;
+            display: block;
+        }
+
+        input[type='text'],
+            input[type='number'] {
+                width: 100%;
+                margin-bottom: 0.5rem;
+                padding: 0.3rem 0.5rem;
+            }
+
+        em {
+            @include fontSizeSmall();
+            display: block;
+            opacity: .6;
+            white-space: nowrap;
+        }
+
+        button {
+            background-image: linear-gradient(-180deg, #34d058, #28a745 90%);
+            background-position: -1px -1px;
+            background-size: 110% 110%;
+            border-radius: .25em;
+            border: 1px solid rgba(27, 31, 35, .2);
+            color: $white;
+            cursor: pointer;
+            @include fontSizeNormal();
+            padding: 0.375rem 0.75rem;
+            vertical-align: middle;
+            width: 100%;
+            margin-top: 2rem;
+
+            &:hover {
+                background-image: linear-gradient(-180deg, #2fcb53, #269f42 90%);
+                background-position: -.5em;
+                border-color: rgba(27, 31, 35, .5);
+            }
+
+            &:active {
+                transform: translateY(1px);
+                filter: saturate(150%);
+            }
+
+            &[disabled] {
+                background: $gray-500;
+                color: $gray-100;
+                font-style: italic;
+                cursor: unset;
+                border: $gray-500;
+
+                &:hover {
+                    border-color: $gray-500;
+                }
+            }
+        }
+
         .prLink {
             color: $gray-800;
             margin-left: 1rem;
