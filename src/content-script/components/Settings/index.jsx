@@ -57,10 +57,13 @@ export default class Settings extends React.Component {
 
   render () {
     const { rateLimit } = this.props
+    const { repos, listItemOfType, numberOfItems, autoRefresh, updateFavicon, token } = this.state
 
-    const remaing = rateLimit ? <em>({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in {until(rateLimit.resetAt)})</em> : null
+    const remaing = rateLimit
+      ? <em>({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in {until(rateLimit.resetAt)})</em>
+      : <em>(Loading...)</em>
 
-    const canAddRepo = canAddRepository(this.state.repos)
+    const canAddRepo = canAddRepository(repos)
 
     return (
       <main className='settings'>
@@ -69,38 +72,34 @@ export default class Settings extends React.Component {
             <h4>Repositories</h4>
             <p>Navigate to a Github-repository you want to monitor and click the button below.</p>
             <SortRepos
-              repos={this.state.repos}
+              repos={repos}
               sortRepos={this.handleSortRepos}
               removeRepo={this.handleRemoveRepo}
             />
             <button className='add' onClick={this.handleAddPage} disabled={!canAddRepo}>Add current repository</button>
           </li>
 
-          <li className='list'>
-            <h4>Items</h4>
+          <li className='list miscellaneous'>
+            <h4>Options</h4>
             <label>Show items from
-              <select name='listItemOfType' value={this.state.listItemOfType} onChange={this.handleInputChange}>
+              <select name='listItemOfType' value={listItemOfType} onChange={this.handleInputChange}>
                 <option value='pullRequests'>Pull requests</option>
                 <option value='issues'>Issues</option>
               </select>
             </label>
 
-            <label className='margin-top'>
+            <label>
               Number of items to load
               <input
                 type='number'
                 name='numberOfItems'
                 min='0'
                 max='10'
-                disabled={this.state.listItemOfType === 'none'}
-                value={this.state.numberOfItems}
+                value={numberOfItems}
                 onChange={this.handleInputChange}
               />
             </label>
-          </li>
 
-          <li className='list'>
-            <h4>Autoupdate</h4>
             <label>
               Time before autoupdate (min.)
               <input
@@ -108,34 +107,26 @@ export default class Settings extends React.Component {
                 name='autoRefresh'
                 min='1'
                 max='1000'
-                disabled={!this.state.autoUpdate}
-                value={this.state.autoRefresh}
+                value={autoRefresh}
                 onChange={this.handleInputChange}
               />
             </label>
-          </li>
 
-          <li className='list'>
-            <h4>Favicon</h4>
             <label>
               <input
                 type='checkbox'
                 name='updateFavicon'
-                checked={this.state.updateFavicon}
+                checked={updateFavicon}
                 onChange={this.handleInputChange}
               /> Show a badge in favicon if new items?
             </label>
-          </li>
 
-          <li className='list'>
-            <h4>Access token</h4>
-
-            <label>
+            <label>Access token
 
               <input
                 type='text'
                 name='token'
-                value={this.state.token}
+                value={token}
                 onChange={this.handleInputChange}
                 placeholder='Access token' />
             </label>

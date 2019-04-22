@@ -7,28 +7,12 @@
             padding: 1rem;
 
             .list {
-                margin-bottom: 1.4rem;
-            }
-
-            .margin-top {
-                margin-top: .6rem;
+                margin-bottom: .5rem;
             }
 
             select {
                 width: 100%;
                 height: 2rem;
-            }
-
-            .disabled {
-                color: $gray-500;
-
-                input {
-                    color: $gray-500;
-                }
-            }
-
-            .hide {
-                display: none;
             }
 
             button {
