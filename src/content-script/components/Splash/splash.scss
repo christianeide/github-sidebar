@@ -1,0 +1,47 @@
+@import "../../css/globals.scss";
+
+
+#github-sidebar {
+    .sidebar {
+        .splash {
+            background: linear-gradient(90deg, $black, lighten($black, 4%));
+            color: $white;
+            padding: 2rem;
+            display: flex;
+
+            .justifier {
+                margin: auto;
+
+                p {
+                    line-height: 1rem;
+                    margin-bottom: 2rem;
+
+                    em {
+                        margin-top: 0.2rem;
+                    }
+                }
+
+                a {
+                    color: $green;
+                    border-bottom: 1px solid $green;
+                    font-size: 1.2rem;
+
+                    &:hover {
+                        text-decoration: none;
+                        color: $white;
+                    }
+                }
+
+                button {
+                    margin-top: 1rem;
+
+                    &[disabled] {
+                        background: $gray-800;
+                        color: rgba($white, 0.3);
+                        border: $gray-800;
+                    }
+                }
+            }
+        }
+    }
+}

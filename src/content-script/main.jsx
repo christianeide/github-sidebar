@@ -9,6 +9,7 @@ import './css/index.scss'
 import Header from './components/Header/index.jsx'
 import Repositories from './components/Repositories/index.jsx'
 import Settings from './components/Settings/index.jsx'
+import Splash from './components/Splash/index.jsx'
 
 class App extends React.Component {
   constructor () {
@@ -52,6 +53,7 @@ class App extends React.Component {
     const { showSettings, settings } = this.state
 
     if (!settings) return null
+    if (!settings.token) return <Splash />
 
     return (
       <div className='sidebar'>
@@ -66,7 +68,6 @@ class App extends React.Component {
             <Settings
               rateLimit={this.state.rateLimit}
               settings={this.state.settings}
-              showSettings={this.handleShowSettings}
             />
           ) : (
             <Repositories

@@ -7,13 +7,12 @@ let errors = []
 let settings
 let repositories
 let rateLimit
-let showSettings
 
 // Uncomment this to erase chrome storage for developent
-// chrome.storage.local.clear(function () {
-//   const error = chrome.runtime.lastError
-//   if (error) console.error(error)
-// })
+chrome.storage.local.clear(function () {
+  const error = chrome.runtime.lastError
+  if (error) console.error(error)
+});
 
 (function getInitialLocalStorage () {
   chrome.storage.local.get(['settings', 'repositories', 'rateLimit'],
@@ -21,7 +20,6 @@ let showSettings
       // merges default settings and user settings
       settings = { ...defaultSettings, ...storageData.settings }
 
-      showSettings = !settings.token
       repositories = storageData.repositories
       rateLimit = storageData.rateLimit
 
@@ -57,19 +55,29 @@ let autoFetch = {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.type) {
     case 'init':
-      sendResponse({ settings, showSettings, repositories, rateLimit })
+      // sendResponse({ settings, showSettings, repositories, rateLimit })
+      sendResponse({ settings, repositories, rateLimit })
       break
 
     case 'saveSettings':
+      console.log('save')
       // If refreshperiod has changed
-      if (settings.autoRefresh !== request.settings.autoRefresh) autoFetch.change(request.settings.autoRefresh)
+      if (request.settings.autoRefresh &&
+        settings.autoRefresh !== request.settings.autoRefresh) {
+        autoFetch.change(request.settings.autoRefresh)
+      }
 
       // Update main settings
-      settings = request.settings
+      settings = { ...defaultSettings, ...request.settings }
+
       // Save settings to storage
       chrome.storage.local.set({ settings })
+
+      // If we have repos, we will always hide settings
+      const showSettings = settings.repos.length === 0
+
       // Distribute settings to all tabs
-      sendToAllTabs({ settings })
+      sendToAllTabs({ settings, showSettings })
 
       // Do a new fetch when we have new settings
       fetchData()
@@ -83,6 +91,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 })
 
 function sendToAllTabs (data) {
+  console.log('send to all tabs')
   chrome.tabs.query({ url: '*://*.github.com/*' }, tabs => {
     tabs.forEach(tab => {
       chrome.tabs.sendMessage(tab.id, data)
@@ -91,16 +100,20 @@ function sendToAllTabs (data) {
 }
 
 function fetchData () {
+  console.log('fetchdata')
   if (!settings.token) return
 
   // Show loadinganimation when we are fetching data
   sendToAllTabs({ loading: true })
 
-  fetchDataFromAPI(settings, (err, repositories, rateLimit) => {
+  fetchDataFromAPI(settings, (err, newRepositories, newRateLimit) => {
     if (err) {
       errors.push(...err)
       return sendToAllTabs({ errors, loading: false })
     }
+
+    repositories = newRepositories
+    rateLimit = newRateLimit
 
     sendToAllTabs({ repositories, rateLimit, loading: false })
 

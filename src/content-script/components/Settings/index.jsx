@@ -29,8 +29,6 @@ export default class Settings extends React.Component {
 
   handleSaveSettings = () => {
     chrome.runtime.sendMessage({ type: 'saveSettings', settings: this.state })
-    // Toggles visibility of settings
-    this.props.showSettings()
   }
 
   handleAddPage = () => {
@@ -67,25 +65,6 @@ export default class Settings extends React.Component {
     return (
       <main className='settings'>
         <ul>
-          <li className='list'>
-            <h4>Access token</h4>
-
-            <label>This extension requires an access token from Github to load data. <br />
-              <a href='https://github.com/settings/tokens/new?scopes=repo&description=Github%20sidebar%20browser%20extension' target='_blank' >
-            Create an access token
-              </a> and paste it below. <em>(The necessary scopes are pre-selected)</em>
-
-              <input
-                type='text'
-                name='token'
-                value={this.state.token}
-                onChange={this.handleInputChange}
-                placeholder='Access token' />
-            </label>
-
-            {remaing}
-          </li>
-
           <li className='list'>
             <h4>Repositories</h4>
             <p>Navigate to a Github-repository you want to monitor and click the button below.</p>
@@ -146,6 +125,25 @@ export default class Settings extends React.Component {
                 onChange={this.handleInputChange}
               /> Show a badge in favicon if new items?
             </label>
+          </li>
+
+          <li className='list'>
+            <h4>Access token</h4>
+
+            <label>This extension requires an access token from Github to load data. <br />
+              <a href='https://github.com/settings/tokens/new?scopes=repo&description=Github%20sidebar%20browser%20extension' target='_blank' >
+            Create an access token
+              </a> and paste it below. <em>(The necessary scopes are pre-selected)</em>
+
+              <input
+                type='text'
+                name='token'
+                value={this.state.token}
+                onChange={this.handleInputChange}
+                placeholder='Access token' />
+            </label>
+
+            {remaing}
           </li>
 
         </ul>
