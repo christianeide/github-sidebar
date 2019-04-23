@@ -1,7 +1,7 @@
 {
     "token": null,
     "autoUpdate": true,
-    "autoRefresh": 10,
+    "autoRefresh": 60,
     "timeBeforeStale": 24,
     "listItemOfType": "pullRequests",
     "numberOfItems": 10,

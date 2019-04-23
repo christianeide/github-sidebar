@@ -57,7 +57,6 @@ export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems 
       return callback(null, updateRepoStatus, rateLimit)
     })
     .catch((error, msg) => {
-      console.log(error)
       const userError = [{
         title: error.message,
         message: error.response.data.message,

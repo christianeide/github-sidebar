@@ -112,11 +112,11 @@ export default class Settings extends React.Component {
             </label>
 
             <label>
-              Auto refresh every X min.
+              Auto refresh every X seconds.
               <input
                 type='number'
                 name='autoRefresh'
-                min='1'
+                min='15'
                 value={autoRefresh}
                 onChange={this.handleInputChange}
               />

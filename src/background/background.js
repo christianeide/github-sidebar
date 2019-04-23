@@ -47,7 +47,6 @@ let autoFetch = {
     setInterval(autoFetch.cb, autoFetch.calculateMS(interval))
   },
   calculateMS: (min) => {
-    // return min * 60 * 1000
     return min * 1000
   }
 }
