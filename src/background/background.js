@@ -57,6 +57,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     case 'init':
       sendResponse({ settings, repositories, rateLimit })
 
+      // Each time we have a init, the user has navigated, we do a new fetch
+      fetchData()
+
       // If autofetching is not running, we will start it up again
       if (!autoFetch.timer) autoFetch.start(settings.autoRefresh)
       break
@@ -92,7 +95,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 })
 
 function sendToAllTabs (data) {
-  console.log('send to all tabs')
   chrome.tabs.query({ url: '*://*.github.com/*' }, (tabs) => {
     // If there no longer are any tabs, we stop autofetching to let this script unload
     if (tabs.length === 0) return autoFetch.stop()
@@ -104,7 +106,6 @@ function sendToAllTabs (data) {
 }
 
 function fetchData () {
-  console.log('fetchdata')
   if (!settings.token) return
 
   // Show loadinganimation when we are fetching data
