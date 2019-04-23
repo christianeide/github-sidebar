@@ -24,13 +24,12 @@ export default function Repository (props) {
         <a href={`${url}/${item.url}`} className='prLink'>{nrItems} {totalItems} {item.text}{totalItems === 1 ? '' : 's'}</a>
       </div>
 
-      {items.length > 0
-        ? <ul>
+      {items.length > 0 &&
+        <ul>
           {items.map(item => {
             return <Item item={item} type={type} />
           })}
         </ul>
-        : null
       }
     </li>
   )

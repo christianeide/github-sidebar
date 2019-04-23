@@ -26,7 +26,7 @@ export default class Header extends React.Component {
   render () {
     const { loading, errors, toggleSettings, showSettings } = this.props
 
-    const loader = loading ? <Icons icon='loader' className='loader' /> : null
+    const loader = loading && <Icons icon='loader' className='loader' />
     const icon = showSettings ? 'cancel' : 'settings'
 
     return (
