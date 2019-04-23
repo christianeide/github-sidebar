@@ -131,6 +131,10 @@ body {
                 border-left-color: $red;
             }
 
+            &.STALE {
+                border-left-color: $yellow;
+            }
+
             a {
                 display: flex;
                 text-decoration: none;

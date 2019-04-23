@@ -20,7 +20,7 @@ export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems 
           return {
             title: 'Error in API query to Github ',
             message: item.message,
-            time: +new Date()
+            time: Date.now()
           }
         })
 
@@ -61,7 +61,7 @@ export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems 
       const userError = [{
         title: error.message,
         message: error.response.data.message,
-        time: +new Date()
+        time: Date.now()
       }]
 
       return callback(userError)

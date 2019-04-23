@@ -12,10 +12,20 @@ export default function Item (props) {
     )
   }
 
-  const { item: { title, url, comments, updatedAt, reviewStatus, author }, type } = props
+  function isStale (timeBeforeStale) {
+    if (timeBeforeStale === 0) return ''
+
+    const timeNow = new Date(updatedAt).getTime()
+    const staleHoursInMS = timeBeforeStale * 3600000 // One hour is 3600000ms
+    return (Date.now() - timeNow) < staleHoursInMS ? '' : 'STALE'
+  }
+
+  const { item: { title, url, comments, updatedAt, reviewStatus, author }, type, timeBeforeStale } = props
+
+  let status = reviewStatus || isStale(timeBeforeStale)
 
   return (
-    <li className={`listItem ${reviewStatus}`}>
+    <li className={`listItem ${status}`}>
       <a href={url} title={title}>
 
         <div className='itemIcon'>

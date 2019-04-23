@@ -9,7 +9,8 @@ export default function Repositories (props) {
     toggleSettings,
     settings: {
       listItemOfType,
-      numberOfItems
+      numberOfItems,
+      timeBeforeStale
     }
   } = props
 
@@ -28,6 +29,7 @@ export default function Repositories (props) {
             key={repo.url}
             type={listItemOfType}
             numberOfItems={numberOfItems}
+            timeBeforeStale={timeBeforeStale}
           />
         })}
       </ul>

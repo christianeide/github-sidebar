@@ -2,6 +2,7 @@
     "token": null,
     "autoUpdate": true,
     "autoRefresh": 10,
+    "timeBeforeStale": 24,
     "listItemOfType": "pullRequests",
     "numberOfItems": 10,
     "updateFavicon": true,

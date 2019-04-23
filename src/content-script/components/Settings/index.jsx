@@ -68,7 +68,7 @@ export default class Settings extends React.Component {
 
   render () {
     const { rateLimit } = this.props
-    const { repos, listItemOfType, numberOfItems, autoRefresh, updateFavicon, token } = this.state
+    const { repos, listItemOfType, numberOfItems, autoRefresh, updateFavicon, token, timeBeforeStale } = this.state
 
     const remaing = rateLimit
       ? <em>({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in {until(rateLimit.resetAt)})</em>
@@ -112,13 +112,24 @@ export default class Settings extends React.Component {
             </label>
 
             <label>
-              Time before autoupdate (min.)
+              Auto refresh every X min.
               <input
                 type='number'
                 name='autoRefresh'
                 min='1'
-                max='1000'
                 value={autoRefresh}
+                onChange={this.handleInputChange}
+              />
+            </label>
+
+            <label>
+              Hours before an item is stale (0=never)
+              <input
+                type='number'
+                name='timeBeforeStale'
+                min='0'
+                max='1000'
+                value={timeBeforeStale}
                 onChange={this.handleInputChange}
               />
             </label>
