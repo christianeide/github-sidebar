@@ -24,9 +24,10 @@ export default class Header extends React.Component {
   }
 
   render () {
-    const { loading, errors, toggleSettings } = this.props
+    const { loading, errors, toggleSettings, showSettings } = this.props
 
     const loader = loading ? <Icons icon='loader' className='loader' /> : null
+    const icon = showSettings ? 'cancel' : 'settings'
 
     return (
       <header className='text-bold' style={{ height: this.state.height }}>
@@ -38,7 +39,7 @@ export default class Header extends React.Component {
           <Errors errors={errors} />
 
           <a href='#' className='iconBtn' onClick={toggleSettings}>
-            <Icons icon='settings' />
+            <Icons icon={icon} />
           </a>
         </span>
       </header>

@@ -30,6 +30,13 @@ export default function (props) {
         </svg>
       )
     },
+    cancel: () => {
+      return (
+        <svg className='icon' viewBox='0 0 48 48' width='20' height='20' >
+          <path fill-rule='evenodd' d='M530,49a24,24,0,1,1-24,24A24,24,0,0,1,530,49Zm13.007,14.573-10.1,10.1,9.733,9.733-2.6,2.6-9.733-9.733-9.192,9.191-2.58-2.58,9.192-9.191-9.733-9.733,2.6-2.6,9.733,9.733,10.1-10.1Z' transform='translate(-506 -49)' />
+        </svg>
+      )
+    },
     loader: () => {
       return (
         <svg className='icon loader' viewBox='0 0 100 100'>
