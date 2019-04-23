@@ -57,6 +57,10 @@ export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems 
       return callback(null, updateRepoStatus, rateLimit)
     })
     .catch((error, msg) => {
+      // If we dont have a error resonse, its probably a network error.
+      // We dont want to flood users with network errors
+      if (!error.response) return
+
       const userError = [{
         title: error.message,
         message: error.response.data.message,
