@@ -1,23 +1,10 @@
 {
     "token": null,
     "autoUpdate": true,
-    "autoRefresh": 1,
+    "autoRefresh": 10,
     "listItemOfType": "pullRequests",
     "numberOfItems": 10,
     "updateFavicon": true,
     "viewportSide": "left",
-    "repos": [
-        {
-            "name": "nora-core",
-            "owner": "nrkno"
-        },
-        {
-            "name": "nora-module-browser",
-            "owner": "nrkno"
-        },
-        {
-            "name": "nora-render-nyheter",
-            "owner": "nrkno"
-        }
-    ]
+    "repos": []
 }
