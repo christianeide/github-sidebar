@@ -3,50 +3,65 @@
 import defaultSettings from './js/defaultSettings.json'
 import { fetchDataFromAPI } from './js/fetch.js'
 
-let errors = []
-let settings
-let repositories
-let rateLimit
-
 // Uncomment this to erase chrome storage for developent
 // chrome.storage.local.clear(function () {
 //   const error = chrome.runtime.lastError
 //   if (error) console.error(error)
 // });
 
-(function getInitialLocalStorage () {
-  chrome.storage.local.get(['settings', 'repositories', 'rateLimit'],
-    (storageData) => {
+let errors = []
+let quickStorage = {
+  settings: undefined,
+  repositories: undefined,
+  rateLimit: undefined,
+  getStorage: function (_callback) {
+    // If we already have some data to return
+    if (this.settings) {
+      return _callback({
+        settings: this.settings,
+        repositories: this.repositories,
+        rateLimit: this.rateLimit
+      })
+    }
+
+    chrome.storage.local.get(['settings', 'repositories', 'rateLimit'],
+      ({ settings, repositories, rateLimit }) => {
       // merges default settings and user settings
-      settings = { ...defaultSettings, ...storageData.settings }
+        this.settings = { ...defaultSettings, ...settings }
 
-      repositories = storageData.repositories
-      rateLimit = storageData.rateLimit
+        this.repositories = repositories
+        this.rateLimit = rateLimit
 
-      // Always fetch on startup
-      fetchData()
+        // Always fetch when we first load settings
+        fetchData()
+        autoFetch.start(this.settings.autoRefresh)
 
-      autoFetch.start(settings.autoRefresh)
-    })
-})()
+        _callback({
+          settings,
+          repositories,
+          rateLimit
+        })
+      })
+  }
+}
 
 let autoFetch = {
   timer: undefined,
   cb: fetchData,
-  start: (interval) => {
-    autoFetch.timer = setInterval(autoFetch.cb, autoFetch.calculateMS(interval))
+  start: function (interval) {
+    this.timer = setInterval(this.cb, this.calculateMS(interval))
   },
-  stop: () => {
-    if (!autoFetch.timer) return
-    clearInterval(autoFetch.timer)
-    autoFetch.timer = undefined
+  stop: function () {
+    if (!this.timer) return
+    clearInterval(this.timer)
+    this.timer = undefined
   },
-  change: (interval) => {
-    if (!autoFetch.timer) return
-    clearInterval(autoFetch.timer)
-    setInterval(autoFetch.cb, autoFetch.calculateMS(interval))
+  change: function (interval) {
+    if (!this.timer) return
+    clearInterval(this.timer)
+    this.timer = setInterval(this.cb, this.calculateMS(interval))
   },
-  calculateMS: (min) => {
+  calculateMS: function (min) {
     return min * 1000
   }
 }
@@ -54,24 +69,29 @@ let autoFetch = {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.type) {
     case 'init':
-      sendResponse({ settings, repositories, rateLimit })
+      quickStorage.getStorage(({ settings, repositories, rateLimit }) => {
+        sendResponse({ settings, repositories, rateLimit })
 
-      // Each time we have a init, the user has navigated, we do a new fetch
-      fetchData()
+        // Each time we have a init, the user has navigated, we do a new fetch
+        fetchData()
 
-      // If autofetching is not running, we will start it up again
-      if (!autoFetch.timer) autoFetch.start(settings.autoRefresh)
-      break
+        // If autofetching is not running, we will start it up again
+        if (!autoFetch.timer) autoFetch.start(settings.autoRefresh)
+      })
+
+      // Return true to allow async return of sendResponse
+      return true
 
     case 'saveSettings':
-      // If refreshperiod has changed
+    // If refreshperiod has changed
       if (request.settings.autoRefresh &&
-        settings.autoRefresh !== request.settings.autoRefresh) {
+      quickStorage.settings.autoRefresh !== request.settings.autoRefresh) {
         autoFetch.change(request.settings.autoRefresh)
       }
 
-      // Update main settings
-      settings = { ...defaultSettings, ...request.settings }
+      const settings = { ...defaultSettings, ...request.settings }
+
+      quickStorage.settings = settings
 
       // Save settings to storage
       chrome.storage.local.set({ settings })
@@ -105,19 +125,21 @@ function sendToAllTabs (data) {
 }
 
 function fetchData () {
-  if (!settings.token) return
+  const { settings } = quickStorage
+
+  if (!settings || !settings.token) return
 
   // Show loadinganimation when we are fetching data
   sendToAllTabs({ loading: true })
 
-  fetchDataFromAPI(settings, (err, newRepositories, newRateLimit) => {
+  fetchDataFromAPI(settings, (err, repositories, rateLimit) => {
     if (err) {
       errors.push(...err)
       return sendToAllTabs({ errors, loading: false })
     }
 
-    repositories = newRepositories
-    rateLimit = newRateLimit
+    quickStorage.repositories = repositories
+    quickStorage.rateLimit = rateLimit
 
     sendToAllTabs({ repositories, rateLimit, loading: false })
 
