@@ -69,29 +69,6 @@ module.exports = {
         }
       }
       ]
-    },
-    {
-      test: /\.(jpe?g|png|gif|svg)$/,
-      use: {
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-          outputPath: 'css/images/',
-          publicPath: 'images/'
-        }
-      }
-    },
-
-    {
-      test: /\.(eot|svg|ttf|woff|woff2)(\?.*$|$)/,
-      use: {
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-          outputPath: 'css/fonts/',
-          publicPath: 'fonts/'
-        }
-      }
     }
     ]
   }
