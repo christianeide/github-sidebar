@@ -4,41 +4,44 @@
 #github-sidebar {
     .sidebar {
         main {
-            .repository {
-                padding: 0.8rem;
-                border-bottom: 1px solid $gray-500;
 
-                &:nth-child(even) {
-                    background: darken($gray-100, 2%);
+            .repositories {
+                margin-bottom: 2rem;
+                
+                .repository {
+                    padding: 0.8rem;
+                    border-bottom: 1px solid $gray-500;
+
+                    &:nth-child(even) {
+                        background: darken($gray-100, 3%);
+                    }
+
+                    .heading {
+                        display: flex;
+                        justify-content: space-between;
+                        font-weight: bold;
+                    }
+
+                    ul {
+                        margin-top: .8rem;
+                        padding-left: .6rem;
+                    }
                 }
 
-                .heading {
+                &.noRepos {
+                    padding: 2rem;
                     display: flex;
-                    justify-content: space-between;
-                    font-weight: bold;
-                }
 
-                ul {
-                    margin-top: .8rem;
-                    padding-left: .6rem;
-                }
-            }
+                    .justifier {
+                        margin: auto;
 
-            &.noRepos {
-                padding: 2rem;
-                display: flex;
-
-                .justifier {
-                    margin: auto;
-
-                    p {
-                        color: $gray-800;
-                        line-height: 1rem;
+                        p {
+                            color: $gray-800;
+                            line-height: 1rem;
+                        }
                     }
                 }
             }
         }
-
-
     }
 }
