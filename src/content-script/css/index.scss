@@ -51,7 +51,7 @@ body {
         main {
             flex: 1;
             border-right: 1px solid $gray-500;
-            overflow-y: scroll;
+            overflow-y: auto;
         }
 
         label {
