@@ -52,6 +52,23 @@ body {
             flex: 1;
             border-right: 1px solid $gray-500;
             overflow-y: auto;
+
+            &::-webkit-scrollbar {
+                width: 1.2rem;
+                background: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: $gray-500;
+                background-clip: padding-box;
+                border: 5px solid rgba(0, 0, 0, 0);
+                border-radius: 1.2rem;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: transparent;
+                border-radius: 0;
+            }
         }
 
         label {
@@ -61,10 +78,10 @@ body {
         }
 
         input[type='text'],
-            input[type='number'] {
-                width: 100%;
-                padding: 0.3rem 0.5rem;
-            }
+        input[type='number'] {
+            width: 100%;
+            padding: 0.3rem 0.5rem;
+        }
 
         em {
             @include fontSizeSmall();
