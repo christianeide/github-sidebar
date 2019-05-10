@@ -20,6 +20,25 @@ export default class Settings extends React.Component {
   }
 
   handleInputChange = (event) => {
+    const target = event.target
+    const name = target.name
+
+    let value
+    switch (target.type) {
+      case 'checkbox':
+        value = target.checked
+        break
+      case 'number':
+        value = target.value ? parseInt(target.value) : ''
+        break
+      default:
+        value = target.value
+    }
+
+    this.setState({ [name]: value })
+  }
+
+  validateInput = (event) => {
     function imposeMinMax (el) {
       const min = parseInt(el.min)
       const max = parseInt(el.max)
@@ -40,18 +59,7 @@ export default class Settings extends React.Component {
 
     const target = event.target
     const name = target.name
-
-    let value
-    switch (target.type) {
-      case 'checkbox':
-        value = target.checked
-        break
-      case 'number':
-        value = imposeMinMax(target)
-        break
-      default:
-        value = target.value
-    }
+    const value = imposeMinMax(target)
 
     this.setState({ [name]: value })
   }
@@ -126,6 +134,7 @@ export default class Settings extends React.Component {
                 max='10'
                 value={numberOfItems}
                 onChange={this.handleInputChange}
+                onBlur={this.validateInput}
               />
             </label>
 
@@ -137,6 +146,7 @@ export default class Settings extends React.Component {
                 min='15'
                 value={autoRefresh}
                 onChange={this.handleInputChange}
+                onBlur={this.validateInput}
               />
             </label>
 
@@ -148,6 +158,7 @@ export default class Settings extends React.Component {
                 min='0'
                 value={timeBeforeStale}
                 onChange={this.handleInputChange}
+                onBlur={this.validateInput}
               />
             </label>
 
