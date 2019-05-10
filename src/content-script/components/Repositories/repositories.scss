@@ -7,7 +7,7 @@
 
             .repositories {
                 margin-bottom: 2rem;
-                
+
                 .repository {
                     padding: 0.8rem;
                     border-bottom: 1px solid $gray-500;
@@ -28,17 +28,18 @@
                     }
                 }
 
-                &.noRepos {
-                    padding: 2rem;
-                    display: flex;
+            }
 
-                    .justifier {
-                        margin: auto;
+            &.noRepos {
+                padding: 2rem;
+                display: flex;
 
-                        p {
-                            color: $gray-800;
-                            line-height: 1rem;
-                        }
+                .justifier {
+                    margin: auto;
+
+                    p {
+                        color: $gray-800;
+                        line-height: 1rem;
                     }
                 }
             }
