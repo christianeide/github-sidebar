@@ -20,20 +20,38 @@ export default class Settings extends React.Component {
   }
 
   handleInputChange = (event) => {
+    function imposeMinMax (el) {
+      const min = parseInt(el.min)
+      const max = parseInt(el.max)
+
+      if (el.value !== '') {
+        const value = parseInt(el.value)
+        if (value < min) {
+          return min
+        }
+        if (value > max) {
+          return max
+        }
+        return value
+      }
+
+      return min || 0
+    }
+
     const target = event.target
+    const name = target.name
+
     let value
     switch (target.type) {
       case 'checkbox':
         value = target.checked
         break
       case 'number':
-        value = parseInt(target.value)
+        value = imposeMinMax(target)
         break
       default:
         value = target.value
     }
-
-    const name = target.name
 
     this.setState({ [name]: value })
   }
@@ -128,7 +146,6 @@ export default class Settings extends React.Component {
                 type='number'
                 name='timeBeforeStale'
                 min='0'
-                max='1000'
                 value={timeBeforeStale}
                 onChange={this.handleInputChange}
               />
