@@ -151,7 +151,7 @@ export default class Settings extends React.Component {
             </label>
 
             <label>
-              Hours before an item is stale (0=never)
+              Hours before an item is marked as stale/yellow (0=never)
               <input
                 type='number'
                 name='timeBeforeStale'
