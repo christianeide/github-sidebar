@@ -6,7 +6,8 @@
   "manifest_version": 2,
   "permissions": [
     "https://github.com/*",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "background": {
     "scripts": [
