@@ -1,7 +1,12 @@
 import axios from 'axios'
 import { createPullRequestsQuery } from './graphql.js'
 
-export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems }, callback) {
+export function fetchDataFromAPI ({
+  token,
+  repos,
+  listItemOfType,
+  numberOfItems
+}, callback) {
   const query = createPullRequestsQuery(repos, listItemOfType, numberOfItems)
 
   axios({
@@ -34,14 +39,16 @@ export function fetchDataFromAPI ({ token, repos, listItemOfType, numberOfItems 
         const repo = repos[key]
 
         // Mapping data from items
-        const items = repo[listItemOfType].edges.map(({ node }) => {
+        const items = repo[listItemOfType].edges.map(({ node: item }) => {
           return {
-            title: node.title,
-            url: node.url,
-            reviewStatus: node.reviews && node.reviews.nodes.length > 0 ? node.reviews.nodes[0].state : null,
-            updatedAt: node.updatedAt,
-            comments: node.comments.totalCount,
-            author: node.author.login
+            id: item.id,
+            title: item.title,
+            url: item.url,
+            reviewStatus: item.reviews && item.reviews.nodes.length > 0 ? item.reviews.nodes[0].state : null,
+            updatedAt: item.updatedAt,
+            comments: item.comments.totalCount,
+            read: false,
+            author: item.author.login
           }
         })
 

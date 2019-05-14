@@ -13,7 +13,6 @@ body {
     background-color: $gray-100;
     z-index: 1000;
 
-
     // Generic classes
     .text-truncate {
         @extend %text-truncate;

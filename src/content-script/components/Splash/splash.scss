@@ -4,7 +4,7 @@
 #github-sidebar {
     .sidebar {
         .splash {
-            background: linear-gradient(90deg, $black, lighten($black, 4%));
+            background: linear-gradient(90deg, $black, $gray-900);
             color: $white;
             padding: 2rem;
             display: flex;

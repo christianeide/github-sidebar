@@ -1,7 +1,9 @@
 /* global chrome */
 
 import defaultSettings from './js/defaultSettings.json'
-import { fetchDataFromAPI } from './js/fetch.js'
+import {
+  fetchDataFromAPI
+} from './js/fetch.js'
 
 // Uncomment this to erase chrome storage for developent
 // chrome.storage.local.clear(function () {
@@ -26,7 +28,7 @@ let quickStorage = {
 
     chrome.storage.local.get(['settings', 'repositories', 'rateLimit'],
       ({ settings, repositories, rateLimit }) => {
-      // merges default settings and user settings
+        // merges default settings and user settings
         this.settings = { ...defaultSettings, ...settings }
 
         this.repositories = repositories
@@ -82,10 +84,28 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       // Return true to allow async return of sendResponse
       return true
 
+    case 'toggleRead':
+      quickStorage.repositories = quickStorage.repositories.map(repo => {
+        const match = repo.items.find(item => item.id === request.id)
+        if (match) match.read = !match.read
+
+        return repo
+      })
+
+      sendToAllTabs({
+        repositories: quickStorage.repositories
+      })
+
+      // Save repos to storage
+      chrome.storage.local.set({
+        repositories: quickStorage.repositories
+      })
+      break
+
     case 'saveSettings':
-    // If refreshperiod has changed
+      // If refreshperiod has changed
       if (request.settings.autoRefresh &&
-      quickStorage.settings.autoRefresh !== request.settings.autoRefresh) {
+        quickStorage.settings.autoRefresh !== request.settings.autoRefresh) {
         autoFetch.change(request.settings.autoRefresh)
       }
 
@@ -132,18 +152,42 @@ function fetchData () {
   // Show loadinganimation when we are fetching data
   sendToAllTabs({ loading: true })
 
-  fetchDataFromAPI(settings, (err, repositories, rateLimit) => {
+  fetchDataFromAPI(settings, (err, newRepoData, rateLimit) => {
     if (err) {
       errors.push(...err)
       return sendToAllTabs({ errors, loading: false })
     }
 
+    // Transfer read-status from old repositories
+    const repositories = transferReadStatus(newRepoData)
+
     quickStorage.repositories = repositories
     quickStorage.rateLimit = rateLimit
 
-    sendToAllTabs({ repositories, rateLimit, loading: false })
+    sendToAllTabs({
+      repositories,
+      rateLimit,
+      loading: false
+    })
 
     // Save repositorydata to storage for faster reloads
-    chrome.storage.local.set({ repositories, rateLimit })
+    chrome.storage.local.set({
+      repositories,
+      rateLimit
+    })
+  })
+}
+
+function transferReadStatus (repositories) {
+  return repositories.map(repo => {
+    repo.items.map(item => {
+      quickStorage.repositories.map(oldRepo => {
+        oldRepo.items.map(i => {
+          if (i.id === item.id) item.read = i.read
+        })
+      })
+      return item
+    })
+    return repo
   })
 }

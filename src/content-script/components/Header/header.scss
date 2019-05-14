@@ -5,7 +5,7 @@
     .sidebar {
         header {
             border-right: 1px solid lighten($black, 10%);
-            background: linear-gradient(90deg, $black, lighten($black, 4%));
+            background: linear-gradient(90deg, $black, $gray-900);
             padding: 12px;
             color: $white;
             display: flex;

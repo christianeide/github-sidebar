@@ -1,4 +1,3 @@
-
 export function createPullRequestsQuery (repositories, type, numberOfItems) {
   const repos = repositories.map((repo, index) => {
     return repositoriesQuery(repo, type, numberOfItems, index)
@@ -32,6 +31,7 @@ const types = {
         totalCount
         edges {
           node {
+            id
             title
             url
             updatedAt
@@ -48,7 +48,7 @@ const types = {
             }
           }
         }
-      }   
+      }
   `
   },
   issues: (numberOfItems) => {
@@ -57,6 +57,7 @@ const types = {
         totalCount
         edges {
           node {
+            id
             title
             url
             updatedAt

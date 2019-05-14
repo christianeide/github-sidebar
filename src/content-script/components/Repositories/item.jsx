@@ -1,9 +1,13 @@
+/* global chrome */
+
 import React from 'react'
 import Icons from '../../images/svgs/icons.js'
 import { ago } from '../../js/time.js'
 
 export default function Item (props) {
-  function showComments (comments) {
+  const { item: { id, title, url, comments, updatedAt, reviewStatus, author, read }, type, timeBeforeStale } = props
+
+  const renderComments = () => {
     if (!comments) return null
     return (
       <div className='comments'>
@@ -12,7 +16,7 @@ export default function Item (props) {
     )
   }
 
-  function isStale (timeBeforeStale) {
+  const isStale = () => {
     if (timeBeforeStale === 0) return ''
 
     const timeNow = new Date(updatedAt).getTime()
@@ -20,12 +24,19 @@ export default function Item (props) {
     return (Date.now() - timeNow) < staleHoursInMS ? '' : 'STALE'
   }
 
-  const { item: { title, url, comments, updatedAt, reviewStatus, author }, type, timeBeforeStale } = props
+  const toggleRead = () => {
+    chrome.runtime.sendMessage({ type: 'toggleRead', id })
+  }
 
-  let status = reviewStatus || isStale(timeBeforeStale)
+  const status = reviewStatus || isStale()
+  const isRead = read ? 'read' : 'notRead'
 
   return (
     <li className={`listItem ${status}`}>
+      <div className={`circleButton ${isRead}`} onClick={toggleRead} title='New item'>
+        <div className='circle' />
+      </div>
+
       <a href={url} title={title}>
 
         <div className='itemIcon'>
@@ -38,7 +49,7 @@ export default function Item (props) {
               {title}
             </h5>
 
-            {showComments(comments)}
+            {renderComments()}
           </div>
 
           <span className='bottom'>
