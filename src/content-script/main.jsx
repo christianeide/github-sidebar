@@ -41,7 +41,7 @@ class App extends React.Component {
   }
 
   componentWillUnmount () {
-    clearInterval(this.listenToBackground)
+    chrome.runtime.onMessage.removeListener(this.listenToBackground)
   }
 
   receiveFromBackground = (newState) => {
