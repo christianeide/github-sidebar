@@ -15,6 +15,7 @@
   "dependencies": {
     "array-move": "^2.1.0",
     "axios": "^0.18.0",
+    "favico.js": "^0.3.10",
     "preact": "^8.4.2",
     "preact-compat": "^3.18.5",
     "react": "^16.8.6",
