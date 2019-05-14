@@ -8,15 +8,22 @@ const favicon = new Favico({
 
 let oldUndreadStatus = -1
 
-export default function setBadge (repositories) {
+export default function setBadge (repositories, showFavicon) {
+  if (!showFavicon) {
+    oldUndreadStatus = -1
+    return favicon.reset()
+  }
+
   const hasUnread = repositories.findIndex(repos => {
     return repos.items.find(item => item.read === false)
   })
 
   if (oldUndreadStatus !== hasUnread) {
-  // 0 removes the badge
-    const value = hasUnread !== -1 ? '+' : 0
-    favicon.badge(value)
+    if (hasUnread !== -1) {
+      favicon.badge('+')
+    } else {
+      favicon.reset()
+    }
 
     oldUndreadStatus = hasUnread
   }

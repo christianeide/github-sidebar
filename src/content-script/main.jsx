@@ -37,7 +37,8 @@ class App extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    setBadge(this.state.repositories)
+    const showFavicon = this.state.settings.updateFavicon
+    setBadge(this.state.repositories, showFavicon)
   }
 
   componentWillUnmount () {
