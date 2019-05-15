@@ -11,7 +11,8 @@ export default function Repositories (props) {
       listItemOfType,
       numberOfItems,
       timeBeforeStale
-    }
+    },
+    port
   } = props
 
   console.log('render', repositories)
@@ -30,6 +31,7 @@ export default function Repositories (props) {
             type={listItemOfType}
             numberOfItems={numberOfItems}
             timeBeforeStale={timeBeforeStale}
+            port={port}
           />
         })}
       </ul>

@@ -2,7 +2,7 @@ import React from 'react'
 import Item from './item.jsx'
 
 export default function Repository (props) {
-  const { data: { name, url, items, totalItems, owner }, type, numberOfItems, timeBeforeStale } = props
+  const { data: { name, url, items, totalItems, owner }, type, numberOfItems, timeBeforeStale, port } = props
 
   const item = type === 'pullRequests'
     ? {
@@ -27,7 +27,7 @@ export default function Repository (props) {
       {items.length > 0 &&
         <ul>
           {items.map(item => {
-            return <Item item={item} type={type} timeBeforeStale={timeBeforeStale} />
+            return <Item item={item} type={type} port={port} timeBeforeStale={timeBeforeStale} />
           })}
         </ul>
       }

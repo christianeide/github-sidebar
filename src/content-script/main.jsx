@@ -24,29 +24,26 @@ class App extends React.Component {
       loading: false
     }
 
+    this.port = chrome.runtime.connect()
     this.listenToBackground = null
   }
 
   componentDidMount () {
     // Get preloaded data
-    chrome.runtime.sendMessage({ type: 'init' }, initialState => {
-      this.setState({ ...initialState })
+    this.port.postMessage({ type: 'init' })
+    // Set up listener for new messages
+    this.listenToBackground = this.port.onMessage.addListener((newState) => {
+      this.setState({ ...newState })
     })
-
-    this.listenToBackground = chrome.runtime.onMessage.addListener(this.receiveFromBackground)
   }
 
   componentDidUpdate (prevProps, prevState) {
-    const showFavicon = this.state.settings.updateFavicon
+    const showFavicon = this.state.settings && this.state.settings.updateFavicon
     setBadge(this.state.repositories, showFavicon)
   }
 
   componentWillUnmount () {
-    chrome.runtime.onMessage.removeListener(this.listenToBackground)
-  }
-
-  receiveFromBackground = (newState) => {
-    this.setState({ ...newState })
+    this.port.onMessage.removeListener(this.listenToBackground)
   }
 
   handleToggleSettings = (e) => {
@@ -65,7 +62,7 @@ class App extends React.Component {
     } = this.state
 
     if (!settings) return null
-    if (!settings.token) return <Splash />
+    if (!settings.token) return <Splash port={this.port} />
 
     return (
       <div className='sidebar'>
@@ -74,6 +71,7 @@ class App extends React.Component {
           loading={loading}
           errors={errors}
           showSettings={showSettings}
+          port={this.port}
         />
 
         {showSettings
@@ -81,12 +79,14 @@ class App extends React.Component {
             <Settings
               rateLimit={rateLimit}
               settings={settings}
+              port={this.port}
             />
           ) : (
             <Repositories
               repositories={repositories}
               settings={settings}
               toggleSettings={this.handleToggleSettings}
+              port={this.port}
             />
           )
         }

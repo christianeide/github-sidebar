@@ -1,11 +1,9 @@
-/* global chrome */
-
 import React from 'react'
 import Icons from '../../images/svgs/icons.js'
 import { ago } from '../../js/time.js'
 
 export default function Item (props) {
-  const { item: { id, title, url, comments, updatedAt, reviewStatus, author, read }, type, timeBeforeStale } = props
+  const { item: { id, title, url, comments, updatedAt, reviewStatus, author, read }, type, timeBeforeStale, port } = props
 
   const renderComments = () => {
     if (!comments) return null
@@ -25,7 +23,7 @@ export default function Item (props) {
   }
 
   const toggleRead = () => {
-    chrome.runtime.sendMessage({ type: 'toggleRead', id })
+    port.postMessage({ type: 'toggleRead', id })
   }
 
   const status = reviewStatus || isStale()

@@ -1,5 +1,3 @@
-/* global chrome */
-
 import React from 'react'
 import SortRepos from './sortRepos.jsx'
 import { until } from '../../js/time.js'
@@ -65,7 +63,7 @@ export default class Settings extends React.Component {
   }
 
   handleSaveSettings = () => {
-    chrome.runtime.sendMessage({ type: 'saveSettings', settings: this.state })
+    this.props.port.postMessage({ type: 'saveSettings', settings: this.state })
   }
 
   handleAddPage = () => {

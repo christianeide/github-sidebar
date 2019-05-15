@@ -33,7 +33,7 @@ export default class Errors extends React.Component {
       // After the user hides errorview, we remove errors
       // See no reason to use time and screenposition
       // for displaying errors to users
-      if (!this.state.showErrors) chrome.runtime.sendMessage({ type: 'clearErrors' })
+      if (!this.state.showErrors) this.props.port.postMessage({ type: 'clearErrors' })
     })
   }
 

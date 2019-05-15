@@ -24,7 +24,7 @@ export default class Header extends React.Component {
   }
 
   render () {
-    const { loading, errors, toggleSettings, showSettings } = this.props
+    const { loading, errors, toggleSettings, showSettings, port } = this.props
 
     const loader = loading && <Icons icon='loader' className='loader' />
     const icon = showSettings ? 'cancel' : 'settings'
@@ -36,7 +36,7 @@ export default class Header extends React.Component {
           {loader}
         </span>
         <span className='align-center'>
-          <Errors errors={errors} />
+          <Errors errors={errors} port={port} />
 
           <a href='#' className='iconBtn' onClick={toggleSettings}>
             <Icons icon={icon} />

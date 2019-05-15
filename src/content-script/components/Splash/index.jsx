@@ -1,5 +1,3 @@
-/* global chrome */
-
 import React from 'react'
 import Icons from '../../images/svgs/icons.js'
 import './splash.scss'
@@ -17,7 +15,7 @@ export default class Splash extends React.Component {
   }
 
   handleSaveToken = () => {
-    chrome.runtime.sendMessage({ type: 'saveSettings', settings: this.state })
+    this.props.port.postMessage({ type: 'saveSettings', settings: this.state })
   }
 
   render () {
