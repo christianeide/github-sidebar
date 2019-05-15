@@ -2,8 +2,7 @@ import Favico from 'favico.js'
 const favicon = new Favico({
   animation: 'popFade',
   bgColor: '#ed4d4d',
-  textColor: '#ed4d4d',
-  position: 'up'
+  textColor: '#ed4d4d'
 })
 
 let oldUndreadStatus = -1
