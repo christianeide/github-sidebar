@@ -13,8 +13,8 @@ Do you often navigate between several repositories on GitHub? This Chrome Extens
 - Color coding of items based on status (Approved, Closed or Stale)
 
 ## Screenshots
-![](screenshots/screen1.png)
-![](screenshots/multiple.png)
+![](images/screen1.png)
+![](images/multiple.png)
 
 
 # Settings

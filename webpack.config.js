@@ -18,7 +18,11 @@ module.exports = {
   },
   plugins: [
     new ChromeExtensionReloader(),
-    new CopyWebpackPlugin([ { from: './manifest.json' } ]),
+    new CopyWebpackPlugin([{
+      from: './manifest.json'
+    },
+    { from: './images/logo_*'
+    }]),
     new MiniCssExtractPlugin({ filename: 'style.css' })
   ],
   resolve: {
