@@ -9,7 +9,7 @@ import { quickStorage } from './js/quickStorage'
 // chrome.storage.local.clear(function () {
 //   const error = chrome.runtime.lastError
 //   if (error) console.error(error)
-// });
+// })
 
 let errors = []
 let autoFetch = {
@@ -88,10 +88,14 @@ function init (port) {
 }
 
 function toggleRead (request) {
-  quickStorage.repositories = quickStorage.repositories.map(repo => {
-    const match = repo.items.find(item => item.id === request.id)
-    if (match) { match.read = !match.read }
-    return repo
+  quickStorage.repositories.forEach(repo => {
+    repo.items.forEach(item => {
+      if (request.id) {
+        if (item.id === request.id) item.read = !item.read
+      } else {
+        item.read = true
+      }
+    })
   })
 
   sendToAllTabs({ repositories: quickStorage.repositories })

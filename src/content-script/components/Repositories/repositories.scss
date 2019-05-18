@@ -28,39 +28,8 @@
                         .circleButton {
                             position: absolute;
                             left: -1.45rem;
-                            width: 1rem;
-                            height: 1rem;
-                            background: transparent;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
                             top: 50%;
                             transform: translateY(-50%);
-
-                            .circle {
-                                height: 80%;
-                                width: 80%;
-                                background: $gray-700;
-                                border-radius: 50%;
-                                border: 1px solid $gray-500;
-                            }
-
-                            &:hover {
-                                background: $gray-500;
-                                cursor: pointer;
-                            }
-
-                            &.read {
-                                .circle {
-                                    background: transparent;
-                                }
-
-                                &:hover {
-                                    .circle {
-                                        background: lighten($gray-700, 20%)
-                                    }
-                                }
-                            }
                         }
                     }
                 }

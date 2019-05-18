@@ -1,6 +1,7 @@
 import React from 'react'
 import Icons from '../../images/svgs/icons.js'
 import { ago } from '../../js/time.js'
+import Read from '../Read/index.jsx'
 
 export default function Item (props) {
   const { item: { id, title, url, comments, updatedAt, reviewStatus, author, read }, type, timeBeforeStale, port } = props
@@ -9,7 +10,7 @@ export default function Item (props) {
     if (!comments) return null
     return (
       <div className='comments'>
-        <Icons icon='comment' /> { comments }
+        <Icons icon='comment' /> {comments}
       </div>
     )
   }
@@ -27,13 +28,10 @@ export default function Item (props) {
   }
 
   const status = reviewStatus || isStale()
-  const isRead = read ? 'read' : 'notRead'
 
   return (
     <li className={`listItem ${status}`}>
-      <div className={`circleButton ${isRead}`} onClick={toggleRead} title='New item'>
-        <div className='circle' />
-      </div>
+      <Read read={read} toggleRead={toggleRead} />
 
       <a href={url} title={title}>
 
@@ -51,7 +49,7 @@ export default function Item (props) {
           </div>
 
           <span className='bottom'>
-              By {author}, updated {ago(updatedAt)} ago
+            By {author}, updated {ago(updatedAt)} ago
           </span>
         </div>
 

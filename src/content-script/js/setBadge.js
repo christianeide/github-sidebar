@@ -5,25 +5,29 @@ const favicon = new Favico({
   textColor: '#ed4d4d'
 })
 
-let oldUndreadStatus = -1
+let OldUnReadStatus = false
 
 export default function setBadge (repositories, showFavicon) {
   if (!showFavicon) {
-    oldUndreadStatus = -1
+    OldUnReadStatus = false
     return favicon.reset()
   }
 
-  const hasUnread = repositories.findIndex(repos => {
-    return repos.items.find(item => item.read === false)
-  })
+  const hasUnread = hasUnreadItems(repositories)
 
-  if (oldUndreadStatus !== hasUnread) {
-    if (hasUnread !== -1) {
+  if (OldUnReadStatus !== hasUnread) {
+    if (hasUnread) {
       favicon.badge('+')
     } else {
       favicon.reset()
     }
 
-    oldUndreadStatus = hasUnread
+    OldUnReadStatus = hasUnread
   }
+}
+
+export function hasUnreadItems (repositories) {
+  return repositories.findIndex(repos => {
+    return repos.items.find(item => item.read === false)
+  }) > -1
 }
