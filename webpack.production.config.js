@@ -17,7 +17,10 @@ module.exports = {
     minimize: true
   },
   plugins: [
-    new CopyWebpackPlugin([ { from: './manifest.json' } ]),
+    new CopyWebpackPlugin([
+      './manifest.json',
+      './images/logo_*'
+    ]),
     new MiniCssExtractPlugin({ filename: 'style.css' })
   ],
   resolve: {
