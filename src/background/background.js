@@ -36,10 +36,9 @@ let autoFetch = {
 // We update the read-status of items based on visited urls
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.url && changeInfo.url.indexOf('github.com') !== -1) {
-    const repositories = setUrlAsRead(changeInfo.url)
+    setUrlAsRead(changeInfo.url)
 
-    quickStorage.repositories = repositories
-    sendToAllTabs({ repositories })
+    sendToAllTabs({ repositories: quickStorage.repositories })
   }
 })
 
@@ -180,11 +179,9 @@ function transferReadStatus (repositories) {
 }
 
 function setUrlAsRead (url) {
-  return quickStorage.repositories.map(repo => {
-    repo.items.map(item => {
+  quickStorage.repositories.forEach(repo => {
+    repo.items.forEach(item => {
       if (item.url === url) item.read = true
-      return item
     })
-    return repo
   })
 }
