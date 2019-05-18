@@ -16,8 +16,6 @@ export default function Repositories (props) {
     port
   } = props
 
-  console.log('render', repositories)
-
   if (repositories.length === 0) {
     return <NoRepos toggleSettings={toggleSettings} />
   }
