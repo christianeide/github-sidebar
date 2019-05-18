@@ -4,7 +4,7 @@
     "autoRefresh": 60,
     "timeBeforeStale": 24,
     "listItemOfType": "pullRequests",
-    "numberOfItems": 10,
+    "numberOfItems": 4,
     "updateFavicon": true,
     "viewportSide": "left",
     "repos": []
