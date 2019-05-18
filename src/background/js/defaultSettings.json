@@ -7,5 +7,6 @@
     "numberOfItems": 4,
     "updateFavicon": true,
     "viewportSide": "left",
+    "sortBy": "CREATED_AT",
     "repos": []
 }

@@ -4,7 +4,7 @@ import { ago } from '../../js/time.js'
 import Read from '../Read/index.jsx'
 
 export default function Item (props) {
-  const { item: { id, title, url, comments, updatedAt, reviewStatus, author, read }, type, timeBeforeStale, port } = props
+  const { item: { id, title, url, comments, updatedAt, createdAt, reviewStatus, author, read }, type, timeBeforeStale, sortBy, port } = props
 
   const renderComments = () => {
     if (!comments) return null
@@ -29,6 +29,10 @@ export default function Item (props) {
 
   const status = reviewStatus || isStale()
 
+  const timeAgo = sortBy === 'CREATED_AT'
+    ? `created ${ago(createdAt)} ago`
+    : `updated ${ago(updatedAt)} ago`
+
   return (
     <li className={`listItem ${status}`}>
       <Read read={read} toggleRead={toggleRead} />
@@ -49,7 +53,7 @@ export default function Item (props) {
           </div>
 
           <span className='bottom'>
-            By {author}, updated {ago(updatedAt)} ago
+            By {author}, {timeAgo}
           </span>
         </div>
 

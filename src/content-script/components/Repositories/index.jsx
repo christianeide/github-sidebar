@@ -10,7 +10,8 @@ export default function Repositories (props) {
     settings: {
       listItemOfType,
       numberOfItems,
-      timeBeforeStale
+      timeBeforeStale,
+      sortBy
     },
     port
   } = props
@@ -31,6 +32,7 @@ export default function Repositories (props) {
             type={listItemOfType}
             numberOfItems={numberOfItems}
             timeBeforeStale={timeBeforeStale}
+            sortBy={sortBy}
             port={port}
           />
         })}

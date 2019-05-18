@@ -1,6 +1,6 @@
-export function createPullRequestsQuery (repositories, type, numberOfItems) {
+export function createPullRequestsQuery (repositories, type, numberOfItems, sortBy) {
   const repos = repositories.map((repo, index) => {
-    return repositoriesQuery(repo, type, numberOfItems, index)
+    return repositoriesQuery(repo, type, numberOfItems, sortBy, index)
   })
 
   return `query {
@@ -13,21 +13,21 @@ export function createPullRequestsQuery (repositories, type, numberOfItems) {
           }`
 }
 
-function repositoriesQuery ({ owner, name }, type, numberOfItems, index) {
+function repositoriesQuery ({ owner, name }, type, numberOfItems, sortBy, index) {
   return `repo${index}: repository(owner: "${owner}", name: "${name}") {
             name
             url
             owner {
               login
             }
-            ${types[type](numberOfItems)}
+            ${types[type](numberOfItems, sortBy)}
           }`
 }
 
 const types = {
-  pullRequests: (numberOfItems) => {
+  pullRequests: (numberOfItems, sortBy) => {
     return `
-      pullRequests(first: ${numberOfItems}, states: OPEN, orderBy: {field: UPDATED_AT, direction: DESC}) {
+      pullRequests(first: ${numberOfItems}, states: OPEN, orderBy: {field: ${sortBy}, direction: DESC}) {
         totalCount
         edges {
           node {
@@ -35,6 +35,7 @@ const types = {
             title
             url
             updatedAt
+            createdAt
             author {
               login
             }
@@ -51,9 +52,9 @@ const types = {
       }
   `
   },
-  issues: (numberOfItems) => {
+  issues: (numberOfItems, sortBy) => {
     return `
-      issues(first: ${numberOfItems}, states: OPEN, orderBy: {field: UPDATED_AT, direction: DESC}) {
+      issues(first: ${numberOfItems}, states: OPEN, orderBy: {field: ${sortBy}, direction: DESC}) {
         totalCount
         edges {
           node {
@@ -61,6 +62,7 @@ const types = {
             title
             url
             updatedAt
+            createdAt
             author {
               login
             }

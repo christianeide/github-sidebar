@@ -5,9 +5,10 @@ export function fetchDataFromAPI ({
   token,
   repos,
   listItemOfType,
-  numberOfItems
+  numberOfItems,
+  sortBy
 }, callback) {
-  const query = createPullRequestsQuery(repos, listItemOfType, numberOfItems)
+  const query = createPullRequestsQuery(repos, listItemOfType, numberOfItems, sortBy)
 
   axios({
     url: 'https://api.github.com/graphql',
@@ -46,6 +47,7 @@ export function fetchDataFromAPI ({
             url: item.url,
             reviewStatus: item.reviews && item.reviews.nodes.length > 0 ? item.reviews.nodes[0].state : null,
             updatedAt: item.updatedAt,
+            createdAt: item.createdAt,
             comments: item.comments.totalCount,
             read: false,
             author: item.author.login

@@ -92,7 +92,7 @@ export default class Settings extends React.Component {
 
   render () {
     const { rateLimit } = this.props
-    const { repos, listItemOfType, numberOfItems, autoRefresh, updateFavicon, token, timeBeforeStale } = this.state
+    const { repos, listItemOfType, numberOfItems, autoRefresh, updateFavicon, token, timeBeforeStale, sortBy } = this.state
 
     const remaing = rateLimit
       ? <em>({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in {until(rateLimit.resetAt)})</em>
@@ -120,6 +120,13 @@ export default class Settings extends React.Component {
               <select name='listItemOfType' value={listItemOfType} onChange={this.handleInputChange}>
                 <option value='pullRequests'>Pull requests</option>
                 <option value='issues'>Issues</option>
+              </select>
+            </label>
+
+            <label>Sort items by
+              <select name='sortBy' value={sortBy} onChange={this.handleInputChange}>
+                <option value='CREATED_AT'>Created</option>
+                <option value='UPDATED_AT'>Updated</option>
               </select>
             </label>
 
