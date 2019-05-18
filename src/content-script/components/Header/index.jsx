@@ -29,7 +29,7 @@ export default class Header extends React.Component {
   }
 
   render () {
-    const { loading, errors, toggleSettings, showSettings, port, hasUnread } = this.props
+    const { loading, errors, toggleSettings, showSettings, port, hasUnread, showBadge } = this.props
 
     const loader = loading && <Icons icon='loader' className='loader' />
     const icon = showSettings ? 'cancel' : 'settings'
@@ -39,7 +39,7 @@ export default class Header extends React.Component {
         <span className='align-center'>
           Github Sidebar
 
-          {hasUnread && <Read title='Mark all as seen' toggleRead={this.toggleRead} />}
+          {showBadge && hasUnread && <Read title='Mark all as seen' toggleRead={this.toggleRead} />}
           {loader}
         </span>
 

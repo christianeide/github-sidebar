@@ -38,8 +38,11 @@ class App extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    const showFavicon = this.state.settings && this.state.settings.updateFavicon
-    setBadge(this.state.repositories, showFavicon)
+    setBadge(this.state.repositories, this.showFavicon())
+  }
+
+  showFavicon () {
+    return this.state.settings && this.state.settings.updateFavicon
   }
 
   componentWillUnmount () {
@@ -73,6 +76,7 @@ class App extends React.Component {
           showSettings={showSettings}
           port={this.port}
           hasUnread={hasUnreadItems(repositories)}
+          showBadge={this.showFavicon()}
         />
 
         {showSettings

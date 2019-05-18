@@ -166,7 +166,7 @@ export default class Settings extends React.Component {
                 name='updateFavicon'
                 checked={updateFavicon}
                 onChange={this.handleInputChange}
-              /> Show a badge in favicon if new items?
+              /> Show a red badge if new/updated items?
             </label>
 
             <label>Access token
