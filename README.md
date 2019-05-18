@@ -2,6 +2,8 @@
 
 Do you often navigate between several repositories on GitHub? This Chrome Extension lets you bookmark repositories in a sidebar injected only on GitHub pages. The sidebar will let you navigate faster and give you better control over your most used repositories. 
 
+The extension can be installed through the [Chrome Web Store](https://chrome.google.com/webstore/detail/github-sidebar/lblnbldblpeiikndppnekobccdocccho)
+
 **Features**
 
 - Easy to bookmark and navigate repositories
