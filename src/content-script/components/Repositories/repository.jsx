@@ -1,5 +1,6 @@
 import React from 'react'
 import Item from './item.jsx'
+import Icons from '../../images/svgs/icons.js'
 
 function Type ({ settings, port, repo, type }) {
   const itemData = {
@@ -21,7 +22,7 @@ function Type ({ settings, port, repo, type }) {
   const url = `${repo.url}/${item.url}`
 
   return (
-    <div>
+    <div className={type}>
       <div className='itemHeading'>
         <h4> <a href={url}>{item.text}</a></h4>
         <div>
@@ -45,28 +46,54 @@ function Type ({ settings, port, repo, type }) {
   )
 }
 
-export default function Repository (props) {
-  const { repo, settings } = props
+export default class Repository extends React.Component {
+  constructor () {
+    super()
 
-  let availableItems = settings.listItemOfType === 'all'
-    ? ['issues', 'pullRequests']
-    : [settings.listItemOfType]
+    this.repoHeight = React.createRef()
+  }
 
-  const renderItems = availableItems.map(type => {
-    return <Type
-      type={type}
-      {...props}
-    />
-  })
+  toggleCollapsed = () => {
+    this.props.port.postMessage({ type: 'toggleCollapsed', url: this.props.repo.url })
+  }
 
-  const name = `${repo.owner}/${repo.name}`
-  return (
-    <li className='repository'>
-      <h3 className='text-truncate'>
-        <a href={repo.url} className='text-truncate' title={name}>{name}</a>
-      </h3>
+  renderItems (availableItems) {
+    return availableItems.map(type => {
+      return <Type
+        type={type}
+        {...this.props}
+      />
+    })
+  }
 
-      {renderItems}
-    </li>
-  )
+  getRepoHeight () {
+    return this.repoHeight && this.repoHeight.current && this.repoHeight.current.scrollHeight
+  }
+
+  render () {
+    const { repo, settings } = this.props
+
+    let availableItems = settings.listItemOfType === 'all'
+      ? ['issues', 'pullRequests']
+      : [settings.listItemOfType]
+
+    const name = `${repo.owner}/${repo.name}`
+    const maxHeight = repo.collapsed ? 0 : this.getRepoHeight() + 'px'
+
+    return (
+      <li className={`repository ${repo.collapsed ? 'collapsed' : ''}`}>
+        <div className='repoHeading'>
+          <h3 className='text-truncate'>
+            <a href={repo.url} className='text-truncate' title={name}>{name}</a>
+          </h3>
+
+          <Icons icon={'arrow'} onClick={this.toggleCollapsed} />
+        </div>
+
+        <div className='items' style={{ maxHeight }} ref={this.repoHeight}>
+          {this.renderItems(availableItems)}
+        </div>
+      </li>
+    )
+  }
 }
