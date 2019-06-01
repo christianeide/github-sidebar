@@ -148,14 +148,20 @@ body {
 
             &.APPROVED {
                 border-left-color: $green;
+
+                @include circleColor($green)
             }
 
             &.CHANGES_REQUESTED {
                 border-left-color: $red;
+
+                @include circleColor($red)
             }
 
             &.STALE {
                 border-left-color: $yellow;
+
+                @include circleColor($yellow)
             }
 
             a {

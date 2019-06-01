@@ -33,3 +33,32 @@
     margin-bottom: -0.5rem;
     color: $gray-500;
 }
+
+@mixin circleColor($color) {
+    .circleButton {
+        .circle {
+            background: $color;
+            border-color: $color;
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            .circle {
+                background: lighten($color, 10%)
+            }
+        }
+
+        &.read {
+            .circle {
+                background: transparent;
+            }
+
+            &:hover {
+                .circle {
+                    background: $white;
+                }
+            }
+        }
+    }
+}
