@@ -19,10 +19,9 @@
         }
 
         &:hover {
-            background: $gray-500;
             cursor: pointer;
             .circle {
-                background: $gray-200
+                background: lighten($gray-500, 4%)
             }
         }
 
@@ -33,7 +32,7 @@
 
             &:hover {
                 .circle {
-                    background: lighten($gray-500, 20%)
+                    background: $white;
                 }
             }
         }
