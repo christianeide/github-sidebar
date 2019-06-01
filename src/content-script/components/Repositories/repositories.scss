@@ -42,6 +42,10 @@
                         }
                     }
 
+                    & div:last-child ul {
+                        margin-bottom: 1rem;
+                    }
+
                     ul {
                         padding-left: 2rem;
                         padding-right: 1rem;
