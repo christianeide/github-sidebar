@@ -2,6 +2,8 @@
 
 
 #github-sidebar {
+    @include circleColor($gray-500);
+
     .circleButton {
         width: 1rem;
         height: 1rem;
@@ -16,25 +18,13 @@
             background: $gray-500;
             border-radius: 50%;
             border: 1px solid $gray-500;
-        }
+        }    
 
         &:hover {
-            cursor: pointer;
             .circle {
                 background: lighten($gray-500, 4%)
             }
         }
-
-        &.read {
-            .circle {
-                background: transparent;
-            }
-
-            &:hover {
-                .circle {
-                    background: $white;
-                }
-            }
-        }
     }
+
 }

@@ -12,22 +12,10 @@
             justify-content: space-between;
             align-items: center;
 
+            @include circleColor($red);
+
             .circleButton {
                 margin-left: 0.5rem;
-
-                .circle {
-                    background: $red;
-                    border: 1px solid lighten($red, 5);
-                }
-
-                &:hover {
-                    background: transparent;
-
-                    .circle {
-                        background: lighten($red, 5);
-                        border: 1px solid $red;
-                    }
-                }
             }
 
             .loader {
