@@ -8,26 +8,47 @@
                 margin-bottom: 2rem;
 
                 .repository {
-                    padding: 0.8rem;
-                    border-bottom: 1px solid $gray-500;
+                    // To avoid double borders if collapsed items
+                    margin-top: -1px;
 
-                    &:nth-child(even) {
-                        background: $gray-200;
-                    }
-
-                    .heading {
+                    h3 {
                         display: flex;
                         justify-content: space-between;
                         font-weight: bold;
+                        background: $lightBlue;
+                        padding: 0.6rem 1rem;
+                        border-top: 1px solid $blue;
+                        border-bottom: 1px solid $blue;
+                        @include fontSizeNormal();
+                    }
+
+                    .itemHeading {
+                        padding: 0.4rem 1rem 0.2rem 2rem;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        &:last-child {
+                            padding-bottom: 0.4rem
+                        }
+
+                        h4 {
+                            display: inline;
+                            @include fontSizeNormal();
+                            
+                            a {
+                                color: $gray-800;
+                            }
+                        }
                     }
 
                     ul {
-                        margin-top: .8rem;
-                        padding-left: .6rem;
+                        padding-left: 2rem;
+                        padding-right: 1rem;
 
                         .circleButton {
                             position: absolute;
-                            left: -1.45rem;
+                            left: -1.4rem;
                             top: 50%;
                             transform: translateY(-50%);
                         }
