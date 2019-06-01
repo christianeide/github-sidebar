@@ -3,7 +3,7 @@
     "autoUpdate": true,
     "autoRefresh": 60,
     "timeBeforeStale": 24,
-    "listItemOfType": "pullRequests",
+    "listItemOfType": "all",
     "numberOfItems": 4,
     "updateFavicon": true,
     "viewportSide": "left",
