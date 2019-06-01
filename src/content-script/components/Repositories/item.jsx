@@ -4,7 +4,22 @@ import { ago } from '../../js/time.js'
 import Read from '../Read/index.jsx'
 
 export default function Item (props) {
-  const { item: { id, title, url, comments, updatedAt, createdAt, reviewStatus, author, read }, type, timeBeforeStale, sortBy, port } = props
+  const {
+    item: {
+      id,
+      title,
+      url,
+      comments,
+      updatedAt,
+      createdAt,
+      reviewStatus,
+      author,
+      read
+    },
+    type,
+    settings,
+    port
+  } = props
 
   const renderComments = () => {
     if (!comments) return null
@@ -16,10 +31,10 @@ export default function Item (props) {
   }
 
   const isStale = () => {
-    if (timeBeforeStale === 0) return ''
+    if (settings.timeBeforeStale === 0) return ''
 
     const timeNow = new Date(updatedAt).getTime()
-    const staleHoursInMS = timeBeforeStale * 3600000 // One hour is 3600000ms
+    const staleHoursInMS = settings.timeBeforeStale * 3600000 // One hour is 3600000ms
     return (Date.now() - timeNow) < staleHoursInMS ? '' : 'STALE'
   }
 
@@ -29,7 +44,7 @@ export default function Item (props) {
 
   const status = reviewStatus || isStale()
 
-  const timeAgo = sortBy === 'CREATED_AT'
+  const timeAgo = settings.sortBy === 'CREATED_AT'
     ? `created ${ago(createdAt)} ago`
     : `updated ${ago(updatedAt)} ago`
 

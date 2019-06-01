@@ -28,6 +28,8 @@ export default function setBadge (repositories, showFavicon) {
 
 export function hasUnreadItems (repositories) {
   return repositories.findIndex(repos => {
-    return repos.items.find(item => item.read === false)
+    const issues = repos.issues.find(item => item.read === false)
+    const pulls = repos.pullRequests.find(item => item.read === false)
+    return pulls || issues
   }) > -1
 }

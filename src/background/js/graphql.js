@@ -1,6 +1,6 @@
-export function createPullRequestsQuery (repositories, type, numberOfItems, sortBy) {
+export function createPullRequestsQuery (repositories, numberOfItems, sortBy) {
   const repos = repositories.map((repo, index) => {
-    return repositoriesQuery(repo, type, numberOfItems, sortBy, index)
+    return repositoriesQuery(repo, numberOfItems, sortBy, index)
   })
 
   return `query {
@@ -13,65 +13,57 @@ export function createPullRequestsQuery (repositories, type, numberOfItems, sort
           }`
 }
 
-function repositoriesQuery ({ owner, name }, type, numberOfItems, sortBy, index) {
+function repositoriesQuery ({
+  owner,
+  name
+}, numberOfItems, sortBy, index) {
   return `repo${index}: repository(owner: "${owner}", name: "${name}") {
             name
             url
             owner {
               login
             }
-            ${types[type](numberOfItems, sortBy)}
-          }`
-}
+            issues(first: ${numberOfItems}, states: OPEN, orderBy: {field: ${sortBy}, direction: DESC}) {
+              totalCount
+              edges {
+                node {
+                  id
+                  title
+                  url
+                  updatedAt
+                  createdAt
+                  author {
+                    login
+                  }
+                  comments {
+                    totalCount
+                  }
+                }
+              }
+            }   
 
-const types = {
-  pullRequests: (numberOfItems, sortBy) => {
-    return `
-      pullRequests(first: ${numberOfItems}, states: OPEN, orderBy: {field: ${sortBy}, direction: DESC}) {
-        totalCount
-        edges {
-          node {
-            id
-            title
-            url
-            updatedAt
-            createdAt
-            author {
-              login
-            }
-            reviews(last: 1, states: [APPROVED, CHANGES_REQUESTED, DISMISSED]) {
-              nodes {
-                state
+            pullRequests(first: ${numberOfItems}, states: OPEN, orderBy: {field: ${sortBy}, direction: DESC}) {
+              totalCount
+              edges {
+                node {
+                  id
+                  title
+                  url
+                  updatedAt
+                  createdAt
+                  author {
+                    login
+                  }
+                  reviews(last: 1, states: [APPROVED, CHANGES_REQUESTED, DISMISSED]) {
+                    nodes {
+                      state
+                    }
+                  }
+                  comments {
+                    totalCount
+                  }
+                }
               }
             }
-            comments {
-              totalCount
-            }
-          }
-        }
-      }
-  `
-  },
-  issues: (numberOfItems, sortBy) => {
-    return `
-      issues(first: ${numberOfItems}, states: OPEN, orderBy: {field: ${sortBy}, direction: DESC}) {
-        totalCount
-        edges {
-          node {
-            id
-            title
-            url
-            updatedAt
-            createdAt
-            author {
-              login
-            }
-            comments {
-              totalCount
-            }
-          }
-        }
-      }   
-  `
-  }
+          }`
 }

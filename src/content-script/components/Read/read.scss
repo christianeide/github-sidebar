@@ -13,14 +13,16 @@
         .circle {
             height: 80%;
             width: 80%;
-            background: $gray-700;
+            background: $gray-500;
             border-radius: 50%;
             border: 1px solid $gray-500;
         }
 
         &:hover {
-            background: $gray-500;
             cursor: pointer;
+            .circle {
+                background: lighten($gray-500, 4%)
+            }
         }
 
         &.read {
@@ -30,7 +32,7 @@
 
             &:hover {
                 .circle {
-                    background: lighten($gray-700, 20%)
+                    background: $white;
                 }
             }
         }

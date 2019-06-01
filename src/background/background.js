@@ -1,9 +1,13 @@
 /* global chrome */
 
 import defaultSettings from './js/defaultSettings.json'
-import { fetchDataFromAPI } from './js/fetch.js'
+import {
+  fetchDataFromAPI
+} from './js/fetch.js'
 import * as ports from './js/ports'
-import { quickStorage } from './js/quickStorage'
+import {
+  quickStorage
+} from './js/quickStorage'
 
 // Uncomment this to erase chrome storage for developent
 // chrome.storage.local.clear(function () {
@@ -38,7 +42,9 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.url && changeInfo.url.indexOf('github.com') !== -1) {
     setUrlAsRead(changeInfo.url)
 
-    sendToAllTabs({ repositories: quickStorage.repositories })
+    sendToAllTabs({
+      repositories: quickStorage.repositories
+    })
   }
 })
 
@@ -60,14 +66,20 @@ chrome.runtime.onConnect.addListener(port => {
 
       case 'clearErrors':
         errors = []
-        sendToAllTabs({ errors })
+        sendToAllTabs({
+          errors
+        })
         break
     }
   })
 })
 
 function init (port) {
-  quickStorage.getStorage(({ settings, repositories, rateLimit }) => {
+  quickStorage.getStorage(({
+    settings,
+    repositories,
+    rateLimit
+  }) => {
     // Return initial data
     port.postMessage({
       settings,
@@ -88,19 +100,28 @@ function init (port) {
 
 function toggleRead (request) {
   quickStorage.repositories.forEach(repo => {
-    repo.items.forEach(item => {
+    setArrayItem(repo.issues)
+    setArrayItem(repo.pullRequests)
+  })
+
+  sendToAllTabs({
+    repositories: quickStorage.repositories
+  })
+
+  // Save repos to storage
+  chrome.storage.local.set({
+    repositories: quickStorage.repositories
+  })
+
+  function setArrayItem (type) {
+    type.forEach(item => {
       if (request.id) {
         if (item.id === request.id) item.read = !item.read
       } else {
         item.read = true
       }
     })
-  })
-
-  sendToAllTabs({ repositories: quickStorage.repositories })
-
-  // Save repos to storage
-  chrome.storage.local.set({ repositories: quickStorage.repositories })
+  }
 }
 
 function saveSettings (request) {
@@ -110,17 +131,25 @@ function saveSettings (request) {
     autoFetch.change(request.settings.autoRefresh)
   }
 
-  const settings = { ...defaultSettings, ...request.settings }
+  const settings = {
+    ...defaultSettings,
+    ...request.settings
+  }
   quickStorage.settings = settings
 
   // Save settings to storage
-  chrome.storage.local.set({ settings })
+  chrome.storage.local.set({
+    settings
+  })
 
   // If we have repos, we will always hide settings
   const showSettings = settings.repos.length === 0
 
   // Distribute settings to all tabs
-  sendToAllTabs({ settings, showSettings })
+  sendToAllTabs({
+    settings,
+    showSettings
+  })
 
   // Do a new fetch when we have new settings
   fetchData()
@@ -131,19 +160,25 @@ function sendToAllTabs (data) {
 }
 
 function fetchData () {
-  const { settings } = quickStorage
+  const {
+    settings
+  } = quickStorage
 
   if (!settings || !settings.token) return
 
   // Show loadinganimation when we are fetching data
-  sendToAllTabs({ loading: true })
+  sendToAllTabs({
+    loading: true
+  })
 
   fetchDataFromAPI(settings, (err, newRepoData, rateLimit) => {
     if (err) {
       errors.push(...err)
-      return sendToAllTabs({ errors, loading: false })
+      return sendToAllTabs({
+        errors,
+        loading: false
+      })
     }
-
     // Transfer read-status from old repositories
     const repositories = transferReadStatus(newRepoData)
 
@@ -166,16 +201,25 @@ function fetchData () {
 
 function transferReadStatus (repositories) {
   return repositories.map(repo => {
-    repo.items.map(item => {
+    const issues = tranferStatusOfItem(repo, 'issues')
+    const pullRequests = tranferStatusOfItem(repo, 'pullRequests')
+    return {
+      ...issues,
+      ...pullRequests
+    }
+  })
+
+  function tranferStatusOfItem (repo, type) {
+    repo[type].map(item => {
       quickStorage.repositories.map(oldRepo => {
-        oldRepo.items.map(i => {
+        oldRepo[type].map(i => {
           if (i.id === item.id) item.read = i.read
         })
       })
       return item
     })
     return repo
-  })
+  }
 }
 
 function setUrlAsRead (url) {
