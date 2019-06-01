@@ -4,11 +4,10 @@ import { createPullRequestsQuery } from './graphql.js'
 export function fetchDataFromAPI ({
   token,
   repos,
-  listItemOfType,
   numberOfItems,
   sortBy
 }, callback) {
-  const query = createPullRequestsQuery(repos, listItemOfType, numberOfItems, sortBy)
+  const query = createPullRequestsQuery(repos, numberOfItems, sortBy)
 
   axios({
     url: 'https://api.github.com/graphql',
@@ -40,26 +39,19 @@ export function fetchDataFromAPI ({
         const repo = repos[key]
 
         // Mapping data from items
-        const items = repo[listItemOfType].edges.map(({ node: item }) => {
-          return {
-            id: item.id,
-            title: item.title,
-            url: item.url,
-            reviewStatus: item.reviews && item.reviews.nodes.length > 0 ? item.reviews.nodes[0].state : null,
-            updatedAt: item.updatedAt,
-            createdAt: item.createdAt,
-            comments: item.comments.totalCount,
-            read: false,
-            author: item.author.login
-          }
-        })
+        const issues = listItems(repo, 'issues')
+        const pullRequests = listItems(repo, 'pullRequests')
 
         updateRepoStatus.push({
           name: repo.name,
           owner: repo.owner.login,
           url: repo.url,
-          totalItems: repo[listItemOfType].totalCount,
-          items
+          totalItems: {
+            issues: repo.issues.totalCount,
+            pullRequests: repo.pullRequests.totalCount
+          },
+          issues,
+          pullRequests
         })
       })
 
@@ -78,4 +70,19 @@ export function fetchDataFromAPI ({
 
       return callback(userError)
     })
+}
+function listItems (repo, type) {
+  return repo[type].edges.map(({ node: item }) => {
+    return {
+      id: item.id,
+      title: item.title,
+      url: item.url,
+      reviewStatus: item.reviews && item.reviews.nodes.length > 0 ? item.reviews.nodes[0].state : null,
+      updatedAt: item.updatedAt,
+      createdAt: item.createdAt,
+      comments: item.comments.totalCount,
+      read: false,
+      author: item.author.login
+    }
+  })
 }
