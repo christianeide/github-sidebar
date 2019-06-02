@@ -236,9 +236,11 @@ function transferUserStatus (repositories) {
   function tranferStatusOfItem (repo, type) {
     repo[type].map(item => {
       quickStorage.repositories.map(oldRepo => {
-        oldRepo[type].map(i => {
-          if (i.id === item.id) item.read = i.read
-        })
+        if (oldRepo[type]) {
+          oldRepo[type].map(i => {
+            if (i.id === item.id) item.read = i.read
+          })
+        }
       })
       return item
     })

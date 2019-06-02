@@ -31,7 +31,7 @@ function Type ({ settings, port, repo, type }) {
         </div>
       </div>
 
-      {repo[type].length > 0 &&
+      {repo[type] && repo[type].length > 0 &&
         <ul>
           {repo[type].map(item => {
             return <Item
