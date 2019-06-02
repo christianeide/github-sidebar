@@ -46,6 +46,11 @@
                     .items {
                         overflow: hidden;
                         transition: max-height 0.2s ease-out;
+
+                        // Adds margin to last ul inside items
+                        & div:last-child ul {
+                            margin-bottom: 1rem;
+                        }
                     }
 
 
@@ -67,11 +72,6 @@
                                 color: $gray-800;
                             }
                         }
-                    }
-
-                    // Adds margin to pullrequests
-                    .pullRequests ul {
-                        margin-bottom: 1rem;
                     }
 
                     ul {
