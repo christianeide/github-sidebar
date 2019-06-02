@@ -9,6 +9,9 @@ export function createPullRequestsQuery (repositories, numberOfItems, sortBy) {
               remaining
               resetAt
             }
+            viewer {
+              login
+            }
             ${repos}
           }`
 }

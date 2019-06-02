@@ -32,15 +32,15 @@ export function fetchDataFromAPI ({
         return callback(userError)
       }
 
-      const { rateLimit, ...repos } = result.data.data
+      const { rateLimit, viewer, ...repos } = result.data.data
 
       const updateRepoStatus = []
       Object.keys(repos).forEach((key) => {
         const repo = repos[key]
 
         // Mapping data from items
-        const issues = listItems(repo, 'issues')
-        const pullRequests = listItems(repo, 'pullRequests')
+        const issues = listItems(repo, 'issues', viewer)
+        const pullRequests = listItems(repo, 'pullRequests', viewer)
 
         updateRepoStatus.push({
           name: repo.name,
@@ -72,7 +72,7 @@ export function fetchDataFromAPI ({
       return callback(userError)
     })
 }
-function listItems (repo, type) {
+function listItems (repo, type, { login }) {
   return repo[type].edges.map(({ node: item }) => {
     return {
       id: item.id,
@@ -82,7 +82,8 @@ function listItems (repo, type) {
       updatedAt: item.updatedAt,
       createdAt: item.createdAt,
       comments: item.comments.totalCount,
-      read: false,
+      // If extensionholder and itemauthor is the same, we  set it to read
+      read: item.author.login === login,
       author: item.author.login
     }
   })
