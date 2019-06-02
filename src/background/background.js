@@ -250,8 +250,13 @@ function transferUserStatus (repositories) {
 
 function setRepoAsReadByURL (url) {
   quickStorage.repositories.forEach(repo => {
-    repo.items.forEach(item => {
+    setArrayItem(repo.issues)
+    setArrayItem(repo.pullRequests)
+  })
+
+  function setArrayItem (type) {
+    type.forEach(item => {
       if (item.url === url) item.read = true
     })
-  })
+  }
 }
