@@ -29,7 +29,7 @@
                             color: $blue;
                             translate: rotateZ(0deg);
                             transition: transform 0.2s ease-out;
-                            min-width: min-content;
+                            min-width: 0.875rem;
 
                             &:hover {
                                 color: darken($blue, 8%);
