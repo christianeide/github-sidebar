@@ -49,14 +49,10 @@ export default function Item (props) {
     : `updated ${ago(updatedAt)} ago`
 
   return (
-    <li className={`listItem ${status}`}>
-      <Read read={read} toggleRead={toggleRead} />
+    <li className='listItem'>
+      <Read read={read} status={status} toggleRead={toggleRead} />
 
       <a href={url} title={title}>
-
-        <div className='itemIcon'>
-          <Icons icon={type} />
-        </div>
 
         <div className='content text-truncate'>
           <div className='top'>
