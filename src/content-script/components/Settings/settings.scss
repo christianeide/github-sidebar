@@ -5,9 +5,14 @@
     .sidebar {
         .settings {
             padding: $topPadding $sidePadding;
+            color: $gray-500;
 
             .list {
                 margin-bottom: .5rem;
+
+                &.miscellaneous {
+                    margin-top: 3rem;
+                }
 
                 .listItem {
                     margin-top: 0.15rem;
@@ -24,6 +29,12 @@
                 &.add {
                     margin-top: 0.5rem;
                 }
+            }
+
+            input, select {
+                background: $gray-700;
+                color: $white;
+                border: 0;
             }
 
             .listItem:hover {
