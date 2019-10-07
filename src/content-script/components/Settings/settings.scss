@@ -42,6 +42,12 @@
                 cursor: move;
             }
 
+            .credit {
+                @include fontSizeSmall();
+                text-align: right;
+                margin-top: 2rem;
+            }
+
         }
     }
 }

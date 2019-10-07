@@ -177,6 +177,12 @@ export default class Settings extends React.Component {
             </label>
 
             {remaing}
+
+            <div className='credit'>
+              <a href='https://github.com/christianeide/github-sidebar'>
+                Github Sidebar v1.1.4
+              </a>
+            </div>
           </li>
 
         </ul>
