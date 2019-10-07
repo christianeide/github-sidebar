@@ -16,19 +16,11 @@
 
                     .repoHeading {
                         display: flex;
-                        justify-content: flex-start;
-                        align-items: center;
-                        font-weight: bold;
                         background: $gray-900;
-                        padding: 0.6rem $sidePadding;
                         color: $white;
                         position: relative;
 
-
                         .readButton {
-                            left: $sidePadding;
-                            justify-content: flex-start;
-
                             .color {
                                 border-radius: 0 2px 2px 0;
                                 width: 70%;
@@ -57,8 +49,6 @@
                             color: $gray-500;
                             translate: rotateZ(0deg);
                             transition: transform 0.2s ease-out;
-                            min-width: 0.875rem;
-                            margin-right: .5rem;
                             transform: scale(0.7);
 
                             &:hover {
@@ -70,16 +60,15 @@
                         h3 {
                             @include fontSizeNormal();
                             font-weight: normal;
-                            
+                            padding-top: $topPadding;
+                            padding-bottom: $topPadding;
+
                             a {
                                 color: $white;
                             }
                         }
                         
                         .repoCount {
-                            position: absolute;
-                            right: $sidePadding;
-                            font-weight: normal;
                             display: flex;
                             flex-direction: column;
                             line-height: 1rem;

@@ -50,6 +50,22 @@ body {
         fill: currentColor;
     }
 
+    // Grid
+    .grid-1 {
+        display: flex;
+        align-items: center;
+        width: $sidePadding;
+        margin-right: $sidePadding/5;
+    }
+
+    .grid {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+        justify-content: space-between;
+        padding-right: $sidePadding;
+    }
+
     // Design
     .sidebar {
         height: 100%;

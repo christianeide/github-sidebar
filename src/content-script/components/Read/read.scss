@@ -3,15 +3,10 @@
 
 #github-sidebar {
     .readButton {
-        position: absolute;
         align-items: right;
         height: 100%;
-        left: 0rem;
-        width: 1rem;
-        transform: translateX(-100%);
-        top: 0;
+        width: 100%;
         display: flex;
-        justify-content: flex-end;
 
         .color {
             height: 100%;

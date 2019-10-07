@@ -109,15 +109,21 @@ export default class Repository extends React.Component {
     return (
       <li className={`repository ${repo.collapsed ? 'collapsed' : ''}`}>
         <div className='repoHeading'>
+          <div className="grid-1">
            {hasActiveElements && <Read read={!repoHasUnreads} status={"DEFAULT"}  toggleRead={toggleRead} />}
+          </div>
            
-          <Icons icon={'arrow'} onClick={this.toggleCollapsed} />
-
+          <div className="grid-1">
+            <Icons icon={'arrow'} onClick={this.toggleCollapsed} />
+          </div>
+          
+          <div className="grid">
             <h3 className='text-truncate'>
               <a href={repo.url} className='text-truncate' title={name}>{name}</a>
             </h3>
 
-         {repoCount}
+            {repoCount}
+          </div>
         </div>
 
         <div className='items' style={{ maxHeight }} ref={this.repoHeight}>
