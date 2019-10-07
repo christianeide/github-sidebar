@@ -29,10 +29,17 @@ function Type ({ settings, port, repo, type }) {
   return (
     <div className={type}>
       <div className='itemHeading'>
-        <h4>
+        <div className="grid-1"></div>
+        
+        <div className="grid-1">
           <Icons icon={type} />
-          <a href={url}>{item.text} {nrOfItems}</a>
-        </h4>
+        </div>
+
+        <div className="grid">
+          <h4>
+            <a href={url}>{item.text} {nrOfItems}</a>
+          </h4>
+        </div>
       </div>
 
       {repo[type] && repo[type].length > 0 &&
@@ -109,15 +116,21 @@ export default class Repository extends React.Component {
     return (
       <li className={`repository ${repo.collapsed ? 'collapsed' : ''}`}>
         <div className='repoHeading'>
+          <div className="grid-1">
            {hasActiveElements && <Read read={!repoHasUnreads} status={"DEFAULT"}  toggleRead={toggleRead} />}
+          </div>
            
-          <Icons icon={'arrow'} onClick={this.toggleCollapsed} />
-
+          <div className="grid-1">
+            <Icons icon={'arrow'} onClick={this.toggleCollapsed} />
+          </div>
+          
+          <div className="grid">
             <h3 className='text-truncate'>
               <a href={repo.url} className='text-truncate' title={name}>{name}</a>
             </h3>
 
-         {repoCount}
+            {repoCount}
+          </div>
         </div>
 
         <div className='items' style={{ maxHeight }} ref={this.repoHeight}>

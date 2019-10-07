@@ -9,24 +9,20 @@
 
                 .repository {
                     margin-bottom: 2px;
-
-                    .listItem {
-                        margin-left: 1.2rem;
-                    }            
+                    
+                    .item {
+                        display: flex;
+                        overflow: hidden;
+                        margin-top: 0.15rem;
+                        margin-bottom: 0.15rem;
+                    }
 
                     .repoHeading {
                         display: flex;
-                        justify-content: flex-start;
-                        align-items: center;
-                        font-weight: bold;
                         background: $gray-900;
-                        padding: 0.6rem $sidePadding;
                         color: $white;
-                        position: relative;
 
-
-                        .readButton {
-                            left: $sidePadding;
+                        .readButton {     
                             justify-content: flex-start;
 
                             .color {
@@ -57,8 +53,6 @@
                             color: $gray-500;
                             translate: rotateZ(0deg);
                             transition: transform 0.2s ease-out;
-                            min-width: 0.875rem;
-                            margin-right: .5rem;
                             transform: scale(0.7);
 
                             &:hover {
@@ -69,17 +63,15 @@
 
                         h3 {
                             @include fontSizeNormal();
-                            font-weight: normal;
-                            
+                            padding-top: $topPadding;
+                            padding-bottom: $topPadding;
+
                             a {
                                 color: $white;
                             }
                         }
                         
                         .repoCount {
-                            position: absolute;
-                            right: $sidePadding;
-                            font-weight: normal;
                             display: flex;
                             flex-direction: column;
                             line-height: 1rem;
@@ -96,8 +88,6 @@
                     .items {
                         overflow: hidden;
                         transition: max-height 0.2s ease-out;
-                        padding-left: $sidePadding;
-                        padding-right: $sidePadding;
 
                         // Adds margin to last ul inside items
                         & div:last-child ul {
@@ -105,25 +95,23 @@
                         }
                     }
 
+                    .pullRequests {
+                        margin-bottom: 0.4rem;
+                    }
+
                     .itemHeading {
-                        padding: 0.4rem 0 0.2rem 0;
+                        padding: .8rem 0 0.2rem 0;
                         display: flex;
-                        justify-content: space-between;
                         align-items: center;
 
-                        &:last-child {
-                            padding-bottom: 0.4rem
+                        .icon {
+                            color: $gray-500;
                         }
 
                         h4 {
                             display: inline;
                             @include fontSizeNormal();
                             
-                            .icon {
-                                color: $gray-500;
-                                margin-right: 0.4rem;
-                            }
-
                             a {
                                 color: $gray-500;
                                 font-weight: normal;
