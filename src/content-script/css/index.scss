@@ -52,18 +52,28 @@ body {
 
     // Grid
     .grid-1 {
+        $marginRight: $sidePadding/5;
+
         display: flex;
         align-items: center;
         width: $sidePadding;
-        margin-right: $sidePadding/5;
+        min-width: $sidePadding;
+        margin-right: $marginRight;
+
+        &.no-gutters {
+            width: $sidePadding + $marginRight;
+            min-width: $sidePadding + $marginRight;
+            margin-right: 0;
+        }
     }
+
 
     .grid {
         display: flex;
         align-items: center;
         flex-grow: 1;
         justify-content: space-between;
-        padding-right: $sidePadding;
+        margin-right: $sidePadding;
     }
 
     // Design
@@ -145,6 +155,8 @@ body {
                 display: flex;
                 text-decoration: none;
                 color: $white;
+                overflow: hidden;
+                flex-grow: 1;
 
                 &:hover h5 {
                     text-decoration: underline;
@@ -160,6 +172,10 @@ body {
 
                 .top {
                     @extend %top;
+
+                    h5 {
+                        font-weight: normal;
+                    }
 
                     .comments {
                         @include fontSizeSmall();

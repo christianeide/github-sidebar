@@ -9,18 +9,22 @@
 
                 .repository {
                     margin-bottom: 2px;
-
-                    .listItem {
-                        margin-left: 1.2rem;
-                    }            
+                    
+                    .item {
+                        display: flex;
+                        overflow: hidden;
+                        margin-top: 0.15rem;
+                        margin-bottom: 0.15rem;
+                    }
 
                     .repoHeading {
                         display: flex;
                         background: $gray-900;
                         color: $white;
-                        position: relative;
 
-                        .readButton {
+                        .readButton {     
+                            justify-content: flex-start;
+
                             .color {
                                 border-radius: 0 2px 2px 0;
                                 width: 70%;
@@ -59,7 +63,6 @@
 
                         h3 {
                             @include fontSizeNormal();
-                            font-weight: normal;
                             padding-top: $topPadding;
                             padding-bottom: $topPadding;
 

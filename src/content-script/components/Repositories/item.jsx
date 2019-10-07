@@ -48,26 +48,31 @@ export default function Item (props) {
     : `updated ${ago(updatedAt)} ago`
 
   return (
-    <li className='listItem'>
-      <Read read={read} status={status} toggleRead={toggleRead} />
+    <li className='item'>
+      <div className='grid-1' />
+      <div className='grid-1 no-gutters'>
+        <Read read={read} status={status} toggleRead={toggleRead} />
+      </div>
 
-      <a href={url} title={title}>
+      <div className='grid listItem'>
+        <a href={url} title={title}>
 
-        <div className='content text-truncate'>
-          <div className='top'>
-            <h5 className='text-truncate'>
-              {title}
-            </h5>
+          <div className='content text-truncate'>
+            <div className='top'>
+              <h5 className='text-truncate'>
+                {title}
+              </h5>
 
-            {renderComments()}
+              {renderComments()}
+            </div>
+
+            <span className='bottom'>
+            By {author}, {timeAgo}
+            </span>
           </div>
 
-          <span className='bottom'>
-            By {author}, {timeAgo}
-          </span>
-        </div>
-
-      </a>
+        </a>
+      </div>
     </li>
   )
 }

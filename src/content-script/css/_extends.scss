@@ -3,10 +3,10 @@
 %listItem {
     background-color: $gray-700;
     border-radius: 0 2px 2px 0;
-    margin: 0.15rem 0;
     padding: 0.3rem 0.5rem;
     color: $white;
     position: relative;
+    overflow: hidden;
 }
 
 %text-truncate {
