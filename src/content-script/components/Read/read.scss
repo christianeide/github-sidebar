@@ -2,29 +2,42 @@
 
 
 #github-sidebar {
-    @include circleColor($gray-500);
-
-    .circleButton {
+    .readButton {
+        position: absolute;
+        align-items: right;
+        height: 100%;
+        left: 0rem;
         width: 1rem;
-        height: 1rem;
-        background: transparent;
+        transform: translateX(-100%);
+        top: 0;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        justify-content: flex-end;
 
-        .circle {
-            height: 80%;
-            width: 80%;
-            background: $gray-500;
-            border-radius: 50%;
-            border: 1px solid $gray-500;
-        }    
+        .color {
+            height: 100%;
+            border-radius: 2px 0 0 2px;
+            width: 100%;
+            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
 
         &:hover {
-            .circle {
-                background: lighten($gray-500, 4%)
+            cursor: pointer;
+
+            .color {
+                opacity: 0.9;
+            }
+        }
+
+        &.read {
+            .color {
+                width: 30%;
+            }
+
+            &:hover {
+                .color {
+                    width: 70%
+                }
             }
         }
     }
-
 }
