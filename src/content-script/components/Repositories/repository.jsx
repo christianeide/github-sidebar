@@ -91,15 +91,18 @@ export default class Repository extends React.Component {
     const name = `${repo.owner}/${repo.name}`
     const maxHeight = repo.collapsed ? 0 : this.getRepoHeight() + 'px'
 
-    const totalIssues = repo.totalItems.issues
-    const totalPrs = repo.totalItems.pullRequests
-    const hasActiveElements = totalIssues !== 0 || totalPrs !== 0
+    const hasActiveElements = repo.totalItems.issues + repo.totalItems.pullRequests > 0
+
+    const items = availableItems.map(item => {
+      const totalItems = repo.totalItems[item]
+      const typeText = item === "pullRequests" ? "pull requests" : item
+      return (<span title={`${totalItems} ${typeText}`}>{totalItems}</span>)
+    })
 
     const repoCount = hasActiveElements &&
       (  
-      <div className="repoCount">
-        <span title={`${totalIssues} issues`}>{totalIssues}</span>
-        <span title={`${totalPrs} pull requests`}>{totalPrs}</span>
+        <div className="repoCount">
+          {items}
         </div>
       )
     
