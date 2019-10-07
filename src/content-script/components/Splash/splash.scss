@@ -4,7 +4,6 @@
 #github-sidebar {
     .sidebar {
         .splash {
-            background: linear-gradient(90deg, $black, $gray-900);
             color: $white;
             padding: 2rem;
             display: flex;
@@ -22,8 +21,8 @@
                 }
 
                 a {
-                    color: $green;
-                    border-bottom: 1px solid $green;
+                    color: $yellow;
+                    border-bottom: 1px solid $yellow;
                     font-size: 1.2rem;
 
                     &:hover {
@@ -36,7 +35,7 @@
                     margin-top: 1rem;
 
                     &[disabled] {
-                        background: $gray-800;
+                        background: $gray-700;
                         color: rgba($white, 0.3);
                         border: $gray-800;
                     }

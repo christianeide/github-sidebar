@@ -16,7 +16,7 @@ import {
 // })
 
 let errors = []
-let autoFetch = {
+const autoFetch = {
   timer: undefined,
   cb: fetchData,
   start: function (interval) {
@@ -104,8 +104,8 @@ function init (port) {
 
 function toggleRead (request) {
   quickStorage.repositories.forEach(repo => {
-    setArrayItem(repo.issues)
-    setArrayItem(repo.pullRequests)
+    setArrayItem(repo.issues, repo.url)
+    setArrayItem(repo.pullRequests, repo.url)
   })
 
   sendToAllTabs({
@@ -117,10 +117,17 @@ function toggleRead (request) {
     repositories: quickStorage.repositories
   })
 
-  function setArrayItem (type) {
+  function setArrayItem (type, repo) {
     type.forEach(item => {
+      // If single item
       if (request.id) {
         if (item.id === request.id) item.read = !item.read
+
+      // If repo
+      } else if (request.repo) {
+        if (repo === request.repo) item.read = request.status
+
+      // if all
       } else {
         item.read = true
       }

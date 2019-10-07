@@ -32,7 +32,6 @@
 .github-sidebar-sort {
     @extend %listItem;
     z-index: 10000;
-    background: $gray-100;
     list-style-type: none;
 
     .text-truncate {

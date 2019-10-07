@@ -10,16 +10,17 @@ body {
     width: $sidebarWidth;
     top: 0;
     left: 0;
-    background-color: $gray-100;
+    background-color: $gray-800;
     z-index: 1000;
+    color: $white;
 
     // Generic classes
-    .text-truncate {
-        @extend %text-truncate;
+    a {
+        color: $yellow;
     }
 
-    .text-green {
-        color: $green;
+    .text-truncate {
+        @extend %text-truncate;
     }
 
     .v-align-middle {
@@ -29,6 +30,18 @@ body {
     .align-center {
         display: flex;
         align-items: center;
+    }
+
+    .APPROVED {
+        background: $green !important;
+    }
+
+    .CHANGES_REQUESTED {
+        background: $red !important;
+    }
+
+    .STALE, .DEFAULT {
+        background: $yellow !important;
     }
 
     .icon {
@@ -49,7 +62,7 @@ body {
 
         main {
             flex: 1;
-            border-right: 1px solid $gray-500;
+            border-right: 1px solid $gray-900;
             overflow-y: auto;
         }
 
@@ -99,7 +112,6 @@ body {
 
             &[disabled] {
                 background: $gray-500;
-                color: $gray-100;
                 font-style: italic;
                 cursor: unset;
                 border: $gray-500;
@@ -110,47 +122,13 @@ body {
             }
         }
 
-        .counter {
-            color: $gray-800;
-            background: $gray-500;
-            border-radius: 1.25rem;
-            @include fontSizeSmall();
-            font-weight: 600;
-            line-height: 1;
-            padding: 1px 3px;
-            height: 1rem;
-            border: 1px solid transparent;
-        }
-
         .listItem {
             @extend %listItem;
-
-            &:hover {
-                background: $gray-100;
-            }
-
-            &.APPROVED {
-                border-left-color: $green;
-
-                @include circleColor($green)
-            }
-
-            &.CHANGES_REQUESTED {
-                border-left-color: $red;
-
-                @include circleColor($red)
-            }
-
-            &.STALE {
-                border-left-color: $yellow;
-
-                @include circleColor($yellow)
-            }
 
             a {
                 display: flex;
                 text-decoration: none;
-                color: $gray-800;
+                color: $white;
 
                 &:hover h5 {
                     text-decoration: underline;
@@ -169,7 +147,7 @@ body {
 
                     .comments {
                         @include fontSizeSmall();
-                        color: $gray-800;
+                        color: $gray-500;
                         min-width: auto;
                     }
 
@@ -185,7 +163,7 @@ body {
 
                 .bottom {
                     @include fontSizeSmall();
-                    color: $gray-800;
+                    color: $gray-500;
                 }
             }
         }

@@ -1,13 +1,11 @@
 @import "./_variables.scss";
 
 %listItem {
-    background-color: $white;
-    border: 1px solid $gray-500;
-    border-left-width: 4px;
-    border-radius: 3px;
-    margin: 0.25rem 0;
+    background-color: $gray-700;
+    border-radius: 0 2px 2px 0;
+    margin: 0.15rem 0;
     padding: 0.3rem 0.5rem;
-    color: $black;
+    color: $white;
     position: relative;
 }
 
@@ -32,33 +30,4 @@
     margin-top: -0.5rem;
     margin-bottom: -0.5rem;
     color: $gray-500;
-}
-
-@mixin circleColor($color) {
-    .circleButton {
-        .circle {
-            background: $color;
-            border-color: $color;
-        }
-
-        &:hover {
-            cursor: pointer;
-
-            .circle {
-                background: lighten($color, 10%)
-            }
-        }
-
-        &.read {
-            .circle {
-                background: transparent;
-            }
-
-            &:hover {
-                .circle {
-                    background: $white;
-                }
-            }
-        }
-    }
 }
