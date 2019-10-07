@@ -5,7 +5,7 @@
     .sidebar {
         .settings {
             padding: $topPadding $sidePadding;
-            color: $gray-500;
+            color: var(--gray-500);
 
             .list {
                 margin-bottom: .5rem;
@@ -33,8 +33,8 @@
             }
 
             input, select {
-                background: $gray-700;
-                color: $white;
+                background: var(--gray-700);
+                color: var(--white);
                 border: 0;
             }
 

@@ -4,11 +4,11 @@
 #github-sidebar {
     .sidebar {
         header {
-            border-right: 1px solid $gray-700;
-            border-bottom: 1px solid $gray-700;
-            background: $gray-800;
+            border-right: 1px solid var(--gray-700);
+            border-bottom: 1px solid var(--gray-700);
+            background: var(--gray-800);
             padding: $sidePadding;
-            color: $white;
+            color: var(--white);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -21,29 +21,29 @@
             }
 
             .iconBtn {
-                color: $gray-500;
+                color: var(--gray-500);
 
                 &:hover {
-                    color: rgba($white, .7);
+                    color: rgba(var(--white), .7);
                 }
             }
 
             .warningBtn {
-                color: $red;
+                color: var(--red);
                 margin-right: .5rem;
 
                 &:hover {
-                    color: rgba($red, .7);
+                    color: rgba(var(--red), .7);
                 }
             }
 
             .error {
                 ul {
                     position: absolute;
-                    background: $gray-700;
-                    color: $white;
+                    background: var(--gray-700);
+                    color: var(--white);
                     list-style-type: none;
-                    border: 1px solid $gray-500;
+                    border: 1px solid var(--gray-500);
                     z-index: 4000;
                     width: $sidebarWidth - 1;
                     box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 6px 0px;
@@ -61,8 +61,8 @@
                         width: 0;
                         position: absolute;
                         pointer-events: none;
-                        border-color: rgba($gray-700, 0);
-                        border-bottom-color: $gray-700;
+                        border-color: rgba(var(--gray-700), 0);
+                        border-bottom-color: var(--gray-700);
                         border-width: 10px;
                         margin-left: -10px;
                     }
@@ -79,7 +79,7 @@
                         }
 
                         p {
-                            color: $gray-500;
+                            color: var(--gray-500);
                             margin: 0;
                             @include fontSizeSmall();
                         }

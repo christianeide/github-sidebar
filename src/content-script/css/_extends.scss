@@ -1,10 +1,10 @@
 @import "./_variables.scss";
 
 %listItem {
-    background-color: $gray-700;
+    background-color: var(--gray-700);
     border-radius: 0 2px 2px 0;
     padding: 0.3rem 0.5rem;
-    color: $white;
+    color: var(--white);
     position: relative;
     overflow: hidden;
 }
@@ -29,5 +29,5 @@
     font-size: 1.5rem;
     margin-top: -0.5rem;
     margin-bottom: -0.5rem;
-    color: $gray-500;
+    color: var(--gray-500);
 }

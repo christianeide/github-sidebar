@@ -4,7 +4,7 @@
 #github-sidebar {
     .sidebar {
         .splash {
-            color: $white;
+            color: var(--white);
             padding: 2rem;
             display: flex;
 
@@ -21,13 +21,13 @@
                 }
 
                 a {
-                    color: $yellow;
-                    border-bottom: 1px solid $yellow;
+                    color: var(--yellow);
+                    border-bottom: 1px solid var(--yellow);
                     font-size: 1.2rem;
 
                     &:hover {
                         text-decoration: none;
-                        color: $white;
+                        color: var(--white);
                     }
                 }
 
@@ -35,9 +35,9 @@
                     margin-top: 1rem;
 
                     &[disabled] {
-                        background: $gray-700;
-                        color: rgba($white, 0.3);
-                        border: $gray-800;
+                        background: var(--gray-700);
+                        color: rgba(var(--white), 0.3);
+                        border: var(--gray-800);
                     }
                 }
             }

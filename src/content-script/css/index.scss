@@ -1,4 +1,5 @@
 @import "./globals.scss";
+@import "./themes.scss";
 
 body {
     padding-left: $sidebarWidth !important;
@@ -10,13 +11,11 @@ body {
     width: $sidebarWidth;
     top: 0;
     left: 0;
-    background-color: $gray-800;
     z-index: 1000;
-    color: $white;
 
     // Generic classes
     a {
-        color: $yellow;
+        color: var(--yellow);
     }
 
     .text-truncate {
@@ -33,15 +32,15 @@ body {
     }
 
     .APPROVED {
-        background: $green !important;
+        background: var(--green) !important;
     }
 
     .CHANGES_REQUESTED {
-        background: $red !important;
+        background: var(--red) !important;
     }
 
     .DEFAULT {
-        background: $yellow !important;
+        background: var(--yellow) !important;
     }
 
     .icon {
@@ -82,6 +81,8 @@ body {
         height: 100%;
         display: flex;
         flex-direction: column;
+        background-color: var(--gray-800);
+        color: var(--white);
 
         ul {
             list-style-type: none;
@@ -89,7 +90,7 @@ body {
 
         main {
             flex: 1;
-            border-right: 1px solid $gray-900;
+            border-right: 1px solid var(--gray-900);
             overflow-y: auto;
         }
 
@@ -118,7 +119,7 @@ body {
             background-size: 110% 110%;
             border-radius: .25em;
             border: 1px solid rgba(27, 31, 35, .2);
-            color: $white;
+            color: var(--white);
             cursor: pointer;
             @include fontSizeNormal();
             padding: 0.375rem 0.75rem;
@@ -138,13 +139,13 @@ body {
             }
 
             &[disabled] {
-                background: $gray-500;
+                background: var(--gray-500);
                 font-style: italic;
                 cursor: unset;
-                border: $gray-500;
+                border: var(--gray-500);
 
                 &:hover {
-                    border-color: $gray-500;
+                    border-color: var(--gray-500);
                 }
             }
         }
@@ -155,7 +156,7 @@ body {
             a {
                 display: flex;
                 text-decoration: none;
-                color: $white;
+                color: var(--white);
                 overflow: hidden;
                 flex-grow: 1;
 
@@ -181,7 +182,7 @@ body {
 
                     .comments {
                         @include fontSizeSmall();
-                        color: $gray-500;
+                        color: var(--gray-500);
                         min-width: auto;
                         margin-left: 0.5rem;
                     }
@@ -190,7 +191,7 @@ body {
                         @extend %remove;
 
                         &:hover {
-                            color: $red;
+                            color: var(--red);
                             cursor: pointer;
                         }
                     }
@@ -198,7 +199,7 @@ body {
 
                 .bottom {
                     @include fontSizeSmall();
-                    color: $gray-500;
+                    color: var(--gray-500);
                 }
             }
         }
