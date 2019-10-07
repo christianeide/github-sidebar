@@ -61,7 +61,17 @@ export default class Repository extends React.Component {
   constructor () {
     super()
 
+    this.state = {
+      repoHeight: 0
+    }
     this.repoHeight = React.createRef()
+  }
+
+  componentDidUpdate() {
+    const repoHeight = this.getRepoHeight()
+    if (repoHeight !== this.state.repoHeight) {
+      this.setState({ repoHeight })
+    }
   }
 
   toggleCollapsed = () => {
@@ -83,13 +93,20 @@ export default class Repository extends React.Component {
 
   render () {
     const { repo, settings, port } = this.props
+    const { repoHeight } = this.state
 
     let availableItems = settings.listItemOfType === 'all'
       ? ['issues', 'pullRequests']
       : [settings.listItemOfType]
 
     const name = `${repo.owner}/${repo.name}`
-    const maxHeight = repo.collapsed ? 0 : this.getRepoHeight() + 'px'
+
+    let maxHeight = {}
+    if (repo.collapsed) {
+      maxHeight = { maxHeight: '0px' }
+    } else if(repoHeight) {
+      maxHeight = { maxHeight: `${repoHeight}px` }
+    }
 
     const hasActiveElements = repo.totalItems.issues + repo.totalItems.pullRequests > 0
 
@@ -138,7 +155,7 @@ export default class Repository extends React.Component {
           </div>
         </div>
 
-        <div className='items' style={{ maxHeight }} ref={this.repoHeight}>
+        <div className='items' style={maxHeight} ref={this.repoHeight}>
           {this.renderItems(availableItems)}
         </div>
       </li>
