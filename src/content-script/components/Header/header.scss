@@ -4,19 +4,15 @@
 #github-sidebar {
     .sidebar {
         header {
-            border-right: 1px solid lighten($black, 10%);
-            background: linear-gradient(90deg, $black, $gray-900);
-            padding: 12px;
+            border-right: 1px solid $gray-700;
+            border-bottom: 1px solid $gray-700;
+            background: $gray-800;
+            padding: $sidePadding;
             color: $white;
             display: flex;
             justify-content: space-between;
             align-items: center;
-
-            @include circleColor($red);
-
-            .circleButton {
-                margin-left: 0.5rem;
-            }
+            position: relative;
 
             .loader {
                 margin-left: 1rem;
@@ -25,7 +21,7 @@
             }
 
             .iconBtn {
-                color: $white;
+                color: $gray-500;
 
                 &:hover {
                     color: rgba($white, .7);
@@ -44,8 +40,8 @@
             .error {
                 ul {
                     position: absolute;
-                    background: $gray-100;
-                    color: $black;
+                    background: $gray-700;
+                    color: $white;
                     list-style-type: none;
                     border: 1px solid $gray-500;
                     z-index: 4000;
@@ -65,8 +61,8 @@
                         width: 0;
                         position: absolute;
                         pointer-events: none;
-                        border-color: rgba($gray-100, 0);
-                        border-bottom-color: $gray-100;
+                        border-color: rgba($gray-700, 0);
+                        border-bottom-color: $gray-700;
                         border-width: 10px;
                         margin-left: -10px;
                     }
@@ -83,7 +79,7 @@
                         }
 
                         p {
-                            color: $gray-800;
+                            color: $gray-500;
                             margin: 0;
                             @include fontSizeSmall();
                         }

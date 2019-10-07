@@ -8,44 +8,96 @@
                 margin-bottom: 2rem;
 
                 .repository {
-                    // To avoid double borders if collapsed items
-                    margin-top: -1px;
+                    margin-bottom: 2px;
+
+                    .listItem {
+                        margin-left: 1.2rem;
+                    }            
 
                     .repoHeading {
                         display: flex;
-                        justify-content: space-between;
+                        justify-content: flex-start;
                         align-items: center;
                         font-weight: bold;
-                        background: $lightBlue;
-                        padding: 0.6rem 1rem;
-                        border-top: 1px solid $blue;
-                        border-bottom: 1px solid $blue;
+                        background: $gray-900;
+                        padding: 0.6rem $sidePadding;
+                        color: $white;
+                        position: relative;
 
-                        h3 {
-                            @include fontSizeNormal();
+
+                        .readButton {
+                            left: $sidePadding;
+                            justify-content: flex-start;
+
+                            .color {
+                                border-radius: 0 2px 2px 0;
+                                width: 70%;
+                            }
+
+                            &:hover {
+                                .color {
+                                    width: 70%;
+                                }
+                            }
+
+                            &.read {
+                                .color {
+                                    width: 0%;
+                                }
+                    
+                                &:hover {
+                                    .color {
+                                        width: 50%
+                                    }
+                                }
+                            }
                         }
 
                         .icon {
-                            color: $blue;
+                            color: $gray-500;
                             translate: rotateZ(0deg);
                             transition: transform 0.2s ease-out;
                             min-width: 0.875rem;
+                            margin-right: .5rem;
+                            transform: scale(0.7);
 
                             &:hover {
-                                color: darken($blue, 8%);
+                                opacity: 0.7;
                                 cursor: pointer;
                             }
                         }
 
+                        h3 {
+                            @include fontSizeNormal();
+                            font-weight: normal;
+                            
+                            a {
+                                color: $white;
+                            }
+                        }
+                        
+                        .repoCount {
+                            position: absolute;
+                            right: $sidePadding;
+                            font-weight: normal;
+                            display: flex;
+                            flex-direction: column;
+                            line-height: 1rem;
+                            color: $gray-500;
+                            @include fontSizeSmall();
+                            text-align: right;
+                        }
                     }
 
-                    &.collapsed .icon {
-                        transform: rotateZ(-180deg);
+                    &.collapsed .repoHeading .icon {
+                        transform: scale(0.7) rotateZ(-180deg);
                     }
 
                     .items {
                         overflow: hidden;
                         transition: max-height 0.2s ease-out;
+                        padding-left: $sidePadding;
+                        padding-right: $sidePadding;
 
                         // Adds margin to last ul inside items
                         & div:last-child ul {
@@ -53,9 +105,8 @@
                         }
                     }
 
-
                     .itemHeading {
-                        padding: 0.4rem 1rem 0.2rem 2rem;
+                        padding: 0.4rem 0 0.2rem 0;
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
@@ -67,26 +118,19 @@
                         h4 {
                             display: inline;
                             @include fontSizeNormal();
+                            
+                            .icon {
+                                color: $gray-500;
+                                margin-right: 0.4rem;
+                            }
 
                             a {
-                                color: $gray-800;
+                                color: $gray-500;
+                                font-weight: normal;
                             }
                         }
                     }
-
-                    ul {
-                        padding-left: 2rem;
-                        padding-right: 1rem;
-
-                        .circleButton {
-                            position: absolute;
-                            left: -1.4rem;
-                            top: 50%;
-                            transform: translateY(-50%);
-                        }
-                    }
                 }
-
             }
 
             &.noRepos {
@@ -97,7 +141,7 @@
                     margin: auto;
 
                     p {
-                        color: $gray-800;
+                        color: $white;
                         line-height: 1rem;
                     }
                 }
