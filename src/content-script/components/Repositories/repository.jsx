@@ -1,6 +1,8 @@
 import React from 'react'
 import Item from './item.jsx'
 import Icons from '../../images/svgs/icons.js'
+import Read from '../Read/index.jsx'
+import { repoHasUnreadItems } from "../../js/setBadge.js"
 
 function Type ({ settings, port, repo, type }) {
   const itemData = {
@@ -14,21 +16,23 @@ function Type ({ settings, port, repo, type }) {
     }
   }
 
-  const nrOfItems = settings.numberOfItems >= repo.totalItems[type]
-    ? null
-    : <React.Fragment><span className='counter'>{settings.numberOfItems}</span> of </React.Fragment>
+  const itemsShown = settings.numberOfItems >= repo.totalItems[type]
+    ? ""
+    : `${settings.numberOfItems} of `
 
+  const totalNrItems = repo.totalItems[type]
+  const nrOfItems = totalNrItems > 0 && `(${itemsShown}${repo.totalItems[type]})`
+  
   const item = itemData[type]
   const url = `${repo.url}/${item.url}`
 
   return (
     <div className={type}>
       <div className='itemHeading'>
-        <h4> <a href={url}>{item.text}</a></h4>
-        <div>
-          {nrOfItems}
-          <span className='counter'> {repo.totalItems[type]}</span>
-        </div>
+        <h4>
+          <Icons icon={type} />
+          <a href={url}>{item.text} {nrOfItems}</a>
+        </h4>
       </div>
 
       {repo[type] && repo[type].length > 0 &&
@@ -71,7 +75,7 @@ export default class Repository extends React.Component {
   }
 
   render () {
-    const { repo, settings } = this.props
+    const { repo, settings, port } = this.props
 
     let availableItems = settings.listItemOfType === 'all'
       ? ['issues', 'pullRequests']
@@ -80,14 +84,40 @@ export default class Repository extends React.Component {
     const name = `${repo.owner}/${repo.name}`
     const maxHeight = repo.collapsed ? 0 : this.getRepoHeight() + 'px'
 
+    const totalIssues = repo.totalItems.issues
+    const totalPrs = repo.totalItems.pullRequests
+    const hasActiveElements = totalIssues !== 0 || totalPrs !== 0
+
+    const repoCount = hasActiveElements &&
+      (  
+      <div className="repoCount">
+        <span title={`${totalIssues} issues`}>{totalIssues}</span>
+        <span title={`${totalPrs} pull requests`}>{totalPrs}</span>
+        </div>
+      )
+    
+    const repoHasUnreads = repoHasUnreadItems(repo)
+
+    const toggleRead = () => {
+      port.postMessage({
+        type: 'toggleRead',
+        repo: repo.url,
+        status: repoHasUnreads
+      })
+    }
+
     return (
       <li className={`repository ${repo.collapsed ? 'collapsed' : ''}`}>
         <div className='repoHeading'>
-          <h3 className='text-truncate'>
-            <a href={repo.url} className='text-truncate' title={name}>{name}</a>
-          </h3>
-
+           {hasActiveElements && <Read read={!repoHasUnreads} status={"DEFAULT"}  toggleRead={toggleRead} />}
+           
           <Icons icon={'arrow'} onClick={this.toggleCollapsed} />
+
+            <h3 className='text-truncate'>
+              <a href={repo.url} className='text-truncate' title={name}>{name}</a>
+            </h3>
+
+         {repoCount}
         </div>
 
         <div className='items' style={{ maxHeight }} ref={this.repoHeight}>
