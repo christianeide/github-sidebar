@@ -85,8 +85,6 @@
                     .items {
                         overflow: hidden;
                         transition: max-height 0.2s ease-out;
-                        padding-left: $sidePadding;
-                        padding-right: $sidePadding;
 
                         // Adds margin to last ul inside items
                         & div:last-child ul {
@@ -94,25 +92,23 @@
                         }
                     }
 
+                    .pullRequests {
+                        margin-bottom: 0.4rem;
+                    }
+
                     .itemHeading {
-                        padding: 0.4rem 0 0.2rem 0;
+                        padding: .8rem 0 0.2rem 0;
                         display: flex;
-                        justify-content: space-between;
                         align-items: center;
 
-                        &:last-child {
-                            padding-bottom: 0.4rem
+                        .icon {
+                            color: $gray-500;
                         }
 
                         h4 {
                             display: inline;
                             @include fontSizeNormal();
                             
-                            .icon {
-                                color: $gray-500;
-                                margin-right: 0.4rem;
-                            }
-
                             a {
                                 color: $gray-500;
                                 font-weight: normal;

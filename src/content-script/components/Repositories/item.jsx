@@ -16,7 +16,6 @@ export default function Item (props) {
       author,
       read
     },
-    type,
     settings,
     port
   } = props

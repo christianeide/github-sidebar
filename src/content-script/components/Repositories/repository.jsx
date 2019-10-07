@@ -29,10 +29,17 @@ function Type ({ settings, port, repo, type }) {
   return (
     <div className={type}>
       <div className='itemHeading'>
-        <h4>
+        <div className="grid-1"></div>
+        
+        <div className="grid-1">
           <Icons icon={type} />
-          <a href={url}>{item.text} {nrOfItems}</a>
-        </h4>
+        </div>
+
+        <div className="grid">
+          <h4>
+            <a href={url}>{item.text} {nrOfItems}</a>
+          </h4>
+        </div>
       </div>
 
       {repo[type] && repo[type].length > 0 &&
