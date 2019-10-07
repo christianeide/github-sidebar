@@ -181,6 +181,7 @@ body {
                         @include fontSizeSmall();
                         color: $gray-500;
                         min-width: auto;
+                        margin-left: 0.5rem;
                     }
 
                     .remove {
