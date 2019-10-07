@@ -12,7 +12,7 @@ The extension can be installed through the [Chrome Web Store](https://chrome.goo
 - Optional to show badge in GitHub favicon if new items
 - Loads fast, only 85kb
 - Works across multiple tabs
-- Color coding of items based on status (Approved, Closed or Stale)
+- Color coding of items based on status (Approved, Closed)
 
 ## Screenshots
 ![](images/screen1.png)

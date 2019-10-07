@@ -92,7 +92,7 @@ export default class Settings extends React.Component {
 
   render () {
     const { rateLimit } = this.props
-    const { repos, listItemOfType, numberOfItems, autoRefresh, updateFavicon, token, timeBeforeStale, sortBy } = this.state
+    const { repos, listItemOfType, numberOfItems, autoRefresh, updateFavicon, token, sortBy } = this.state
 
     const remaing = rateLimit
       ? <em>({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in {until(rateLimit.resetAt)})</em>
@@ -157,18 +157,6 @@ export default class Settings extends React.Component {
             </label>
 
             <label>
-              Hours before an item is marked as stale/yellow (0=never)
-              <input
-                type='number'
-                name='timeBeforeStale'
-                min='0'
-                value={timeBeforeStale}
-                onChange={this.handleInputChange}
-                onBlur={this.validateInput}
-              />
-            </label>
-
-            <label>
               <input
                 type='checkbox'
                 name='updateFavicon'
@@ -184,7 +172,8 @@ export default class Settings extends React.Component {
                 name='token'
                 value={token}
                 onChange={this.handleInputChange}
-                placeholder='Access token' />
+                placeholder='Access token'
+              />
             </label>
 
             {remaing}

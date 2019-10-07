@@ -29,19 +29,12 @@ export default function Item (props) {
     )
   }
 
-  const isStale = () => {
-    if (settings.timeBeforeStale === 0) return ''
-
-    const timeNow = new Date(updatedAt).getTime()
-    const staleHoursInMS = settings.timeBeforeStale * 3600000 // One hour is 3600000ms
-    return (Date.now() - timeNow) < staleHoursInMS ? '' : 'STALE'
-  }
-
   const toggleRead = () => {
     port.postMessage({ type: 'toggleRead', id })
   }
 
-  const status = reviewStatus || isStale()
+  // If we dont have a review of this element yet, then we set it to default color
+  const status = reviewStatus || 'DEFAULT'
 
   const timeAgo = settings.sortBy === 'CREATED_AT'
     ? `created ${ago(createdAt)} ago`
