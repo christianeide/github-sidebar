@@ -49,15 +49,17 @@
                             }
                         }
 
-                        .icon {
-                            color: $gray-500;
-                            translate: rotateZ(0deg);
-                            transition: transform 0.2s ease-out;
-                            transform: scale(0.7);
-
+                        .expand {
                             &:hover {
                                 opacity: 0.7;
                                 cursor: pointer;
+                            }
+
+                            .icon {
+                                color: $gray-500;
+                                translate: rotateZ(0deg);
+                                transition: transform 0.2s ease-out;
+                                transform: scale(0.7);
                             }
                         }
 

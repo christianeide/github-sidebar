@@ -120,8 +120,8 @@ export default class Repository extends React.Component {
            {hasActiveElements && <Read read={!repoHasUnreads} status={"DEFAULT"}  toggleRead={toggleRead} />}
           </div>
            
-          <div className="grid-1">
-            <Icons icon={'arrow'} onClick={this.toggleCollapsed} />
+          <div className="grid-1 expand" onClick={this.toggleCollapsed}>
+            <Icons icon={'arrow'}  />
           </div>
           
           <div className="grid">
