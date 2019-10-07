@@ -113,11 +113,13 @@ export default class Repository extends React.Component {
       })
     }
 
+    const mouseoverText = repoHasUnreads ? "Mark repo as read" : "Mark repo as unread"
+
     return (
       <li className={`repository ${repo.collapsed ? 'collapsed' : ''}`}>
         <div className='repoHeading'>
           <div className="grid-1">
-           {hasActiveElements && <Read read={!repoHasUnreads} status={"DEFAULT"}  toggleRead={toggleRead} />}
+           {hasActiveElements && <Read read={!repoHasUnreads} status={"DEFAULT"} title={mouseoverText} toggleRead={toggleRead} />}
           </div>
            
           <div className="grid-1 expand" onClick={this.toggleCollapsed}>
