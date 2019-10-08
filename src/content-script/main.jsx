@@ -68,7 +68,7 @@ class App extends React.Component {
     if (!settings.token) return <Splash port={this.port} />
 
     return (
-      <div className='sidebar'>
+      <div className={`sidebar ${settings.theme}`}>
         <Header
           toggleSettings={this.handleToggleSettings}
           loading={loading}
@@ -93,8 +93,7 @@ class App extends React.Component {
               toggleSettings={this.handleToggleSettings}
               port={this.port}
             />
-          )
-        }
+          )}
       </div>
     )
   }

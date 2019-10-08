@@ -92,7 +92,7 @@ export default class Settings extends React.Component {
 
   render () {
     const { rateLimit } = this.props
-    const { repos, listItemOfType, numberOfItems, autoRefresh, updateFavicon, token, sortBy } = this.state
+    const { repos, listItemOfType, numberOfItems, autoRefresh, updateFavicon, token, sortBy, theme } = this.state
 
     const remaing = rateLimit
       ? <em>({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in {until(rateLimit.resetAt)})</em>
@@ -154,6 +154,13 @@ export default class Settings extends React.Component {
                 onChange={this.handleInputChange}
                 onBlur={this.validateInput}
               />
+            </label>
+
+            <label>Theme
+              <select name='theme' value={theme} onChange={this.handleInputChange}>
+                <option value='dark'>Dark</option>
+                <option value='light'>Light</option>
+              </select>
             </label>
 
             <label>
