@@ -19,8 +19,8 @@
 
                     .repoHeading {
                         display: flex;
-                        background: var(--gray-900);
-                        color: var(--white);
+                        background: var(--repoHeaderBg);
+                        color: var(--repoHeaderText);
 
                         .readButton {     
                             justify-content: flex-start;
@@ -51,12 +51,14 @@
 
                         .expand {
                             &:hover {
-                                opacity: 0.7;
+                                .icon {
+                                    color: var(--repoHeaderHover);
+                                }
                                 cursor: pointer;
                             }
 
                             .icon {
-                                color: var(--gray-500);
+                                color: var(--repoHeaderSubText);
                                 translate: rotateZ(0deg);
                                 transition: transform 0.2s ease-out;
                                 transform: scale(0.7);
@@ -69,7 +71,7 @@
                             padding-bottom: $topPadding;
 
                             a {
-                                color: var(--white);
+                                color: var(--repoHeaderHover);
                             }
                         }
                         
@@ -77,7 +79,7 @@
                             display: flex;
                             flex-direction: column;
                             line-height: 1rem;
-                            color: var(--gray-500);
+                            color: var(--repoHeaderSubText);
                             @include fontSizeSmall();
                             text-align: right;
                             margin-left: 0.5rem;
@@ -108,7 +110,7 @@
                         align-items: center;
 
                         .icon {
-                            color: var(--gray-500);
+                            color: var(--repoTypeText);
                         }
 
                         h4 {
@@ -116,7 +118,7 @@
                             @include fontSizeNormal();
                             
                             a {
-                                color: var(--gray-500);
+                                color: var(--repoTypeText);
                                 font-weight: normal;
                             }
                         }
@@ -132,7 +134,7 @@
                     margin: auto;
 
                     p {
-                        color: var(--white);
+                        color: var(--sidebarText);
                         line-height: 1rem;
                     }
                 }
