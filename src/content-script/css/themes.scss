@@ -45,6 +45,26 @@
     --repoItemSubText: var(--gray-500);
     
     --settingsText: var(--gray-500);
+}
 
 
+.light {
+    --gray-100: #F5F5F5; 
+    --gray-200: #D8DCE5; 
+    --gray-700: #606060;
+
+    --sidebarBg: var(--gray-100);
+    --sidebarBorder: var(--gray-200);
+    --sidebarText: var(--gray-700);
+
+    --sidebarButton: var(--green);
+    --sidebarButtonText: var(--white);
+    --sidebarButtonDisabled: var(--gray-500);
+
+    --repoHeaderBg: var(--gray-200);
+    --repoHeaderText: var(--gray-700);
+    --repoHeaderHover: var(--gray-700);
+
+    --repoItemBg: var(--white);
+    --repoItemText: var(--gray-700);   
 }
