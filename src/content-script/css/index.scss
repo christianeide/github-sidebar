@@ -15,7 +15,7 @@ body {
 
     // Generic classes
     a {
-        color: var(--yellow);
+        color: var(--sidebarLink);
     }
 
     .text-truncate {
@@ -81,8 +81,8 @@ body {
         height: 100%;
         display: flex;
         flex-direction: column;
-        background-color: var(--gray-800);
-        color: var(--white);
+        background-color: var(--sidebarBg);
+        color: var(--sidebarText);
 
         ul {
             list-style-type: none;
@@ -90,7 +90,7 @@ body {
 
         main {
             flex: 1;
-            border-right: 1px solid var(--gray-900);
+            border-right: 1px solid var(--sidebarBorder);
             overflow-y: auto;
         }
 
@@ -114,12 +114,10 @@ body {
         }
 
         button {
-            background-image: linear-gradient(-180deg, #34d058, #28a745 90%);
-            background-position: -1px -1px;
-            background-size: 110% 110%;
+            background: var(--sidebarButton);
             border-radius: .25em;
-            border: 1px solid rgba(27, 31, 35, .2);
-            color: var(--white);
+            border: none;
+            color: var(--sidebarButtonText);
             cursor: pointer;
             @include fontSizeNormal();
             padding: 0.375rem 0.75rem;
@@ -128,9 +126,7 @@ body {
             margin-top: 2rem;
 
             &:hover {
-                background-image: linear-gradient(-180deg, #2fcb53, #269f42 90%);
-                background-position: -.5em;
-                border-color: rgba(27, 31, 35, .5);
+                opacity: 0.94;
             }
 
             &:active {
@@ -139,14 +135,9 @@ body {
             }
 
             &[disabled] {
-                background: var(--gray-500);
+                background: var(--sidebarButtonDisabled);
                 font-style: italic;
                 cursor: unset;
-                border: var(--gray-500);
-
-                &:hover {
-                    border-color: var(--gray-500);
-                }
             }
         }
 
@@ -156,7 +147,7 @@ body {
             a {
                 display: flex;
                 text-decoration: none;
-                color: var(--white);
+                color: var(--repoItemText);
                 overflow: hidden;
                 flex-grow: 1;
 
@@ -176,13 +167,12 @@ body {
                     @extend %top;
 
                     h5 {
-                        opacity: 0.7;
                         font-weight: normal;
                     }
 
                     .comments {
                         @include fontSizeSmall();
-                        color: var(--gray-500);
+                        color: var(--repoItemSubText);
                         min-width: auto;
                         margin-left: 0.5rem;
                     }
@@ -199,7 +189,7 @@ body {
 
                 .bottom {
                     @include fontSizeSmall();
-                    color: var(--gray-500);
+                    color: var(--repoItemSubText);
                 }
             }
         }

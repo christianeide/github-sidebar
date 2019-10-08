@@ -3,6 +3,7 @@
 // 
 :root {  
     --white: #fff;
+    --gray-100: #c5c8ca; 
     --gray-500: #989DA1; 
     --gray-700: #414950;
     --gray-800: #2E343A;
@@ -10,4 +11,40 @@
     --red: #ed4d4d;
     --yellow: #FDB23C;
     --green : #4DC58B;
+
+    --sidebarBg: var(--gray-800);
+    --sidebarBorder: var(--gray-900);
+    --sidebarText: var(--white);
+    --sidebarLink: var(--yellow);
+
+    --sidebarButton: var(--green);
+    --sidebarButtonText: var(--white);
+    --sidebarButtonDisabled: var(--gray-500);
+
+    
+    --headerBg: var(--gray-800);
+    --headerBorder: var(--gray-700);
+    --headerText: var(--white);
+    --headerIcon: var(--gray-500);
+    --headerIconHover: var(--white);
+    
+    --errorBg: var(--gray-700);
+    --errorBorder: var(--gray-500);
+    --errorText: var(--white);
+    --errorSubText: var(--gray-500);
+
+    --repoHeaderBg: var(--gray-900);
+    --repoHeaderText: var(--white);
+    --repoHeaderSubText: var(--gray-500);
+    --repoHeaderHover: var(--white);
+
+    --repoTypeText: var(--gray-500);
+    
+    --repoItemBg: var(--gray-700);
+    --repoItemText: var(--gray-100);
+    --repoItemSubText: var(--gray-500);
+    
+    --settingsText: var(--gray-500);
+
+
 }
