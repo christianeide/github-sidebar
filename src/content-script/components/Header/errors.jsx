@@ -1,5 +1,3 @@
-/* global chrome */
-
 import React from 'react'
 import Icons from '../../images/svgs/icons.js'
 import { ago } from '../../js/time.js'
@@ -13,12 +11,22 @@ export default class Errors extends React.Component {
     }
   }
 
+  shouldComponentUpdate (nextProps, nextState) {
+    if (this.state.showErrors !== nextState.showErrors) {
+      return true
+    } else if (this.props.errors === nextProps.errors) {
+      return false
+    } else {
+      return true
+    }
+  }
+
   errorList = (errors) => {
     return (
       <ul>
-        {errors.map(element => {
+        {errors.map((element, index) => {
           return (
-            <li className='listItem'>
+            <li className='listItem' key={`${element.title}_${index}`}>
               <h5>{element.title}</h5>
               <p>{element.message} <i>({ago(element.time)} ago)</i></p>
             </li>
@@ -28,7 +36,7 @@ export default class Errors extends React.Component {
     )
   }
 
-  toggleErrors = () => {
+  handleErrors = () => {
     this.setState({ showErrors: !this.state.showErrors }, () => {
       // After the user hides errorview, we remove errors
       // See no reason to use time and screenposition
@@ -45,7 +53,7 @@ export default class Errors extends React.Component {
     return (
       <div className='error'>
 
-        <a href='#' className='warningBtn' onClick={this.toggleErrors}>
+        <a href='#' className='warningBtn' onClick={this.handleErrors}>
           <Icons icon='error' />
         </a>
 
