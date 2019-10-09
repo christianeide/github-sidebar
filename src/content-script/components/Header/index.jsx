@@ -1,9 +1,9 @@
-import React from 'react'
+import { Component, h } from 'preact'
 import './header.scss'
 import Icons from '../../images/svgs/icons.js'
 import Errors from './errors.jsx'
 
-export default class Header extends React.Component {
+export default class Header extends Component {
   componentDidMount () {
     this.setHeight()
     window.addEventListener('resize', this.setHeight)

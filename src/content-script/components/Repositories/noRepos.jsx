@@ -1,4 +1,4 @@
-import React from 'react'
+import { h } from 'preact'
 
 export default function NoRepos (props) {
   return (
@@ -6,7 +6,8 @@ export default function NoRepos (props) {
       <div className='justifier'>
         <h3>No repositories added</h3>
         <p>Navigate to a Github-repository you want to monitor
-                and add the repository from the <a href='#' onClick={props.toggleSettings}>settings page</a>.</p>
+                and add the repository from the <a href='#' onClick={props.toggleSettings}>settings page</a>.
+        </p>
       </div>
     </main>
   )

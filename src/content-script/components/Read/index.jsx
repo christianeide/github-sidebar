@@ -1,7 +1,7 @@
-import React from 'react'
+import { h } from 'preact'
 import './read.scss'
 
-const Circle = ({ read, toggleRead, title, status }) => {
+const Read = ({ read, toggleRead, title, status }) => {
   const titleText = title || (read ? 'Mark as read' : 'Mark as unread')
   return (
     <div
@@ -14,4 +14,4 @@ const Circle = ({ read, toggleRead, title, status }) => {
   )
 }
 
-export default Circle
+export default Read

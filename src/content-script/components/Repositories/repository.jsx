@@ -1,4 +1,4 @@
-import React from 'react'
+import {Component, h, createRef} from 'preact'
 import Item from './item.jsx'
 import Icons from '../../images/svgs/icons.js'
 import Read from '../Read/index.jsx'
@@ -57,14 +57,14 @@ function Type ({ settings, port, repo, type }) {
   )
 }
 
-export default class Repository extends React.Component {
+export default class Repository extends Component {
   constructor () {
     super()
 
     this.state = {
       repoHeight: 0
     }
-    this.repoHeight = React.createRef()
+    this.repoHeight = createRef()
   }
 
   componentDidUpdate() {

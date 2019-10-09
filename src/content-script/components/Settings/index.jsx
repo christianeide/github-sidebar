@@ -1,4 +1,4 @@
-import React from 'react'
+import { Component, h } from 'preact'
 import SortRepos from './sortRepos.jsx'
 import { until } from '../../js/time.js'
 import arrayMove from 'array-move'
@@ -6,7 +6,7 @@ import { getCurrentPath, canAddRepository } from './getPath.js'
 
 import './settings.scss'
 
-export default class Settings extends React.Component {
+export default class Settings extends Component {
   constructor (props) {
     super(props)
 

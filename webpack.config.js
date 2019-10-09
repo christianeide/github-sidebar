@@ -26,11 +26,10 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      'react': 'preact-compat',
-      'react-dom': 'preact-compat'
+      react: 'preact',
+      'react-dom': 'preact/compat'
     }
   },
-
   module: {
     rules: [{
       test: /\.jsx?$/,

@@ -1,4 +1,4 @@
-import React from 'react'
+import { h } from 'preact'
 import Icons from '../../images/svgs/icons.js'
 import { ago } from '../../js/time.js'
 import Read from '../Read/index.jsx'

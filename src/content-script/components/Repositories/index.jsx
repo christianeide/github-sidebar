@@ -1,4 +1,5 @@
-import React from 'react'
+import { h } from 'preact'
+
 import Repository from './repository.jsx'
 import NoRepos from './noRepos.jsx'
 import './repositories.scss'
@@ -22,7 +23,7 @@ export default function Repositories ({
             repo={repo}
             settings={settings}
             port={port}
-          />
+                 />
         })}
       </ul>
     </main>
