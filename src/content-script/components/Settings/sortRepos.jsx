@@ -1,7 +1,7 @@
 import React from 'react'
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 
-const SortableItem = SortableElement(({ item, removeRepo, index }) =>
+const SortableItem = SortableElement(({ item, removeRepo, listIndex }) =>
   <li className='listItem'>
     <div className='content text-truncate'>
       <div className='top'>
@@ -9,19 +9,26 @@ const SortableItem = SortableElement(({ item, removeRepo, index }) =>
           {item.owner}/{item.name}
         </h5>
 
-        <div className='remove' onClick={removeRepo} data-index={index}>
+        <div className='remove' onClick={removeRepo} data-index={listIndex}>
             &#10005;
         </div>
       </div>
     </div>
-  </li>)
+  </li>
+)
 
 const SortableList = SortableContainer(({ items, removeRepo }) => {
   return (
     <ul>
-      {items.map((item, index) => (
-        <SortableItem key={`${item.owner}/${item.name}`} index={index} item={item} removeRepo={removeRepo} />
-      ))}
+      {items.map((item, index) =>
+        <SortableItem
+          key={`${item.owner}/${item.name}`}
+          item={item}
+          listIndex={index}
+          index={index}
+          removeRepo={removeRepo}
+        />
+      )}
     </ul>
   )
 })
@@ -32,7 +39,7 @@ export default function SortableComponent (props) {
     onSortEnd={props.sortRepos}
     helperClass='github-sidebar-sort'
     removeRepo={props.removeRepo}
-    pressDelay={50}
+    pressDelay={100}
     lockAxis='y'
   />
 }
