@@ -10,6 +10,7 @@ export default class Splash extends React.Component {
       token: ''
     }
   }
+
   handleInputChange = (event) => {
     this.setState({ token: event.target.value })
   }
@@ -31,7 +32,7 @@ export default class Splash extends React.Component {
 
             <p>This extension requires an access token from Github to load data. </p>
             <p>
-              <a href='https://github.com/settings/tokens/new?scopes=repo&description=Github%20sidebar%20browser%20extension' target='_blank' >CREATE AN ACCESS TOKEN</a>
+              <a href='https://github.com/settings/tokens/new?scopes=repo&description=Github%20sidebar%20browser%20extension' target='_blank'>CREATE AN ACCESS TOKEN</a>
               <em>(The necessary scopes are pre-selected)</em>
             </p>
 

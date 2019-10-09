@@ -3,7 +3,7 @@ import './header.scss'
 import Icons from '../../images/svgs/icons.js'
 import Errors from './errors.jsx'
 
-export default class Header extends React.Component {
+export default class Header extends React.PureComponent {
   componentDidMount () {
     this.setHeight()
     window.addEventListener('resize', this.setHeight)

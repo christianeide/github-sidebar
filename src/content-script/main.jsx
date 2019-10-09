@@ -9,11 +9,6 @@ import Header from './components/Header/index.jsx'
 import Repositories from './components/Repositories/index.jsx'
 import Settings from './components/Settings/index.jsx'
 import Splash from './components/Splash/index.jsx'
-import setBadge, { hasUnreadItems } from './js/setBadge'
- // if (process.env.NODE_ENV !== 'production') {
-//   const {whyDidYouUpdate} = require('why-did-you-update');
-//   whyDidYouUpdate(React);
-// }
 class App extends React.Component {
   constructor () {
     super()
@@ -78,7 +73,6 @@ class App extends React.Component {
           errors={errors}
           showSettings={showSettings}
           port={this.port}
-          hasUnread={hasUnreadItems(repositories)}
           showBadge={this.showFavicon()}
         />
 

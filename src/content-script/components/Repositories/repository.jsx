@@ -4,30 +4,33 @@ import Icons from '../../images/svgs/icons.js'
 import Read from '../Read/index.jsx'
 import { repoHasUnreadItems } from "../../js/setBadge.js"
 
-function Type ({ settings, port, repo, type }) {
-  const itemData = {
-    issues: {
-      text: 'Issues',
-      url: 'issues'
-    },
-    pullRequests: {
-      text: 'Pull requests',
-      url: 'pulls'
+class Type extends React.PureComponent  {  
+  render() {
+    const { settings, port, repo, type } = this.props
+    
+    const itemData = {
+      issues: {
+        text: 'Issues',
+        url: 'issues'
+      },
+      pullRequests: {
+        text: 'Pull requests',
+        url: 'pulls'
+      }
     }
-  }
-
-  const itemsShown = settings.numberOfItems >= repo.totalItems[type]
+    
+    const itemsShown = settings.numberOfItems >= repo.totalItems[type]
     ? ""
     : `${settings.numberOfItems} of `
-
-  const totalNrItems = repo.totalItems[type]
-  const nrOfItems = totalNrItems > 0 && `(${itemsShown}${repo.totalItems[type]})`
-  
-  const item = itemData[type]
-  const url = `${repo.url}/${item.url}`
-
-  return (
-    <div className={type}>
+    
+    const totalNrItems = repo.totalItems[type]
+    const nrOfItems = totalNrItems > 0 && `(${itemsShown}${repo.totalItems[type]})`
+    
+    const item = itemData[type]
+    const url = `${repo.url}/${item.url}`
+    
+    return (
+      <div className={type}>
       <div className='itemHeading'>
         <div className="grid-1"></div>
         
@@ -46,18 +49,19 @@ function Type ({ settings, port, repo, type }) {
         <ul>
           {repo[type].map(item => {
             return <Item
-              item={item}
-              type={type}
-              port={port}
-              settings={settings}
+            item={item}
+            type={type}
+            port={port}
+            settings={settings}
             />
           })}
         </ul>}
     </div>
   )
 }
+}
 
-export default class Repository extends React.Component {
+export default class Repository extends React.PureComponent {
   constructor () {
     super()
 
@@ -89,6 +93,17 @@ export default class Repository extends React.Component {
 
   getRepoHeight () {
     return this.repoHeight && this.repoHeight.current && this.repoHeight.current.scrollHeight
+  }
+
+  toggleRead = () => {
+    const { repo, port } = this.props
+    const repoHasUnreads = repoHasUnreadItems(repo)
+
+    port.postMessage({
+      type: 'toggleRead',
+      repo: repo.url,
+      status: repoHasUnreads
+    })
   }
 
   render () {
@@ -124,22 +139,13 @@ export default class Repository extends React.Component {
       )
     
     const repoHasUnreads = repoHasUnreadItems(repo)
-
-    const toggleRead = () => {
-      port.postMessage({
-        type: 'toggleRead',
-        repo: repo.url,
-        status: repoHasUnreads
-      })
-    }
-
     const mouseoverText = repoHasUnreads ? "Mark repo as read" : "Mark repo as unread"
 
     return (
       <li className={`repository ${repo.collapsed ? 'collapsed' : ''}`}>
         <div className='repoHeading'>
           <div className="grid-1">
-           {hasActiveElements && <Read read={!repoHasUnreads} status={"DEFAULT"} title={mouseoverText} toggleRead={toggleRead} />}
+           {hasActiveElements && <Read read={!repoHasUnreads} status={"DEFAULT"} title={mouseoverText} toggleRead={this.toggleRead} />}
           </div>
            
           <div className="grid-1 expand" onClick={this.toggleCollapsed}>
