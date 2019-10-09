@@ -1,8 +1,8 @@
-import React from 'react'
+import { Component, h } from 'preact'
 import Icons from '../../images/svgs/icons.js'
 import { ago } from '../../js/time.js'
 
-export default class Errors extends React.Component {
+export default class Errors extends Component {
   constructor () {
     super()
 

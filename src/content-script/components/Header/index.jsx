@@ -1,9 +1,10 @@
-import React from 'react'
+import { h } from 'preact'
+import { PureComponent } from 'preact/compat'
 import './header.scss'
 import Icons from '../../images/svgs/icons.js'
 import Errors from './errors.jsx'
 
-export default class Header extends React.PureComponent {
+export default class Header extends PureComponent {
   componentDidMount () {
     this.setHeight()
     window.addEventListener('resize', this.setHeight)

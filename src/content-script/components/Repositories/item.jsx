@@ -1,9 +1,10 @@
-import React from 'react'
+import { h } from 'preact'
+import {PureComponent} from "preact/compat"
 import Icons from '../../images/svgs/icons.js'
 import { ago } from '../../js/time.js'
 import Read from '../Read/index.jsx'
 
-export default class Item extends React.PureComponent {
+export default class Item extends PureComponent {
   toggleRead = () => {
     this.props.port.postMessage({
       type: 'toggleRead', id: this.props.item.id

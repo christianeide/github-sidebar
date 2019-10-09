@@ -1,8 +1,8 @@
-import React from 'react'
+import { Component, h } from 'preact'
 import Icons from '../../images/svgs/icons.js'
 import './splash.scss'
 
-export default class Splash extends React.Component {
+export default class Splash extends Component {
   constructor (props) {
     super(props)
 

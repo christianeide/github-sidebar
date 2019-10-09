@@ -1,7 +1,6 @@
 /* global chrome */
 
-import React from 'react'
-import ReactDOM from 'react-dom'
+import {render, h, Component} from 'preact'
 import './css/index.scss'
 
 //* ********* React components **********/
@@ -9,7 +8,9 @@ import Header from './components/Header/index.jsx'
 import Repositories from './components/Repositories/index.jsx'
 import Settings from './components/Settings/index.jsx'
 import Splash from './components/Splash/index.jsx'
-class App extends React.Component {
+import setBadge, { hasUnreadItems } from './js/setBadge'
+
+class App extends Component {
   constructor () {
     super()
 
@@ -103,4 +104,4 @@ if (!document.getElementById(id)) {
   document.body.appendChild(appendDiv)
 }
 
-ReactDOM.render(<App />, document.getElementById(id))
+render(<App />, document.getElementById(id))

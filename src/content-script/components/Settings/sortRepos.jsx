@@ -1,4 +1,4 @@
-import React from 'react'
+import { h } from 'preact'
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 
 const SortableItem = SortableElement(({ item, removeRepo, listIndex }) =>
@@ -41,5 +41,5 @@ export default function SortableComponent (props) {
     removeRepo={props.removeRepo}
     pressDelay={100}
     lockAxis='y'
-  />
+         />
 }

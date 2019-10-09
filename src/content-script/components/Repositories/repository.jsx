@@ -1,10 +1,11 @@
-import React from 'react'
+import {Component, h, createRef} from 'preact'
+import {PureComponent} from 'preact/compat'
 import Item from './item.jsx'
 import Icons from '../../images/svgs/icons.js'
 import Read from '../Read/index.jsx'
 import { repoHasUnreadItems } from "../../js/setBadge.js"
 
-class Type extends React.PureComponent  {  
+class Type extends PureComponent  {  
   render() {
     const { settings, port, repo, type } = this.props
     
@@ -61,14 +62,14 @@ class Type extends React.PureComponent  {
 }
 }
 
-export default class Repository extends React.PureComponent {
+export default class Repository extends PureComponent {
   constructor () {
     super()
 
     this.state = {
       repoHeight: 0
     }
-    this.repoHeight = React.createRef()
+    this.repoHeight = createRef()
   }
 
   componentDidUpdate() {
