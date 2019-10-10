@@ -1,4 +1,4 @@
-import {Component, h, createRef} from 'preact'
+import {Component, h, createRef, Fragment} from 'preact'
 import {PureComponent} from 'preact/compat'
 import Item from './item.jsx'
 import Icons from '../../images/svgs/icons.js'
@@ -115,7 +115,7 @@ export default class Repository extends PureComponent {
       ? ['issues', 'pullRequests']
       : [settings.listItemOfType]
 
-    const name = `${repo.owner}/${repo.name}`
+    const name = <Fragment><span>{repo.owner} / </span>{repo.name}</Fragment>
 
     let maxHeight = {}
     if (repo.collapsed) {
@@ -155,7 +155,7 @@ export default class Repository extends PureComponent {
           
           <div className="grid">
             <h3 className='text-truncate'>
-              <a href={repo.url} className='text-truncate' title={name}>{name}</a>
+              <a href={repo.url} className='text-truncate' title={`$(repo.owner}/${repo.name}`}>{name}</a>
             </h3>
 
             {repoCount}

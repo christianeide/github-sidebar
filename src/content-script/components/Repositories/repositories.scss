@@ -73,6 +73,11 @@
                             a {
                                 color: var(--repoHeaderText);
                             }
+
+                            span {
+                                font-weight: normal;
+                                color: var(--repoHeaderSubText)
+                            }
                         }
                         
                         .repoCount {
