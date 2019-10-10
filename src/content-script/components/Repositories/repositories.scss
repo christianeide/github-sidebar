@@ -9,7 +9,7 @@
 
                 .repository {
                     margin-bottom: 2px;
-                    
+
                     .item {
                         display: flex;
                         overflow: hidden;
@@ -22,7 +22,7 @@
                         background: var(--repoHeaderBg);
                         color: var(--repoHeaderText);
 
-                        .readButton {     
+                        .readButton {
                             justify-content: flex-start;
 
                             .color {
@@ -40,7 +40,7 @@
                                 .color {
                                     width: 0%;
                                 }
-                    
+
                                 &:hover {
                                     .color {
                                         width: 50%
@@ -49,14 +49,16 @@
                             }
                         }
 
-                        .expand {
-                            &:hover {
+                        &:not(.hideHover):hover {
+                            .expand {
                                 .icon {
                                     color: var(--repoHeaderHover);
                                 }
-                                cursor: pointer;
                             }
+                            cursor: pointer;
+                        }
 
+                        .expand {
                             .icon {
                                 color: var(--repoHeaderSubText);
                                 translate: rotateZ(0deg);
@@ -79,7 +81,7 @@
                                 color: var(--repoHeaderSubText)
                             }
                         }
-                        
+
                         .repoCount {
                             display: flex;
                             flex-direction: column;
@@ -121,7 +123,7 @@
                         h4 {
                             display: inline;
                             @include fontSizeNormal();
-                            
+
                             a {
                                 color: var(--repoTypeText);
                                 font-weight: normal;
