@@ -6,6 +6,16 @@ import { getCurrentPath, canAddRepository } from './getPath.js'
 
 import './settings.scss'
 
+const debounce = (func, delay) => {
+  let inDebounce
+  return function () {
+    const context = this
+    const args = arguments
+    clearTimeout(inDebounce)
+    inDebounce = setTimeout(() => func.apply(context, args), delay)
+  }
+}
+
 export default class Settings extends Component {
   constructor (props) {
     super(props)
@@ -13,7 +23,34 @@ export default class Settings extends Component {
     // We copy parent props to state only on mount of component
     // We use theese props as a startingpoint when we edit settings
     this.state = {
-      ...props.settings
+      ...props.settings,
+      settingsSaved: false
+    }
+
+    this.timer = null
+  }
+
+  componentWillUnmount () {
+    // Save settings when we go back
+    this.saveSettings()
+
+    clearTimeout(this.timer)
+  }
+
+  componentDidUpdate (prevProps) {
+    if (this.state.settingsSaved) {
+      // Clear timer before we start a new
+      if (this.timer) {
+        clearTimeout(this.timer)
+        this.timer = null
+      }
+
+      // Set a timer to show the save confirmation for a given time in ms
+      this.timer = setTimeout(() => {
+        this.setState({ settingsSaved: false })
+
+        this.timer = null
+      }, 2000)
     }
   }
 
@@ -34,9 +71,11 @@ export default class Settings extends Component {
     }
 
     this.setState({ [name]: value })
+
+    this.handleSaveSettings()
   }
 
-  validateInput = (event) => {
+  handleValidateInput = (event) => {
     function imposeMinMax (el) {
       const min = parseInt(el.min)
       const max = parseInt(el.max)
@@ -60,10 +99,8 @@ export default class Settings extends Component {
     const value = imposeMinMax(target)
 
     this.setState({ [name]: value })
-  }
 
-  handleSaveSettings = () => {
-    this.props.port.postMessage({ type: 'saveSettings', settings: this.state })
+    this.handleSaveSettings()
   }
 
   handleAddPage = () => {
@@ -74,12 +111,16 @@ export default class Settings extends Component {
     this.setState(prevState => ({
       repos: [...prevState.repos, repo]
     }))
+
+    this.handleSaveSettings()
   }
 
   handleSortRepos = ({ oldIndex, newIndex }) => {
     this.setState(({ repos }) => ({
       repos: arrayMove(repos, oldIndex, newIndex)
     }))
+
+    this.handleSaveSettings()
   }
 
   handleRemoveRepo = (e) => {
@@ -88,11 +129,22 @@ export default class Settings extends Component {
     this.setState(({ repos }) => ({
       repos: repos.filter((repo, index) => index !== indexToRemove)
     }))
+
+    this.handleSaveSettings()
+  }
+
+  handleSaveSettings = debounce(() => {
+    this.saveSettings()
+  }, 500)
+
+  saveSettings = () => {
+    this.props.port.postMessage({ type: 'saveSettings', settings: this.state })
+    this.setState({ settingsSaved: true })
   }
 
   render () {
     const { rateLimit } = this.props
-    const { repos, listItemOfType, numberOfItems, autoRefresh, updateFavicon, token, sortBy, theme } = this.state
+    const { repos, listItemOfType, numberOfItems, autoRefresh, updateFavicon, token, sortBy, theme, settingsSaved } = this.state
 
     const remaing = rateLimit
       ? <em>({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in {until(rateLimit.resetAt)})</em>
@@ -108,8 +160,8 @@ export default class Settings extends Component {
             <p>Navigate to a Github-repository you want to monitor and click the button below.</p>
             <SortRepos
               repos={repos}
-              sortRepos={this.handleSortRepos}
-              removeRepo={this.handleRemoveRepo}
+              onSortRepos={this.handleSortRepos}
+              onRemoveRepo={this.handleRemoveRepo}
             />
             <button className='add' onClick={this.handleAddPage} disabled={!canAddRepo}>Add current repository</button>
           </li>
@@ -140,7 +192,7 @@ export default class Settings extends Component {
                 max='10'
                 value={numberOfItems}
                 onChange={this.handleInputChange}
-                onBlur={this.validateInput}
+                onBlur={this.handleValidateInput}
               />
             </label>
 
@@ -152,7 +204,7 @@ export default class Settings extends Component {
                 min='15'
                 value={autoRefresh}
                 onChange={this.handleInputChange}
-                onBlur={this.validateInput}
+                onBlur={this.handleValidateInput}
               />
             </label>
 
@@ -194,8 +246,7 @@ export default class Settings extends Component {
 
         </ul>
 
-        <button onClick={this.handleSaveSettings}>Save settings</button>
-
+        { <div className={`autoSave ${settingsSaved && "show"}`}>Settings saved...</div>}
       </main>
     )
   }
