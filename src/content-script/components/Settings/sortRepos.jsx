@@ -6,7 +6,7 @@ const SortableItem = SortableElement(({ item, onRemoveRepo, listIndex }) =>
     <div className='content text-truncate'>
       <div className='top'>
         <h5 className='text-truncate'>
-          {item.owner}/{item.name}
+          {item.owner} / {item.name}
         </h5>
 
         <div className='remove' onClick={onRemoveRepo} data-index={listIndex}>
