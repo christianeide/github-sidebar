@@ -62,9 +62,14 @@
     --sidebarButtonDisabled: var(--gray-500);
 
     --repoHeaderBg: var(--gray-200);
-    --repoHeaderText: var(--gray-700);
-    --repoHeaderHover: var(--gray-700);
+    --repoHeaderSubText: var(--gray-700);
+    --repoHeaderText: var(--gray-800);
+    --repoHeaderHover: var(--gray-800);
+
+    --repoTypeText: var(--gray-700);
 
     --repoItemBg: var(--white);
     --repoItemText: var(--gray-700);   
+
+    --settingsText: var(--gray-700);
 }
