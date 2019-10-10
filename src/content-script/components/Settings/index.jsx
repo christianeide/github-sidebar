@@ -239,7 +239,7 @@ export default class Settings extends Component {
 
             <div className='credit'>
               <a href='https://github.com/christianeide/github-sidebar'>
-                Github Sidebar v2.0.0
+                Github Sidebar v2.1.0
               </a>
             </div>
           </li>
