@@ -7,6 +7,8 @@ export function fetchDataFromAPI ({
   numberOfItems,
   sortBy
 }, callback) {
+  if (!numberOfItems) return
+
   const query = createPullRequestsQuery(repos, numberOfItems, sortBy)
 
   axios({

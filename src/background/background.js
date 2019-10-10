@@ -151,9 +151,10 @@ function toggleCollapsed (request) {
 }
 
 function saveSettings (request) {
-  // If refreshperiod has changed
+  // If refreshperiod has changed and is more than minimum val
   if (request.settings.autoRefresh &&
-    quickStorage.settings.autoRefresh !== request.settings.autoRefresh) {
+    quickStorage.settings.autoRefresh !== request.settings.autoRefresh &&
+    request.settings.autoRefresh >= 15) {
     autoFetch.change(request.settings.autoRefresh)
   }
 
