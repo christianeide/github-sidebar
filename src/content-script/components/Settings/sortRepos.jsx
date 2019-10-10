@@ -1,7 +1,7 @@
 import { h } from 'preact'
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 
-const SortableItem = SortableElement(({ item, removeRepo, listIndex }) =>
+const SortableItem = SortableElement(({ item, onRemoveRepo, listIndex }) =>
   <li className='listItem'>
     <div className='content text-truncate'>
       <div className='top'>
@@ -9,7 +9,7 @@ const SortableItem = SortableElement(({ item, removeRepo, listIndex }) =>
           {item.owner}/{item.name}
         </h5>
 
-        <div className='remove' onClick={removeRepo} data-index={listIndex}>
+        <div className='remove' onClick={onRemoveRepo} data-index={listIndex}>
             &#10005;
         </div>
       </div>
@@ -17,7 +17,7 @@ const SortableItem = SortableElement(({ item, removeRepo, listIndex }) =>
   </li>
 )
 
-const SortableList = SortableContainer(({ items, removeRepo }) => {
+const SortableList = SortableContainer(({ items, onRemoveRepo }) => {
   return (
     <ul>
       {items.map((item, index) =>
@@ -26,7 +26,7 @@ const SortableList = SortableContainer(({ items, removeRepo }) => {
           item={item}
           listIndex={index}
           index={index}
-          removeRepo={removeRepo}
+          onRemoveRepo={onRemoveRepo}
         />
       )}
     </ul>
@@ -34,12 +34,14 @@ const SortableList = SortableContainer(({ items, removeRepo }) => {
 })
 
 export default function SortableComponent (props) {
-  return <SortableList
-    items={props.repos}
-    onSortEnd={props.sortRepos}
-    helperClass='github-sidebar-sort'
-    removeRepo={props.removeRepo}
-    pressDelay={100}
-    lockAxis='y'
-         />
+  return (
+    <SortableList
+      items={props.repos}
+      onSortEnd={props.onSortRepos}
+      helperClass='github-sidebar-sort'
+      onRemoveRepo={props.onRemoveRepo}
+      pressDelay={100}
+      lockAxis='y'
+    />
+  )
 }

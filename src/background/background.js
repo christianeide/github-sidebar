@@ -168,13 +168,9 @@ function saveSettings (request) {
     settings
   })
 
-  // If we have repos, we will always hide settings
-  const showSettings = settings.repos.length === 0
-
   // Distribute settings to all tabs
   sendToAllTabs({
-    settings,
-    showSettings
+    settings
   })
 
   // Do a new fetch when we have new settings
