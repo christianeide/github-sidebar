@@ -67,7 +67,8 @@ export default class Repository extends PureComponent {
     super()
 
     this.state = {
-      repoHeight: 0
+      repoHeight: 0,
+      hover: false
     }
     this.repoHeight = createRef()
   }
@@ -80,7 +81,15 @@ export default class Repository extends PureComponent {
   }
 
   toggleCollapsed = () => {
-    this.props.port.postMessage({ type: 'toggleCollapsed', url: this.props.repo.url })
+      this.props.port.postMessage({ type: 'toggleCollapsed', url: this.props.repo.url })
+  }
+
+  toggleHover =() => {
+    this.setState({hover: !this.state.hover})
+  }
+
+  stopPropagation(e) {
+    e.stopPropagation()
   }
 
   renderItems (availableItems) {
@@ -96,7 +105,9 @@ export default class Repository extends PureComponent {
     return this.repoHeight && this.repoHeight.current && this.repoHeight.current.scrollHeight
   }
 
-  toggleRead = () => {
+  toggleRead = (e) => {
+    e.stopPropagation()
+
     const { repo, port } = this.props
     const repoHasUnreads = repoHasUnreadItems(repo)
 
@@ -144,18 +155,21 @@ export default class Repository extends PureComponent {
 
     return (
       <li className={`repository ${repo.collapsed ? 'collapsed' : ''}`}>
-        <div className='repoHeading'>
-          <div className="grid-1">
+        <div className={`repoHeading ${this.state.hover && "hideHover"}`} onClick={this.toggleCollapsed}>
+          <div className="grid-1" onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover}>
            {hasActiveElements && <Read read={!repoHasUnreads} status={"DEFAULT"} title={mouseoverText} toggleRead={this.toggleRead} />}
           </div>
            
-          <div className="grid-1 expand" onClick={this.toggleCollapsed}>
+          <div className="grid-1 expand">
             <Icons icon={'arrow'}  />
           </div>
           
           <div className="grid">
-            <h3 className='text-truncate'>
-              <a href={repo.url} className='text-truncate' title={`$(repo.owner}/${repo.name}`}>{name}</a>
+            <h3 className='text-truncate' onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover}>
+              <a href={repo.url} onClick={this.stopPropagation} className='text-truncate'
+                title={`$(repo.owner}/${repo.name}`} >
+                {name}
+              </a>
             </h3>
 
             {repoCount}
