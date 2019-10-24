@@ -2,7 +2,7 @@
 
 import defaultSettings from './defaultSettings.json'
 
-export let quickStorage = {
+export const quickStorage = {
   settings: undefined,
   repositories: undefined,
   rateLimit: undefined,

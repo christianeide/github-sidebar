@@ -1,3 +1,4 @@
+/** @jsx h */
 import { h } from 'preact'
 import { PureComponent } from 'preact/compat'
 import './header.scss'
@@ -29,7 +30,7 @@ export default class Header extends PureComponent {
   }
 
   render () {
-    const { loading, errors, toggleSettings, showSettings, port } = this.props
+    const { loading, errors, onToggleSettings, showSettings, port } = this.props
 
     const loader = loading && <Icons icon='loader' className='loader' />
     const icon = showSettings ? 'cancel' : 'settings'
@@ -46,7 +47,7 @@ export default class Header extends PureComponent {
         <span className='align-center'>
           <Errors errors={errors} port={port} />
 
-          <a href='#' className='iconBtn' onClick={toggleSettings}>
+          <a href='#' className='iconBtn' onClick={onToggleSettings}>
             <Icons icon={icon} />
           </a>
         </span>

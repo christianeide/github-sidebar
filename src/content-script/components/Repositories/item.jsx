@@ -1,5 +1,6 @@
+/** @jsx h */
 import { h } from 'preact'
-import {PureComponent} from "preact/compat"
+import { PureComponent } from 'preact/compat'
 import Icons from '../../images/svgs/icons.js'
 import { ago } from '../../js/time.js'
 import Read from '../Read/index.jsx'
@@ -11,11 +12,9 @@ export default class Item extends PureComponent {
     })
   }
 
-  render() {
-
+  render () {
     const {
       item: {
-        id,
         title,
         url,
         comments,
@@ -25,8 +24,7 @@ export default class Item extends PureComponent {
         author,
         read
       },
-      settings,
-      port
+      settings
     } = this.props
 
     const renderComments = () => {
