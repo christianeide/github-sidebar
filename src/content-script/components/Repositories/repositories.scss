@@ -76,9 +76,14 @@
                                 color: var(--repoHeaderText);
                             }
 
-                            span {
+                            .org, span {
                                 font-weight: normal;
                                 color: var(--repoHeaderSubText)
+                            }
+
+                            span {
+                                margin: 0 0.25rem;
+                                pointer-events: none;
                             }
                         }
 
