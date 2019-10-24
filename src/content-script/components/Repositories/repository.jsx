@@ -24,15 +24,15 @@ export default class Repository extends PureComponent {
     }
   }
 
-  toggleCollapsed = () => {
+  handleToggleCollapsed = () => {
     this.props.port.postMessage({ type: 'toggleCollapsed', url: this.props.repo.url })
   }
 
-  toggleHover =() => {
+  handleToggleHover =() => {
     this.setState({ hover: !this.state.hover })
   }
 
-  stopPropagation (e) {
+  handleStopPropagation (e) {
     // Prevent collapse on click
     e.stopPropagation()
   }
@@ -41,6 +41,7 @@ export default class Repository extends PureComponent {
     return availableItems.map(type => {
       return (
         <Type
+          key={type}
           type={type}
           {...this.props}
         />
@@ -90,7 +91,7 @@ export default class Repository extends PureComponent {
     const items = availableItems.map(item => {
       const totalItems = repo.totalItems[item]
       const typeText = item === 'pullRequests' ? 'pull requests' : item
-      return (<span title={`${totalItems} ${typeText}`}>{totalItems}</span>)
+      return (<span key={item} title={`${totalItems} ${typeText}`}>{totalItems}</span>)
     })
 
     const repoCount = hasActiveElements &&
@@ -105,8 +106,8 @@ export default class Repository extends PureComponent {
 
     return (
       <li className={`repository ${repo.collapsed ? 'collapsed' : ''}`}>
-        <div className={`repoHeading ${this.state.hover && 'hideHover'}`} onClick={this.toggleCollapsed}>
-          <div className='grid-1' onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover}>
+        <div className={`repoHeading ${this.state.hover && 'hideHover'}`} onClick={this.handleToggleCollapsed}>
+          <div className='grid-1' onMouseEnter={this.handleToggleHover} onMouseLeave={this.handleToggleHover}>
             {hasActiveElements && <Read read={!repoHasUnreads} status='DEFAULT' title={mouseoverText} toggleRead={this.toggleRead} />}
           </div>
 
@@ -115,16 +116,16 @@ export default class Repository extends PureComponent {
           </div>
 
           <div className='grid'>
-            <h3 className='text-truncate' onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover}>
+            <h3 className='text-truncate' onMouseEnter={this.handleToggleHover} onMouseLeave={this.handleToggleHover}>
               <a
-                href={this.getOwnerURL(repo.url)} onClick={this.stopPropagation} className='org'
+                href={this.getOwnerURL(repo.url)} onClick={this.handleStopPropagation} className='org'
                 title={repo.owner}
               >
                 {repo.owner}
               </a>
               <span>/</span>
               <a
-                href={repo.url} onClick={this.stopPropagation}
+                href={repo.url} onClick={this.handleStopPropagation}
                 title={repo.name}
               >
                 {repo.name}

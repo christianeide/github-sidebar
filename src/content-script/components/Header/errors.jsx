@@ -1,3 +1,4 @@
+/** @jsx h */
 import { Component, h } from 'preact'
 import Icons from '../../images/svgs/icons.js'
 import { ago } from '../../js/time.js'

@@ -1,3 +1,4 @@
+/** @jsx h */
 import { h } from 'preact'
 import { PureComponent } from 'preact/compat'
 
@@ -9,25 +10,27 @@ export default class Repositories extends PureComponent {
   render () {
     const {
       repositories,
-      toggleSettings,
+      onToggleSettings,
       settings,
       port
     } = this.props
 
     if (repositories.length === 0) {
-      return <NoRepos toggleSettings={toggleSettings} />
+      return <NoRepos onToggleSettings={onToggleSettings} />
     }
 
     return (
       <main>
         <ul className='repositories'>
           {repositories.map(repo => {
-            return <Repository
-              key={repo.url}
-              repo={repo}
-              settings={settings}
-              port={port}
-                   />
+            return (
+              <Repository
+                key={repo.url}
+                repo={repo}
+                settings={settings}
+                port={port}
+              />
+            )
           })}
         </ul>
       </main>

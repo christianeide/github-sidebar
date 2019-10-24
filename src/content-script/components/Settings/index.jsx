@@ -1,3 +1,4 @@
+/** @jsx h */
 import { Component, h } from 'preact'
 import SortRepos from './sortRepos.jsx'
 import { until } from '../../js/time.js'
@@ -246,7 +247,7 @@ export default class Settings extends Component {
 
         </ul>
 
-        { <div className={`autoSave ${settingsSaved && "show"}`}>Settings saved...</div>}
+        {<div className={`autoSave ${settingsSaved && 'show'}`}>Settings saved...</div>}
       </main>
     )
   }

@@ -27,7 +27,7 @@ function calculateTime (val) {
     year: 10000
   }
 
-  for (let unit in length) {
+  for (const unit in length) {
     const result = val % length[unit]
     if (!(val = 0 | val / length[unit])) {
       if (result < 0) return '0 minutes'

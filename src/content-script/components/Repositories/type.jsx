@@ -50,6 +50,7 @@ export default class Type extends PureComponent {
             {repo[type].map(item => {
               return (
                 <Item
+                  key={item.id}
                   item={item}
                   type={type}
                   port={port}

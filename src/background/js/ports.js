@@ -1,8 +1,8 @@
 let index = 0
-let ports = {}
+const ports = {}
 
 export function add (port) {
-  let id = index
+  const id = index
   ports[id] = port
 
   port.onDisconnect.addListener(() => {
@@ -15,7 +15,7 @@ export function remove (id) {
   delete ports[id]
 }
 export function messageAll (message) {
-  for (let id in ports) {
+  for (const id in ports) {
     ports[id].postMessage(message)
   }
 }

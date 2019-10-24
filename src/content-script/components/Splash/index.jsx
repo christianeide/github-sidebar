@@ -1,3 +1,4 @@
+/** @jsx h */
 import { Component, h } from 'preact'
 import Icons from '../../images/svgs/icons.js'
 import './splash.scss'
@@ -32,7 +33,12 @@ export default class Splash extends Component {
 
             <p>This extension requires an access token from Github to load data. </p>
             <p>
-              <a href='https://github.com/settings/tokens/new?scopes=repo&description=Github%20sidebar%20browser%20extension' target='_blank'>CREATE AN ACCESS TOKEN</a>
+              <a
+                href='https://github.com/settings/tokens/new?scopes=repo&description=Github%20sidebar%20browser%20extension'
+                target='_blank' rel='noopener noreferrer'
+              >
+                CREATE AN ACCESS TOKEN
+              </a>
               <em>(The necessary scopes are pre-selected)</em>
             </p>
 

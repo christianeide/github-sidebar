@@ -1,6 +1,7 @@
+/** @jsx h */
 /* global chrome */
 
-import {render, h, Component} from 'preact'
+import { render, h, Component } from 'preact'
 import './css/index.scss'
 
 //* ********* React components **********/
@@ -8,7 +9,7 @@ import Header from './components/Header/index.jsx'
 import Repositories from './components/Repositories/index.jsx'
 import Settings from './components/Settings/index.jsx'
 import Splash from './components/Splash/index.jsx'
-import setBadge, { hasUnreadItems } from './js/setBadge'
+import setBadge from './js/setBadge'
 
 class App extends Component {
   constructor () {
@@ -69,7 +70,7 @@ class App extends Component {
     return (
       <div className={`sidebar ${settings.theme}`}>
         <Header
-          toggleSettings={this.handleToggleSettings}
+          onToggleSettings={this.handleToggleSettings}
           loading={loading}
           errors={errors}
           showSettings={showSettings}
@@ -88,7 +89,7 @@ class App extends Component {
             <Repositories
               repositories={repositories}
               settings={settings}
-              toggleSettings={this.handleToggleSettings}
+              onToggleSettings={this.handleToggleSettings}
               port={this.port}
             />
           )}
