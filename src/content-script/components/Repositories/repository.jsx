@@ -71,13 +71,8 @@ export default class Repository extends PureComponent {
     return url.replace(new RegExp('(.*/)[^/]+$'), '$1')
   }
 
-  render () {
-    const { repo, settings } = this.props
+  calculateMaxHeight = (repo) => {
     const { repoHeight } = this.state
-
-    const availableItems = settings.listItemOfType === 'all'
-      ? ['issues', 'pullRequests']
-      : [settings.listItemOfType]
 
     let maxHeight = {}
     if (repo.collapsed) {
@@ -85,6 +80,17 @@ export default class Repository extends PureComponent {
     } else if (repoHeight) {
       maxHeight = { maxHeight: `${repoHeight}px` }
     }
+    return maxHeight
+  }
+
+  render () {
+    const { repo, settings } = this.props
+
+    const availableItems = settings.listItemOfType === 'all'
+      ? ['issues', 'pullRequests']
+      : [settings.listItemOfType]
+
+    const maxHeight = this.calculateMaxHeight(repo)
 
     const hasActiveElements = repo.totalItems.issues + repo.totalItems.pullRequests > 0
 
