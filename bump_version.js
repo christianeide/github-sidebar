@@ -26,6 +26,7 @@ function bumpVersion (path, newVersion) {
   writeFileSync(path, file)
 }
 
+// Make sure all files have the same version number, use package.json
 const currentVersion = readFileSync('package.json').version
 const newVersion = semver.inc(currentVersion, args.version)
 
