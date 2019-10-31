@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
@@ -21,7 +22,10 @@ module.exports = {
       './manifest.json',
       './images/logo_*'
     ]),
-    new MiniCssExtractPlugin({ filename: 'style.css' })
+    new MiniCssExtractPlugin({ filename: 'style.css' }),
+    new webpack.DefinePlugin({
+      'process.env.npm_package_version': JSON.stringify(process.env.npm_package_version)
+    })
   ],
   resolve: {
     alias: {
