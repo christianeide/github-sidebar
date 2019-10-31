@@ -1,7 +1,6 @@
 const fs = require('fs')
 const semver = require('semver')
-
-const args = getProcessArgs()
+const execSync = require('child_process').execSync
 
 function getProcessArgs () {
   return process.argv.slice(2).reduce((args, arg) => {
@@ -9,6 +8,15 @@ function getProcessArgs () {
     args[key.replace(/^-*/g, '')] = value
     return args
   }, {})
+}
+
+function getBump (args) {
+  if (args.major) return 'major'
+  if (args.minor) return 'minor'
+  if (args.patch) return 'patch'
+
+  console.log('No bump-level specified, bumping up a patch! Supply version bump with "npm run bump patch/minor/major"')
+  return 'patch'
 }
 
 function readFileSync (path) {
@@ -26,12 +34,20 @@ function bumpVersion (path, newVersion) {
   writeFileSync(path, file)
 }
 
+const args = getProcessArgs()
+const bump = getBump(args)
+
 // Make sure all files have the same version number, use package.json
 const currentVersion = readFileSync('package.json').version
-const newVersion = semver.inc(currentVersion, args.version)
+const newVersion = semver.inc(currentVersion, bump)
 
 bumpVersion('package.json', newVersion)
 bumpVersion('package-lock.json', newVersion)
 bumpVersion('manifest.json', newVersion)
 
 console.log('Version bumped to ' + newVersion)
+console.log('Building files')
+
+execSync('npm run build')
+
+console.log('Finished building project')
