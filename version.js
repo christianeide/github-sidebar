@@ -15,7 +15,7 @@ function getBump (args) {
   if (args.minor) return 'minor'
   if (args.patch) return 'patch'
 
-  console.log('No bump-level specified, bumping up a patch! Supply version bump with "npm run bump patch/minor/major"')
+  console.log('No bump-level specified, bumping up a patch! Supply version bump with "npm run version patch/minor/major"')
   return 'patch'
 }
 
