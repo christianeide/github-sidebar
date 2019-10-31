@@ -34,15 +34,4 @@ const SortableList = SortableContainer(({ items, onRemoveRepo }) => {
   )
 })
 
-export default function SortableComponent (props) {
-  return (
-    <SortableList
-      items={props.repos}
-      onSortEnd={props.onSortRepos}
-      helperClass='github-sidebar-sort'
-      onRemoveRepo={props.onRemoveRepo}
-      pressDelay={100}
-      lockAxis='y'
-    />
-  )
-}
+export default SortableList

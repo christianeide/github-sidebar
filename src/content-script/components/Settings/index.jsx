@@ -1,5 +1,5 @@
 /** @jsx h */
-import { Component, h } from 'preact'
+import { Component, h, createRef } from 'preact'
 import SortRepos from './sortRepos.jsx'
 import { until } from '../../js/time.js'
 import arrayMove from 'array-move'
@@ -29,6 +29,7 @@ export default class Settings extends Component {
     }
 
     this.timer = null
+    this.mainContRef = createRef()
   }
 
   componentWillUnmount () {
@@ -143,6 +144,10 @@ export default class Settings extends Component {
     this.setState({ settingsSaved: true })
   }
 
+  getRef = () => this.mainContRef;
+
+  setRef = (el) => { this.mainContRef = el }
+
   render () {
     const { rateLimit } = this.props
     const { repos, listItemOfType, numberOfItems, autoRefresh, updateFavicon, token, sortBy, theme, settingsSaved } = this.state
@@ -154,15 +159,19 @@ export default class Settings extends Component {
     const canAddRepo = canAddRepository(repos)
 
     return (
-      <main className='settings'>
+      <main className='settings' ref={this.setRef}>
         <ul>
           <li className='list'>
             <h4>Repositories</h4>
             <p>Navigate to a Github-repository you want to monitor and click the button below.</p>
             <SortRepos
-              repos={repos}
-              onSortRepos={this.handleSortRepos}
+              items={repos}
+              onSortEnd={this.handleSortRepos}
+              helperClass='github-sidebar-sort'
               onRemoveRepo={this.handleRemoveRepo}
+              pressDelay={100}
+              lockAxis='y'
+              helperContainer={this.getRef}
             />
             <button className='add' onClick={this.handleAddPage} disabled={!canAddRepo}>Add current repository</button>
           </li>
