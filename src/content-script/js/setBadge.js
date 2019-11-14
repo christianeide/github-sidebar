@@ -2,7 +2,8 @@ import Favico from 'favico.js'
 const favicon = new Favico({
   animation: 'popFade',
   bgColor: '#FDB23C',
-  textColor: '#FDB23C'
+  textColor: '#FDB23C',
+  position: 'upleft'
 })
 
 let OldUnReadStatus = false
