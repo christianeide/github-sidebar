@@ -48,7 +48,7 @@ export function fetchDataFromAPI ({
           name: repo.name,
           owner: repo.owner.login,
           url: repo.url,
-          collapsed: false,
+          collapsed: true,
           totalItems: {
             issues: repo.issues.totalCount,
             pullRequests: repo.pullRequests.totalCount
