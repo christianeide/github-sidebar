@@ -25,7 +25,7 @@ function readFileSync (path) {
 }
 
 function writeFileSync (path, data) {
-  fs.writeFileSync(path, JSON.stringify(data, null, 2))
+  fs.writeFileSync(path, JSON.stringify(data, null, 2) + '\n')
 }
 
 function bumpVersion (path, newVersion) {
