@@ -4,6 +4,7 @@ import { PureComponent } from 'preact/compat'
 import Icons from '../../images/svgs/icons.js'
 import { ago } from '../../js/time.js'
 import Read from '../Read/index.jsx'
+import { isSelectedURL } from './utils.js'
 
 export default class Item extends PureComponent {
   toggleRead = () => {
@@ -43,6 +44,8 @@ export default class Item extends PureComponent {
       ? `created ${ago(createdAt)} ago`
       : `updated ${ago(updatedAt)} ago`
 
+    const activeRepo = isSelectedURL(url)
+
     return (
       <li className='item'>
         <div className='grid-1' />
@@ -50,7 +53,7 @@ export default class Item extends PureComponent {
           <Read read={read} status={status} toggleRead={this.toggleRead} />
         </div>
 
-        <div className='grid listItem'>
+        <div className={`grid listItem ${activeRepo}`}>
           <a href={url} title={title}>
 
             <div className='content text-truncate'>

@@ -193,5 +193,25 @@ body {
                 }
             }
         }
+
+        .listItem.selected {
+            background: var(--selected);
+
+            a {
+                color: var(--selectedText);
+            }
+
+            .content {
+                .top {
+                    .comments {
+                        color: var(--selectedSubText);
+                    }
+                }
+
+                .bottom {
+                    color: var(--selectedSubText);
+                }
+            }
+        }
     }
 }

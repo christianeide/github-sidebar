@@ -5,6 +5,7 @@ import Type from './type.jsx'
 import Icons from '../../images/svgs/icons.js'
 import Read from '../Read/index.jsx'
 import { repoHasUnreadItems } from '../../js/setBadge.js'
+import { isSelectedURL } from './utils.js'
 
 export default class Repository extends PureComponent {
   constructor () {
@@ -109,10 +110,11 @@ export default class Repository extends PureComponent {
 
     const repoHasUnreads = repoHasUnreadItems(repo)
     const mouseoverText = repoHasUnreads ? 'Mark repo as read' : 'Mark repo as unread'
+    const activeRepo = isSelectedURL(repo.url)
 
     return (
       <li className={`repository ${repo.collapsed ? 'collapsed' : ''}`}>
-        <div className={`repoHeading ${this.state.hover && 'hideHover'}`} onClick={this.handleToggleCollapsed}>
+        <div className={`repoHeading ${activeRepo} ${this.state.hover && 'hideHover'}`} onClick={this.handleToggleCollapsed}>
           <div className='grid-1' onMouseEnter={this.handleToggleHover} onMouseLeave={this.handleToggleHover}>
             {hasActiveElements && <Read read={!repoHasUnreads} status='DEFAULT' title={mouseoverText} toggleRead={this.toggleRead} />}
           </div>
