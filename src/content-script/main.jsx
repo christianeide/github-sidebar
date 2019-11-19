@@ -9,7 +9,7 @@ import Header from './components/Header/index.jsx'
 import Repositories from './components/Repositories/index.jsx'
 import Settings from './components/Settings/index.jsx'
 import Splash from './components/Splash/index.jsx'
-import setBadge from './js/setBadge'
+import setBadge from './utils/setBadge'
 
 class App extends Component {
   constructor () {

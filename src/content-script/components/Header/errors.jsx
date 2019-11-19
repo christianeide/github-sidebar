@@ -1,7 +1,7 @@
 /** @jsx h */
 import { Component, h } from 'preact'
 import Icons from '../../images/svgs/icons.js'
-import { ago } from '../../js/time.js'
+import { ago } from '../../utils/time.js'
 
 export default class Errors extends Component {
   constructor () {

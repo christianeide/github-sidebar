@@ -2,7 +2,7 @@
 import { h } from 'preact'
 import { PureComponent } from 'preact/compat'
 import Icons from '../../images/svgs/icons.js'
-import { ago } from '../../js/time.js'
+import { ago } from '../../utils/time.js'
 import Read from '../Read/index.jsx'
 import { isSelectedURL } from './utils.js'
 

@@ -1,7 +1,7 @@
 /** @jsx h */
 import { Component, h, createRef } from 'preact'
 import SortRepos from './sortRepos.jsx'
-import { until } from '../../js/time.js'
+import { until } from '../../utils/time.js'
 import arrayMove from 'array-move'
 import { getCurrentPath, canAddRepository } from './getPath.js'
 
