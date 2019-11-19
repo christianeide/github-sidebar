@@ -55,6 +55,7 @@
                                     color: var(--repoHeaderHover);
                                 }
                             }
+
                             cursor: pointer;
                         }
 
@@ -76,7 +77,8 @@
                                 color: var(--repoHeaderText);
                             }
 
-                            .org, span {
+                            .org,
+                            span {
                                 font-weight: normal;
                                 color: var(--repoHeaderSubText)
                             }
@@ -95,6 +97,41 @@
                             @include fontSizeSmall();
                             text-align: right;
                             margin-left: 0.5rem;
+                        }
+                    }
+
+                    // Set colors if repo is selected
+                    .repoHeading.selected {
+                        background: var(--selected);
+                        color: var(--selectedText);
+
+                        &:not(.hideHover):hover {
+                            .expand {
+                                .icon {
+                                    color: var(--selectedHover);
+                                }
+                            }
+                        }
+
+                        .expand {
+                            .icon {
+                                color: var(--selectedSubText);
+                            }
+                        }
+
+                        h3 {
+                            a {
+                                color: var(--selectedText);
+                            }
+
+                            .org,
+                            span {
+                                color: var(--selectedSubText)
+                            }
+                        }
+
+                        .repoCount {
+                            color: var(--selectedSubText);
                         }
                     }
 

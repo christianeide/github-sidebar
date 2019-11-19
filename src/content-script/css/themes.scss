@@ -11,6 +11,8 @@
     --red: #ed4d4d;
     --yellow: #FDB23C;
     --green : #4DC58B;
+    --blue: #7FB7BE;
+    --lightBlue: #e4eef1;
 
     --sidebarBg: var(--gray-800);
     --sidebarBorder: var(--gray-900);
@@ -42,6 +44,11 @@
     --repoItemBg: var(--gray-700);
     --repoItemText: var(--gray-100);
     --repoItemSubText: var(--gray-500);
+
+    --selected: var(--blue);
+    --selectedText: var(--white);
+    --selectedSubText: var(--lightBlue);
+    --selectedHover: var(--white);
     
     --settingsText: var(--gray-500);
 }
