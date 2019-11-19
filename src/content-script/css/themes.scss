@@ -45,10 +45,10 @@
     --repoItemText: var(--gray-100);
     --repoItemSubText: var(--gray-500);
 
-    --selected: var(--blue);
-    --selectedText: var(--white);
-    --selectedSubText: var(--lightBlue);
-    --selectedHover: var(--white);
+    --selected: var(--gray-100);
+    --selectedText: var(--gray-900);
+    --selectedSubText: var(--gray-800);
+    --selectedHover: var(--gray-500);
     
     --settingsText: var(--gray-500);
 }
@@ -75,7 +75,12 @@
     --repoTypeText: var(--gray-700);
 
     --repoItemBg: var(--white);
-    --repoItemText: var(--gray-700);   
+    --repoItemText: var(--gray-700);  
+
+    --selected: var(--gray-500);
+    --selectedText: var(--white);
+    --selectedSubText: var(--gray-100);
+    --selectedHover: var(--gray-200);
 
     --settingsText: var(--gray-700);
 }
