@@ -1,6 +1,7 @@
 import Favico from 'favico.js'
 const favicon = new Favico({
-  animation: 'popFade',
+  // Animation wont work with position upleft, so we set it to none
+  animation: 'none',
   bgColor: '#FDB23C',
   textColor: '#FDB23C',
   position: 'upleft'
