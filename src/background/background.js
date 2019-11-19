@@ -264,3 +264,24 @@ function setRepoAsReadByURL (url) {
     })
   }
 }
+
+export function autoRemoveRepo (repoNr) {
+  const settings = quickStorage.settings
+
+  settings.repos = settings.repos.filter(function (value, index, arr) {
+    return index !== repoNr
+  })
+
+  // Save settings to storage
+  chrome.storage.local.set({
+    settings
+  })
+
+  // Distribute settings to all tabs
+  sendToAllTabs({
+    settings
+  })
+
+  // Do a new fetch when we have new settings
+  fetchData()
+}
