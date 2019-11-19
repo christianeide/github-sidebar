@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { createPullRequestsQuery } from './graphql.js'
+import { autoRemoveRepo } from '../background.js'
 
 export function fetchDataFromAPI ({
   token,
@@ -24,6 +25,19 @@ export function fetchDataFromAPI ({
     .then((result) => {
       if (result.data.errors) {
         const userError = result.data.errors.map(item => {
+          if (item.type === 'NOT_FOUND') {
+            // Repos are named 'repo{number}' in graphql-kalls
+            const missingRepoNumber = Number(item.path[0].replace('repo', ''))
+
+            autoRemoveRepo(missingRepoNumber)
+
+            return {
+              title: 'Error in API query to Github ',
+              message: `${item.message} Will now autoremove repo from list.`,
+              time: Date.now()
+            }
+          }
+
           return {
             title: 'Error in API query to Github ',
             message: item.message,
