@@ -9,7 +9,7 @@
   "author": "Christian Sletten Eide",
   "license": "MIT",
   "scripts": {
-    "watch": "NODE_ENV=development webpack",
+    "start": "NODE_ENV=development webpack",
     "version": "node ./version.js",
     "build": "NODE_ENV=production webpack -p --config webpack.production.config.js --display-error-details --colors --progress"
   },
