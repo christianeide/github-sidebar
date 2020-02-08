@@ -6,12 +6,12 @@ import Icons from '../../images/svgs/icons.js'
 import Errors from './errors.jsx'
 
 export default class Header extends PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.setHeight()
     window.addEventListener('resize', this.setHeight)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('resize', this.setHeight)
   }
 
@@ -29,7 +29,7 @@ export default class Header extends PureComponent {
     this.props.port.postMessage({ type: 'toggleRead' })
   }
 
-  render () {
+  render() {
     const { loading, errors, onToggleSettings, showSettings, port } = this.props
 
     const loader = loading && <Icons icon='loader' className='loader' />
