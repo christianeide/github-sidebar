@@ -1,8 +1,8 @@
-export function isSelectedURL (itemURL) {
+export function isSelectedURL(itemURL) {
   const currentURL = getCurrentURL()
-  return currentURL.match(itemURL) ? 'selected' : ''
+  return currentURL.startsWith(itemURL + "/") ? 'selected' : ''
 }
 
-function getCurrentURL () {
-  return window.location.href
+function getCurrentURL() {
+  return window.location.href + "/"
 }
