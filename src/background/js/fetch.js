@@ -2,7 +2,7 @@ import axios from 'axios'
 import { createPullRequestsQuery } from './graphql.js'
 import { autoRemoveRepo } from '../background.js'
 
-export function fetchDataFromAPI ({
+export function fetchDataFromAPI({
   token,
   repos,
   numberOfItems,
@@ -15,8 +15,8 @@ export function fetchDataFromAPI ({
   axios({
     url: 'https://api.github.com/graphql',
     method: 'post',
-    params: {
-      access_token: token
+    headers: {
+      Authorization: `Bearer ${token}`
     },
     data: {
       query
@@ -88,7 +88,7 @@ export function fetchDataFromAPI ({
       return callback(userError)
     })
 }
-function listItems (repo, type, { login }) {
+function listItems(repo, type, { login }) {
   return repo[type].edges.map(({ node: item }) => {
     return {
       id: item.id,
