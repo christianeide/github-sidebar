@@ -1,4 +1,3 @@
-/** @jsx h */
 import { Component, h } from 'preact';
 import Icons from '../../images/svgs/icons.js';
 import './splash.scss';

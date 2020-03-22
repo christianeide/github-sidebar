@@ -1,4 +1,3 @@
-/** @jsx h */
 import { Component, h } from 'preact';
 import Icons from '../../images/svgs/icons.js';
 import { ago } from '../../utils/time.js';
@@ -17,9 +16,8 @@ export default class Errors extends Component {
 			return true;
 		} else if (this.props.errors === nextProps.errors) {
 			return false;
-		} else {
-			return true;
 		}
+		return true;
 	}
 
 	errorList = (errors) => {

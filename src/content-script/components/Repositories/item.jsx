@@ -1,4 +1,3 @@
-/** @jsx h */
 import { h } from 'preact';
 import { PureComponent } from 'preact/compat';
 import Icons from '../../images/svgs/icons.js';

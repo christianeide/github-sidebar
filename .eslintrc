@@ -14,9 +14,12 @@
 		"eslint:recommended",
 		"prettier",
 		"plugin:react/recommended",
-		"plugin:prettier/recommended"
+		"plugin:prettier/recommended",
+		"preact"
 	],
-	"globals": {},
+	"globals": {
+		"chrome": "readonly"
+	},
 	"parser": "babel-eslint",
 	"parserOptions": {
 		"ecmaVersion": 11,

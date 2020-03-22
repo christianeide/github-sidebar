@@ -1,12 +1,10 @@
-/* global chrome */
-
 import defaultSettings from './defaultSettings.json';
 
 export const quickStorage = {
 	settings: undefined,
 	repositories: undefined,
 	rateLimit: undefined,
-	getStorage: function(_callback) {
+	getStorage(_callback) {
 		// If we already have some data to return
 		if (this.settings) {
 			return _callback({

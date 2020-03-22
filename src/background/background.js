@@ -1,5 +1,3 @@
-/* global chrome */
-
 import defaultSettings from './js/defaultSettings.json';
 import { fetchDataFromAPI } from './js/fetch.js';
 import * as ports from './js/ports';
@@ -15,24 +13,24 @@ let errors = [];
 const autoFetch = {
 	timer: undefined,
 	cb: fetchData,
-	start: function(interval) {
+	start(interval) {
 		this.timer = setInterval(this.cb, this.calculateMS(interval));
 	},
-	stop: function() {
+	stop() {
 		if (!this.timer) {
 			return;
 		}
 		clearInterval(this.timer);
 		this.timer = undefined;
 	},
-	change: function(interval) {
+	change(interval) {
 		if (!this.timer) {
 			return;
 		}
 		clearInterval(this.timer);
 		this.timer = setInterval(this.cb, this.calculateMS(interval));
 	},
-	calculateMS: function(min) {
+	calculateMS(min) {
 		return min * 1000;
 	}
 };
@@ -280,7 +278,7 @@ function setRepoAsReadByURL(url) {
 export function autoRemoveRepo(repoNr) {
 	const settings = quickStorage.settings;
 
-	settings.repos = settings.repos.filter(function(value, index) {
+	settings.repos = settings.repos.filter((value, index) => {
 		return index !== repoNr;
 	});
 

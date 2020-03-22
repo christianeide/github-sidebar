@@ -1,4 +1,3 @@
-/** @jsx h */
 import { h } from 'preact';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 

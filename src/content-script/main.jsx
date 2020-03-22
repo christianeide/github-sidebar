@@ -1,6 +1,3 @@
-/** @jsx h */
-/* global chrome */
-
 import { render, h, Component } from 'preact';
 import './css/index.scss';
 
