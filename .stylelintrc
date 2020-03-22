@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-prettier"
+  ],
+  "plugins": ["stylelint-prettier"],
+  "rules": {
+    "at-rule-no-unknown": null,
+    "prettier/prettier": true
+  },
+}

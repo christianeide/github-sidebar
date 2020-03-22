@@ -1,0 +1,45 @@
+{
+	"env": {
+		"browser": true,
+		"es6": true,
+		"mocha": true,
+		"node": true
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	},
+	"extends": [
+		"eslint:recommended",
+		"prettier",
+		"plugin:react/recommended",
+		"plugin:prettier/recommended"
+	],
+	"globals": {},
+	"parser": "babel-eslint",
+	"parserOptions": {
+		"ecmaVersion": 11,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"experimentalObjectRestSpread": true
+		},
+		"allowImportExportEverywhere": true
+	},
+	"plugins": [
+		"react",
+		"prettier"
+	],
+	"rules": {
+		"require-atomic-updates": "off",
+		"curly": "error",
+		"no-console": "warn",
+		"no-nested-ternary": "error",
+		"no-unused-vars": [
+			"error",
+			{
+				"ignoreRestSiblings": true
+			}
+		]
+	}
+}
