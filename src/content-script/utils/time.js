@@ -33,7 +33,7 @@ function calculateTime(val) {
 			if (result < 0) {
 				return '0 minutes';
 			}
-			return result + ' ' + (result - 1 ? unit + 's' : unit);
+			return `${result} ${result - 1 ? `${unit}s` : unit}`;
 		}
 	}
 }
