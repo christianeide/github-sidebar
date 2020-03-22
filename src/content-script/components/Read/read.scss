@@ -1,38 +1,37 @@
-@import "../../css/globals.scss";
-
+@import '../../css/globals.scss';
 
 #github-sidebar {
-    .readButton {
-        justify-content: flex-end;
-        height: 100%;
-        width: 100%;
-        display: flex;
+	.readButton {
+		justify-content: flex-end;
+		height: 100%;
+		width: 100%;
+		display: flex;
 
-        .color {
-            height: 100%;
-            border-radius: 2px 0 0 2px;
-            width: 80%;
-            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
+		.color {
+			height: 100%;
+			border-radius: 2px 0 0 2px;
+			width: 80%;
+			transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+		}
 
-        &:hover {
-            cursor: pointer;
+		&:hover {
+			cursor: pointer;
 
-            .color {
-                opacity: 0.8;
-            }
-        }
+			.color {
+				opacity: 0.8;
+			}
+		}
 
-        &.read {
-            .color {
-                width: 30%;
-            }
+		&.read {
+			.color {
+				width: 30%;
+			}
 
-            &:hover {
-                .color {
-                    width: 60%
-                }
-            }
-        }
-    }
+			&:hover {
+				.color {
+					width: 60%;
+				}
+			}
+		}
+	}
 }
