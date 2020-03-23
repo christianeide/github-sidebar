@@ -1,33 +1,33 @@
-@import "./_variables.scss";
+@import './_variables.scss';
 
 %listItem {
-    background-color: var(--repoItemBg);
-    border-radius: 0 2px 2px 0;
-    padding: 0.3rem 0.5rem;
-    color: var(--repoItemText);
-    position: relative;
-    overflow: hidden;
+	background-color: var(--repoItemBg);
+	border-radius: 0 2px 2px 0;
+	padding: 0.3rem 0.5rem;
+	color: var(--repoItemText);
+	position: relative;
+	overflow: hidden;
 }
 
 %text-truncate {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 %content {
-    flex: 1 1 auto;
+	flex: 1 1 auto;
 }
 
 %top {
-    display: flex;
-    justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 %remove {
-    font-weight: unset;
-    font-size: 1.5rem;
-    margin-top: -0.5rem;
-    margin-bottom: -0.5rem;
-    color: var(--repoItemSubText);
+	font-weight: unset;
+	font-size: 1.5rem;
+	margin-top: -0.5rem;
+	margin-bottom: -0.5rem;
+	color: var(--repoItemSubText);
 }

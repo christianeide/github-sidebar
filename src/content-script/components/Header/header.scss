@@ -1,91 +1,89 @@
-@import "../../css/globals.scss";
-
+@import '../../css/globals.scss';
 
 #github-sidebar {
-    .sidebar {
-        header {
-            border-right: 1px solid var(--headerBorder);
-            border-bottom: 1px solid var(--headerBorder);
-            background: var(--headerBg);
-            padding: $sidePadding;
-            color: var(--headerText);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
+	.sidebar {
+		header {
+			border-right: 1px solid var(--headerBorder);
+			border-bottom: 1px solid var(--headerBorder);
+			background: var(--headerBg);
+			padding: $sidePadding;
+			color: var(--headerText);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			position: relative;
 
-            .loader {
-                margin-left: 1rem;
-                opacity: .4;
-                height: 5rem;
-            }
+			.loader {
+				margin-left: 1rem;
+				opacity: 0.4;
+				height: 5rem;
+			}
 
-            .iconBtn {
-                color: var(--headerIcon);
+			.iconBtn {
+				color: var(--headerIcon);
 
-                &:hover {
-                    color: var(--headerIconHover);
-                }
-            }
+				&:hover {
+					color: var(--headerIconHover);
+				}
+			}
 
-            .warningBtn {
-                color: var(--red);
-                margin-right: .5rem;
+			.warningBtn {
+				color: var(--red);
+				margin-right: 0.5rem;
 
-                &:hover {
-                    opacity: .7;
-                }
-            }
+				&:hover {
+					opacity: 0.7;
+				}
+			}
 
-            .error {
-                ul {
-                    position: absolute;
-                    background: var(--errorBg);
-                    color: var(--errorText);
-                    list-style-type: none;
-                    border: 1px solid var(--errorBorder);
-                    z-index: 4000;
-                    width: $sidebarWidth - 1;
-                    box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 6px 0px;
-                    margin-top: 1rem;
-                    padding: .4rem 1rem;
-                    left: 0.5rem;
-                    padding: 0.4rem;
+			.error {
+				ul {
+					position: absolute;
+					background: var(--errorBg);
+					color: var(--errorText);
+					list-style-type: none;
+					border: 1px solid var(--errorBorder);
+					z-index: 4000;
+					width: $sidebarWidth - 1;
+					box-shadow: rgba(0, 0, 0, 0.24) 0 0 6px 0;
+					margin-top: 1rem;
+					left: 0.5rem;
+					padding: 0.4rem;
 
-                    &:after {
-                        bottom: 100%;
-                        left: 86%;
-                        border: solid transparent;
-                        content: " ";
-                        height: 0;
-                        width: 0;
-                        position: absolute;
-                        pointer-events: none;
-                        border-color: rgba(0, 0, 0, 0);
-                        border-bottom-color: var(--errorBg);
-                        border-width: 10px;
-                        margin-left: -10px;
-                    }
+					&::after {
+						bottom: 100%;
+						left: 86%;
+						border: solid transparent;
+						content: ' ';
+						height: 0;
+						width: 0;
+						position: absolute;
+						pointer-events: none;
+						border-color: rgba(0, 0, 0, 0);
+						border-bottom-color: var(--errorBg);
+						border-width: 10px;
+						margin-left: -10px;
+					}
 
-                    li {
-                        border-width: 1px;
+					li {
+						border-width: 1px;
 
-                        &:first-child {
-                            margin-top: 0;
-                        }
+						&:first-child {
+							margin-top: 0;
+						}
 
-                        &:last-child {
-                            margin-bottom: 0;
-                        }
+						&:last-child {
+							margin-bottom: 0;
+						}
 
-                        p {
-                            color: var(--errorSubText);
-                            margin: 0;
-                            @include fontSizeSmall();
-                        }
-                    }
-                }
-            }
-        }
-    }
+						p {
+							color: var(--errorSubText);
+							margin: 0;
+							@include fontSizeSmall();
+						}
+					}
+				}
+			}
+		}
+	}
 }

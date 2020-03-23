@@ -1,10 +1,10 @@
-@import "./_variables.scss";
-@import "./extends.scss";
+@import './_variables.scss';
+@import './extends.scss';
 
 @mixin fontSizeNormal {
-    font-size: 0.875rem;
+	font-size: 0.875rem;
 }
 
 @mixin fontSizeSmall {
-    font-size: 0.75rem;
+	font-size: 0.75rem;
 }

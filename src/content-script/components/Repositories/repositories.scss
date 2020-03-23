@@ -1,193 +1,194 @@
-@import "../../css/globals.scss";
-
+@import '../../css/globals.scss';
 
 #github-sidebar {
-    .sidebar {
-        main {
-            .repositories {
-                margin-bottom: 2rem;
+	.sidebar {
+		main {
+			.repositories {
+				margin-bottom: 2rem;
 
-                .repository {
-                    margin-bottom: 2px;
+				.repository {
+					margin-bottom: 2px;
 
-                    .item {
-                        display: flex;
-                        overflow: hidden;
-                        margin-top: 0.15rem;
-                        margin-bottom: 0.15rem;
-                    }
+					.item {
+						display: flex;
+						overflow: hidden;
+						margin-top: 0.15rem;
+						margin-bottom: 0.15rem;
+					}
 
-                    .repoHeading {
-                        display: flex;
-                        background: var(--repoHeaderBg);
-                        color: var(--repoHeaderText);
+					.itemHeading {
+						padding: 0.8rem 0 0.2rem 0;
+						display: flex;
+						align-items: center;
 
-                        .readButton {
-                            justify-content: flex-start;
+						.icon {
+							color: var(--repoTypeText);
+						}
 
-                            .color {
-                                border-radius: 0 2px 2px 0;
-                                width: 70%;
-                            }
+						h4 {
+							display: inline;
+							@include fontSizeNormal();
 
-                            &:hover {
-                                .color {
-                                    width: 70%;
-                                }
-                            }
+							a {
+								color: var(--repoTypeText);
+								font-weight: normal;
+							}
+						}
+					}
 
-                            &.read {
-                                .color {
-                                    width: 0%;
-                                }
+					.repoHeading {
+						display: flex;
+						background: var(--repoHeaderBg);
+						color: var(--repoHeaderText);
 
-                                &:hover {
-                                    .color {
-                                        width: 50%
-                                    }
-                                }
-                            }
-                        }
+						.readButton {
+							justify-content: flex-start;
 
-                        &:not(.hideHover):hover {
-                            .expand {
-                                .icon {
-                                    color: var(--repoHeaderHover);
-                                }
-                            }
+							.color {
+								border-radius: 0 2px 2px 0;
+								width: 70%;
+							}
 
-                            cursor: pointer;
-                        }
+							&:hover {
+								.color {
+									width: 70%;
+								}
+							}
 
-                        .expand {
-                            .icon {
-                                color: var(--repoHeaderSubText);
-                                translate: rotateZ(0deg);
-                                transition: transform 0.2s ease-out;
-                                transform: scale(0.7);
-                            }
-                        }
+							&.read {
+								.color {
+									width: 0%;
+								}
 
-                        h3 {
-                            @include fontSizeNormal();
-                            padding-top: $topPadding;
-                            padding-bottom: $topPadding;
+								&:hover {
+									.color {
+										width: 50%;
+									}
+								}
+							}
+						}
 
-                            a {
-                                color: var(--repoHeaderText);
-                            }
+						&:not(.hideHover):hover {
+							.expand {
+								.icon {
+									color: var(--repoHeaderHover);
+								}
+							}
 
-                            .org,
-                            span {
-                                font-weight: normal;
-                                color: var(--repoHeaderSubText)
-                            }
+							cursor: pointer;
+						}
 
-                            span {
-                                margin: 0 0.25rem;
-                                pointer-events: none;
-                            }
-                        }
+						.expand {
+							.icon {
+								color: var(--repoHeaderSubText);
+								translate: rotateZ(0deg);
+								transition: transform 0.2s ease-out;
+								transform: scale(0.7);
+							}
+						}
 
-                        .repoCount {
-                            display: flex;
-                            flex-direction: column;
-                            line-height: 1rem;
-                            color: var(--repoHeaderSubText);
-                            @include fontSizeSmall();
-                            text-align: right;
-                            margin-left: 0.5rem;
-                        }
-                    }
+						h3 {
+							@include fontSizeNormal();
 
-                    // Set colors if repo is selected
-                    .repoHeading.selected {
-                        background: var(--selected);
-                        color: var(--selectedText);
+							padding-top: $topPadding;
+							padding-bottom: $topPadding;
 
-                        &:not(.hideHover):hover {
-                            .expand {
-                                .icon {
-                                    color: var(--selectedHover);
-                                }
-                            }
-                        }
+							a {
+								color: var(--repoHeaderText);
+							}
 
-                        .expand {
-                            .icon {
-                                color: var(--selectedSubText);
-                            }
-                        }
+							.org,
+							span {
+								font-weight: normal;
+								color: var(--repoHeaderSubText);
+							}
 
-                        h3 {
-                            a {
-                                color: var(--selectedText);
-                            }
+							span {
+								margin: 0 0.25rem;
+								pointer-events: none;
+							}
+						}
 
-                            .org,
-                            span {
-                                color: var(--selectedSubText)
-                            }
-                        }
+						.repoCount {
+							display: flex;
+							flex-direction: column;
+							line-height: 1rem;
+							color: var(--repoHeaderSubText);
+							@include fontSizeSmall();
 
-                        .repoCount {
-                            color: var(--selectedSubText);
-                        }
-                    }
+							text-align: right;
+							margin-left: 0.5rem;
+						}
+					}
 
-                    &.collapsed .repoHeading .icon {
-                        transform: scale(0.7) rotateZ(-180deg);
-                    }
+					// Set colors if repo is selected
+					.repoHeading.selected {
+						background: var(--selected);
+						color: var(--selectedText);
 
-                    .items {
-                        overflow: hidden;
-                        transition: max-height 0.2s ease-out;
+						&:not(.hideHover):hover {
+							.expand {
+								.icon {
+									color: var(--selectedHover);
+								}
+							}
+						}
 
-                        // Adds margin to last ul inside items
-                        & div:last-child ul {
-                            margin-bottom: 1rem;
-                        }
-                    }
+						.expand {
+							.icon {
+								color: var(--selectedSubText);
+							}
+						}
 
-                    .pullRequests {
-                        margin-bottom: 0.4rem;
-                    }
+						h3 {
+							a {
+								color: var(--selectedText);
+							}
 
-                    .itemHeading {
-                        padding: .8rem 0 0.2rem 0;
-                        display: flex;
-                        align-items: center;
+							.org,
+							span {
+								color: var(--selectedSubText);
+							}
+						}
 
-                        .icon {
-                            color: var(--repoTypeText);
-                        }
+						.repoCount {
+							color: var(--selectedSubText);
+						}
+					}
 
-                        h4 {
-                            display: inline;
-                            @include fontSizeNormal();
+					&.collapsed .repoHeading .icon {
+						transform: scale(0.7) rotateZ(-180deg);
+					}
 
-                            a {
-                                color: var(--repoTypeText);
-                                font-weight: normal;
-                            }
-                        }
-                    }
-                }
-            }
+					.items {
+						overflow: hidden;
+						transition: max-height 0.2s ease-out;
 
-            &.noRepos {
-                padding: 2rem;
-                display: flex;
+						// Adds margin to last ul inside items
+						& div:last-child ul {
+							margin-bottom: 1rem;
+						}
+					}
 
-                .justifier {
-                    margin: auto;
+					.pullRequests {
+						margin-bottom: 0.4rem;
+					}
+				}
+			}
 
-                    p {
-                        color: var(--sidebarText);
-                        line-height: 1rem;
-                    }
-                }
-            }
-        }
-    }
+			&.noRepos {
+				padding: 2rem;
+				display: flex;
+
+				.justifier {
+					margin: auto;
+
+					p {
+						color: var(--sidebarText);
+						line-height: 1rem;
+					}
+				}
+			}
+		}
+	}
 }

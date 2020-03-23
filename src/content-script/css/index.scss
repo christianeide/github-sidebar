@@ -1,217 +1,220 @@
-@import "./globals.scss";
-@import "./themes.scss";
+@import './globals.scss';
+@import './themes.scss';
 
 body {
-    padding-left: $sidebarWidth !important;
+	padding-left: $sidebarWidth !important;
 }
 
 #github-sidebar {
-    position: fixed;
-    height: 100%;
-    width: $sidebarWidth;
-    top: 0;
-    left: 0;
-    z-index: 1000;
+	position: fixed;
+	height: 100%;
+	width: $sidebarWidth;
+	top: 0;
+	left: 0;
+	z-index: 1000;
 
-    // Generic classes
-    a {
-        color: var(--sidebarLink);
-    }
+	// Generic classes
+	a {
+		color: var(--sidebarLink);
+	}
 
-    .text-truncate {
-        @extend %text-truncate;
-    }
+	.text-truncate {
+		@extend %text-truncate;
+	}
 
-    .v-align-middle {
-        vertical-align: middle !important;
-    }
+	.v-align-middle {
+		vertical-align: middle !important;
+	}
 
-    .align-center {
-        display: flex;
-        align-items: center;
-    }
+	.align-center {
+		display: flex;
+		align-items: center;
+	}
 
-    .APPROVED {
-        background: var(--green) !important;
-    }
+	.APPROVED {
+		background: var(--green) !important;
+	}
 
-    .CHANGES_REQUESTED {
-        background: var(--red) !important;
-    }
+	.CHANGES_REQUESTED {
+		background: var(--red) !important;
+	}
 
-    .DEFAULT {
-        background: var(--yellow) !important;
-    }
+	.DEFAULT {
+		background: var(--yellow) !important;
+	}
 
-    .icon {
-        vertical-align: text-bottom;
-        display: inline-block;
-        fill: currentColor;
-    }
+	.icon {
+		vertical-align: text-bottom;
+		display: inline-block;
+		fill: currentColor;
+	}
 
-    // Grid
-    .grid-1 {
-        $marginRight: $sidePadding/5;
+	// Grid
+	.grid-1 {
+		$marginRight: $sidePadding/5;
 
-        display: flex;
-        align-items: center;
-        width: $sidePadding;
-        min-width: $sidePadding;
-        margin-right: $marginRight;
+		display: flex;
+		align-items: center;
+		width: $sidePadding;
+		min-width: $sidePadding;
+		margin-right: $marginRight;
 
-        &.no-gutters {
-            width: $sidePadding + $marginRight;
-            min-width: $sidePadding + $marginRight;
-            margin-right: 0;
-        }
-    }
+		&.no-gutters {
+			width: $sidePadding + $marginRight;
+			min-width: $sidePadding + $marginRight;
+			margin-right: 0;
+		}
+	}
 
+	.grid {
+		display: flex;
+		align-items: center;
+		flex-grow: 1;
+		justify-content: space-between;
+		margin-right: $sidePadding;
+		overflow: hidden;
+	}
 
-    .grid {
-        display: flex;
-        align-items: center;
-        flex-grow: 1;
-        justify-content: space-between;
-        margin-right: $sidePadding;
-        overflow: hidden;
-    }
+	// Design
+	.sidebar {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		background-color: var(--sidebarBg);
+		color: var(--sidebarText);
 
-    // Design
-    .sidebar {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        background-color: var(--sidebarBg);
-        color: var(--sidebarText);
+		ul {
+			list-style-type: none;
+		}
 
-        ul {
-            list-style-type: none;
-        }
+		main {
+			flex: 1;
+			border-right: 1px solid var(--sidebarBorder);
+			overflow-y: auto;
+		}
 
-        main {
-            flex: 1;
-            border-right: 1px solid var(--sidebarBorder);
-            overflow-y: auto;
-        }
+		label {
+			font-weight: normal;
+			display: block;
+			margin: 0.5rem 0;
+		}
 
-        label {
-            font-weight: normal;
-            display: block;
-            margin: 0.5rem 0;
-        }
+		input[type='text'],
+		input[type='number'] {
+			width: 100%;
+			padding: 0.3rem 0.5rem;
+		}
 
-        input[type='text'],
-        input[type='number'] {
-            width: 100%;
-            padding: 0.3rem 0.5rem;
-        }
+		em {
+			@include fontSizeSmall();
 
-        em {
-            @include fontSizeSmall();
-            display: block;
-            opacity: .6;
-            white-space: nowrap;
-        }
+			display: block;
+			opacity: 0.6;
+			white-space: nowrap;
+		}
 
-        button {
-            background: var(--sidebarButton);
-            border-radius: .25em;
-            border: none;
-            color: var(--sidebarButtonText);
-            cursor: pointer;
-            @include fontSizeNormal();
-            padding: 0.375rem 0.75rem;
-            vertical-align: middle;
-            width: 100%;
-            margin-top: 2rem;
+		button {
+			background: var(--sidebarButton);
+			border-radius: 0.25em;
+			border: none;
+			color: var(--sidebarButtonText);
+			cursor: pointer;
+			@include fontSizeNormal();
 
-            &:hover {
-                opacity: 0.94;
-            }
+			padding: 0.375rem 0.75rem;
+			vertical-align: middle;
+			width: 100%;
+			margin-top: 2rem;
 
-            &:active {
-                transform: translateY(1px);
-                filter: saturate(150%);
-            }
+			&:hover {
+				opacity: 0.94;
+			}
 
-            &[disabled] {
-                background: var(--sidebarButtonDisabled);
-                font-style: italic;
-                cursor: unset;
-            }
-        }
+			&:active {
+				transform: translateY(1px);
+				filter: saturate(150%);
+			}
 
-        .listItem {
-            @extend %listItem;
+			&[disabled] {
+				background: var(--sidebarButtonDisabled);
+				font-style: italic;
+				cursor: unset;
+			}
+		}
 
-            a {
-                display: flex;
-                text-decoration: none;
-                color: var(--repoItemText);
-                overflow: hidden;
-                flex-grow: 1;
+		.listItem {
+			@extend %listItem;
 
-                &:hover h5 {
-                    text-decoration: underline;
-                }
-            }
+			a {
+				display: flex;
+				text-decoration: none;
+				color: var(--repoItemText);
+				overflow: hidden;
+				flex-grow: 1;
 
-            .itemIcon {
-                margin-right: .5rem;
-            }
+				&:hover h5 {
+					text-decoration: underline;
+				}
+			}
 
-            .content {
-                @extend %content;
+			.itemIcon {
+				margin-right: 0.5rem;
+			}
 
-                .top {
-                    @extend %top;
+			.content {
+				@extend %content;
 
-                    h5 {
-                        font-weight: normal;
-                    }
+				.top {
+					@extend %top;
 
-                    .comments {
-                        @include fontSizeSmall();
-                        color: var(--repoItemSubText);
-                        min-width: auto;
-                        margin-left: 0.5rem;
-                    }
+					h5 {
+						font-weight: normal;
+					}
 
-                    .remove {
-                        @extend %remove;
+					.comments {
+						@include fontSizeSmall();
 
-                        &:hover {
-                            color: var(--red);
-                            cursor: pointer;
-                        }
-                    }
-                }
+						color: var(--repoItemSubText);
+						min-width: auto;
+						margin-left: 0.5rem;
+					}
 
-                .bottom {
-                    @include fontSizeSmall();
-                    color: var(--repoItemSubText);
-                }
-            }
-        }
+					.remove {
+						@extend %remove;
 
-        .listItem.selected {
-            background: var(--selected);
+						&:hover {
+							color: var(--red);
+							cursor: pointer;
+						}
+					}
+				}
 
-            a {
-                color: var(--selectedText);
-            }
+				.bottom {
+					@include fontSizeSmall();
 
-            .content {
-                .top {
-                    .comments {
-                        color: var(--selectedSubText);
-                    }
-                }
+					color: var(--repoItemSubText);
+				}
+			}
+		}
 
-                .bottom {
-                    color: var(--selectedSubText);
-                }
-            }
-        }
-    }
+		.listItem.selected {
+			background: var(--selected);
+
+			a {
+				color: var(--selectedText);
+			}
+
+			.content {
+				.top {
+					.comments {
+						color: var(--selectedSubText);
+					}
+				}
+
+				.bottom {
+					color: var(--selectedSubText);
+				}
+			}
+		}
+	}
 }

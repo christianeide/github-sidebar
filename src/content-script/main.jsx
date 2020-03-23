@@ -1,108 +1,110 @@
-/** @jsx h */
-/* global chrome */
-
-import { render, h, Component } from 'preact'
-import './css/index.scss'
+import { render, h, Component } from 'preact';
+import './css/index.scss';
 
 //* ********* React components **********/
-import Header from './components/Header/index.jsx'
-import Repositories from './components/Repositories/index.jsx'
-import Settings from './components/Settings/index.jsx'
-import Splash from './components/Splash/index.jsx'
-import setBadge from './utils/setBadge'
+import Header from './components/Header/index.jsx';
+import Repositories from './components/Repositories/index.jsx';
+import Settings from './components/Settings/index.jsx';
+import Splash from './components/Splash/index.jsx';
+import setBadge from './utils/setBadge';
 
 class App extends Component {
-  constructor () {
-    super()
+	constructor() {
+		super();
 
-    this.state = {
-      repositories: [],
-      errors: [],
-      rateLimit: undefined,
-      showSettings: false,
-      settings: undefined,
-      loading: false
-    }
+		this.state = {
+			repositories: [],
+			errors: [],
+			rateLimit: undefined,
+			showSettings: false,
+			settings: undefined,
+			loading: false
+		};
 
-    this.port = chrome.runtime.connect()
-    this.listenToBackground = null
-  }
+		this.port = chrome.runtime.connect();
+		this.listenToBackground = null;
+	}
 
-  componentDidMount () {
-    // Get preloaded data
-    this.port.postMessage({ type: 'init' })
-    // Set up listener for new messages
-    this.listenToBackground = this.port.onMessage.addListener((newState) => {
-      this.setState({ ...newState })
-    })
-  }
+	componentDidMount() {
+		// Get preloaded data
+		this.port.postMessage({ type: 'init' });
+		// Set up listener for new messages
+		this.listenToBackground = this.port.onMessage.addListener((newState) => {
+			this.setState({ ...newState });
+		});
+	}
 
-  componentDidUpdate (prevProps, prevState) {
-    setBadge(this.state.repositories, this.showFavicon())
-  }
+	componentDidUpdate() {
+		setBadge(this.state.repositories, this.showFavicon());
+	}
 
-  showFavicon () {
-    return this.state.settings && this.state.settings.updateFavicon
-  }
+	showFavicon() {
+		return this.state.settings && this.state.settings.updateFavicon;
+	}
 
-  componentWillUnmount () {
-    this.port.onMessage.removeListener(this.listenToBackground)
-  }
+	componentWillUnmount() {
+		this.port.onMessage.removeListener(this.listenToBackground);
+	}
 
-  handleToggleSettings = (e) => {
-    if (e) e.preventDefault()
-    this.setState({ showSettings: !this.state.showSettings })
-  }
+	handleToggleSettings = (e) => {
+		if (e) {
+			e.preventDefault();
+		}
+		this.setState({ showSettings: !this.state.showSettings });
+	};
 
-  render () {
-    const {
-      showSettings,
-      settings,
-      loading,
-      errors,
-      rateLimit,
-      repositories
-    } = this.state
+	render() {
+		const {
+			showSettings,
+			settings,
+			loading,
+			errors,
+			rateLimit,
+			repositories
+		} = this.state;
 
-    if (!settings) return null
-    if (!settings.token) return <Splash port={this.port} />
+		if (!settings) {
+			return null;
+		}
+		if (!settings.token) {
+			return <Splash port={this.port} />;
+		}
 
-    return (
-      <div className={`sidebar ${settings.theme}`}>
-        <Header
-          onToggleSettings={this.handleToggleSettings}
-          loading={loading}
-          errors={errors}
-          showSettings={showSettings}
-          port={this.port}
-          showBadge={this.showFavicon()}
-        />
+		return (
+			<div className={`sidebar ${settings.theme}`}>
+				<Header
+					onToggleSettings={this.handleToggleSettings}
+					loading={loading}
+					errors={errors}
+					showSettings={showSettings}
+					port={this.port}
+					showBadge={this.showFavicon()}
+				/>
 
-        {showSettings
-          ? (
-            <Settings
-              rateLimit={rateLimit}
-              settings={settings}
-              port={this.port}
-            />
-          ) : (
-            <Repositories
-              repositories={repositories}
-              settings={settings}
-              onToggleSettings={this.handleToggleSettings}
-              port={this.port}
-            />
-          )}
-      </div>
-    )
-  }
+				{showSettings ? (
+					<Settings
+						rateLimit={rateLimit}
+						settings={settings}
+						port={this.port}
+					/>
+				) : (
+					<Repositories
+						repositories={repositories}
+						settings={settings}
+						onToggleSettings={this.handleToggleSettings}
+						port={this.port}
+					/>
+				)}
+			</div>
+		);
+	}
 }
 
-const id = 'github-sidebar'
+const id = 'github-sidebar';
 if (!document.getElementById(id)) {
-  const appendDiv = document.createElement('div')
-  appendDiv.id = id
-  document.body.appendChild(appendDiv)
+	const appendDiv = document.createElement('div');
+	appendDiv.id = id;
+	document.body.appendChild(appendDiv);
 }
 
-render(<App />, document.getElementById(id))
+render(<App />, document.getElementById(id));

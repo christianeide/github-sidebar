@@ -1,92 +1,94 @@
-@import "../../css/globals.scss";
-
+@import '../../css/globals.scss';
 
 #github-sidebar {
-    .sidebar {
-        .settings {
-            padding: $topPadding $sidePadding;
-            color: var(--settingsText);
+	.sidebar {
+		.settings {
+			padding: $topPadding $sidePadding;
+			color: var(--settingsText);
 
-            .list {
-                margin-bottom: .5rem;
+			.list {
+				margin-bottom: 0.5rem;
 
-                &.miscellaneous {
-                    margin-top: 3rem;
-                }
+				&.miscellaneous {
+					margin-top: 3rem;
+				}
 
-                .listItem {
-                    margin-top: 0.15rem;
-                    margin-bottom: 0.15rem;
-                }
-            }
+				.listItem {
+					margin-top: 0.15rem;
+					margin-bottom: 0.15rem;
+				}
+			}
 
-            select {
-                width: 100%;
-                height: 2rem;
-            }
+			select {
+				width: 100%;
+				height: 2rem;
+			}
 
-            button {
-                &.add {
-                    margin-top: 0.5rem;
-                    padding: 1.5rem;
-                }
-            }
+			button {
+				&.add {
+					margin-top: 0.5rem;
+					padding: 1.5rem;
+				}
+			}
 
-            input, select {
-                background: var(--repoItemBg);
-                color: var(--repoItemText);
-                border: 0;
-            }
+			input,
+			select {
+				background: var(--repoItemBg);
+				color: var(--repoItemText);
+				border: 0;
+			}
 
-            .listItem:hover {
-                cursor: move;
-            }
+			.listItem:hover {
+				cursor: move;
+			}
 
-            .credit {
-                @include fontSizeSmall();
-                text-align: right;
-                margin-top: 2rem;
-            }
+			.credit {
+				@include fontSizeSmall();
 
-            .autoSave {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                background: var(--sidebarButton);
-                padding: $sidePadding;
-                padding-right: $sidePadding * 3;
-                border-radius: 0 0.5rem 0 0;
-                color: var(--sidebarButtonText);
-                opacity: 0;
-                transition: .3s opacity;
-                box-shadow: 0px 0px 4px 2px rgba(0,0,0,0.25);
+				text-align: right;
+				margin-top: 2rem;
+			}
 
-                &.show {
-                    opacity: 1;
-                }
-            }
-        }
-    }
+			.autoSave {
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				background: var(--sidebarButton);
+				padding: $sidePadding;
+				padding-right: $sidePadding * 3;
+				border-radius: 0 0.5rem 0 0;
+				color: var(--sidebarButtonText);
+				opacity: 0;
+				transition: 0.3s opacity;
+				box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.25);
+
+				&.show {
+					opacity: 1;
+				}
+			}
+		}
+	}
 }
 
 .github-sidebar-sort {
-    @extend %listItem;
-    z-index: 10000;
-    list-style-type: none;
+	@extend %listItem;
 
-    .text-truncate {
-        @extend %text-truncate;
-    }
+	z-index: 10000;
+	list-style-type: none;
 
-    .content {
-        @extend %content;
+	.text-truncate {
+		@extend %text-truncate;
+	}
 
-        .top {
-            @extend %top;
+	.content {
+		@extend %content;
 
-            .remove {
-                @extend %remove;
-            }
-        }
-    }
+		.top {
+			@extend %top;
+
+			.remove {
+				@extend %remove;
+			}
+		}
+	}
 }
