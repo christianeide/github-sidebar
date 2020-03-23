@@ -16,6 +16,26 @@
 						margin-bottom: 0.15rem;
 					}
 
+					.itemHeading {
+						padding: 0.8rem 0 0.2rem 0;
+						display: flex;
+						align-items: center;
+
+						.icon {
+							color: var(--repoTypeText);
+						}
+
+						h4 {
+							display: inline;
+							@include fontSizeNormal();
+
+							a {
+								color: var(--repoTypeText);
+								font-weight: normal;
+							}
+						}
+					}
+
 					.repoHeading {
 						display: flex;
 						background: var(--repoHeaderBg);
@@ -152,26 +172,6 @@
 
 					.pullRequests {
 						margin-bottom: 0.4rem;
-					}
-
-					.itemHeading {
-						padding: 0.8rem 0 0.2rem 0;
-						display: flex;
-						align-items: center;
-
-						.icon {
-							color: var(--repoTypeText);
-						}
-
-						h4 {
-							display: inline;
-							@include fontSizeNormal();
-
-							a {
-								color: var(--repoTypeText);
-								font-weight: normal;
-							}
-						}
 					}
 				}
 			}
