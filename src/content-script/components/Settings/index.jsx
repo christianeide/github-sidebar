@@ -8,9 +8,8 @@ import './settings.scss';
 
 const debounce = (func, delay) => {
 	let inDebounce;
-	return function() {
+	return function(...args) {
 		const context = this;
-		const args = arguments;
 		clearTimeout(inDebounce);
 		inDebounce = setTimeout(() => func.apply(context, args), delay);
 	};
@@ -38,7 +37,7 @@ export default class Settings extends Component {
 		clearTimeout(this.timer);
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate() {
 		if (this.state.settingsSaved) {
 			// Clear timer before we start a new
 			if (this.timer) {
