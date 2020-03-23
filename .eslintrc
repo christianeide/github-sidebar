@@ -44,6 +44,7 @@
 				"ignoreRestSiblings": true
 			}
 		],
-		"react/prop-types": "off"
+		"react/prop-types": "off",
+		"react/no-did-update-set-state": "off"
 	}
 }
