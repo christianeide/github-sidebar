@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Read should render defaultprops if none are supplied! 1`] = `
+<div>
+  <div
+    class="readButton notRead"
+    title="Mark as unread"
+  >
+    <div
+      class="color undefined"
+    />
+  </div>
+</div>
+`;
+
+exports[`Read should render props if they are supplied 1`] = `
+<div>
+  <div
+    class="readButton read"
+    title="This is a nice title"
+  >
+    <div
+      class="color APPROVED"
+    />
+  </div>
+</div>
+`;
