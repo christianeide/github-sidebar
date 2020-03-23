@@ -1,9 +1,9 @@
-export function createPullRequestsQuery (repositories, numberOfItems, sortBy) {
-  const repos = repositories.map((repo, index) => {
-    return repositoriesQuery(repo, numberOfItems, sortBy, index)
-  })
+export function createPullRequestsQuery(repositories, numberOfItems, sortBy) {
+	const repos = repositories.map((repo, index) => {
+		return repositoriesQuery(repo, numberOfItems, sortBy, index);
+	});
 
-  return `query {
+	return `query {
             rateLimit {
               limit
               remaining
@@ -13,14 +13,11 @@ export function createPullRequestsQuery (repositories, numberOfItems, sortBy) {
               login
             }
             ${repos}
-          }`
+          }`;
 }
 
-function repositoriesQuery ({
-  owner,
-  name
-}, numberOfItems, sortBy, index) {
-  return `repo${index}: repository(owner: "${owner}", name: "${name}") {
+function repositoriesQuery({ owner, name }, numberOfItems, sortBy, index) {
+	return `repo${index}: repository(owner: "${owner}", name: "${name}") {
             name
             url
             owner {
@@ -68,5 +65,5 @@ function repositoriesQuery ({
                 }
               }
             }
-          }`
+          }`;
 }
