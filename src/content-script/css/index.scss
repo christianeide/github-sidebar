@@ -13,6 +13,22 @@ body {
 	left: 0;
 	z-index: 1000;
 
+	// Define custom scrollbar
+	::-webkit-scrollbar {
+		width: 13px; /* for vertical scrollbars */
+		height: 13px; /* for horizontal scrollbars */
+	}
+
+	::-webkit-scrollbar-track {
+		background: var(--scrollbarBg);
+	}
+
+	::-webkit-scrollbar-thumb {
+		background-color: var(--scrollbarThumb);
+		border: 3px solid var(--scrollbarThumbBorder);
+		border-radius: 5px;
+	}
+
 	// Generic classes
 	a {
 		color: var(--sidebarLink);
