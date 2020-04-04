@@ -83,7 +83,7 @@
     }
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js,jsx}": [
       "prettier --write",
       "eslint",
       "git add"
