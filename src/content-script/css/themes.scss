@@ -2,6 +2,7 @@
 // General/dark theme
 //
 :root {
+	// Base colors
 	--white: #fff;
 	--gray-100: #c5c8ca;
 	--gray-500: #989da1;
@@ -13,6 +14,8 @@
 	--green: #4dc58b;
 	--blue: #7fb7be;
 	--lightBlue: #e4eef1;
+
+	// Main sidebar
 	--sidebarBg: var(--gray-800);
 	--sidebarBorder: var(--gray-900);
 	--sidebarText: var(--white);
@@ -20,15 +23,21 @@
 	--sidebarButton: var(--green);
 	--sidebarButtonText: var(--white);
 	--sidebarButtonDisabled: var(--gray-500);
+
+	// Header
 	--headerBg: var(--gray-800);
 	--headerBorder: var(--gray-700);
 	--headerText: var(--white);
 	--headerIcon: var(--gray-500);
 	--headerIconHover: var(--white);
+
+	// Errormessages
 	--errorBg: var(--gray-700);
 	--errorBorder: var(--gray-500);
 	--errorText: var(--white);
 	--errorSubText: var(--gray-500);
+
+	// Repos
 	--repoHeaderBg: var(--gray-900);
 	--repoHeaderText: var(--white);
 	--repoHeaderSubText: var(--gray-500);
@@ -37,23 +46,35 @@
 	--repoItemBg: var(--gray-700);
 	--repoItemText: var(--gray-100);
 	--repoItemSubText: var(--gray-500);
+
+	// Selected
 	--selected: var(--gray-100);
 	--selectedText: var(--gray-900);
 	--selectedSubText: var(--gray-800);
 	--selectedHover: var(--gray-500);
+
+	// Misc
 	--settingsText: var(--gray-500);
+	--scrollbarBg: transparent;
+	--scrollbarThumb: var(--gray-700);
+	--scrollbarThumbBorder: var(--gray-800);
 }
 
 .light {
+	// Base colors
 	--gray-100: #f5f5f5;
 	--gray-200: #d8dce5;
 	--gray-700: #606060;
+
+	// Main sidebar
 	--sidebarBg: var(--gray-100);
 	--sidebarBorder: var(--gray-200);
 	--sidebarText: var(--gray-700);
 	--sidebarButton: var(--green);
 	--sidebarButtonText: var(--white);
 	--sidebarButtonDisabled: var(--gray-500);
+
+	// Repos
 	--repoHeaderBg: var(--gray-200);
 	--repoHeaderSubText: var(--gray-700);
 	--repoHeaderText: var(--gray-800);
@@ -61,9 +82,15 @@
 	--repoTypeText: var(--gray-700);
 	--repoItemBg: var(--white);
 	--repoItemText: var(--gray-700);
+
+	// Selected
 	--selected: var(--gray-500);
 	--selectedText: var(--white);
 	--selectedSubText: var(--gray-100);
 	--selectedHover: var(--gray-200);
+
+	// Misc
 	--settingsText: var(--gray-700);
+	--scrollbarThumb: var(--gray-200);
+	--scrollbarThumbBorder: var(--gray-100);
 }
