@@ -7,7 +7,7 @@ export default class Errors extends Component {
 		super();
 
 		this.state = {
-			showErrors: false
+			showErrors: false,
 		};
 	}
 
@@ -49,7 +49,7 @@ export default class Errors extends Component {
 	};
 
 	render() {
-		const { errors } = this.props;
+		const { errors = [] } = this.props;
 
 		if (errors.length === 0) {
 			return null;

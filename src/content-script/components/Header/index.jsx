@@ -34,7 +34,7 @@ export default class Header extends PureComponent {
 			errors,
 			onToggleSettings,
 			showSettings,
-			port
+			port,
 		} = this.props;
 
 		const loader = loading && <Icons icon="loader" className="loader" />;
