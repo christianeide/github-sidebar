@@ -18,7 +18,7 @@ class App extends Component {
 			rateLimit: undefined,
 			showSettings: false,
 			settings: undefined,
-			loading: false
+			loading: false,
 		};
 
 		this.port = chrome.runtime.connect();
@@ -60,7 +60,7 @@ class App extends Component {
 			loading,
 			errors,
 			rateLimit,
-			repositories
+			repositories,
 		} = this.state;
 
 		if (!settings) {

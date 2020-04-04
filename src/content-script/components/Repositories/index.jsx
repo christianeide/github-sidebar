@@ -8,7 +8,7 @@ export default function Repositories({
 	repositories,
 	onToggleSettings,
 	settings,
-	port
+	port,
 }) {
 	if (repositories.length === 0) {
 		return <NoRepos onToggleSettings={onToggleSettings} />;

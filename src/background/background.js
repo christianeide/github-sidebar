@@ -32,7 +32,7 @@ const autoFetch = {
 	},
 	calculateMS(min) {
 		return min * 1000;
-	}
+	},
 };
 
 // We update the read-status of items based on visited urls
@@ -41,7 +41,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
 		setRepoAsReadByURL(changeInfo.url);
 
 		sendToAllTabs({
-			repositories: quickStorage.repositories
+			repositories: quickStorage.repositories,
 		});
 	}
 });
@@ -69,7 +69,7 @@ chrome.runtime.onConnect.addListener((port) => {
 			case 'clearErrors':
 				errors = [];
 				sendToAllTabs({
-					errors
+					errors,
 				});
 				break;
 		}
@@ -82,7 +82,7 @@ function init(port) {
 		port.postMessage({
 			settings,
 			repositories,
-			rateLimit
+			rateLimit,
 		});
 
 		// Always fetch new data when we have a init from a new contentscript
@@ -105,12 +105,12 @@ function toggleRead(request) {
 	});
 
 	sendToAllTabs({
-		repositories: quickStorage.repositories
+		repositories: quickStorage.repositories,
 	});
 
 	// Save repos to storage
 	chrome.storage.local.set({
-		repositories: quickStorage.repositories
+		repositories: quickStorage.repositories,
 	});
 
 	function setArrayItem(type, repo) {
@@ -143,12 +143,12 @@ function toggleCollapsed(request) {
 	});
 
 	sendToAllTabs({
-		repositories: quickStorage.repositories
+		repositories: quickStorage.repositories,
 	});
 
 	// Save repos to storage
 	chrome.storage.local.set({
-		repositories: quickStorage.repositories
+		repositories: quickStorage.repositories,
 	});
 }
 
@@ -164,18 +164,18 @@ function saveSettings(request) {
 
 	const settings = {
 		...defaultSettings,
-		...request.settings
+		...request.settings,
 	};
 	quickStorage.settings = settings;
 
 	// Save settings to storage
 	chrome.storage.local.set({
-		settings
+		settings,
 	});
 
 	// Distribute settings to all tabs
 	sendToAllTabs({
-		settings
+		settings,
 	});
 
 	// Do a new fetch when we have new settings
@@ -195,7 +195,7 @@ function fetchData() {
 
 	// Show loadinganimation when we are fetching data
 	sendToAllTabs({
-		loading: true
+		loading: true,
 	});
 
 	fetchDataFromAPI(settings, (err, newRepoData, rateLimit) => {
@@ -203,7 +203,7 @@ function fetchData() {
 			errors.push(...err);
 			return sendToAllTabs({
 				errors,
-				loading: false
+				loading: false,
 			});
 		}
 		// Transfer read-status from old repositories
@@ -215,13 +215,13 @@ function fetchData() {
 		sendToAllTabs({
 			repositories,
 			rateLimit,
-			loading: false
+			loading: false,
 		});
 
 		// Save repositorydata to storage for faster reloads
 		chrome.storage.local.set({
 			repositories,
-			rateLimit
+			rateLimit,
 		});
 	});
 }
@@ -239,7 +239,7 @@ function transferUserStatus(repositories) {
 		const pullRequests = tranferStatusOfItem(repo, 'pullRequests');
 		return {
 			...issues,
-			...pullRequests
+			...pullRequests,
 		};
 	});
 
@@ -284,12 +284,12 @@ export function autoRemoveRepo(repoNr) {
 
 	// Save settings to storage
 	chrome.storage.local.set({
-		settings
+		settings,
 	});
 
 	// Distribute settings to all tabs
 	sendToAllTabs({
-		settings
+		settings,
 	});
 
 	// Do a new fetch when we have new settings

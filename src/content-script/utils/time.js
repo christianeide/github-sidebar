@@ -24,7 +24,7 @@ function calculateTime(val) {
 		day: 7,
 		week: 4.35,
 		month: 12,
-		year: 10000
+		year: 10000,
 	};
 
 	for (const unit in length) {

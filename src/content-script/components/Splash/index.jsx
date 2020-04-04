@@ -7,7 +7,7 @@ export default class Splash extends Component {
 		super(props);
 
 		this.state = {
-			token: ''
+			token: '',
 		};
 	}
 

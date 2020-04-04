@@ -36,7 +36,7 @@ const GH_RESERVED_USER_NAMES = [
 	'open-source',
 	'personal',
 	'pricing',
-	'sessions'
+	'sessions',
 ];
 const GH_RESERVED_REPO_NAMES = ['followers', 'following', 'repositories'];
 
@@ -61,7 +61,7 @@ export function getCurrentPath() {
 
 	return {
 		name,
-		owner
+		owner,
 	};
 }
 

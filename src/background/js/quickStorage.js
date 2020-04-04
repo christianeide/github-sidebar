@@ -10,7 +10,7 @@ export const quickStorage = {
 			return _callback({
 				settings: this.settings,
 				repositories: this.repositories,
-				rateLimit: this.rateLimit
+				rateLimit: this.rateLimit,
 			});
 		}
 
@@ -26,9 +26,9 @@ export const quickStorage = {
 				_callback({
 					settings: this.settings,
 					repositories: this.repositories,
-					rateLimit: this.rateLimit
+					rateLimit: this.rateLimit,
 				});
 			}
 		);
-	}
+	},
 };

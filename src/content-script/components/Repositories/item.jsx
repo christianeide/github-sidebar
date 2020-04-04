@@ -9,7 +9,7 @@ export default class Item extends PureComponent {
 	toggleRead = () => {
 		this.props.port.postMessage({
 			type: 'toggleRead',
-			id: this.props.item.id
+			id: this.props.item.id,
 		});
 	};
 
@@ -23,9 +23,9 @@ export default class Item extends PureComponent {
 				createdAt,
 				reviewStatus,
 				author,
-				read
+				read,
 			},
-			settings
+			settings,
 		} = this.props;
 
 		const renderComments = () => {

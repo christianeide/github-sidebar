@@ -8,7 +8,7 @@ import './settings.scss';
 
 const debounce = (func, delay) => {
 	let inDebounce;
-	return function(...args) {
+	return function (...args) {
 		const context = this;
 		clearTimeout(inDebounce);
 		inDebounce = setTimeout(() => func.apply(context, args), delay);
@@ -23,7 +23,7 @@ export default class Settings extends Component {
 		// We use theese props as a startingpoint when we edit settings
 		this.state = {
 			...props.settings,
-			settingsSaved: false
+			settingsSaved: false,
 		};
 
 		this.timer = null;
@@ -111,7 +111,7 @@ export default class Settings extends Component {
 		}
 
 		this.setState((prevState) => ({
-			repos: [...prevState.repos, repo]
+			repos: [...prevState.repos, repo],
 		}));
 
 		this.handleSaveSettings();
@@ -119,7 +119,7 @@ export default class Settings extends Component {
 
 	handleSortRepos = ({ oldIndex, newIndex }) => {
 		this.setState(({ repos }) => ({
-			repos: arrayMove(repos, oldIndex, newIndex)
+			repos: arrayMove(repos, oldIndex, newIndex),
 		}));
 
 		this.handleSaveSettings();
@@ -129,7 +129,7 @@ export default class Settings extends Component {
 		const indexToRemove = parseInt(e.target.getAttribute('data-index'));
 
 		this.setState(({ repos }) => ({
-			repos: repos.filter((repo, index) => index !== indexToRemove)
+			repos: repos.filter((repo, index) => index !== indexToRemove),
 		}));
 
 		this.handleSaveSettings();
@@ -161,7 +161,7 @@ export default class Settings extends Component {
 			token,
 			sortBy,
 			theme,
-			settingsSaved
+			settingsSaved,
 		} = this.state;
 
 		const remaing = rateLimit ? (

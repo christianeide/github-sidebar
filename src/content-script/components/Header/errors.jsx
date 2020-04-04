@@ -7,7 +7,7 @@ export default class Errors extends Component {
 		super();
 
 		this.state = {
-			showErrors: false
+			showErrors: false,
 		};
 	}
 

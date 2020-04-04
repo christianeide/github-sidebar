@@ -12,7 +12,7 @@ export default class Repository extends PureComponent {
 
 		this.state = {
 			repoHeight: 0,
-			hover: false
+			hover: false,
 		};
 		this.repoHeight = createRef();
 	}
@@ -27,7 +27,7 @@ export default class Repository extends PureComponent {
 	handleToggleCollapsed = () => {
 		this.props.port.postMessage({
 			type: 'toggleCollapsed',
-			url: this.props.repo.url
+			url: this.props.repo.url,
 		});
 	};
 
@@ -63,7 +63,7 @@ export default class Repository extends PureComponent {
 		port.postMessage({
 			type: 'toggleRead',
 			repo: repo.url,
-			status: repoHasUnreads
+			status: repoHasUnreads,
 		});
 	};
 
@@ -120,8 +120,9 @@ export default class Repository extends PureComponent {
 		return (
 			<li className={`repository ${repo.collapsed ? 'collapsed' : ''}`}>
 				<div
-					className={`repoHeading ${activeRepo} ${this.state.hover &&
-						'hideHover'}`}
+					className={`repoHeading ${activeRepo} ${
+						this.state.hover && 'hideHover'
+					}`}
 					onClick={this.handleToggleCollapsed}
 				>
 					<div

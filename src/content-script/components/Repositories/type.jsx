@@ -6,12 +6,12 @@ export default function Type({ settings, port, repo, type }) {
 	const itemData = {
 		issues: {
 			text: 'Issues',
-			url: 'issues'
+			url: 'issues',
 		},
 		pullRequests: {
 			text: 'Pull requests',
-			url: 'pulls'
-		}
+			url: 'pulls',
+		},
 	};
 
 	const itemsShown =

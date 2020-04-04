@@ -4,7 +4,7 @@ const favicon = new Favico({
 	animation: 'none',
 	bgColor: '#FDB23C',
 	textColor: '#FDB23C',
-	position: 'upleft'
+	position: 'upleft',
 });
 
 let OldUnReadStatus = false;

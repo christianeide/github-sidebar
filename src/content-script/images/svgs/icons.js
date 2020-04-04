@@ -2,7 +2,7 @@
 /** @jsx h */
 import { h } from 'preact';
 
-export default function(props) {
+export default function (props) {
 	const Icons = {
 		comment: () => {
 			return (
@@ -128,7 +128,7 @@ export default function(props) {
 					/>
 				</svg>
 			);
-		}
+		},
 	};
 
 	return Icons[props.icon]();

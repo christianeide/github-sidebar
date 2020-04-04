@@ -16,11 +16,11 @@ export function fetchDataFromAPI(
 		url: 'https://api.github.com/graphql',
 		method: 'post',
 		headers: {
-			Authorization: `Bearer ${token}`
+			Authorization: `Bearer ${token}`,
 		},
 		data: {
-			query
-		}
+			query,
+		},
 	})
 		.then((result) => {
 			if (result.data.errors) {
@@ -34,14 +34,14 @@ export function fetchDataFromAPI(
 						return {
 							title: 'Error in API query to Github ',
 							message: `${item.message} Will now autoremove repo from list.`,
-							time: Date.now()
+							time: Date.now(),
 						};
 					}
 
 					return {
 						title: 'Error in API query to Github ',
 						message: item.message,
-						time: Date.now()
+						time: Date.now(),
 					};
 				});
 
@@ -65,10 +65,10 @@ export function fetchDataFromAPI(
 					collapsed: true,
 					totalItems: {
 						issues: repo.issues.totalCount,
-						pullRequests: repo.pullRequests.totalCount
+						pullRequests: repo.pullRequests.totalCount,
 					},
 					issues,
-					pullRequests
+					pullRequests,
 				});
 			});
 
@@ -85,8 +85,8 @@ export function fetchDataFromAPI(
 				{
 					title: error.message,
 					message: error.response.data.message,
-					time: Date.now()
-				}
+					time: Date.now(),
+				},
 			];
 
 			return callback(userError);
@@ -107,7 +107,7 @@ function listItems(repo, type, { login }) {
 			comments: item.comments.totalCount,
 			// If extensionholder and itemauthor is the same, we  set it to read
 			read: item.author.login === login,
-			author: item.author.login
+			author: item.author.login,
 		};
 	});
 }

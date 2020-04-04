@@ -33,7 +33,7 @@ function readFileSync(path) {
 }
 
 function writeFileSync(path, data) {
-	fs.writeFileSync(path, JSON.stringify(data, null, 2) + '\n');
+	fs.writeFileSync(path, `${JSON.stringify(data, null, 2)}\n`);
 }
 
 function bumpVersion(path, newVersion) {
@@ -53,7 +53,7 @@ bumpVersion('package.json', newVersion);
 bumpVersion('package-lock.json', newVersion);
 bumpVersion('manifest.json', newVersion);
 
-console.log('Version bumped to ' + newVersion);
+console.log(`Version bumped to ${newVersion}`);
 console.log('Building files');
 
 execSync('npm run build');
