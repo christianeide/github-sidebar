@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { createPullRequestsQuery } from './graphql.js';
 import { autoRemoveRepo } from '../background.js';
 
@@ -12,19 +11,18 @@ export function fetchDataFromAPI(
 
 	const query = createPullRequestsQuery(repos, numberOfItems, sortBy);
 
-	axios({
-		url: 'https://api.github.com/graphql',
+	fetch('https://api.github.com/graphql', {
 		method: 'post',
 		headers: {
 			Authorization: `Bearer ${token}`,
+			'Content-Type': 'application/json',
 		},
-		data: {
-			query,
-		},
+		body: JSON.stringify({ query }),
 	})
+		.then((res) => res.json())
 		.then((result) => {
-			if (result.data.errors) {
-				const userError = result.data.errors.map((item) => {
+			if (result.errors) {
+				const userError = result.errors.map((item) => {
 					if (item.type === 'NOT_FOUND') {
 						// Repos are named 'repo{number}' in graphql-kalls
 						const missingRepoNumber = Number(item.path[0].replace('repo', ''));
@@ -46,9 +44,17 @@ export function fetchDataFromAPI(
 				});
 
 				return callback(userError);
+			} else if (!result.data) {
+				return callback([
+					{
+						title: 'Could not reach Githubs API at this moment ',
+						message: result.message || 'Unknown error',
+						time: Date.now(),
+					},
+				]);
 			}
 
-			const { rateLimit, viewer, ...repos } = result.data.data;
+			const { rateLimit, viewer, ...repos } = result.data;
 
 			const updateRepoStatus = [];
 			Object.keys(repos).forEach((key) => {
