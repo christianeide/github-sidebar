@@ -1,8 +1,8 @@
 import { h } from 'preact';
 import './read.scss';
 
-export default function Read({ read, toggleRead, title, status }) {
-	const titleText = title || (read ? 'Mark as read' : 'Mark as unread');
+export default function Read({ read, toggleRead, title, status = '' }) {
+	const titleText = title || (read ? 'Mark as unread' : 'Mark as read');
 	return (
 		<div
 			className={`readButton ${read ? 'read' : 'notRead'}`}
