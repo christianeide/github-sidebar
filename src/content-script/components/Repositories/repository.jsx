@@ -133,7 +133,6 @@ export default class Repository extends PureComponent {
 						{hasActiveElements && (
 							<Read
 								read={!repoHasUnreads}
-								status="DEFAULT"
 								title={mouseoverText}
 								toggleRead={this.toggleRead}
 							/>

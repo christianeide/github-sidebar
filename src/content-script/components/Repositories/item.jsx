@@ -39,9 +39,6 @@ export default class Item extends PureComponent {
 			);
 		};
 
-		// If we dont have a review of this element yet, then we set it to default color
-		const status = reviewStatus || 'DEFAULT';
-
 		const timeAgo =
 			settings.sortBy === 'CREATED_AT'
 				? `created ${ago(createdAt)} ago`
@@ -53,7 +50,11 @@ export default class Item extends PureComponent {
 			<li className="item">
 				<div className="grid-1" />
 				<div className="grid-1 no-gutters">
-					<Read read={read} status={status} toggleRead={this.toggleRead} />
+					<Read
+						read={read}
+						status={reviewStatus}
+						toggleRead={this.toggleRead}
+					/>
 				</div>
 
 				<div className={`grid listItem ${activeRepo}`}>
