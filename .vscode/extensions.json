@@ -3,7 +3,7 @@
 	// Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
 	// List of extensions which should be recommended for users of this workspace.
 	"recommendations": [
-		"coenraads.bracket-pair-colorizer",
+		"coenraads.bracket-pair-colorizer-2",
 		"dbaeumer.vscode-eslint",
 		"waderyan.gitblame",
 		"wix.vscode-import-cost",
