@@ -235,26 +235,47 @@ function transferUserStatus(repositories) {
 			}
 		});
 
-		const issues = tranferStatusOfItem(repo, 'issues');
-		const pullRequests = tranferStatusOfItem(repo, 'pullRequests');
+		const previousHighestItemNumber = repo.totalItems.highestItemNumber;
+		const issues = tranferStatusOfItem(
+			repo,
+			'issues',
+			previousHighestItemNumber
+		);
+		const pullRequests = tranferStatusOfItem(
+			repo,
+			'pullRequests',
+			previousHighestItemNumber
+		);
 		return {
 			...issues,
 			...pullRequests,
 		};
 	});
 
-	function tranferStatusOfItem(repo, type) {
-		repo[type].map((item) => {
+	function tranferStatusOfItem(repo, type, previousHighestItemNumber) {
+		repo[type].map((newItem) => {
 			quickStorage.repositories.map((oldRepo) => {
+				let existedBefore = false;
 				if (oldRepo[type]) {
-					oldRepo[type].map((i) => {
-						if (i.id === item.id) {
-							item.read = i.read;
+					oldRepo[type].map((oldItem) => {
+						if (oldItem.id === newItem.id) {
+							newItem.read = oldItem.read;
+							existedBefore = true;
 						}
 					});
 				}
+
+				// If an element does not exist in the list,
+				// we will only set it as unread if the github number
+				// is higher then the previous maximum number
+				// This prevents older elements that are updated from disappering as
+				// unread in the list
+				if (!existedBefore && newItem.number < previousHighestItemNumber) {
+					newItem.read = true;
+				}
 			});
-			return item;
+
+			return newItem;
 		});
 		return repo;
 	}

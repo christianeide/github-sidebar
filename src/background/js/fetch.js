@@ -72,6 +72,7 @@ export function fetchDataFromAPI(
 					totalItems: {
 						issues: repo.issues.totalCount,
 						pullRequests: repo.pullRequests.totalCount,
+						highestItemNumber: repo.highestItemNumber?.edges?.[0]?.node?.number,
 					},
 					issues,
 					pullRequests,
@@ -111,6 +112,7 @@ function listItems(repo, type, { login }) {
 			updatedAt: item.updatedAt,
 			createdAt: item.createdAt,
 			comments: item.comments.totalCount,
+			number: item.number,
 			// If extensionholder and itemauthor is the same, we  set it to read
 			read: item.author.login === login,
 			author: item.author.login,

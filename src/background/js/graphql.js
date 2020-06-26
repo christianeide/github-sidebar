@@ -32,6 +32,7 @@ function repositoriesQuery({ owner, name }, numberOfItems, sortBy, index) {
                   url
                   updatedAt
                   createdAt
+                  number
                   author {
                     login
                   }
@@ -51,6 +52,7 @@ function repositoriesQuery({ owner, name }, numberOfItems, sortBy, index) {
                   url
                   updatedAt
                   createdAt
+                  number
                   author {
                     login
                   }
@@ -62,6 +64,14 @@ function repositoriesQuery({ owner, name }, numberOfItems, sortBy, index) {
                   comments {
                     totalCount
                   }
+                }
+              }
+            }
+
+            highestItemNumber: pullRequests(first: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
+              edges {
+                node {
+                  number
                 }
               }
             }
