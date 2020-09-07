@@ -1,0 +1,17 @@
+Read logikk
+
+- Så når man overfører read-status så sjekker vi om elementet fantes på ID-listen sist, altså old-listen
+- Hvis det fantes så overfører vi status fra sist
+
+
+- Hvis det ikke finnes, så sammenligner vi githubIDen på itemet vi nå har med det siste itemet 
+som er lagt til repoet. 
+
+Så hvis itemet er eldre enn den nyeste, så settes det til lest
+
+
+Men bør vi da også ta hensyn til antall elementer man viser? Hvis Det kommer to nye puller raskt, så 
+skal ikke item nr 2 settes til read. Eller det må sammenlignes med hva er den gamle nyeste verdien og
+den nye nyeste verdien. Da kan man ha så mange nye man bare vil
+
+Tror fremdeles det er noe rusk med logikken her. Ser ut som at kun det øverste elementet blir satt som unread uansett her

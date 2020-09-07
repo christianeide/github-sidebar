@@ -270,7 +270,7 @@ function transferUserStatus(repositories) {
 				// is higher then the previous maximum number
 				// This prevents older elements that are updated from disappering as
 				// unread in the list
-				if (!existedBefore && newItem.number > previousHighestItemNumber) {
+				if (!existedBefore && newItem.number < previousHighestItemNumber) {
 					newItem.read = true;
 				}
 			});
