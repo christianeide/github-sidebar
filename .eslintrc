@@ -14,7 +14,9 @@
 		"eslint:recommended",
 		"prettier",
 		"plugin:react/recommended",
-		"plugin:prettier/recommended"
+		"plugin:react-hooks/recommended",
+		"plugin:prettier/recommended",
+		"plugin:jest-dom/recommended"
 	],
 	"globals": {
 		"chrome": "readonly"
@@ -30,7 +32,8 @@
 	},
 	"plugins": [
 		"react",
-		"prettier"
+		"prettier",
+		"jest-dom"
 	],
 	"rules": {
 		"require-atomic-updates": "off",
