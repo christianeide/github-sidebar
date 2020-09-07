@@ -27,12 +27,6 @@ module.exports = {
 			),
 		}),
 	],
-	resolve: {
-		alias: {
-			react: 'preact',
-			'react-dom': 'preact/compat',
-		},
-	},
 	module: {
 		rules: [
 			{

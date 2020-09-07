@@ -1,4 +1,5 @@
-import { render, h, Component } from 'preact';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import './css/index.scss';
 
 //* ********* React components **********/
@@ -8,7 +9,7 @@ import Settings from './components/Settings/index.jsx';
 import Splash from './components/Splash/index.jsx';
 import setBadge from './utils/setBadge';
 
-class App extends Component {
+class App extends React.Component {
 	constructor() {
 		super();
 
@@ -107,4 +108,4 @@ if (!document.getElementById(id)) {
 	document.body.appendChild(appendDiv);
 }
 
-render(<App />, document.getElementById(id));
+ReactDOM.render(<App />, document.getElementById(id));

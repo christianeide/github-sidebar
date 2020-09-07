@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import React from 'react';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 
 const SortableItem = SortableElement(({ item, onRemoveRepo, listIndex }) => (

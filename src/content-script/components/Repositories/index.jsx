@@ -1,5 +1,4 @@
-import { h } from 'preact';
-
+import React from 'react';
 import Repository from './repository.jsx';
 import NoRepos from './noRepos.jsx';
 import './repositories.scss';

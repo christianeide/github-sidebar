@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import React from 'react';
 import Item from './item.jsx';
 import Icons from '../../images/svgs/icons.js';
 

@@ -1,10 +1,9 @@
-import { h } from 'preact';
-import { PureComponent } from 'preact/compat';
+import React from 'react';
 import './header.scss';
 import Icons from '../../images/svgs/icons.js';
 import Errors from './errors.jsx';
 
-export default class Header extends PureComponent {
+export default class Header extends React.PureComponent {
 	componentDidMount() {
 		this.setHeight();
 		window.addEventListener('resize', this.setHeight);
@@ -41,7 +40,7 @@ export default class Header extends PureComponent {
 		const icon = showSettings ? 'cancel' : 'settings';
 
 		return (
-			<header className="text-bold" style={{ height: this.state.height }}>
+			<header className="text-bold" style={{ height: this.state?.height }}>
 				<span className="align-center">
 					Github Sidebar
 					{loader}

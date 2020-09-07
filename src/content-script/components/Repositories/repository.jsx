@@ -1,12 +1,11 @@
-import { h, createRef } from 'preact';
-import { PureComponent } from 'preact/compat';
+import React from 'react';
 import Type from './type.jsx';
 import Icons from '../../images/svgs/icons.js';
 import Read from '../Read/index.jsx';
 import { repoHasUnreadItems } from '../../utils/setBadge.js';
 import { isSelectedURL } from './utils.js';
 
-export default class Repository extends PureComponent {
+export default class Repository extends React.PureComponent {
 	constructor() {
 		super();
 
@@ -14,7 +13,7 @@ export default class Repository extends PureComponent {
 			repoHeight: 0,
 			hover: false,
 		};
-		this.repoHeight = createRef();
+		this.repoHeight = React.createRef();
 	}
 
 	componentDidUpdate() {
