@@ -17,7 +17,8 @@
   "dependencies": {
     "array-move": "^2.2.1",
     "favico.js": "^0.3.10",
-    "preact": "^10.3.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-sortable-hoc": "^1.11.0"
   },
   "devDependencies": {
@@ -31,7 +32,6 @@
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "eslint": "^6.8.0",
-    "eslint-config-preact": "^1.1.1",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
@@ -61,12 +61,7 @@
     ],
     "plugins": [
       "@babel/plugin-proposal-class-properties",
-      [
-        "@babel/plugin-transform-react-jsx",
-        {
-          "pragma": "h"
-        }
-      ]
+        "@babel/plugin-transform-react-jsx"
     ]
   },
   "husky": {

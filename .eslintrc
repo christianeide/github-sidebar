@@ -14,8 +14,7 @@
 		"eslint:recommended",
 		"prettier",
 		"plugin:react/recommended",
-		"plugin:prettier/recommended",
-		"preact"
+		"plugin:prettier/recommended"
 	],
 	"globals": {
 		"chrome": "readonly"

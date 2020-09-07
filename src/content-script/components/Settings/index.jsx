@@ -1,4 +1,4 @@
-import { Component, h, createRef } from 'preact';
+import React from 'react';
 import SortRepos from './sortRepos.jsx';
 import { until } from '../../utils/time.js';
 import arrayMove from 'array-move';
@@ -15,7 +15,7 @@ const debounce = (func, delay) => {
 	};
 };
 
-export default class Settings extends Component {
+export default class Settings extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -27,7 +27,7 @@ export default class Settings extends Component {
 		};
 
 		this.timer = null;
-		this.mainContRef = createRef();
+		this.mainContRef = React.createRef();
 	}
 
 	componentWillUnmount() {
