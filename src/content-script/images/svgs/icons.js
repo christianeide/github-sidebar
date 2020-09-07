@@ -1,6 +1,5 @@
 /* eslint react/display-name: 0 */
-/** @jsx h */
-import { h } from 'preact';
+import React from 'react';
 
 export default function (props) {
 	const Icons = {

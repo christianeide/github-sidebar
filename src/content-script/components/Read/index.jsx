@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import React from 'react';
 import './read.scss';
 
 export default function Read({ read, toggleRead, title, status = '' }) {
