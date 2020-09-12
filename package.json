@@ -19,6 +19,7 @@
   "dependencies": {
     "array-move": "^2.2.1",
     "favico.js": "^0.3.10",
+    "jest-chrome": "^0.7.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-sortable-hoc": "^1.11.0"
