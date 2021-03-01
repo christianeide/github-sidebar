@@ -77,7 +77,7 @@ chrome.runtime.onConnect.addListener((port) => {
 });
 
 function init(port) {
-	quickStorage.getStorage(({ settings, repositories, rateLimit }) => {
+	quickStorage.getStorage().then(({ settings, repositories, rateLimit }) => {
 		// Return initial data
 		port.postMessage({
 			settings,
@@ -150,6 +150,10 @@ function toggleCollapsed(request) {
 	chrome.storage.local.set({
 		repositories: quickStorage.repositories,
 	});
+}
+
+export function tester() {
+	return 'hei';
 }
 
 function saveSettings(request) {
