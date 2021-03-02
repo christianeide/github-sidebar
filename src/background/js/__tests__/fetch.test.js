@@ -19,7 +19,7 @@ const createSettings = (overrides) => {
 	};
 };
 
-const mockedResponseRepo = ({ name, login, review }) => {
+const mockedResponseRepo = ({ name, login = userName, review = [] }) => {
 	const date = '2021-01-01T01:02:03Z';
 	return {
 		name,
@@ -81,23 +81,17 @@ beforeEach(() => {
 						viewer: { login: userName },
 						repo1: mockedResponseRepo({
 							name: 'github-sidebar',
-							login: userName,
-							review: [],
 						}),
 						repo2: mockedResponseRepo({
 							name: 'myawsomeproject',
 							login: 'anotheruser',
-							review: [],
 						}),
 						repo3: mockedResponseRepo({
 							name: 'myotherproject',
-							login: userName,
 							review: [{ state: 'APPROVED' }],
 						}),
 						repo4: mockedResponseRepo({
 							name: 'myfinalproject',
-							login: userName,
-							review: [],
 						}),
 					},
 				}),
