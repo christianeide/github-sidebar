@@ -152,10 +152,6 @@ function toggleCollapsed(request) {
 	});
 }
 
-export function tester() {
-	return 'hei';
-}
-
 function saveSettings(request) {
 	// If refreshperiod has changed and is more than minimum val
 	if (
@@ -202,32 +198,35 @@ function fetchData() {
 		loading: true,
 	});
 
-	fetchDataFromAPI(settings, (err, newRepoData, rateLimit) => {
-		if (err) {
-			errors.push(...err);
-			return sendToAllTabs({
-				errors,
+	fetchDataFromAPI(settings)
+		.then(({ newRepoData, rateLimit }) => {
+			// Transfer read-status from old repositories
+			const repositories = transferUserStatus(newRepoData);
+
+			quickStorage.repositories = repositories;
+			quickStorage.rateLimit = rateLimit;
+
+			sendToAllTabs({
+				repositories,
+				rateLimit,
 				loading: false,
 			});
-		}
-		// Transfer read-status from old repositories
-		const repositories = transferUserStatus(newRepoData);
 
-		quickStorage.repositories = repositories;
-		quickStorage.rateLimit = rateLimit;
-
-		sendToAllTabs({
-			repositories,
-			rateLimit,
-			loading: false,
+			// Save repositorydata to storage for faster reloads
+			chrome.storage.local.set({
+				repositories,
+				rateLimit,
+			});
+		})
+		.catch((err) => {
+			if (err) {
+				errors.push(...err);
+				return sendToAllTabs({
+					errors,
+					loading: false,
+				});
+			}
 		});
-
-		// Save repositorydata to storage for faster reloads
-		chrome.storage.local.set({
-			repositories,
-			rateLimit,
-		});
-	});
 }
 
 function transferUserStatus(repositories) {
