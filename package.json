@@ -73,8 +73,7 @@
     ],
     "plugins": [
       "@babel/plugin-proposal-class-properties",
-      "@babel/plugin-transform-react-jsx",
-      "babel-plugin-rewire"
+      "@babel/plugin-transform-react-jsx"
     ]
   },
   "husky": {
