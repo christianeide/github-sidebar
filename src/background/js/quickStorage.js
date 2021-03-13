@@ -1,9 +1,39 @@
 import defaultSettings from './defaultSettings.json';
 
 export const quickStorage = {
-	settings: undefined,
-	repositories: undefined,
-	rateLimit: undefined,
+	_settings: undefined,
+	_repositories: undefined,
+	_rateLimit: undefined,
+	get rateLimit() {
+		return this._rateLimit;
+	},
+	set rateLimit(rateLimit) {
+		chrome.storage.local.set({
+			rateLimit,
+		});
+
+		this._rateLimit = rateLimit;
+	},
+	get repositories() {
+		return this._repositories;
+	},
+	set repositories(repositories) {
+		chrome.storage.local.set({
+			repositories,
+		});
+
+		this._repositories = repositories;
+	},
+	get settings() {
+		return this._settings;
+	},
+	set settings(settings) {
+		chrome.storage.local.set({
+			settings,
+		});
+
+		this._settings = settings;
+	},
 	getStorage() {
 		return new Promise((resolve) => {
 			// If we already have some data to return

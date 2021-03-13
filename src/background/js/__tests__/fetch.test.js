@@ -1,8 +1,8 @@
 import { fetchDataFromAPI } from '../fetch.js';
 import { createPullRequestsQuery } from '../graphql.js';
 
-import { autoRemoveRepo } from '../../background.js';
-jest.mock('../../background.js');
+import { autoRemoveRepo } from '../utils.js';
+jest.mock('../utils.js');
 
 const userName = 'githubusername';
 const userAddedRepo = { owner: userName, name: 'reponame' };
