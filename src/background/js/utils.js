@@ -35,6 +35,24 @@ export function sendToAllTabs(data) {
 	ports.messageAll(data);
 }
 
+export function toggleRead(request) {
+	const repositories = quickStorage.repositories.map((repo) => {
+		return {
+			...repo,
+			issues: setArrayItemReadStatus(repo.issues, repo.url, request),
+			pullRequests: setArrayItemReadStatus(
+				repo.pullRequests,
+				repo.url,
+				request
+			),
+		};
+	});
+
+	// Save and distribute
+	quickStorage.repositories = repositories;
+	sendToAllTabs({ repositories });
+}
+
 export function setArrayItemReadStatus(type, repoURL, request) {
 	return type.map((item) => {
 		// If single item
@@ -58,24 +76,6 @@ export function setArrayItemReadStatus(type, repoURL, request) {
 
 		return item;
 	});
-}
-
-export function toggleRead(request) {
-	const repositories = quickStorage.repositories.map((repo) => {
-		return {
-			...repo,
-			issues: setArrayItemReadStatus(repo.issues, repo.url, request),
-			pullRequests: setArrayItemReadStatus(
-				repo.pullRequests,
-				repo.url,
-				request
-			),
-		};
-	});
-
-	// Save and distribute
-	quickStorage.repositories = repositories;
-	sendToAllTabs({ repositories });
 }
 
 export function toggleCollapsed(request) {
