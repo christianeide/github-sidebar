@@ -1,9 +1,9 @@
 import { createPullRequestsQuery } from '../graphql.js';
+import { createSettings } from '../../../../test/generate.js';
 
 describe('graphql', () => {
 	it('should have an initial setup', () => {
-		const repo = { owner: 'githubuser', name: 'reponame' };
-		const repositories = [repo, repo];
+		const repositories = createSettings().repos;
 		const numberOfItems = 4;
 		const sortBy = 'CREATED_AT';
 		const graphqlData = createPullRequestsQuery(
@@ -21,7 +21,7 @@ describe('graphql', () => {
 		            viewer {
 		              login
 		            }
-		            repo0: repository(owner: \\"githubuser\\", name: \\"reponame\\") {
+		            repo0: repository(owner: \\"githubusername\\", name: \\"reponame\\") {
 		            name
 		            url
 		            owner {
@@ -69,7 +69,103 @@ describe('graphql', () => {
 		                }
 		              }
 		            }
-		          },repo1: repository(owner: \\"githubuser\\", name: \\"reponame\\") {
+		          },repo1: repository(owner: \\"githubusername\\", name: \\"myotherrepo\\") {
+		            name
+		            url
+		            owner {
+		              login
+		            }
+		            issues(first: 4, states: OPEN, orderBy: {field: CREATED_AT, direction: DESC}) {
+		              totalCount
+		              edges {
+		                node {
+		                  id
+		                  title
+		                  url
+		                  updatedAt
+		                  createdAt
+		                  author {
+		                    login
+		                  }
+		                  comments {
+		                    totalCount
+		                  }
+		                }
+		              }
+		            }   
+
+		            pullRequests(first: 4, states: OPEN, orderBy: {field: CREATED_AT, direction: DESC}) {
+		              totalCount
+		              edges {
+		                node {
+		                  id
+		                  title
+		                  url
+		                  updatedAt
+		                  createdAt
+		                  author {
+		                    login
+		                  }
+		                  reviews(last: 1, states: [APPROVED, CHANGES_REQUESTED, DISMISSED]) {
+		                    nodes {
+		                      state
+		                    }
+		                  }
+		                  comments {
+		                    totalCount
+		                  }
+		                }
+		              }
+		            }
+		          },repo2: repository(owner: \\"githubusername\\", name: \\"mythirdrepo\\") {
+		            name
+		            url
+		            owner {
+		              login
+		            }
+		            issues(first: 4, states: OPEN, orderBy: {field: CREATED_AT, direction: DESC}) {
+		              totalCount
+		              edges {
+		                node {
+		                  id
+		                  title
+		                  url
+		                  updatedAt
+		                  createdAt
+		                  author {
+		                    login
+		                  }
+		                  comments {
+		                    totalCount
+		                  }
+		                }
+		              }
+		            }   
+
+		            pullRequests(first: 4, states: OPEN, orderBy: {field: CREATED_AT, direction: DESC}) {
+		              totalCount
+		              edges {
+		                node {
+		                  id
+		                  title
+		                  url
+		                  updatedAt
+		                  createdAt
+		                  author {
+		                    login
+		                  }
+		                  reviews(last: 1, states: [APPROVED, CHANGES_REQUESTED, DISMISSED]) {
+		                    nodes {
+		                      state
+		                    }
+		                  }
+		                  comments {
+		                    totalCount
+		                  }
+		                }
+		              }
+		            }
+		          },repo3: repository(owner: \\"differentUser\\", name: \\"projectrepo\\") {
 		            name
 		            url
 		            owner {

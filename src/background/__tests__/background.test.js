@@ -26,22 +26,9 @@ jest.mock('../js/utils.js', () => {
 	};
 });
 
+import { createChromePort, createRepoURL } from '../../../test/generate.js';
+
 jest.useFakeTimers();
-
-const defaultUserName = 'githubusername';
-const defaultRepoName = 'github-sidebar';
-
-const createPort = (request = { type: null }) => {
-	return {
-		postMessage: jest.fn(),
-		onDisconnect: { addListener: jest.fn() },
-		onMessage: {
-			addListener: jest.fn((cb) => {
-				return cb(request);
-			}),
-		},
-	};
-};
 
 beforeEach(() => {
 	autoFetch.stop();
@@ -120,7 +107,7 @@ describe.skip('chrome.tabs.onUpdated', () => {
 
 		const tabId = 45;
 		chrome.tabs.onUpdated.callListeners(tabId, {
-			url: `https://github.com/${defaultUserName}/${defaultRepoName}`,
+			url: createRepoURL(),
 		});
 
 		expect(setItemInRepoAsReadBasedOnUrl).toHaveBeenCalledTimes(1);
@@ -139,7 +126,7 @@ describe.skip('chrome.tabs.onUpdated', () => {
 
 		const tabId = 45;
 		chrome.tabs.onUpdated.callListeners(tabId, {
-			url: `https://example.com/${defaultUserName}/${defaultRepoName}`,
+			url: createRepoURL(),
 		});
 
 		expect(sendToAllTabs).not.toHaveBeenCalled();
@@ -152,7 +139,7 @@ describe.skip('chrome.tabs.onUpdated', () => {
 describe('chrome.runtime.onConnect', () => {
 	it('should setup listeners on incoming port', async () => {
 		expect(chrome.runtime.onConnect.hasListeners()).toBe(true);
-		const port = createPort();
+		const port = createChromePort();
 
 		chrome.runtime.onConnect.callListeners(port);
 
@@ -160,22 +147,22 @@ describe('chrome.runtime.onConnect', () => {
 	});
 
 	it('should call events based on incoming message', async () => {
-		let port = createPort({ type: 'init' });
+		let port = createChromePort({ type: 'init' });
 		chrome.runtime.onConnect.callListeners(port);
 		expect(init).toHaveBeenCalledTimes(1);
 		expect(init).toHaveBeenCalledWith(port);
 
-		port = createPort({ type: 'toggleRead' });
+		port = createChromePort({ type: 'toggleRead' });
 		chrome.runtime.onConnect.callListeners(port);
 		expect(toggleRead).toHaveBeenCalledTimes(1);
 		expect(toggleRead).toHaveBeenCalledWith({ type: 'toggleRead' });
 
-		port = createPort({ type: 'toggleCollapsed' });
+		port = createChromePort({ type: 'toggleCollapsed' });
 		chrome.runtime.onConnect.callListeners(port);
 		expect(toggleCollapsed).toHaveBeenCalledTimes(1);
 		expect(toggleCollapsed).toHaveBeenCalledWith({ type: 'toggleCollapsed' });
 
-		port = createPort({ type: 'saveSettings', settings: 'newSettings' });
+		port = createChromePort({ type: 'saveSettings', settings: 'newSettings' });
 		chrome.runtime.onConnect.callListeners(port);
 		expect(saveSettings).toHaveBeenCalledTimes(1);
 		expect(saveSettings).toHaveBeenCalledWith('newSettings');

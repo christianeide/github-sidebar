@@ -1,7 +1,7 @@
-// Using rewire to get non exported functions
+import { chrome } from 'jest-chrome';
 import { autoFetch } from '../../background.js';
 import defaultSettings from '../defaultSettings.json';
-import { chrome } from 'jest-chrome';
+import { quickStorage } from '../quickStorage.js';
 import {
 	init,
 	toggleRead,
@@ -12,116 +12,21 @@ import {
 	autoRemoveRepo,
 	fetchData,
 } from '../utils.js';
+
 import { fetchDataFromAPI } from '../fetch.js';
 jest.mock('../fetch.js');
 
 import * as ports from '../ports';
 jest.mock('../ports.js');
 
-import { quickStorage } from '../quickStorage.js';
-
-const defaultUserName = 'githubusername';
-const defaultRepoName = 'github-sidebar';
-
-const createSettings = (overrides) => {
-	return {
-		...defaultSettings,
-		repos: [
-			{ owner: defaultUserName, name: 'reponame' },
-			{ owner: defaultUserName, name: 'myotherrepo' },
-			{ owner: defaultUserName, name: 'mythirdrepo' },
-			{ owner: 'differentUser', name: 'projectrepo' },
-		],
-		token: 'testtoken',
-		...overrides,
-	};
-};
-
-const rateLimit = {
-	limit: 5000,
-	remaining: 4930,
-	resetAt: '2022-01-01T01:02:03Z',
-};
-
-const mockQuickStorageRepositories = (options) => {
-	const {
-		repoName = defaultRepoName,
-		login = defaultUserName,
-		issueID = 'issueID',
-		pullID = 'pullID',
-		collapsed = true,
-		read = true,
-	} = options;
-	const date = '2021-01-01T01:02:03Z';
-
-	return {
-		collapsed,
-		name: repoName,
-		owner: login,
-		url: `https://github.com/${login}/${repoName}`,
-		issues: [
-			{
-				author: login,
-				comments: 0,
-				createdAt: date,
-				id: issueID,
-				read,
-				reviewStatus: null,
-				title: 'Issue title 1',
-				updatedAt: date,
-				url: `https://github.com/${login}/${repoName}/issues/1`,
-			},
-		],
-
-		pullRequests: [
-			{
-				author: login,
-				comments: 0,
-				createdAt: date,
-				id: pullID,
-				read,
-				reviewStatus: null,
-				title: 'Pull title 1',
-				updatedAt: date,
-				url: `https://github.com/${login}/${repoName}/pull/10`,
-			},
-			{
-				author: login,
-				comments: 2,
-				createdAt: date,
-				id: `${pullID}_2`,
-				read: false,
-				reviewStatus: null,
-				title: 'Pull title 2',
-				updatedAt: date,
-				url: `https://github.com/${login}/${repoName}/pull/11`,
-			},
-		],
-		totalItems: {
-			issues: 1,
-			pullRequests: 10,
-		},
-	};
-};
-
-const repositories = [
-	mockQuickStorageRepositories({}),
-	mockQuickStorageRepositories({
-		repoName: 'sideproject',
-		issueID: 'issueID_2',
-		pullID: 'pullID_2',
-	}),
-];
-
-const port = {
-	postMessage: jest.fn(),
-	onDisconnect: { addListener: jest.fn() },
-	onMessage: {
-		addListener: jest.fn((cb) => {
-			return cb({ type: null });
-		}),
-	},
-};
+import {
+	createRateLimit,
+	createInterenalRepository,
+	createChromePort,
+	createRepoURL,
+	createInternalRepositories,
+	createQuickStorage,
+} from '../../../../test/generate.js';
 
 beforeEach(async () => {
 	// Before each test we calll getStoragge() and do a basic setup
@@ -129,15 +34,14 @@ beforeEach(async () => {
 	// At the same time we mock the return data from fetch as well.
 	// Finally we clear any calls theese mocks have received
 	chrome.storage.local.get.mockImplementation((message, callback) => {
-		callback({
-			repositories,
-			rateLimit,
-			settings: createSettings(),
-		});
+		callback(createQuickStorage());
 	});
 
 	fetchDataFromAPI.mockImplementation(() => {
-		return Promise.resolve({ newRepoData: repositories, rateLimit });
+		return Promise.resolve({
+			newRepoData: createInternalRepositories(),
+			rateLimit: createRateLimit(),
+		});
 	});
 
 	// Do a initial setup for storage
@@ -147,14 +51,11 @@ beforeEach(async () => {
 
 describe('init', () => {
 	it('should return inital data on init', async () => {
+		const port = createChromePort();
 		await init(port);
 
 		expect(port.postMessage).toHaveBeenCalledTimes(1);
-		expect(port.postMessage).toHaveBeenCalledWith({
-			repositories,
-			rateLimit,
-			settings: createSettings(),
-		});
+		expect(port.postMessage).toHaveBeenCalledWith(createQuickStorage());
 
 		expect(autoFetch.timer).toBeTruthy();
 
@@ -165,6 +66,7 @@ describe('init', () => {
 	});
 
 	it('should only start a autofetch if its not running', async () => {
+		const port = createChromePort();
 		await init(port);
 
 		const timerRef = autoFetch.timer;
@@ -214,7 +116,7 @@ describe('toggleRead', () => {
 		// Toggle first issue to false
 		let request = {
 			type: 'toggleRead',
-			repo: `https://github.com/${defaultUserName}/github-sidebar`,
+			repo: createRepoURL(),
 			status: false,
 		};
 		await toggleRead(request);
@@ -229,7 +131,7 @@ describe('toggleRead', () => {
 		// Toggle first issue to false
 		request = {
 			type: 'toggleRead',
-			repo: `https://github.com/${defaultUserName}/github-sidebar`,
+			repo: createRepoURL(),
 			status: true,
 		};
 		await toggleRead(request);
@@ -289,7 +191,7 @@ describe('toggleCollapsed', () => {
 	it('should toggle a repos collapsed', async () => {
 		let request = {
 			type: 'toggleCollapsed',
-			url: `https://github.com/${defaultUserName}/github-sidebar`,
+			url: createRepoURL(),
 		};
 		await toggleCollapsed(request);
 
@@ -382,8 +284,8 @@ describe('fetchData', () => {
 		expect(chrome.storage.local.set).toHaveBeenCalledTimes(2);
 
 		expect(ports.messageAll).toHaveBeenNthCalledWith(2, {
-			repositories,
-			rateLimit,
+			repositories: createInternalRepositories(),
+			rateLimit: createRateLimit(),
 			loading: false,
 		});
 	});
@@ -419,19 +321,10 @@ describe('fetchData', () => {
 
 describe('transferUserStatus', () => {
 	it('should fetch and transfer old data to new data', () => {
-		const newFetchedRepositories = [
-			mockQuickStorageRepositories({ collapsed: false, read: false }),
-			mockQuickStorageRepositories({
-				repoName: 'sideproject',
-				issueID: 'issueID_2',
-				pullID: 'pullID_2',
-			}),
-			mockQuickStorageRepositories({
-				repoName: 'mygreatproject',
-				issueID: 'issueID_3',
-				pullID: 'pullID_3',
-			}),
-		];
+		const newFetchedRepositories = createInternalRepositories(3, {
+			collapsed: false,
+			read: false,
+		});
 
 		const response = transferUserStatus(newFetchedRepositories);
 
@@ -457,9 +350,7 @@ describe('transferUserStatus', () => {
 		const newFetchedRepositories = [
 			{
 				collapsed: true,
-				name: defaultRepoName,
-				owner: defaultUserName,
-				url: `https://github.com/${defaultUserName}/${defaultRepoName}`,
+				url: createRepoURL(),
 			},
 		];
 
@@ -470,16 +361,17 @@ describe('transferUserStatus', () => {
 	});
 
 	it('should handle if if there is a new issue or pullrequest in a known repo', () => {
-		const firstRepo = mockQuickStorageRepositories({
+		const firstRepo = createInterenalRepository({
 			collapsed: false,
 			read: false,
 		});
+
 		// Add a new issue to newly fetched data
 		firstRepo.issues.push({ id: 'totalyNewID', read: false });
 
 		const newFetchedRepositories = [
 			firstRepo,
-			mockQuickStorageRepositories({
+			createInterenalRepository({
 				repoName: 'sideproject',
 				issueID: 'issueID_2',
 				pullID: 'pullID_2',
@@ -496,7 +388,7 @@ describe('transferUserStatus', () => {
 
 describe('setItemInRepoAsReadBasedOnUrl', () => {
 	it('should set item as read based on incoming url', () => {
-		const itemToChange = repositories[0].pullRequests[1];
+		const itemToChange = createInternalRepositories()[0].pullRequests[1];
 		expect(itemToChange.read).toBe(false);
 
 		const response = setItemInRepoAsReadBasedOnUrl(itemToChange.url);
@@ -527,7 +419,7 @@ describe('autoRemoveRepo', () => {
 		expect(quickStorage.settings.repos.length).toBe(3);
 		expect(quickStorage.settings.repos[1].name).toBe('mythirdrepo');
 		// Make a simple asumption that we actually have all other settings
-		expect(quickStorage.settings.token).toBe('testtoken');
+		expect(quickStorage.settings.token).toBe('myToken');
 
 		expect(ports.messageAll).toHaveBeenCalledTimes(2);
 

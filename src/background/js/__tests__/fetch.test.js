@@ -4,97 +4,16 @@ import { createPullRequestsQuery } from '../graphql.js';
 import { autoRemoveRepo } from '../utils.js';
 jest.mock('../utils.js');
 
-const userName = 'githubusername';
-const userAddedRepo = { owner: userName, name: 'reponame' };
-const numberOfItems = 4;
-const sortBy = 'CREATED_AT';
-
-const createSettings = (overrides) => {
-	return {
-		token: 'myToken',
-		repos: [userAddedRepo, userAddedRepo],
-		numberOfItems,
-		sortBy,
-		...overrides,
-	};
-};
-
-const mockedResponseRepo = ({ name, login = userName, review = [] }) => {
-	const date = '2021-01-01T01:02:03Z';
-	return {
-		name,
-		owner: { login },
-		url: `https://github.com/${login}/${name}`,
-		issues: {
-			totalCount: 5,
-			edges: [
-				{
-					node: {
-						author: {
-							login,
-						},
-						comments: {
-							totalCount: 4,
-						},
-						createdAt: date,
-						id: 'issueid',
-						title: 'My issue title',
-						updatedAt: date,
-						url: `https://github.com/${login}/${name}/issues/1`,
-					},
-				},
-			],
-		},
-		pullRequests: {
-			totalCount: 6,
-			edges: [
-				{
-					node: {
-						author: {
-							login,
-						},
-						comments: {
-							totalCount: 3,
-						},
-						createdAt: date,
-						id: 'pullid',
-						reviews: {
-							nodes: review, // TODO : Legg til?
-						},
-						title: 'My pull request title',
-						updatedAt: date,
-						url: `https://github.com/christianeide/${name}/pull/11`,
-					},
-				},
-			],
-		},
-	};
-};
+import {
+	createSettings,
+	createGithubResponse,
+	defaultUserName,
+} from '../../../../test/generate.js';
 
 beforeEach(() => {
 	global.fetch = jest.fn(() =>
 		Promise.resolve({
-			json: () =>
-				Promise.resolve({
-					data: {
-						rateLimit: { limit: 1000 },
-						viewer: { login: userName },
-						repo1: mockedResponseRepo({
-							name: 'github-sidebar',
-						}),
-						repo2: mockedResponseRepo({
-							name: 'myawsomeproject',
-							login: 'anotheruser',
-						}),
-						repo3: mockedResponseRepo({
-							name: 'myotherproject',
-							review: [{ state: 'APPROVED' }],
-						}),
-						repo4: mockedResponseRepo({
-							name: 'myfinalproject',
-						}),
-					},
-				}),
+			json: () => Promise.resolve(createGithubResponse()),
 		})
 	);
 });
@@ -178,7 +97,7 @@ describe('handle errors', () => {
 		}
 	});
 
-	it('should return ddefault error if result dont contain a message', async () => {
+	it('should return default error if result dont contain a message', async () => {
 		global.fetch = jest.fn().mockImplementationOnce(() =>
 			Promise.resolve({
 				json: () => Promise.resolve({ noData: {} }),
@@ -255,7 +174,7 @@ describe('fetching', () => {
 		expect(newRepoData[2].name).toBe('myotherproject');
 		expect(newRepoData[3].name).toBe('myfinalproject');
 
-		expect(firstRepo.owner).toBe(userName);
+		expect(firstRepo.owner).toBe(defaultUserName);
 		expect(firstRepo.url).toMatchInlineSnapshot(
 			`"https://github.com/githubusername/github-sidebar"`
 		);
@@ -290,7 +209,7 @@ describe('fetching', () => {
 		    "reviewStatus": null,
 		    "title": "My pull request title",
 		    "updatedAt": "2021-01-01T01:02:03Z",
-		    "url": "https://github.com/christianeide/github-sidebar/pull/11",
+		    "url": "https://github.com/githubusername/github-sidebar/pull/11",
 		  },
 		]
 	`);

@@ -1,14 +1,7 @@
 import { add, remove, messageAll } from '../ports.js';
+import { createChromePort } from '../../../../test/generate.js';
 
-const postMessage = jest.fn();
-const port = {
-	name: 'port_name',
-	onDisconnect: { addListener: jest.fn() },
-	onMessage: {
-		addListener: jest.fn(),
-	},
-	postMessage,
-};
+const port = createChromePort();
 const message = 'This is my message!';
 
 describe('ports', () => {
@@ -19,8 +12,8 @@ describe('ports', () => {
 
 		messageAll(message);
 
-		expect(postMessage).toHaveBeenCalledTimes(2);
-		expect(postMessage).toHaveBeenCalledWith(message);
+		expect(port.postMessage).toHaveBeenCalledTimes(2);
+		expect(port.postMessage).toHaveBeenCalledWith(message);
 	});
 
 	it('should remove port on onDisconnect', () => {
@@ -37,7 +30,7 @@ describe('ports', () => {
 		callOnDisconnect();
 
 		messageAll(message);
-		expect(postMessage).toHaveBeenCalledTimes(1);
-		expect(postMessage).toHaveBeenCalledWith(message);
+		expect(port.postMessage).toHaveBeenCalledTimes(1);
+		expect(port.postMessage).toHaveBeenCalledWith(message);
 	});
 });
