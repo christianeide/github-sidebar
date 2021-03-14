@@ -1,6 +1,7 @@
 import { quickStorage } from '../quickStorage.js';
 import { chrome } from 'jest-chrome';
 import defaultSettings from '../defaultSettings.json';
+import { createQuickStorage } from '../../../../test/generate.js';
 
 describe('quickstorage', () => {
 	it('should have an initial setup', () => {
@@ -13,11 +14,7 @@ describe('quickstorage', () => {
 	});
 
 	it('should get data from local storage if none is fetched', async () => {
-		const response = {
-			settings: { token: 'myToken' },
-			repositories: [{ repo: '1' }, { repo: '2' }],
-			rateLimit: { max: 1000 },
-		};
+		const response = createQuickStorage();
 
 		chrome.storage.local.get.mockImplementation((message, callback) => {
 			callback(response);
@@ -43,11 +40,7 @@ describe('quickstorage', () => {
 	});
 
 	it('should return data from memory if data exists', async () => {
-		const response = {
-			settings: { token: 'myToken' },
-			repositories: [{ repo: '1' }, { repo: '2' }],
-			rateLimit: { max: 1000 },
-		};
+		const response = createQuickStorage();
 
 		const getStorage = await quickStorage.getStorage();
 

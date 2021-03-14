@@ -1,5 +1,5 @@
 import { createPullRequestsQuery } from './graphql.js';
-import { autoRemoveRepo } from '../background.js';
+import { autoRemoveRepo } from './utils.js';
 
 export function fetchDataFromAPI({ token, repos, numberOfItems, sortBy }) {
 	return new Promise((resolve, reject) => {
@@ -8,7 +8,6 @@ export function fetchDataFromAPI({ token, repos, numberOfItems, sortBy }) {
 		}
 
 		const query = createPullRequestsQuery(repos, numberOfItems, sortBy);
-
 		fetch('https://api.github.com/graphql', {
 			method: 'post',
 			headers: {
