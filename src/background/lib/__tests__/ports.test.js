@@ -1,4 +1,4 @@
-import { add, remove, messageAll } from '../ports.js';
+import { add, remove, messageAll, sendToAllTabs } from '../ports.js';
 import { createChromePort } from '../../../../test/generate.js';
 
 const port = createChromePort();
@@ -31,6 +31,20 @@ describe('ports', () => {
 
 		messageAll(message);
 		expect(port.postMessage).toHaveBeenCalledTimes(1);
+		expect(port.postMessage).toHaveBeenCalledWith(message);
+	});
+
+	it('should send to all tabs', () => {
+		// Remove any previous added elemeents from other tests
+		remove('0');
+		remove('1');
+
+		// Add two ports
+		add(port);
+		add(port);
+
+		sendToAllTabs(message);
+		expect(port.postMessage).toHaveBeenCalledTimes(3);
 		expect(port.postMessage).toHaveBeenCalledWith(message);
 	});
 });

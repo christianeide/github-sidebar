@@ -1,4 +1,4 @@
-import defaultSettings from '../src/background/js/defaultSettings.json';
+import defaultSettings from '../src/background/settings/defaultSettings.json';
 
 export const defaultUserName = 'githubusername';
 export const defaultRepoName = 'github-sidebar';
@@ -44,104 +44,80 @@ export function createRateLimit(overrides) {
 }
 
 export function createRepoURL(options = {}) {
-	const { userName = defaultUserName, repoName = defaultRepoName } = options;
-	return `https://github.com/${userName}/${repoName}`;
+	const {
+		userName = defaultUserName,
+		repoName = defaultRepoName,
+		subPath = '',
+	} = options;
+	return `https://github.com/${userName}/${repoName}${subPath}`;
 }
 
-export function createInterenalRepository(options = {}) {
-	const {
-		repoName = defaultRepoName,
-		login = defaultUserName,
-		issueID = 'issueID',
-		pullID = 'pullID',
-		collapsed = true,
-		read = true,
-	} = options;
-
+export function createQuickStorage(options) {
 	return {
-		collapsed,
-		name: repoName,
-		owner: login,
-		url: `https://github.com/${login}/${repoName}`,
-		issues: [
-			{
-				author: login,
-				comments: 0,
-				createdAt: date,
-				id: issueID,
-				read,
-				reviewStatus: null,
-				title: 'Issue title 1',
-				updatedAt: date,
-				url: `https://github.com/${login}/${repoName}/issues/1`,
-			},
-		],
+		repositories: createInternalRepositories(4, options),
+		rateLimit: createRateLimit(),
+		settings: createSettings(),
+	};
+}
 
-		pullRequests: [
-			{
-				author: login,
-				comments: 0,
-				createdAt: date,
-				id: pullID,
-				read,
-				reviewStatus: null,
-				title: 'Pull title 1',
-				updatedAt: date,
-				url: `https://github.com/${login}/${repoName}/pull/10`,
-			},
-			{
-				author: login,
-				comments: 2,
-				createdAt: date,
-				id: `${pullID}_2`,
-				read: false,
-				reviewStatus: null,
-				title: 'Pull title 2',
-				updatedAt: date,
-				url: `https://github.com/${login}/${repoName}/pull/11`,
-			},
-		],
-		totalItems: {
-			issues: 1,
-			pullRequests: 10,
+const defaultRepositoryOptions = {
+	repoName: defaultRepoName,
+	login: defaultUserName,
+	issueID: 'issueID',
+	pullID: 'pullID',
+	collapsed: true,
+	read: false,
+	review: [],
+};
+
+export function createRepositoryData() {
+	return {
+		internal: createInternalRepositories(),
+		external: createExternalRespositories(),
+	};
+}
+
+const appendNumber = (prefix, index) =>
+	index === 0 ? prefix : `${prefix}_${index + 1}`;
+
+function createExternalRespositories(numberOfRepos = 4, ...args) {
+	let repos = {};
+	[...Array(numberOfRepos)].map((_, i) => {
+		repos[`repos${i}`] = createExternalRepositoryData({
+			...args[i],
+			repoName: appendNumber(defaultRepoName, i),
+		});
+	});
+	return {
+		data: {
+			rateLimit: createRateLimit(),
+			viewer: { login: defaultUserName },
+			...repos,
 		},
 	};
 }
 
 export function createInternalRepositories(numberOfRepos = 4, ...args) {
 	return [...Array(numberOfRepos)].map((_, i) => {
-		const appendNumber = (prefix) => (i === 0 ? prefix : `prefix_${i + 1}`);
-
-		return createInterenalRepository({
-			repoName: appendNumber(defaultRepoName),
-			issueID: appendNumber('issueID'),
-			pullID: appendNumber('pullID'),
+		return createInternalRepositoryData({
 			...args[i],
+			repoName: appendNumber(defaultRepoName, i),
 		});
 	});
 }
 
-export function createQuickStorage() {
-	return {
-		repositories: createInternalRepositories(),
-		rateLimit: createRateLimit(),
-		settings: createSettings(),
+function createExternalRepositoryData(options) {
+	const { repoName, login, issueID, pullID } = {
+		...defaultRepositoryOptions,
+		...options,
 	};
-}
-
-export function createGithubResponseRepository(options = {}) {
-	const {
-		repoName = defaultRepoName,
-		login = defaultUserName,
-		review = [],
-	} = options;
 
 	return {
 		name: repoName,
 		owner: { login },
-		url: `https://github.com/${login}/${repoName}`,
+		url: createRepoURL({ userName: login, repoName }),
 		issues: {
-			totalCount: 5,
+			totalCount: 1,
 			edges: [
 				{
 					node: {
@@ -149,19 +125,23 @@ export function createGithubResponseRepository(options = {}) {
 							login,
 						},
 						comments: {
-							totalCount: 4,
+							totalCount: 2,
 						},
 						createdAt: date,
-						id: 'issueid',
-						title: 'My issue title',
+						id: issueID,
+						title: 'Issue title 1',
 						updatedAt: date,
-						url: `https://github.com/${login}/${repoName}/issues/1`,
+						url: createRepoURL({
+							userName: login,
+							repoName,
+							subPath: '/issues/1',
+						}),
 					},
 				},
 			],
 		},
 		pullRequests: {
-			totalCount: 6,
+			totalCount: 2,
 			edges: [
 				{
 					node: {
@@ -172,13 +152,35 @@ export function createGithubResponseRepository(options = {}) {
 							totalCount: 3,
 						},
 						createdAt: date,
-						id: 'pullid',
-						reviews: {
-							nodes: review,
-						},
-						title: 'My pull request title',
+						id: pullID,
+						reviews: { nodes: [{ state: 'APPROVED' }] },
+						title: 'Pull title 1',
 						updatedAt: date,
-						url: `https://github.com/${login}/${repoName}/pull/11`,
+						url: createRepoURL({
+							userName: login,
+							repoName,
+							subPath: '/pull/2',
+						}),
+					},
+				},
+				{
+					node: {
+						author: {
+							login,
+						},
+						comments: {
+							totalCount: 3,
+						},
+						createdAt: date,
+						id: `${pullID}_2`,
+						reviews: { nodes: [] },
+						title: 'Pull title 2',
+						updatedAt: date,
+						url: createRepoURL({
+							userName: login,
+							repoName,
+							subPath: '/pull/3',
+						}),
 					},
 				},
 			],
@@ -186,25 +188,73 @@ export function createGithubResponseRepository(options = {}) {
 	};
 }
 
-export function createGithubResponse() {
+export function createInternalRepositoryData(options) {
+	const { collapsed, repoName, login, issueID, read, pullID } = {
+		...defaultRepositoryOptions,
+		...options,
+	};
+
 	return {
-		data: {
-			rateLimit: createRateLimit(),
-			viewer: { login: defaultUserName },
-			repo1: createGithubResponseRepository({
-				repoName: 'github-sidebar',
-			}),
-			repo2: createGithubResponseRepository({
-				repoName: 'myawsomeproject',
-				login: 'anotheruser',
-			}),
-			repo3: createGithubResponseRepository({
-				repoName: 'myotherproject',
-				review: [{ state: 'APPROVED' }],
-			}),
-			repo4: createGithubResponseRepository({
-				repoName: 'myfinalproject',
-			}),
+		collapsed,
+		name: repoName,
+		owner: login,
+		url: createRepoURL({
+			userName: login,
+			repoName,
+		}),
+		issues: [
+			{
+				author: login,
+				comments: 2,
+				createdAt: date,
+				id: issueID,
+				read,
+				reviewStatus: null,
+				title: 'Issue title 1',
+				updatedAt: date,
+				url: createRepoURL({
+					userName: login,
+					repoName,
+					subPath: '/issues/1',
+				}),
+			},
+		],
+
+		pullRequests: [
+			{
+				author: login,
+				comments: 3,
+				createdAt: date,
+				id: pullID,
+				read,
+				reviewStatus: 'APPROVED',
+				title: 'Pull title 1',
+				updatedAt: date,
+				url: createRepoURL({
+					userName: login,
+					repoName,
+					subPath: '/pull/2',
+				}),
+			},
+			{
+				author: login,
+				comments: 3,
+				createdAt: date,
+				id: `${pullID}_2`,
+				read: false,
+				reviewStatus: null,
+				title: 'Pull title 2',
+				updatedAt: date,
+				url: createRepoURL({
+					userName: login,
+					repoName,
+					subPath: '/pull/3',
+				}),
+			},
+		],
+		totalItems: {
+			issues: 1,
+			pullRequests: 2,
 		},
 	};
 }

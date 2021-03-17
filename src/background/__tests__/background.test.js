@@ -1,18 +1,16 @@
 // Using rewire to get non exported functions
 import { autoFetch } from '../background.js';
 import { chrome } from 'jest-chrome';
+import { fetchData } from '../api/index.js';
 import {
-	fetchData,
 	init,
-	sendToAllTabs,
 	setItemInRepoAsReadBasedOnUrl,
-	saveSettings,
 	toggleRead,
 	toggleCollapsed,
-} from '../js/utils.js';
+} from '../lib/index.js';
 // For some reason a default mock wont work, so need to manually mock each function.
 // It might have something to do with jest-chrome
-jest.mock('../js/utils.js', () => {
+jest.mock('../lib/index.js', () => {
 	return {
 		sendToAllTabs: jest.fn(),
 		setItemInRepoAsReadBasedOnUrl: jest.fn(() => {
@@ -21,10 +19,19 @@ jest.mock('../js/utils.js', () => {
 		init: jest.fn(),
 		toggleRead: jest.fn(),
 		toggleCollapsed: jest.fn(),
-		saveSettings: jest.fn(),
-		errors: jest.fn(),
+		apiErrors: jest.fn(),
 	};
 });
+
+import { saveSettings } from '../settings/save.js';
+jest.mock('../settings/save.js', () => {
+	return {
+		saveSettings: jest.fn(),
+	};
+});
+
+import { sendToAllTabs } from '../lib/ports.js';
+jest.mock('../lib/ports.js');
 
 import { createChromePort, createRepoURL } from '../../../test/generate.js';
 
@@ -101,7 +108,7 @@ describe('autoFetch', () => {
 	});
 });
 
-describe.skip('chrome.tabs.onUpdated', () => {
+describe('chrome.tabs.onUpdated', () => {
 	it('should set new repodata if url matches a repo', async () => {
 		expect(chrome.tabs.onUpdated.hasListeners()).toBe(true);
 
@@ -167,10 +174,9 @@ describe('chrome.runtime.onConnect', () => {
 		expect(saveSettings).toHaveBeenCalledTimes(1);
 		expect(saveSettings).toHaveBeenCalledWith('newSettings');
 
-		// TODO: Need to fix this when errorhandling is redone
-		// port = createPort({ type: 'clearErrors' });
-		// chrome.runtime.onConnect.callListeners(port);
-		// expect(sendToAllTabs).toHaveBeenCalledTimes(1);
-		// expect(sendToAllTabs).toHaveBeenCalledWith({ errors: [] });
+		port = createChromePort({ type: 'clearErrors' });
+		chrome.runtime.onConnect.callListeners(port);
+		expect(sendToAllTabs).toHaveBeenCalledTimes(1);
+		expect(sendToAllTabs).toHaveBeenCalledWith({ errors: [] });
 	});
 });
