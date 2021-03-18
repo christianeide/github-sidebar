@@ -202,6 +202,11 @@ export function createInternalRepositoryData(options) {
 			userName: login,
 			repoName,
 		}),
+		totalItemsNumber: 0,
+		totalItems: {
+			issues: 1,
+			pullRequests: 2,
+		},
 		issues: [
 			{
 				author: login,
@@ -252,9 +257,5 @@ export function createInternalRepositoryData(options) {
 				}),
 			},
 		],
-		totalItems: {
-			issues: 1,
-			pullRequests: 2,
-		},
 	};
 }

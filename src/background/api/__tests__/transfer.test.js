@@ -1,37 +1,14 @@
-import { quickStorage } from '../../settings/quickStorage.js';
 import { transferUserStatus } from '../transfer.js';
 
 import {
-	createGithubResponse,
 	createInternalRepositories,
 	createRepoURL,
-	createQuickStorage,
 	createInternalRepositoryData,
 } from '../../../../test/generate.js';
+import { setupBackgroundTests } from '../../../../test/setup.js';
 
 beforeEach(async () => {
-	global.fetch = jest.fn(() =>
-		Promise.resolve({
-			json: () => Promise.resolve(createGithubResponse()),
-		})
-	);
-
-	// TODO: Do this in generate-file? Or new setup-file?
-
-	// Before each test we calll getStoragge() and do a basic setup
-	// This will get data from storage, so we mock the return data
-	// At the same time we mock the return data from fetch as well.
-	// Finally we clear any calls theese mocks have received
-	chrome.storage.local.get.mockImplementation((message, callback) => {
-		callback(createQuickStorage({ read: true }));
-	});
-
-	// Do a initial setup for storage
-	quickStorage.settings = undefined;
-	quickStorage.repositories = undefined;
-	quickStorage.rateLimit = undefined;
-	await quickStorage.getStorage();
-	chrome.storage.local.set.mockClear();
+	setupBackgroundTests({ read: true });
 });
 
 describe('transferUserStatus', () => {

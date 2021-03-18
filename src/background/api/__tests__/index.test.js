@@ -9,36 +9,14 @@ jest.mock('../../lib/ports');
 import {
 	createSettings,
 	createRateLimit,
-	createQuickStorage,
 	createRepositoryData,
 } from '../../../../test/generate.js';
+import { setupBackgroundTests } from '../../../../test/setup.js';
 
 beforeEach(async () => {
-	global.fetch = jest.fn(() =>
-		Promise.resolve({
-			json: () => Promise.resolve(createRepositoryData().external),
-		})
-	);
-
-	// Before each test we calll getStoragge() and do a basic setup
-	// This will get data from storage, so we mock the return data
-	// At the same time we mock the return data from fetch as well.
-	// Finally we clear any calls theese mocks have received
-	chrome.storage.local.get.mockImplementation((message, callback) => {
-		callback(createQuickStorage());
-	});
-
-	// Do a initial setup for storage
-	quickStorage.settings = undefined;
-	quickStorage.repositories = undefined;
-	quickStorage.rateLimit = undefined;
-	await quickStorage.getStorage();
-	chrome.storage.local.set.mockClear();
+	setupBackgroundTests();
 
 	ports.sendToAllTabs.mockClear();
-
-	// Clear errors inbetween each test
-	apiErrors.set([]);
 });
 
 describe('fetchData', () => {
@@ -287,6 +265,14 @@ describe('fetchData', () => {
 			ports.sendToAllTabs.mock.calls[1][0].repositories[0].pullRequests[0].read
 		).toBeFalsy();
 	});
+
+	// it.only('should set item to read if created by same user that has credentials to github', async () => {
+	// 	await fetchData();
+
+	// 	expect(
+	// 		ports.sendToAllTabs.mock.calls[1][0].repositories[0].issues[1].read
+	// 	).toBeTruthy();
+	// });
 
 	// it('should set item to unread if changed since last fetch to ggithub', async () => {
 	// 	// console.log('🚀 => it => createGithubResponse()', createGithubResponse());

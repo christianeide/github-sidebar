@@ -1,7 +1,6 @@
 import { chrome } from 'jest-chrome';
 import { autoFetch } from '../../background.js';
 import defaultSettings from '../defaultSettings.json';
-import { quickStorage } from '../quickStorage.js';
 import { saveSettings } from '../save.js';
 
 import { fetchData } from '../../api/index.js';
@@ -10,23 +9,10 @@ jest.mock('../../api/index.js');
 import * as ports from '../../lib/ports';
 jest.mock('../../lib/ports');
 
-import { createQuickStorage } from '../../../../test/generate.js';
+import { setupBackgroundTests } from '../../../../test/setup.js';
 
 beforeEach(async () => {
-	// Before each test we calll getStoragge() and do a basic setup
-	// This will get data from storage, so we mock the return data
-	// At the same time we mock the return data from fetch as well.
-	// Finally we clear any calls theese mocks have received
-	chrome.storage.local.get.mockImplementation((message, callback) => {
-		callback(createQuickStorage());
-	});
-
-	// Do a initial setup for storage
-	quickStorage.settings = undefined;
-	quickStorage.repositories = undefined;
-	quickStorage.rateLimit = undefined;
-	await quickStorage.getStorage();
-	chrome.storage.local.set.mockClear();
+	setupBackgroundTests();
 });
 
 describe('saveSettings', () => {
