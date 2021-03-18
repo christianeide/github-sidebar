@@ -12,8 +12,12 @@ import {
 	createRepositoryData,
 	mockFetchReject,
 	mockFetchResolve,
+	defaultRepoName,
+	createExternalRespositories,
+	createRepoURL,
 } from '../../../../test/generate.js';
 import { setupBackgroundTests } from '../../../../test/setup.js';
+import { toggleRead } from '../../lib/index.js';
 
 beforeEach(async () => {
 	setupBackgroundTests();
@@ -168,58 +172,71 @@ describe('fetchData', () => {
 		expect(apiErrors.get()).toEqual([]);
 	});
 
-	// it('should return repo data', async () => {
-	// 	let { newRepoData } = await fetchData(createSettings());
+	it('should return repo data', async () => {
+		await fetchData();
 
-	// 	expect(newRepoData).toBeInstanceOf(Array);
-	// 	expect(newRepoData.length).toBe(4);
+		expect(ports.sendToAllTabs).toHaveBeenCalledTimes(2);
 
-	// 	const firstRepo = newRepoData[0];
-	// 	expect(firstRepo.name).toBe('github-sidebar');
-	// 	expect(newRepoData[1].name).toBe('myawsomeproject');
-	// 	expect(newRepoData[2].name).toBe('myotherproject');
-	// 	expect(newRepoData[3].name).toBe('myfinalproject');
+		const repositories = ports.sendToAllTabs.mock.calls[1][0].repositories;
+		expect(repositories).toBeInstanceOf(Array);
+		expect(repositories.length).toBe(4);
 
-	// 	expect(firstRepo.owner).toBe(defaultUserName);
-	// 	expect(firstRepo.url).toMatchInlineSnapshot(
-	// 		`"https://github.com/githubusername/github-sidebar"`
-	// 	);
-	// 	expect(firstRepo.collapsed).toBeTruthy();
-	// 	expect(firstRepo.totalItems.issues).toBe(5);
-	// 	expect(firstRepo.totalItems.pullRequests).toBe(6);
+		const firstRepo = repositories[0];
+		expect(firstRepo.name).toBe('github-sidebar');
+		expect(repositories[1].name).toBe(`${defaultRepoName}_2`);
+		expect(repositories[2].name).toBe(`${defaultRepoName}_3`);
+		expect(repositories[3].name).toBe(`${defaultRepoName}_4`);
 
-	// 	expect(firstRepo.issues).toMatchInlineSnapshot(`
-	// 	Array [
-	// 	  Object {
-	// 	    "author": "githubusername",
-	// 	    "comments": 4,
-	// 	    "createdAt": "2021-01-01T01:02:03Z",
-	// 	    "id": "issueid",
-	// 	    "read": true,
-	// 	    "reviewStatus": null,
-	// 	    "title": "My issue title",
-	// 	    "updatedAt": "2021-01-01T01:02:03Z",
-	// 	    "url": "https://github.com/githubusername/github-sidebar/issues/1",
-	// 	  },
-	// 	]
-	// `);
+		expect(firstRepo.url).toMatchInlineSnapshot(
+			`"https://github.com/githubusername/github-sidebar"`
+		);
+		expect(firstRepo.collapsed).toBeTruthy();
+		expect(firstRepo.totalItems.issues).toBe(1);
+		expect(firstRepo.totalItems.pullRequests).toBe(2);
 
-	// 	expect(firstRepo.pullRequests).toMatchInlineSnapshot(`
-	// 	Array [
-	// 	  Object {
-	// 	    "author": "githubusername",
-	// 	    "comments": 3,
-	// 	    "createdAt": "2021-01-01T01:02:03Z",
-	// 	    "id": "pullid",
-	// 	    "read": true,
-	// 	    "reviewStatus": null,
-	// 	    "title": "My pull request title",
-	// 	    "updatedAt": "2021-01-01T01:02:03Z",
-	// 	    "url": "https://github.com/githubusername/github-sidebar/pull/11",
-	// 	  },
-	// 	]
-	// `);
-	// });
+		expect(firstRepo.issues).toMatchInlineSnapshot(`
+		Array [
+		  Object {
+		    "author": "githubusername",
+		    "comments": 2,
+		    "createdAt": "2021-01-01T01:02:03Z",
+		    "id": "issueID",
+		    "read": false,
+		    "reviewStatus": null,
+		    "title": "Issue title 1",
+		    "updatedAt": "2021-01-01T01:02:03Z",
+		    "url": "https://github.com/githubusername/github-sidebar/issues/1",
+		  },
+		]
+	`);
+
+		expect(firstRepo.pullRequests).toMatchInlineSnapshot(`
+		Array [
+		  Object {
+		    "author": "githubusername",
+		    "comments": 3,
+		    "createdAt": "2021-01-01T01:02:03Z",
+		    "id": "pullID",
+		    "read": false,
+		    "reviewStatus": "APPROVED",
+		    "title": "Pull title 1",
+		    "updatedAt": "2021-01-01T01:02:03Z",
+		    "url": "https://github.com/githubusername/github-sidebar/pull/2",
+		  },
+		  Object {
+		    "author": "githubusername",
+		    "comments": 4,
+		    "createdAt": "2021-01-01T01:02:03Z",
+		    "id": "pullID_2",
+		    "read": false,
+		    "reviewStatus": null,
+		    "title": "Pull title 2",
+		    "updatedAt": "2021-01-01T01:02:03Z",
+		    "url": "https://github.com/githubusername/github-sidebar/pull/3",
+		  },
+		]
+	`);
+	});
 
 	it('should return null for reviewstatatus if not provided', async () => {
 		await fetchData();
@@ -244,37 +261,138 @@ describe('fetchData', () => {
 
 		expect(
 			ports.sendToAllTabs.mock.calls[1][0].repositories[0].pullRequests[0].read
-		).toBeFalsy();
+		).toBe(false);
 	});
 
-	// it.only('should set item to read if created by same user that has credentials to github', async () => {
-	// 	await fetchData();
+	it('should set item to read if created by same user that has credentials to github', async () => {
+		mockFetchResolve(createExternalRespositories(4, { issues: 2 }));
 
-	// 	expect(
-	// 		ports.sendToAllTabs.mock.calls[1][0].repositories[0].issues[1].read
-	// 	).toBeTruthy();
-	// });
+		await fetchData();
 
-	// it('should set item to unread if changed since last fetch to ggithub', async () => {
-	// 	// console.log('🚀 => it => createGithubResponse()', createGithubResponse());
-	// 	global.fetch = jest.fn().mockImplementationOnce(() =>
-	// 		Promise.resolve({
-	// 			json: () =>
-	// 				Promise.resolve({
-	// 					data: {
-	// 						rateLimit: createRateLimit(),
-	// 						viewer: { login: defaultUserName },
-	// 						repo1: createGithubResponseRepository({
-	// 							repoName: 'github-sidebar',
-	// 						}),
-	// 					},
-	// 				}),
-	// 		})
-	// 	);
-	// 	let { newRepoData } = await fetchDataFromAPI(createSettings());
+		expect(
+			ports.sendToAllTabs.mock.calls[1][0].repositories[0].issues.length
+		).toBe(2);
+		expect(
+			ports.sendToAllTabs.mock.calls[1][0].repositories[0].issues[0].read
+		).toBe(false);
+		expect(
+			ports.sendToAllTabs.mock.calls[1][0].repositories[0].issues[1].read
+		).toBe(true);
+	});
 
-	// 	// expect(newRepoData[1].pullRequests[0].read).toBeFalsy();
-	// });
+	it('should set item to unread if changed since last fetch to ggithub', async () => {
+		// DISCLAIMER: This is a pretty huge test to be able to set this scenario up
+
+		let externalRepoData = createExternalRespositories(1, {
+			issues: 4,
+			issueAuthor: 'anotherAuthor',
+		});
+
+		// First we do a normal fetch to the api with the curent data
+		mockFetchResolve(externalRepoData);
+
+		await fetchData();
+
+		let repository = ports.sendToAllTabs.mock.calls[1][0].repositories[0];
+
+		expect(repository.totalItemsNumber).toBe(4);
+		expect(repository.issues[0].read).toBe(false);
+
+		// Then we toggle all items to read before next test
+		let request = {
+			type: 'toggleRead',
+			repo: createRepoURL(),
+			status: true,
+		};
+		await toggleRead(request);
+
+		ports.sendToAllTabs.mockClear();
+
+		// Then we do a new fetch, but this time the last issue is removed,
+		// and a issue with a new ID is created. This new element should be unread
+		mockFetchResolve(
+			createExternalRespositories(4, {
+				issues: 4,
+				issueAuthor: 'anotherAuthor',
+				issuesMaxNumber: 5,
+			})
+		);
+
+		// We are showing 4 issues at a time, so we will remove the last item from the array,
+		// and then add a new issue at the start of the array.
+		// This new item has a new id and number
+		const newRepo = externalRepoData.data.repos0.issues.edges.pop();
+		const copyOfLastRepo = { ...newRepo, node: { ...newRepo.node } };
+		newRepo.node.id = 'newID';
+		newRepo.node.number = 5;
+		externalRepoData.data.repos0.issues.edges.unshift(newRepo);
+		// Set max items to one more than before
+		externalRepoData.data.repos0.issuesMaxNumber.edges[0].node.number = 5;
+
+		ports.sendToAllTabs.mockClear();
+		mockFetchResolve(externalRepoData);
+		await fetchData();
+
+		repository = ports.sendToAllTabs.mock.calls[1][0].repositories[0];
+		expect(repository.totalItemsNumber).toBe(5);
+		expect(repository.issues[0].id).toBe('newID');
+		expect(repository.issues[0].read).toBe(false);
+		expect(repository.issues[1].id).toBe('issueID');
+		expect(repository.issues[1].read).toBe(true);
+		expect(repository.issues[2].id).toBe('issueID_2');
+		expect(repository.issues[2].read).toBe(true);
+		expect(repository.issues[3].id).toBe('issueID_3');
+		expect(repository.issues[3].read).toBe(true);
+
+		// We then delete the new item and bring back the "old" item.
+		// Be default this should now be read = false, but with counter
+		// logic this should now be read = true
+		// Set to another id so data is not copied from quickstorage
+		copyOfLastRepo.node.id = 'unknownID';
+		externalRepoData.data.repos0.issues.edges.shift();
+		externalRepoData.data.repos0.issues.edges.push(copyOfLastRepo);
+
+		ports.sendToAllTabs.mockClear();
+		mockFetchResolve(externalRepoData);
+		await fetchData();
+
+		repository = ports.sendToAllTabs.mock.calls[1][0].repositories[0];
+		expect(repository.totalItemsNumber).toBe(5);
+		expect(repository.issues[0].id).toBe('issueID');
+		expect(repository.issues[0].read).toBe(true);
+		expect(repository.issues[1].id).toBe('issueID_2');
+		expect(repository.issues[1].read).toBe(true);
+		expect(repository.issues[2].id).toBe('issueID_3');
+		expect(repository.issues[2].read).toBe(true);
+		expect(repository.issues[3].id).toBe('unknownID');
+		expect(repository.issues[3].read).toBe(true);
+	});
+
+	it('should set all elements inside a newly added repo as read', async () => {
+		// First we fetch data. By ddefault we will receive 4 repos
+		await fetchData();
+
+		// Do a new fetch, but this time with 5 repos
+		let externalRepoData = createExternalRespositories(
+			5,
+			{},
+			{},
+			{},
+			{},
+			{
+				issueAuthor: 'anotherAuthor',
+			}
+		);
+
+		mockFetchResolve(externalRepoData);
+		ports.sendToAllTabs.mockClear();
+		await fetchData();
+
+		let repository = ports.sendToAllTabs.mock.calls[1][0].repositories[4];
+		expect(repository.issues[0].read).toBe(true);
+		expect(repository.pullRequests[0].read).toBe(true);
+		expect(repository.pullRequests[1].read).toBe(true);
+	});
 });
 
 describe('fetching in fetchDataFromAPI', () => {

@@ -3,34 +3,15 @@ import { quickStorage } from '../settings/quickStorage';
 export function mapDataToInternalFormat(data) {
 	const { viewer, ...repos } = data;
 
-	// Loop through each reeturned repo
+	// TODO: Can we do the transfer of data inside this function instead of doing seperate loop?
+	// Loop through each returned repo
 	return Object.values(repos).map((repo) => {
 		const oldRepo = quickStorage.repositories.find(
 			(oldRepo) => oldRepo.url === repo.url
 		);
 
-		// TODO: Can we do the transfer of data inside this function?
-		// instead of doing seperate loop
-
-		// TODO: Hvis ikke vi har et gammelt repo eller et gammelt
-		// tall så har vi nok lagt til et nytt repo
-		// Bør vi sete ting til lest? Blir vel feil å starte opp
-		// med å sette alt til ulest?
 		const oldTotalItemsNumber = oldRepo?.totalItemsNumber;
-		// const newTotalItemsNumber = calculateMaxNumber(repo);
-		// console.log(quickStorage.repositories);
-		// console.log(
-		// 	'🚀 => Object.keys => newTotalItemsNumber',
-		// 	newTotalItemsNumber
-		// );
-		// console.log(
-		// 	'🚀 => Object.keys => oldTotalItemsNumber',
-		// 	oldTotalItemsNumber
-		// );
-
-		// TODO: NaN issue med nora setup av en eller annen grunn?
-		// KAn være fordi det ikke eksister noen issues der fra før
-		// Men vi får jo for pulls, så er litt rart
+		const newTotalItemsNumber = calculateMaxNumber(repo);
 
 		// Mapping data from items
 		const issues = listItems(repo.issues, viewer, oldTotalItemsNumber);
@@ -45,7 +26,7 @@ export function mapDataToInternalFormat(data) {
 			owner: repo.owner.login,
 			url: repo.url,
 			collapsed: true,
-			// totalItemsNumber: newTotalItemsNumber,
+			totalItemsNumber: newTotalItemsNumber,
 			totalItems: {
 				issues: repo.issues.totalCount,
 				pullRequests: repo.pullRequests.totalCount,
@@ -77,10 +58,19 @@ export function listItems(element, { login }, totalItemNumber) {
 
 function setItemReadStatus(item, login, totalItemNumber) {
 	// If extensionholder and itemauthor is the same, we  set it to read
-	// if (item.author.login === login) {
-	// 	return true;
-	// }
+	if (item.author.login === login) {
+		return true;
+	}
 
+	// It totalItemNumber is undefined, then we have probably
+	// just added a new repo, we therefore set all items as read
+	if (typeof totalItemNumber === 'undefined') {
+		return true;
+	}
+
+	// If the number of this item is below the
+	// max number this repo contains, then we will set it as
+	// unread
 	if (item.number <= totalItemNumber) {
 		return true;
 	}
@@ -90,8 +80,9 @@ function setItemReadStatus(item, login, totalItemNumber) {
 
 // Find how many total items have been created in the repo
 export function calculateMaxNumber(repo) {
-	return Math.max(
-		repo.issuesMaxNumber?.edges[0]?.node?.number,
-		repo.pullRequestsMaxNumber?.edges[0]?.node?.number
-	);
+	const maxIssues = repo.issuesMaxNumber?.edges[0]?.node?.number || 0;
+	const maxPullRequests =
+		repo.pullRequestsMaxNumber?.edges[0]?.node?.number || 0;
+
+	return Math.max(maxIssues, maxPullRequests);
 }

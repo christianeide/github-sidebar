@@ -75,6 +75,7 @@ const defaultRepositoryOptions = {
 	repoName: defaultRepoName,
 	login: defaultUserName,
 	issueID: 'issueID',
+	issues: 1,
 	pullID: 'pullID',
 	collapsed: true,
 	read: false,
@@ -91,7 +92,7 @@ export function createRepositoryData() {
 const appendNumber = (prefix, index) =>
 	index === 0 ? prefix : `${prefix}_${index + 1}`;
 
-function createExternalRespositories(numberOfRepos = 4, ...args) {
+export function createExternalRespositories(numberOfRepos = 4, ...args) {
 	let repos = {};
 	[...Array(numberOfRepos)].map((_, i) => {
 		repos[`repos${i}`] = createExternalRepositoryData({
@@ -118,35 +119,62 @@ export function createInternalRepositories(numberOfRepos = 4, ...args) {
 }
 
 function createExternalRepositoryData(options) {
-	const { repoName, login, issueID, pullID } = {
+	const {
+		repoName,
+		login,
+		issueID,
+		pullID,
+		issues,
+		issueAuthor = login,
+		issuesMaxNumber = issues,
+	} = {
 		...defaultRepositoryOptions,
 		...options,
 	};
 
 	return {
 		name: repoName,
-		owner: { login },
+		owner: { login: issueAuthor },
 		url: createRepoURL({ userName: login, repoName }),
-		issues: {
-			totalCount: 1,
+		issuesMaxNumber: {
 			edges: [
 				{
 					node: {
+						number: issuesMaxNumber,
+					},
+				},
+			],
+		},
+		issues: {
+			totalCount: issues,
+			edges: [...Array(issues)].map((_, i) => {
+				return {
+					node: {
 						author: {
-							login,
+							login: issueAuthor,
 						},
 						comments: {
 							totalCount: 2,
 						},
 						createdAt: date,
-						id: issueID,
-						title: 'Issue title 1',
+						id: appendNumber(issueID, i),
+						title: `Issue title ${i + 1}`,
 						updatedAt: date,
+						number: issues,
 						url: createRepoURL({
 							userName: login,
 							repoName,
 							subPath: '/issues/1',
 						}),
+					},
+				};
+			}),
+		},
+		pullRequestsMaxNumber: {
+			edges: [
+				{
+					node: {
+						number: 2,
 					},
 				},
 			],
@@ -167,6 +195,7 @@ function createExternalRepositoryData(options) {
 						reviews: { nodes: [{ state: 'APPROVED' }] },
 						title: 'Pull title 1',
 						updatedAt: date,
+						number: 1,
 						url: createRepoURL({
 							userName: login,
 							repoName,
@@ -180,13 +209,14 @@ function createExternalRepositoryData(options) {
 							login,
 						},
 						comments: {
-							totalCount: 3,
+							totalCount: 4,
 						},
 						createdAt: date,
 						id: `${pullID}_2`,
 						reviews: { nodes: [] },
 						title: 'Pull title 2',
 						updatedAt: date,
+						number: 2,
 						url: createRepoURL({
 							userName: login,
 							repoName,
@@ -200,7 +230,15 @@ function createExternalRepositoryData(options) {
 }
 
 export function createInternalRepositoryData(options) {
-	const { collapsed, repoName, login, issueID, read, pullID } = {
+	const {
+		collapsed,
+		repoName,
+		login,
+		issueID,
+		read,
+		pullID,
+		issueAuthor = login,
+	} = {
 		...defaultRepositoryOptions,
 		...options,
 	};
@@ -213,14 +251,14 @@ export function createInternalRepositoryData(options) {
 			userName: login,
 			repoName,
 		}),
-		totalItemsNumber: 0,
+		totalItemsNumber: 2,
 		totalItems: {
 			issues: 1,
 			pullRequests: 2,
 		},
 		issues: [
 			{
-				author: login,
+				author: issueAuthor,
 				comments: 2,
 				createdAt: date,
 				id: issueID,
@@ -254,7 +292,7 @@ export function createInternalRepositoryData(options) {
 			},
 			{
 				author: login,
-				comments: 3,
+				comments: 4,
 				createdAt: date,
 				id: `${pullID}_2`,
 				read: false,
