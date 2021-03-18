@@ -52,6 +52,17 @@ export function createRepoURL(options = {}) {
 	return `https://github.com/${userName}/${repoName}${subPath}`;
 }
 
+export function mockFetchReject(data) {
+	global.fetch = jest.fn().mockImplementationOnce(() => Promise.reject(data));
+}
+export function mockFetchResolve(data) {
+	global.fetch = jest.fn().mockImplementationOnce(() =>
+		Promise.resolve({
+			json: () => Promise.resolve(data),
+		})
+	);
+}
+
 export function createQuickStorage(options) {
 	return {
 		repositories: createInternalRepositories(4, options),

@@ -1,13 +1,13 @@
-import { createQuickStorage, createRepositoryData } from './generate.js';
+import {
+	createQuickStorage,
+	createRepositoryData,
+	mockFetchResolve,
+} from './generate.js';
 import { quickStorage } from '../src/background/settings/quickStorage.js';
 import { apiErrors } from '../src/background/api/index.js';
 
 export async function setupBackgroundTests(options) {
-	global.fetch = jest.fn(() =>
-		Promise.resolve({
-			json: () => Promise.resolve(createRepositoryData().external),
-		})
-	);
+	mockFetchResolve(createRepositoryData().external);
 
 	// Before each test we calll getStoragge() and do a basic setup
 	// This will get data from storage, so we mock the return data

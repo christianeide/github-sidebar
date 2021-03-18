@@ -10,6 +10,8 @@ import {
 	createSettings,
 	createRateLimit,
 	createRepositoryData,
+	mockFetchReject,
+	mockFetchResolve,
 } from '../../../../test/generate.js';
 import { setupBackgroundTests } from '../../../../test/setup.js';
 
@@ -56,12 +58,10 @@ describe('fetchData', () => {
 	});
 
 	it('should send error to user if github cant be reached', async () => {
-		global.fetch = jest.fn().mockImplementationOnce(() =>
-			Promise.reject({
-				message: 'GithubError1',
-				response: { data: { message: 'Github message1' } },
-			})
-		);
+		mockFetchReject({
+			message: 'GithubError1',
+			response: { data: { message: 'Github message1' } },
+		});
 
 		await fetchData();
 
@@ -78,9 +78,7 @@ describe('fetchData', () => {
 	});
 
 	it('should not send errors to user if err-message is missing', async () => {
-		global.fetch = jest
-			.fn()
-			.mockImplementationOnce(() => Promise.reject(new Error()));
+		mockFetchReject(new Error());
 
 		await fetchData();
 
@@ -100,11 +98,7 @@ describe('fetchData', () => {
 	});
 
 	it('should error if returned data contain errors', async () => {
-		global.fetch = jest.fn().mockImplementationOnce(() =>
-			Promise.resolve({
-				json: () => Promise.resolve({ errors: [{ message: 'GithubError2' }] }),
-			})
-		);
+		mockFetchResolve({ errors: [{ message: 'GithubError2' }] });
 
 		await fetchData();
 
@@ -117,20 +111,15 @@ describe('fetchData', () => {
 	});
 
 	it('should remove repo if it is not found on github', async () => {
-		global.fetch = jest.fn().mockImplementationOnce(() =>
-			Promise.resolve({
-				json: () =>
-					Promise.resolve({
-						errors: [
-							{
-								type: 'NOT_FOUND',
-								message: 'GithubError',
-								path: ['repo11'],
-							},
-						],
-					}),
-			})
-		);
+		mockFetchResolve({
+			errors: [
+				{
+					type: 'NOT_FOUND',
+					message: 'GithubError',
+					path: ['repo11'],
+				},
+			],
+		});
 
 		await fetchData();
 
@@ -148,11 +137,7 @@ describe('fetchData', () => {
 	});
 
 	it('should error if returned data dont contain any data', async () => {
-		global.fetch = jest.fn().mockImplementationOnce(() =>
-			Promise.resolve({
-				json: () => Promise.resolve({ noData: {}, message: 'My Error' }),
-			})
-		);
+		mockFetchResolve({ noData: {}, message: 'My Error' });
 
 		await fetchData();
 
@@ -165,11 +150,7 @@ describe('fetchData', () => {
 	});
 
 	it('should return default error if result dont contain a message', async () => {
-		global.fetch = jest.fn().mockImplementationOnce(() =>
-			Promise.resolve({
-				json: () => Promise.resolve({ noData: {} }),
-			})
-		);
+		mockFetchResolve({ noData: {} });
 
 		await fetchData();
 		expect(
@@ -178,7 +159,7 @@ describe('fetchData', () => {
 	});
 
 	it('should not return an error if fetch fails', async () => {
-		global.fetch = jest.fn().mockImplementationOnce(() => Promise.reject({}));
+		mockFetchReject({});
 
 		await fetchData();
 
