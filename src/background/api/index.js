@@ -2,8 +2,7 @@ import { createPullRequestsQuery } from './graphql.js';
 import { sendToAllTabs } from '../lib/ports.js';
 import { quickStorage } from '../settings/quickStorage';
 import { transferUserStatus } from './transfer.js';
-import { listItems } from './mapping.js';
-// import { listItems, calculateMaxNumber } from './mapping.js';
+import { mapDataToInternalFormat } from './mapping.js';
 import { autoRemoveRepo } from './remove';
 export let apiErrors = {
 	_errors: [],
@@ -33,62 +32,8 @@ export function fetchData() {
 	});
 
 	return fetchDataFromAPI(settings)
-		.then((data) => {
-			const { rateLimit, viewer, ...repos } = data;
-			const newRepoData = [];
-			Object.keys(repos).forEach((key) => {
-				const repo = repos[key];
-
-				// TODO: Hvordan kan vi refaktorere litt her?
-				// TODO: Skriv testere for det som er gjort først? og så refactor
-				const oldRepo = quickStorage.repositories.find(
-					(oldRepo) => oldRepo.url === repo.url
-				);
-
-				// TODO: Flytt mapping over i egen fil
-
-				// TODO: Hvis ikke vi har et gammelt repo eller et gammelt
-				// tall så har vi nok lagt til et nytt repo
-				// Bør vi sete ting til lest? Blir vel feil å starte opp
-				// med å sette alt til ulest?
-				const oldTotalItemsNumber = oldRepo?.totalItemsNumber;
-				// const newTotalItemsNumber = calculateMaxNumber(repo);
-				// console.log(quickStorage.repositories);
-				// console.log(
-				// 	'🚀 => Object.keys => newTotalItemsNumber',
-				// 	newTotalItemsNumber
-				// );
-				// console.log(
-				// 	'🚀 => Object.keys => oldTotalItemsNumber',
-				// 	oldTotalItemsNumber
-				// );
-
-				// TODO: NaN issue med nora setup av en eller annen grunn?
-				// KAn være fordi det ikke eksister noen issues der fra før
-				// Men vi får jo for pulls, så er litt rart
-
-				// Mapping data from items
-				const issues = listItems(repo.issues, viewer, oldTotalItemsNumber);
-				const pullRequests = listItems(
-					repo.pullRequests,
-					viewer,
-					oldTotalItemsNumber
-				);
-
-				newRepoData.push({
-					name: repo.name,
-					owner: repo.owner.login,
-					url: repo.url,
-					collapsed: true,
-					// totalItemsNumber: newTotalItemsNumber,
-					totalItems: {
-						issues: repo.issues.totalCount,
-						pullRequests: repo.pullRequests.totalCount,
-					},
-					issues,
-					pullRequests,
-				});
-			});
+		.then(({ rateLimit, ...restData }) => {
+			const newRepoData = mapDataToInternalFormat(restData);
 
 			// Transfer read and collapsed-status from old repositories
 			const repositories = transferUserStatus(newRepoData);
