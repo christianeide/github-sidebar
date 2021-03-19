@@ -35,7 +35,3 @@ This extension requires an access token from Github to load data. Please [create
 
 ### Other settings
 Should (hopefully) be pretty self explanatory
-
-
-## Known limitations
-The extension keeps a track of the status of the number of items you have loaded. Lets say you are displaying the four newest created pull requests. If the first pull request gets merged or closed, the plugin will then load in the previously fifth pull request. This item will now be marked as a new item in the list, even though you might have seen it before. By now this is a limitation of this extension, as it does not keep an extensive list over previously read or seen items.
