@@ -1,6 +1,6 @@
 import { autoRemoveRepo } from '../remove.js';
 import { quickStorage } from '../../settings/';
-import * as ports from '../../lib/';
+import { ports } from '../../lib/';
 jest.mock('../../lib/');
 import { fetchData } from '../index';
 jest.mock('../index');
