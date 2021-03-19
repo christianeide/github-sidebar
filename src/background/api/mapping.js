@@ -1,4 +1,4 @@
-import { quickStorage } from '../settings/quickStorage';
+import { quickStorage } from '../settings/';
 
 export function mapDataToInternalFormat(data) {
 	const { viewer, ...repos } = data;
@@ -37,7 +37,7 @@ export function mapDataToInternalFormat(data) {
 	});
 }
 
-export function listItems(element, { login }, totalItemNumber) {
+function listItems(element, { login }, totalItemNumber) {
 	return element.edges.map(({ node: item }) => {
 		return {
 			id: item.id,
@@ -79,7 +79,7 @@ function setItemReadStatus(item, login, totalItemNumber) {
 }
 
 // Find how many total items have been created in the repo
-export function calculateMaxNumber(repo) {
+function calculateMaxNumber(repo) {
 	const maxIssues = repo.issuesMaxNumber?.edges[0]?.node?.number || 0;
 	const maxPullRequests =
 		repo.pullRequestsMaxNumber?.edges[0]?.node?.number || 0;

@@ -3,8 +3,8 @@ import {
 	createRepositoryData,
 	mockFetchResolve,
 } from './generate.js';
-import { quickStorage } from '../src/background/settings/quickStorage.js';
-import { apiErrors } from '../src/background/api/index.js';
+import { quickStorage } from '../src/background/settings/';
+import { apiErrors } from '../src/background/api/';
 
 export async function setupBackgroundTests(options) {
 	mockFetchResolve(createRepositoryData().external);

@@ -1,5 +1,5 @@
-import { sendToAllTabs } from '../lib/ports.js';
-import { quickStorage } from '../settings/quickStorage';
+import { sendToAllTabs } from '../lib/';
+import { quickStorage } from '../settings/';
 import { fetchData } from './index.js';
 
 // removes a repo by its index-value

@@ -1,4 +1,4 @@
-import defaultSettings from '../src/background/settings/defaultSettings.json';
+import { defaultSettings } from '../src/background/settings/';
 
 export const defaultUserName = 'githubusername';
 export const defaultRepoName = 'github-sidebar';

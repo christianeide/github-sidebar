@@ -1,4 +1,4 @@
-import defaultSettings from './defaultSettings.json';
+import { defaultSettings } from './index';
 
 export const quickStorage = {
 	_settings: undefined,

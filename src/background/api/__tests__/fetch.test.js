@@ -1,6 +1,8 @@
-import { fetchDataFromAPI, fetchData, apiErrors } from '../index.js';
-import { quickStorage } from '../../settings/quickStorage.js';
-import { createPullRequestsQuery } from '../graphql.js';
+import { fetchData, apiErrors } from '../fetch.js';
+import { quickStorage } from '../../settings/';
+import { createPullRequestsQuery } from '../index.js';
+import { toggleRead } from '../../lib/';
+
 import { autoRemoveRepo } from '../remove';
 jest.mock('../remove');
 import * as ports from '../../lib/ports';
@@ -17,7 +19,6 @@ import {
 	createRepoURL,
 } from '../../../../test/generate.js';
 import { setupBackgroundTests } from '../../../../test/setup.js';
-import { toggleRead } from '../../lib/index.js';
 
 beforeEach(async () => {
 	setupBackgroundTests();
@@ -397,7 +398,7 @@ describe('fetchData', () => {
 
 describe('fetching in fetchDataFromAPI', () => {
 	it('should call fetch with the querydata', async () => {
-		await fetchDataFromAPI(createSettings());
+		await fetchData();
 
 		expect(global.fetch).toHaveBeenCalledTimes(1);
 		const { repos, numberOfItems, sortBy, token } = createSettings();

@@ -1,16 +1,17 @@
 // Using rewire to get non exported functions
 import { autoFetch } from '../background.js';
 import { chrome } from 'jest-chrome';
-import { fetchData } from '../api/index.js';
+import { fetchData } from '../api/';
 import {
 	init,
 	setItemInRepoAsReadBasedOnUrl,
 	toggleRead,
 	toggleCollapsed,
-} from '../lib/index.js';
+	sendToAllTabs,
+} from '../lib/';
 // For some reason a default mock wont work, so need to manually mock each function.
 // It might have something to do with jest-chrome
-jest.mock('../lib/index.js', () => {
+jest.mock('../lib/', () => {
 	return {
 		sendToAllTabs: jest.fn(),
 		setItemInRepoAsReadBasedOnUrl: jest.fn(() => {
@@ -29,9 +30,6 @@ jest.mock('../settings/save.js', () => {
 		saveSettings: jest.fn(),
 	};
 });
-
-import { sendToAllTabs } from '../lib/ports.js';
-jest.mock('../lib/ports.js');
 
 import { createChromePort, createRepoURL } from '../../../test/generate.js';
 

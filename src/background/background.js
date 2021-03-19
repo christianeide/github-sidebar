@@ -1,13 +1,12 @@
-import { quickStorage } from './settings/quickStorage.js';
+import { quickStorage, saveSettings } from './settings/';
 import {
 	init,
 	toggleRead,
 	toggleCollapsed,
 	setItemInRepoAsReadBasedOnUrl,
-} from './lib/index.js';
-import { sendToAllTabs } from './lib/ports.js';
-import { saveSettings } from './settings/save.js';
-import { fetchData, apiErrors } from './api/index.js';
+	sendToAllTabs,
+} from './lib/';
+import { fetchData, apiErrors } from './api/';
 
 // Uncomment this to erase chrome storage for developent
 // chrome.storage.local.clear(function () {

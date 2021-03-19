@@ -1,4 +1,4 @@
-import { quickStorage } from '../settings/quickStorage';
+import { quickStorage } from '../settings/';
 
 export let errors = [];
 

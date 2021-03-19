@@ -1,8 +1,7 @@
-import { quickStorage } from './quickStorage';
+import { quickStorage, defaultSettings } from './index';
 import { autoFetch } from '../background.js';
-import { sendToAllTabs } from '../lib/ports.js';
-import defaultSettings from './defaultSettings.json';
-import { fetchData } from '../api/index.js';
+import { sendToAllTabs } from '../lib/';
+import { fetchData } from '../api/';
 
 const MIMIMUMREFRESHPERIOD = 15;
 

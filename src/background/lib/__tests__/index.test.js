@@ -1,19 +1,18 @@
 import { chrome } from 'jest-chrome';
 import { autoFetch } from '../../background.js';
-import defaultSettings from '../../settings/defaultSettings.json';
+import { defaultSettings, saveSettings } from '../../settings/';
 import {
 	init,
 	toggleRead,
 	toggleCollapsed,
 	setItemInRepoAsReadBasedOnUrl,
 } from '../index.js';
-import { saveSettings } from '../../settings/save.js';
 
-import { fetchData } from '../../api/index.js';
-jest.mock('../../api/index.js');
+import { fetchData } from '../../api/';
+jest.mock('../../api/');
 
 import * as ports from '../ports';
-jest.mock('../ports.js');
+jest.mock('../ports');
 
 import {
 	createChromePort,

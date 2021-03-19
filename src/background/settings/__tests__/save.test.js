@@ -1,13 +1,12 @@
 import { chrome } from 'jest-chrome';
 import { autoFetch } from '../../background.js';
-import defaultSettings from '../defaultSettings.json';
-import { saveSettings } from '../save.js';
+import { defaultSettings, saveSettings } from '../index';
 
-import { fetchData } from '../../api/index.js';
-jest.mock('../../api/index.js');
+import { fetchData } from '../../api/';
+jest.mock('../../api/');
 
-import * as ports from '../../lib/ports';
-jest.mock('../../lib/ports');
+import * as ports from '../../lib/';
+jest.mock('../../lib/');
 
 import { setupBackgroundTests } from '../../../../test/setup.js';
 

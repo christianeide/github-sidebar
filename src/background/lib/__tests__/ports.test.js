@@ -1,4 +1,4 @@
-import { add, remove, messageAll, sendToAllTabs } from '../ports.js';
+import { add, remove, messageAll, sendToAllTabs } from '../index';
 import { createChromePort } from '../../../../test/generate.js';
 
 const port = createChromePort();
