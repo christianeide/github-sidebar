@@ -1,6 +1,5 @@
-import { quickStorage } from '../quickStorage.js';
+import { quickStorage, defaultSettings } from '../index.js';
 import { chrome } from 'jest-chrome';
-import defaultSettings from '../defaultSettings.json';
 import { createQuickStorage } from '../../../../test/generate.js';
 
 describe('quickstorage', () => {

@@ -27,6 +27,13 @@ describe('graphql', () => {
 		            owner {
 		              login
 		            }
+		            issuesMaxNumber: issues(first: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
+		              edges {
+		                node {
+		                  number
+		                }
+		              }
+		            }
 		            issues(first: 4, states: OPEN, orderBy: {field: CREATED_AT, direction: DESC}) {
 		              totalCount
 		              edges {
@@ -36,6 +43,7 @@ describe('graphql', () => {
 		                  url
 		                  updatedAt
 		                  createdAt
+		                  number
 		                  author {
 		                    login
 		                  }
@@ -46,6 +54,13 @@ describe('graphql', () => {
 		              }
 		            }   
 
+		            pullRequestsMaxNumber: pullRequests(first: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
+		              edges {
+		                node {
+		                  number
+		                }
+		              }
+		            }
 		            pullRequests(first: 4, states: OPEN, orderBy: {field: CREATED_AT, direction: DESC}) {
 		              totalCount
 		              edges {
@@ -55,6 +70,7 @@ describe('graphql', () => {
 		                  url
 		                  updatedAt
 		                  createdAt
+		                  number
 		                  author {
 		                    login
 		                  }
@@ -75,6 +91,13 @@ describe('graphql', () => {
 		            owner {
 		              login
 		            }
+		            issuesMaxNumber: issues(first: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
+		              edges {
+		                node {
+		                  number
+		                }
+		              }
+		            }
 		            issues(first: 4, states: OPEN, orderBy: {field: CREATED_AT, direction: DESC}) {
 		              totalCount
 		              edges {
@@ -84,6 +107,7 @@ describe('graphql', () => {
 		                  url
 		                  updatedAt
 		                  createdAt
+		                  number
 		                  author {
 		                    login
 		                  }
@@ -94,6 +118,13 @@ describe('graphql', () => {
 		              }
 		            }   
 
+		            pullRequestsMaxNumber: pullRequests(first: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
+		              edges {
+		                node {
+		                  number
+		                }
+		              }
+		            }
 		            pullRequests(first: 4, states: OPEN, orderBy: {field: CREATED_AT, direction: DESC}) {
 		              totalCount
 		              edges {
@@ -103,6 +134,7 @@ describe('graphql', () => {
 		                  url
 		                  updatedAt
 		                  createdAt
+		                  number
 		                  author {
 		                    login
 		                  }
@@ -123,6 +155,13 @@ describe('graphql', () => {
 		            owner {
 		              login
 		            }
+		            issuesMaxNumber: issues(first: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
+		              edges {
+		                node {
+		                  number
+		                }
+		              }
+		            }
 		            issues(first: 4, states: OPEN, orderBy: {field: CREATED_AT, direction: DESC}) {
 		              totalCount
 		              edges {
@@ -132,6 +171,7 @@ describe('graphql', () => {
 		                  url
 		                  updatedAt
 		                  createdAt
+		                  number
 		                  author {
 		                    login
 		                  }
@@ -142,6 +182,13 @@ describe('graphql', () => {
 		              }
 		            }   
 
+		            pullRequestsMaxNumber: pullRequests(first: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
+		              edges {
+		                node {
+		                  number
+		                }
+		              }
+		            }
 		            pullRequests(first: 4, states: OPEN, orderBy: {field: CREATED_AT, direction: DESC}) {
 		              totalCount
 		              edges {
@@ -151,6 +198,7 @@ describe('graphql', () => {
 		                  url
 		                  updatedAt
 		                  createdAt
+		                  number
 		                  author {
 		                    login
 		                  }
@@ -171,6 +219,13 @@ describe('graphql', () => {
 		            owner {
 		              login
 		            }
+		            issuesMaxNumber: issues(first: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
+		              edges {
+		                node {
+		                  number
+		                }
+		              }
+		            }
 		            issues(first: 4, states: OPEN, orderBy: {field: CREATED_AT, direction: DESC}) {
 		              totalCount
 		              edges {
@@ -180,6 +235,7 @@ describe('graphql', () => {
 		                  url
 		                  updatedAt
 		                  createdAt
+		                  number
 		                  author {
 		                    login
 		                  }
@@ -190,6 +246,13 @@ describe('graphql', () => {
 		              }
 		            }   
 
+		            pullRequestsMaxNumber: pullRequests(first: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
+		              edges {
+		                node {
+		                  number
+		                }
+		              }
+		            }
 		            pullRequests(first: 4, states: OPEN, orderBy: {field: CREATED_AT, direction: DESC}) {
 		              totalCount
 		              edges {
@@ -199,6 +262,7 @@ describe('graphql', () => {
 		                  url
 		                  updatedAt
 		                  createdAt
+		                  number
 		                  author {
 		                    login
 		                  }

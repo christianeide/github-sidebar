@@ -1,14 +1,12 @@
-import { quickStorage } from './js/quickStorage';
+import { quickStorage, saveSettings } from './settings/';
 import {
 	init,
 	toggleRead,
 	toggleCollapsed,
 	setItemInRepoAsReadBasedOnUrl,
-	saveSettings,
-	fetchData,
-	errors,
-	sendToAllTabs,
-} from './js/utils.js';
+	ports,
+} from './lib/';
+import { fetchData, apiErrors } from './api/';
 
 // Uncomment this to erase chrome storage for developent
 // chrome.storage.local.clear(function () {
@@ -68,9 +66,9 @@ chrome.runtime.onConnect.addListener((port) => {
 				break;
 
 			case 'clearErrors':
-				errors = [];
-				sendToAllTabs({
-					errors,
+				apiErrors.set([]);
+				ports.sendToAllTabs({
+					errors: apiErrors.get(),
 				});
 				break;
 		}
@@ -84,7 +82,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
 	if (newRepositoriesData) {
 		// save and distribute
 		quickStorage.repositories = newRepositoriesData;
-		sendToAllTabs({
+		ports.sendToAllTabs({
 			repositories: newRepositoriesData,
 		});
 	}

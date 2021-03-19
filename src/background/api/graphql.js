@@ -23,6 +23,13 @@ function repositoriesQuery({ owner, name }, numberOfItems, sortBy, index) {
             owner {
               login
             }
+            issuesMaxNumber: issues(first: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
+              edges {
+                node {
+                  number
+                }
+              }
+            }
             issues(first: ${numberOfItems}, states: OPEN, orderBy: {field: ${sortBy}, direction: DESC}) {
               totalCount
               edges {
@@ -32,6 +39,7 @@ function repositoriesQuery({ owner, name }, numberOfItems, sortBy, index) {
                   url
                   updatedAt
                   createdAt
+                  number
                   author {
                     login
                   }
@@ -42,6 +50,13 @@ function repositoriesQuery({ owner, name }, numberOfItems, sortBy, index) {
               }
             }   
 
+            pullRequestsMaxNumber: pullRequests(first: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
+              edges {
+                node {
+                  number
+                }
+              }
+            }
             pullRequests(first: ${numberOfItems}, states: OPEN, orderBy: {field: ${sortBy}, direction: DESC}) {
               totalCount
               edges {
@@ -51,6 +66,7 @@ function repositoriesQuery({ owner, name }, numberOfItems, sortBy, index) {
                   url
                   updatedAt
                   createdAt
+                  number
                   author {
                     login
                   }

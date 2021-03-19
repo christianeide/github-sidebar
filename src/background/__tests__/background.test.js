@@ -1,28 +1,35 @@
 // Using rewire to get non exported functions
 import { autoFetch } from '../background.js';
 import { chrome } from 'jest-chrome';
+import { fetchData } from '../api/';
 import {
-	fetchData,
 	init,
-	sendToAllTabs,
 	setItemInRepoAsReadBasedOnUrl,
-	saveSettings,
 	toggleRead,
 	toggleCollapsed,
-} from '../js/utils.js';
+	ports,
+} from '../lib/';
 // For some reason a default mock wont work, so need to manually mock each function.
 // It might have something to do with jest-chrome
-jest.mock('../js/utils.js', () => {
+jest.mock('../lib/', () => {
 	return {
-		sendToAllTabs: jest.fn(),
+		ports: {
+			sendToAllTabs: jest.fn(),
+		},
 		setItemInRepoAsReadBasedOnUrl: jest.fn(() => {
 			return 'mockRepoData';
 		}),
 		init: jest.fn(),
 		toggleRead: jest.fn(),
 		toggleCollapsed: jest.fn(),
+		apiErrors: jest.fn(),
+	};
+});
+
+import { saveSettings } from '../settings/save.js';
+jest.mock('../settings/save.js', () => {
+	return {
 		saveSettings: jest.fn(),
-		errors: jest.fn(),
 	};
 });
 
@@ -101,7 +108,7 @@ describe('autoFetch', () => {
 	});
 });
 
-describe.skip('chrome.tabs.onUpdated', () => {
+describe('chrome.tabs.onUpdated', () => {
 	it('should set new repodata if url matches a repo', async () => {
 		expect(chrome.tabs.onUpdated.hasListeners()).toBe(true);
 
@@ -112,10 +119,10 @@ describe.skip('chrome.tabs.onUpdated', () => {
 
 		expect(setItemInRepoAsReadBasedOnUrl).toHaveBeenCalledTimes(1);
 
-		expect(sendToAllTabs).toHaveBeenCalledTimes(1);
+		expect(ports.sendToAllTabs).toHaveBeenCalledTimes(1);
 
 		const expectedData = { repositories: 'mockRepoData' };
-		expect(sendToAllTabs).toHaveBeenCalledWith(expectedData);
+		expect(ports.sendToAllTabs).toHaveBeenCalledWith(expectedData);
 
 		expect(chrome.storage.local.set).toHaveBeenCalledTimes(1);
 		expect(chrome.storage.local.set).toHaveBeenCalledWith(expectedData);
@@ -129,7 +136,7 @@ describe.skip('chrome.tabs.onUpdated', () => {
 			url: createRepoURL(),
 		});
 
-		expect(sendToAllTabs).not.toHaveBeenCalled();
+		expect(ports.sendToAllTabs).not.toHaveBeenCalled();
 
 		// Make sure repositories and rateLimit have been set
 		expect(chrome.storage.local.set).not.toHaveBeenCalled();
@@ -167,10 +174,9 @@ describe('chrome.runtime.onConnect', () => {
 		expect(saveSettings).toHaveBeenCalledTimes(1);
 		expect(saveSettings).toHaveBeenCalledWith('newSettings');
 
-		// TODO: Need to fix this when errorhandling is redone
-		// port = createPort({ type: 'clearErrors' });
-		// chrome.runtime.onConnect.callListeners(port);
-		// expect(sendToAllTabs).toHaveBeenCalledTimes(1);
-		// expect(sendToAllTabs).toHaveBeenCalledWith({ errors: [] });
+		port = createChromePort({ type: 'clearErrors' });
+		chrome.runtime.onConnect.callListeners(port);
+		expect(ports.sendToAllTabs).toHaveBeenCalledTimes(1);
+		expect(ports.sendToAllTabs).toHaveBeenCalledWith({ errors: [] });
 	});
 });
