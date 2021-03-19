@@ -4,7 +4,7 @@ import {
 	transferUserStatus,
 	autoRemoveRepo,
 } from './index.js';
-import { sendToAllTabs } from '../lib/';
+import { ports } from '../lib/';
 import { quickStorage } from '../settings/';
 export let apiErrors = {
 	_errors: [],
@@ -29,7 +29,7 @@ export function fetchData() {
 	}
 
 	// Show loadinganimation when we are fetching data
-	sendToAllTabs({
+	ports.sendToAllTabs({
 		loading: true,
 	});
 
@@ -43,7 +43,7 @@ export function fetchData() {
 			// save and distribute
 			quickStorage.repositories = repositories;
 			quickStorage.rateLimit = rateLimit;
-			sendToAllTabs({
+			ports.sendToAllTabs({
 				repositories,
 				rateLimit,
 				loading: false,
@@ -56,7 +56,7 @@ export function fetchData() {
 
 			apiErrors.push(err);
 
-			sendToAllTabs({
+			ports.sendToAllTabs({
 				errors: apiErrors.get(),
 				loading: false,
 			});

@@ -5,7 +5,7 @@ import { defaultSettings, saveSettings } from '../index';
 import { fetchData } from '../../api/';
 jest.mock('../../api/');
 
-import * as ports from '../../lib/';
+import { ports } from '../../lib/';
 jest.mock('../../lib/');
 
 import { setupBackgroundTests } from '../../../../test/setup.js';

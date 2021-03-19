@@ -5,7 +5,7 @@ import { toggleRead } from '../../lib/';
 
 import { autoRemoveRepo } from '../remove';
 jest.mock('../remove');
-import * as ports from '../../lib/ports';
+import { ports } from '../../lib/ports';
 jest.mock('../../lib/ports');
 
 import {

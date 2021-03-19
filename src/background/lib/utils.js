@@ -1,5 +1,5 @@
 import { quickStorage } from '../settings/';
-import { add, sendToAllTabs } from './index';
+import { ports } from './index';
 import { autoFetch } from '../background.js';
 import { fetchData } from '../api/';
 
@@ -20,7 +20,7 @@ export function init(port) {
 			}
 
 			// Add port to portmanagment
-			add(port);
+			ports.add(port);
 
 			// Always fetch new data when we have a init from a new contentscript
 			fetchData();
@@ -42,7 +42,7 @@ export function toggleRead(request) {
 
 	// Save and distribute
 	quickStorage.repositories = repositories;
-	sendToAllTabs({ repositories });
+	ports.sendToAllTabs({ repositories });
 }
 
 export function setArrayItemReadStatus(type, repoURL, request) {
@@ -81,7 +81,7 @@ export function toggleCollapsed(request) {
 
 	// Save and distribute
 	quickStorage.repositories = repositories;
-	sendToAllTabs({ repositories });
+	ports.sendToAllTabs({ repositories });
 }
 
 export function setItemInRepoAsReadBasedOnUrl(url) {

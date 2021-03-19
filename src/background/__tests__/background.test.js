@@ -7,13 +7,15 @@ import {
 	setItemInRepoAsReadBasedOnUrl,
 	toggleRead,
 	toggleCollapsed,
-	sendToAllTabs,
+	ports,
 } from '../lib/';
 // For some reason a default mock wont work, so need to manually mock each function.
 // It might have something to do with jest-chrome
 jest.mock('../lib/', () => {
 	return {
-		sendToAllTabs: jest.fn(),
+		ports: {
+			sendToAllTabs: jest.fn(),
+		},
 		setItemInRepoAsReadBasedOnUrl: jest.fn(() => {
 			return 'mockRepoData';
 		}),
@@ -117,10 +119,10 @@ describe('chrome.tabs.onUpdated', () => {
 
 		expect(setItemInRepoAsReadBasedOnUrl).toHaveBeenCalledTimes(1);
 
-		expect(sendToAllTabs).toHaveBeenCalledTimes(1);
+		expect(ports.sendToAllTabs).toHaveBeenCalledTimes(1);
 
 		const expectedData = { repositories: 'mockRepoData' };
-		expect(sendToAllTabs).toHaveBeenCalledWith(expectedData);
+		expect(ports.sendToAllTabs).toHaveBeenCalledWith(expectedData);
 
 		expect(chrome.storage.local.set).toHaveBeenCalledTimes(1);
 		expect(chrome.storage.local.set).toHaveBeenCalledWith(expectedData);
@@ -134,7 +136,7 @@ describe('chrome.tabs.onUpdated', () => {
 			url: createRepoURL(),
 		});
 
-		expect(sendToAllTabs).not.toHaveBeenCalled();
+		expect(ports.sendToAllTabs).not.toHaveBeenCalled();
 
 		// Make sure repositories and rateLimit have been set
 		expect(chrome.storage.local.set).not.toHaveBeenCalled();
@@ -174,7 +176,7 @@ describe('chrome.runtime.onConnect', () => {
 
 		port = createChromePort({ type: 'clearErrors' });
 		chrome.runtime.onConnect.callListeners(port);
-		expect(sendToAllTabs).toHaveBeenCalledTimes(1);
-		expect(sendToAllTabs).toHaveBeenCalledWith({ errors: [] });
+		expect(ports.sendToAllTabs).toHaveBeenCalledTimes(1);
+		expect(ports.sendToAllTabs).toHaveBeenCalledWith({ errors: [] });
 	});
 });

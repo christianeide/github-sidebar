@@ -4,7 +4,7 @@ import {
 	toggleRead,
 	toggleCollapsed,
 	setItemInRepoAsReadBasedOnUrl,
-	sendToAllTabs,
+	ports,
 } from './lib/';
 import { fetchData, apiErrors } from './api/';
 
@@ -67,7 +67,7 @@ chrome.runtime.onConnect.addListener((port) => {
 
 			case 'clearErrors':
 				apiErrors.set([]);
-				sendToAllTabs({
+				ports.sendToAllTabs({
 					errors: apiErrors.get(),
 				});
 				break;
@@ -82,7 +82,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
 	if (newRepositoriesData) {
 		// save and distribute
 		quickStorage.repositories = newRepositoriesData;
-		sendToAllTabs({
+		ports.sendToAllTabs({
 			repositories: newRepositoriesData,
 		});
 	}

@@ -11,7 +11,7 @@ import {
 import { fetchData } from '../../api/';
 jest.mock('../../api/');
 
-import * as ports from '../ports';
+import { ports } from '../ports';
 jest.mock('../ports');
 
 import {
