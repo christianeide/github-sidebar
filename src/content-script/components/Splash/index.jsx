@@ -32,6 +32,13 @@ export default class Splash extends React.Component {
 
 						<p>
 							This extension requires an access token from Github to load data.{' '}
+							<br />
+							<br />
+							<em>
+								(The token is only saved to your browsers local{' '}
+								<b>chrome.storage.local</b>. It is only used to communicate with
+								Githubs API)
+							</em>
 						</p>
 						<p>
 							<a
