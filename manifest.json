@@ -1,6 +1,6 @@
 {
 	"name": "Github Sidebar",
-	"description": "Chrome Extension that provide faster navigation and better control over your repositories on Github",
+	"description": "Make shortcuts to repositories you frequently use on Github. Faster navigation and better control over your repositories.",
 	"author": "Christian Sletten Eide",
 	"version": "3.0.0",
 	"manifest_version": 2,
