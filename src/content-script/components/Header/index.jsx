@@ -49,7 +49,14 @@ export default class Header extends React.PureComponent {
 				<span className="align-center">
 					<Errors errors={errors} port={port} />
 
-					<a href="#" className="iconBtn" onClick={onToggleSettings}>
+					<a
+						href="#"
+						className="iconBtn"
+						aria-label={`${
+							showSettings ? 'Show repositories' : 'Show settings'
+						}`}
+						onClick={onToggleSettings}
+					>
 						<Icons icon={icon} />
 					</a>
 				</span>

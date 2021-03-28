@@ -1,0 +1,1835 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generic snapshots should rendder repos 1`] = `
+<div>
+  <div
+    class="sidebar dark"
+  >
+    <header
+      class="text-bold"
+    >
+      <span
+        class="align-center"
+      >
+        Github Sidebar
+      </span>
+      <span
+        class="align-center"
+      >
+        <a
+          aria-label="Show settings"
+          class="iconBtn"
+          href="#"
+        >
+          <svg
+            class="icon"
+            height="20"
+            viewBox="0 0 50 50"
+            width="20"
+          >
+            <path
+              d="M47.16,21.221l-5.91-0.966c-0.346-1.186-0.819-2.326-1.411-3.405l3.45-4.917c0.279-0.397,0.231-0.938-0.112-1.282 l-3.889-3.887c-0.347-0.346-0.893-0.391-1.291-0.104l-4.843,3.481c-1.089-0.602-2.239-1.08-3.432-1.427l-1.031-5.886 C28.607,2.35,28.192,2,27.706,2h-5.5c-0.49,0-0.908,0.355-0.987,0.839l-0.956,5.854c-1.2,0.345-2.352,0.818-3.437,1.412l-4.83-3.45 c-0.399-0.285-0.942-0.239-1.289,0.106L6.82,10.648c-0.343,0.343-0.391,0.883-0.112,1.28l3.399,4.863 c-0.605,1.095-1.087,2.254-1.438,3.46l-5.831,0.971c-0.482,0.08-0.836,0.498-0.836,0.986v5.5c0,0.485,0.348,0.9,0.825,0.985 l5.831,1.034c0.349,1.203,0.831,2.362,1.438,3.46l-3.441,4.813c-0.284,0.397-0.239,0.942,0.106,1.289l3.888,3.891 c0.343,0.343,0.884,0.391,1.281,0.112l4.87-3.411c1.093,0.601,2.248,1.078,3.445,1.424l0.976,5.861C21.3,47.647,21.717,48,22.206,48 h5.5c0.485,0,0.9-0.348,0.984-0.825l1.045-5.89c1.199-0.353,2.348-0.833,3.43-1.435l4.905,3.441 c0.398,0.281,0.938,0.232,1.282-0.111l3.888-3.891c0.346-0.347,0.391-0.894,0.104-1.292l-3.498-4.857 c0.593-1.08,1.064-2.222,1.407-3.408l5.918-1.039c0.479-0.084,0.827-0.5,0.827-0.985v-5.5C47.999,21.718,47.644,21.3,47.16,21.221z M25,32c-3.866,0-7-3.134-7-7c0-3.866,3.134-7,7-7s7,3.134,7,7C32,28.866,28.866,32,25,32z"
+            />
+          </svg>
+        </a>
+      </span>
+    </header>
+    <main>
+      <ul
+        class="repositories"
+      >
+        <li
+          class="repository collapsed"
+        >
+          <div
+            class="repoHeading  false"
+          >
+            <div
+              class="grid-1"
+            >
+              <div
+                class="readButton notRead"
+                title="Mark repo as read"
+              >
+                <div
+                  class="color "
+                />
+              </div>
+            </div>
+            <div
+              class="grid-1 expand"
+            >
+              <svg
+                class="icon"
+                height="8.488"
+                viewBox="0 0 25.563 15.5"
+                width="14"
+              >
+                <path
+                  d="M13.954,0.443a1.406,1.406,0,0,0-1.989,0L0.578,11.831a1.406,1.406,0,0,0,0,1.989l1.328,1.328a1.406,1.406,0,0,0,1.986,0l9.067-9.025,9.067,9.025a1.406,1.406,0,0,0,1.986,0l1.328-1.328a1.406,1.406,0,0,0,0-1.989Z"
+                  transform="translate(-0.188 -0.063)"
+                />
+              </svg>
+            </div>
+            <div
+              class="grid"
+            >
+              <h3
+                class="text-truncate"
+              >
+                <a
+                  class="org"
+                  href="https://github.com/githubusername/"
+                  title="githubusername"
+                >
+                  githubusername
+                </a>
+                <span>
+                  /
+                </span>
+                <a
+                  href="https://github.com/githubusername/github-sidebar"
+                  title="github-sidebar"
+                >
+                  github-sidebar
+                </a>
+              </h3>
+              <div
+                class="repoCount"
+              >
+                <span
+                  title="1 issues"
+                >
+                  1
+                </span>
+                <span
+                  title="2 pull requests"
+                >
+                  2
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="items"
+            style="max-height: 0px;"
+          >
+            <div
+              class="issues"
+            >
+              <div
+                class="itemHeading"
+              >
+                <div
+                  class="grid-1"
+                />
+                <div
+                  class="grid-1"
+                >
+                  <svg
+                    class="icon"
+                    height="16"
+                    viewBox="0 0 14 16"
+                    width="14"
+                  >
+                    <path
+                      d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="grid"
+                >
+                  <h4>
+                    <a
+                      href="https://github.com/githubusername/github-sidebar/issues"
+                    >
+                      Issues
+                       
+                      (1)
+                    </a>
+                  </h4>
+                </div>
+              </div>
+              <ul>
+                <li
+                  class="item"
+                >
+                  <div
+                    class="grid-1"
+                  />
+                  <div
+                    class="grid-1 no-gutters"
+                  >
+                    <div
+                      class="readButton notRead"
+                      title="Mark as read"
+                    >
+                      <div
+                        class="color null"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="grid listItem "
+                  >
+                    <a
+                      href="https://github.com/githubusername/github-sidebar/issues/1"
+                      title="Issue title 1"
+                    >
+                      <div
+                        class="content text-truncate"
+                      >
+                        <div
+                          class="top"
+                        >
+                          <h5
+                            class="text-truncate"
+                          >
+                            Issue title 1
+                          </h5>
+                          <div
+                            class="comments"
+                          >
+                            <svg
+                              class="icon v-align-middle"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              width="16"
+                            >
+                              <path
+                                d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                             
+                            2
+                          </div>
+                        </div>
+                        <span
+                          class="bottom"
+                        >
+                          By 
+                          githubusername
+                          , 
+                          created 2 months ago
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div
+              class="pullRequests"
+            >
+              <div
+                class="itemHeading"
+              >
+                <div
+                  class="grid-1"
+                />
+                <div
+                  class="grid-1"
+                >
+                  <svg
+                    class="icon"
+                    height="16"
+                    viewBox="0 0 12 16"
+                    width="12"
+                  >
+                    <path
+                      d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0 0 10 15a1.993 1.993 0 0 0 1-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v6.56A1.993 1.993 0 0 0 2 15a1.993 1.993 0 0 0 1-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="grid"
+                >
+                  <h4>
+                    <a
+                      href="https://github.com/githubusername/github-sidebar/pulls"
+                    >
+                      Pull requests
+                       
+                      (2)
+                    </a>
+                  </h4>
+                </div>
+              </div>
+              <ul>
+                <li
+                  class="item"
+                >
+                  <div
+                    class="grid-1"
+                  />
+                  <div
+                    class="grid-1 no-gutters"
+                  >
+                    <div
+                      class="readButton notRead"
+                      title="Mark as read"
+                    >
+                      <div
+                        class="color APPROVED"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="grid listItem "
+                  >
+                    <a
+                      href="https://github.com/githubusername/github-sidebar/pull/2"
+                      title="Pull title 1"
+                    >
+                      <div
+                        class="content text-truncate"
+                      >
+                        <div
+                          class="top"
+                        >
+                          <h5
+                            class="text-truncate"
+                          >
+                            Pull title 1
+                          </h5>
+                          <div
+                            class="comments"
+                          >
+                            <svg
+                              class="icon v-align-middle"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              width="16"
+                            >
+                              <path
+                                d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                             
+                            3
+                          </div>
+                        </div>
+                        <span
+                          class="bottom"
+                        >
+                          By 
+                          githubusername
+                          , 
+                          created 2 months ago
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </li>
+                <li
+                  class="item"
+                >
+                  <div
+                    class="grid-1"
+                  />
+                  <div
+                    class="grid-1 no-gutters"
+                  >
+                    <div
+                      class="readButton notRead"
+                      title="Mark as read"
+                    >
+                      <div
+                        class="color null"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="grid listItem "
+                  >
+                    <a
+                      href="https://github.com/githubusername/github-sidebar/pull/3"
+                      title="Pull title 2"
+                    >
+                      <div
+                        class="content text-truncate"
+                      >
+                        <div
+                          class="top"
+                        >
+                          <h5
+                            class="text-truncate"
+                          >
+                            Pull title 2
+                          </h5>
+                          <div
+                            class="comments"
+                          >
+                            <svg
+                              class="icon v-align-middle"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              width="16"
+                            >
+                              <path
+                                d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                             
+                            4
+                          </div>
+                        </div>
+                        <span
+                          class="bottom"
+                        >
+                          By 
+                          githubusername
+                          , 
+                          created 2 months ago
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li
+          class="repository collapsed"
+        >
+          <div
+            class="repoHeading  false"
+          >
+            <div
+              class="grid-1"
+            >
+              <div
+                class="readButton notRead"
+                title="Mark repo as read"
+              >
+                <div
+                  class="color "
+                />
+              </div>
+            </div>
+            <div
+              class="grid-1 expand"
+            >
+              <svg
+                class="icon"
+                height="8.488"
+                viewBox="0 0 25.563 15.5"
+                width="14"
+              >
+                <path
+                  d="M13.954,0.443a1.406,1.406,0,0,0-1.989,0L0.578,11.831a1.406,1.406,0,0,0,0,1.989l1.328,1.328a1.406,1.406,0,0,0,1.986,0l9.067-9.025,9.067,9.025a1.406,1.406,0,0,0,1.986,0l1.328-1.328a1.406,1.406,0,0,0,0-1.989Z"
+                  transform="translate(-0.188 -0.063)"
+                />
+              </svg>
+            </div>
+            <div
+              class="grid"
+            >
+              <h3
+                class="text-truncate"
+              >
+                <a
+                  class="org"
+                  href="https://github.com/githubusername/"
+                  title="githubusername"
+                >
+                  githubusername
+                </a>
+                <span>
+                  /
+                </span>
+                <a
+                  href="https://github.com/githubusername/github-sidebar_2"
+                  title="github-sidebar_2"
+                >
+                  github-sidebar_2
+                </a>
+              </h3>
+              <div
+                class="repoCount"
+              >
+                <span
+                  title="1 issues"
+                >
+                  1
+                </span>
+                <span
+                  title="2 pull requests"
+                >
+                  2
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="items"
+            style="max-height: 0px;"
+          >
+            <div
+              class="issues"
+            >
+              <div
+                class="itemHeading"
+              >
+                <div
+                  class="grid-1"
+                />
+                <div
+                  class="grid-1"
+                >
+                  <svg
+                    class="icon"
+                    height="16"
+                    viewBox="0 0 14 16"
+                    width="14"
+                  >
+                    <path
+                      d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="grid"
+                >
+                  <h4>
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_2/issues"
+                    >
+                      Issues
+                       
+                      (1)
+                    </a>
+                  </h4>
+                </div>
+              </div>
+              <ul>
+                <li
+                  class="item"
+                >
+                  <div
+                    class="grid-1"
+                  />
+                  <div
+                    class="grid-1 no-gutters"
+                  >
+                    <div
+                      class="readButton notRead"
+                      title="Mark as read"
+                    >
+                      <div
+                        class="color null"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="grid listItem "
+                  >
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_2/issues/1"
+                      title="Issue title 1"
+                    >
+                      <div
+                        class="content text-truncate"
+                      >
+                        <div
+                          class="top"
+                        >
+                          <h5
+                            class="text-truncate"
+                          >
+                            Issue title 1
+                          </h5>
+                          <div
+                            class="comments"
+                          >
+                            <svg
+                              class="icon v-align-middle"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              width="16"
+                            >
+                              <path
+                                d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                             
+                            2
+                          </div>
+                        </div>
+                        <span
+                          class="bottom"
+                        >
+                          By 
+                          githubusername
+                          , 
+                          created 2 months ago
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div
+              class="pullRequests"
+            >
+              <div
+                class="itemHeading"
+              >
+                <div
+                  class="grid-1"
+                />
+                <div
+                  class="grid-1"
+                >
+                  <svg
+                    class="icon"
+                    height="16"
+                    viewBox="0 0 12 16"
+                    width="12"
+                  >
+                    <path
+                      d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0 0 10 15a1.993 1.993 0 0 0 1-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v6.56A1.993 1.993 0 0 0 2 15a1.993 1.993 0 0 0 1-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="grid"
+                >
+                  <h4>
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_2/pulls"
+                    >
+                      Pull requests
+                       
+                      (2)
+                    </a>
+                  </h4>
+                </div>
+              </div>
+              <ul>
+                <li
+                  class="item"
+                >
+                  <div
+                    class="grid-1"
+                  />
+                  <div
+                    class="grid-1 no-gutters"
+                  >
+                    <div
+                      class="readButton notRead"
+                      title="Mark as read"
+                    >
+                      <div
+                        class="color APPROVED"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="grid listItem "
+                  >
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_2/pull/2"
+                      title="Pull title 1"
+                    >
+                      <div
+                        class="content text-truncate"
+                      >
+                        <div
+                          class="top"
+                        >
+                          <h5
+                            class="text-truncate"
+                          >
+                            Pull title 1
+                          </h5>
+                          <div
+                            class="comments"
+                          >
+                            <svg
+                              class="icon v-align-middle"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              width="16"
+                            >
+                              <path
+                                d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                             
+                            3
+                          </div>
+                        </div>
+                        <span
+                          class="bottom"
+                        >
+                          By 
+                          githubusername
+                          , 
+                          created 2 months ago
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </li>
+                <li
+                  class="item"
+                >
+                  <div
+                    class="grid-1"
+                  />
+                  <div
+                    class="grid-1 no-gutters"
+                  >
+                    <div
+                      class="readButton notRead"
+                      title="Mark as read"
+                    >
+                      <div
+                        class="color null"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="grid listItem "
+                  >
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_2/pull/3"
+                      title="Pull title 2"
+                    >
+                      <div
+                        class="content text-truncate"
+                      >
+                        <div
+                          class="top"
+                        >
+                          <h5
+                            class="text-truncate"
+                          >
+                            Pull title 2
+                          </h5>
+                          <div
+                            class="comments"
+                          >
+                            <svg
+                              class="icon v-align-middle"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              width="16"
+                            >
+                              <path
+                                d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                             
+                            4
+                          </div>
+                        </div>
+                        <span
+                          class="bottom"
+                        >
+                          By 
+                          githubusername
+                          , 
+                          created 2 months ago
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li
+          class="repository collapsed"
+        >
+          <div
+            class="repoHeading  false"
+          >
+            <div
+              class="grid-1"
+            >
+              <div
+                class="readButton notRead"
+                title="Mark repo as read"
+              >
+                <div
+                  class="color "
+                />
+              </div>
+            </div>
+            <div
+              class="grid-1 expand"
+            >
+              <svg
+                class="icon"
+                height="8.488"
+                viewBox="0 0 25.563 15.5"
+                width="14"
+              >
+                <path
+                  d="M13.954,0.443a1.406,1.406,0,0,0-1.989,0L0.578,11.831a1.406,1.406,0,0,0,0,1.989l1.328,1.328a1.406,1.406,0,0,0,1.986,0l9.067-9.025,9.067,9.025a1.406,1.406,0,0,0,1.986,0l1.328-1.328a1.406,1.406,0,0,0,0-1.989Z"
+                  transform="translate(-0.188 -0.063)"
+                />
+              </svg>
+            </div>
+            <div
+              class="grid"
+            >
+              <h3
+                class="text-truncate"
+              >
+                <a
+                  class="org"
+                  href="https://github.com/githubusername/"
+                  title="githubusername"
+                >
+                  githubusername
+                </a>
+                <span>
+                  /
+                </span>
+                <a
+                  href="https://github.com/githubusername/github-sidebar_3"
+                  title="github-sidebar_3"
+                >
+                  github-sidebar_3
+                </a>
+              </h3>
+              <div
+                class="repoCount"
+              >
+                <span
+                  title="1 issues"
+                >
+                  1
+                </span>
+                <span
+                  title="2 pull requests"
+                >
+                  2
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="items"
+            style="max-height: 0px;"
+          >
+            <div
+              class="issues"
+            >
+              <div
+                class="itemHeading"
+              >
+                <div
+                  class="grid-1"
+                />
+                <div
+                  class="grid-1"
+                >
+                  <svg
+                    class="icon"
+                    height="16"
+                    viewBox="0 0 14 16"
+                    width="14"
+                  >
+                    <path
+                      d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="grid"
+                >
+                  <h4>
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_3/issues"
+                    >
+                      Issues
+                       
+                      (1)
+                    </a>
+                  </h4>
+                </div>
+              </div>
+              <ul>
+                <li
+                  class="item"
+                >
+                  <div
+                    class="grid-1"
+                  />
+                  <div
+                    class="grid-1 no-gutters"
+                  >
+                    <div
+                      class="readButton notRead"
+                      title="Mark as read"
+                    >
+                      <div
+                        class="color null"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="grid listItem "
+                  >
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_3/issues/1"
+                      title="Issue title 1"
+                    >
+                      <div
+                        class="content text-truncate"
+                      >
+                        <div
+                          class="top"
+                        >
+                          <h5
+                            class="text-truncate"
+                          >
+                            Issue title 1
+                          </h5>
+                          <div
+                            class="comments"
+                          >
+                            <svg
+                              class="icon v-align-middle"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              width="16"
+                            >
+                              <path
+                                d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                             
+                            2
+                          </div>
+                        </div>
+                        <span
+                          class="bottom"
+                        >
+                          By 
+                          githubusername
+                          , 
+                          created 2 months ago
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div
+              class="pullRequests"
+            >
+              <div
+                class="itemHeading"
+              >
+                <div
+                  class="grid-1"
+                />
+                <div
+                  class="grid-1"
+                >
+                  <svg
+                    class="icon"
+                    height="16"
+                    viewBox="0 0 12 16"
+                    width="12"
+                  >
+                    <path
+                      d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0 0 10 15a1.993 1.993 0 0 0 1-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v6.56A1.993 1.993 0 0 0 2 15a1.993 1.993 0 0 0 1-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="grid"
+                >
+                  <h4>
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_3/pulls"
+                    >
+                      Pull requests
+                       
+                      (2)
+                    </a>
+                  </h4>
+                </div>
+              </div>
+              <ul>
+                <li
+                  class="item"
+                >
+                  <div
+                    class="grid-1"
+                  />
+                  <div
+                    class="grid-1 no-gutters"
+                  >
+                    <div
+                      class="readButton notRead"
+                      title="Mark as read"
+                    >
+                      <div
+                        class="color APPROVED"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="grid listItem "
+                  >
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_3/pull/2"
+                      title="Pull title 1"
+                    >
+                      <div
+                        class="content text-truncate"
+                      >
+                        <div
+                          class="top"
+                        >
+                          <h5
+                            class="text-truncate"
+                          >
+                            Pull title 1
+                          </h5>
+                          <div
+                            class="comments"
+                          >
+                            <svg
+                              class="icon v-align-middle"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              width="16"
+                            >
+                              <path
+                                d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                             
+                            3
+                          </div>
+                        </div>
+                        <span
+                          class="bottom"
+                        >
+                          By 
+                          githubusername
+                          , 
+                          created 2 months ago
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </li>
+                <li
+                  class="item"
+                >
+                  <div
+                    class="grid-1"
+                  />
+                  <div
+                    class="grid-1 no-gutters"
+                  >
+                    <div
+                      class="readButton notRead"
+                      title="Mark as read"
+                    >
+                      <div
+                        class="color null"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="grid listItem "
+                  >
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_3/pull/3"
+                      title="Pull title 2"
+                    >
+                      <div
+                        class="content text-truncate"
+                      >
+                        <div
+                          class="top"
+                        >
+                          <h5
+                            class="text-truncate"
+                          >
+                            Pull title 2
+                          </h5>
+                          <div
+                            class="comments"
+                          >
+                            <svg
+                              class="icon v-align-middle"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              width="16"
+                            >
+                              <path
+                                d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                             
+                            4
+                          </div>
+                        </div>
+                        <span
+                          class="bottom"
+                        >
+                          By 
+                          githubusername
+                          , 
+                          created 2 months ago
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li
+          class="repository collapsed"
+        >
+          <div
+            class="repoHeading  false"
+          >
+            <div
+              class="grid-1"
+            >
+              <div
+                class="readButton notRead"
+                title="Mark repo as read"
+              >
+                <div
+                  class="color "
+                />
+              </div>
+            </div>
+            <div
+              class="grid-1 expand"
+            >
+              <svg
+                class="icon"
+                height="8.488"
+                viewBox="0 0 25.563 15.5"
+                width="14"
+              >
+                <path
+                  d="M13.954,0.443a1.406,1.406,0,0,0-1.989,0L0.578,11.831a1.406,1.406,0,0,0,0,1.989l1.328,1.328a1.406,1.406,0,0,0,1.986,0l9.067-9.025,9.067,9.025a1.406,1.406,0,0,0,1.986,0l1.328-1.328a1.406,1.406,0,0,0,0-1.989Z"
+                  transform="translate(-0.188 -0.063)"
+                />
+              </svg>
+            </div>
+            <div
+              class="grid"
+            >
+              <h3
+                class="text-truncate"
+              >
+                <a
+                  class="org"
+                  href="https://github.com/githubusername/"
+                  title="githubusername"
+                >
+                  githubusername
+                </a>
+                <span>
+                  /
+                </span>
+                <a
+                  href="https://github.com/githubusername/github-sidebar_4"
+                  title="github-sidebar_4"
+                >
+                  github-sidebar_4
+                </a>
+              </h3>
+              <div
+                class="repoCount"
+              >
+                <span
+                  title="1 issues"
+                >
+                  1
+                </span>
+                <span
+                  title="2 pull requests"
+                >
+                  2
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="items"
+            style="max-height: 0px;"
+          >
+            <div
+              class="issues"
+            >
+              <div
+                class="itemHeading"
+              >
+                <div
+                  class="grid-1"
+                />
+                <div
+                  class="grid-1"
+                >
+                  <svg
+                    class="icon"
+                    height="16"
+                    viewBox="0 0 14 16"
+                    width="14"
+                  >
+                    <path
+                      d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="grid"
+                >
+                  <h4>
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_4/issues"
+                    >
+                      Issues
+                       
+                      (1)
+                    </a>
+                  </h4>
+                </div>
+              </div>
+              <ul>
+                <li
+                  class="item"
+                >
+                  <div
+                    class="grid-1"
+                  />
+                  <div
+                    class="grid-1 no-gutters"
+                  >
+                    <div
+                      class="readButton notRead"
+                      title="Mark as read"
+                    >
+                      <div
+                        class="color null"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="grid listItem "
+                  >
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_4/issues/1"
+                      title="Issue title 1"
+                    >
+                      <div
+                        class="content text-truncate"
+                      >
+                        <div
+                          class="top"
+                        >
+                          <h5
+                            class="text-truncate"
+                          >
+                            Issue title 1
+                          </h5>
+                          <div
+                            class="comments"
+                          >
+                            <svg
+                              class="icon v-align-middle"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              width="16"
+                            >
+                              <path
+                                d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                             
+                            2
+                          </div>
+                        </div>
+                        <span
+                          class="bottom"
+                        >
+                          By 
+                          githubusername
+                          , 
+                          created 2 months ago
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div
+              class="pullRequests"
+            >
+              <div
+                class="itemHeading"
+              >
+                <div
+                  class="grid-1"
+                />
+                <div
+                  class="grid-1"
+                >
+                  <svg
+                    class="icon"
+                    height="16"
+                    viewBox="0 0 12 16"
+                    width="12"
+                  >
+                    <path
+                      d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0 0 10 15a1.993 1.993 0 0 0 1-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v6.56A1.993 1.993 0 0 0 2 15a1.993 1.993 0 0 0 1-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="grid"
+                >
+                  <h4>
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_4/pulls"
+                    >
+                      Pull requests
+                       
+                      (2)
+                    </a>
+                  </h4>
+                </div>
+              </div>
+              <ul>
+                <li
+                  class="item"
+                >
+                  <div
+                    class="grid-1"
+                  />
+                  <div
+                    class="grid-1 no-gutters"
+                  >
+                    <div
+                      class="readButton notRead"
+                      title="Mark as read"
+                    >
+                      <div
+                        class="color APPROVED"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="grid listItem "
+                  >
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_4/pull/2"
+                      title="Pull title 1"
+                    >
+                      <div
+                        class="content text-truncate"
+                      >
+                        <div
+                          class="top"
+                        >
+                          <h5
+                            class="text-truncate"
+                          >
+                            Pull title 1
+                          </h5>
+                          <div
+                            class="comments"
+                          >
+                            <svg
+                              class="icon v-align-middle"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              width="16"
+                            >
+                              <path
+                                d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                             
+                            3
+                          </div>
+                        </div>
+                        <span
+                          class="bottom"
+                        >
+                          By 
+                          githubusername
+                          , 
+                          created 2 months ago
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </li>
+                <li
+                  class="item"
+                >
+                  <div
+                    class="grid-1"
+                  />
+                  <div
+                    class="grid-1 no-gutters"
+                  >
+                    <div
+                      class="readButton notRead"
+                      title="Mark as read"
+                    >
+                      <div
+                        class="color null"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="grid listItem "
+                  >
+                    <a
+                      href="https://github.com/githubusername/github-sidebar_4/pull/3"
+                      title="Pull title 2"
+                    >
+                      <div
+                        class="content text-truncate"
+                      >
+                        <div
+                          class="top"
+                        >
+                          <h5
+                            class="text-truncate"
+                          >
+                            Pull title 2
+                          </h5>
+                          <div
+                            class="comments"
+                          >
+                            <svg
+                              class="icon v-align-middle"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              width="16"
+                            >
+                              <path
+                                d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                             
+                            4
+                          </div>
+                        </div>
+                        <span
+                          class="bottom"
+                        >
+                          By 
+                          githubusername
+                          , 
+                          created 2 months ago
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`generic snapshots should rendder settingspage 1`] = `
+<div>
+  <div
+    class="sidebar dark"
+  >
+    <header
+      class="text-bold"
+    >
+      <span
+        class="align-center"
+      >
+        Github Sidebar
+      </span>
+      <span
+        class="align-center"
+      >
+        <a
+          aria-label="Show repositories"
+          class="iconBtn"
+          href="#"
+        >
+          <svg
+            class="icon"
+            height="20"
+            viewBox="0 0 48 48"
+            width="20"
+          >
+            <path
+              d="M530,49a24,24,0,1,1-24,24A24,24,0,0,1,530,49Zm13.007,14.573-10.1,10.1,9.733,9.733-2.6,2.6-9.733-9.733-9.192,9.191-2.58-2.58,9.192-9.191-9.733-9.733,2.6-2.6,9.733,9.733,10.1-10.1Z"
+              fill-rule="evenodd"
+              transform="translate(-506 -49)"
+            />
+          </svg>
+        </a>
+      </span>
+    </header>
+    <main
+      class="settings"
+    >
+      <ul>
+        <li
+          class="list"
+        >
+          <h4>
+            Repositories
+          </h4>
+          <p>
+            Navigate to a Github-repository you want to monitor and click the button below.
+          </p>
+          <ul>
+            <li
+              class="listItem"
+            >
+              <div
+                class="content text-truncate"
+              >
+                <div
+                  class="top"
+                >
+                  <h5
+                    class="text-truncate"
+                  >
+                    githubusername
+                     / 
+                    reponame
+                  </h5>
+                  <div
+                    class="remove"
+                    data-index="0"
+                  >
+                    ✕
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li
+              class="listItem"
+            >
+              <div
+                class="content text-truncate"
+              >
+                <div
+                  class="top"
+                >
+                  <h5
+                    class="text-truncate"
+                  >
+                    githubusername
+                     / 
+                    myotherrepo
+                  </h5>
+                  <div
+                    class="remove"
+                    data-index="1"
+                  >
+                    ✕
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li
+              class="listItem"
+            >
+              <div
+                class="content text-truncate"
+              >
+                <div
+                  class="top"
+                >
+                  <h5
+                    class="text-truncate"
+                  >
+                    githubusername
+                     / 
+                    mythirdrepo
+                  </h5>
+                  <div
+                    class="remove"
+                    data-index="2"
+                  >
+                    ✕
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li
+              class="listItem"
+            >
+              <div
+                class="content text-truncate"
+              >
+                <div
+                  class="top"
+                >
+                  <h5
+                    class="text-truncate"
+                  >
+                    differentUser
+                     / 
+                    projectrepo
+                  </h5>
+                  <div
+                    class="remove"
+                    data-index="3"
+                  >
+                    ✕
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <button
+            class="add"
+            disabled=""
+          >
+            Add current repository
+          </button>
+        </li>
+        <li
+          class="list miscellaneous"
+        >
+          <h4>
+            Options
+          </h4>
+          <label>
+            Show items from
+            <select
+              name="listItemOfType"
+            >
+              <option
+                value="all"
+              >
+                Pull requests and issues
+              </option>
+              <option
+                value="pullRequests"
+              >
+                Pull requests
+              </option>
+              <option
+                value="issues"
+              >
+                Issues
+              </option>
+            </select>
+          </label>
+          <label>
+            Sort items by
+            <select
+              name="sortBy"
+            >
+              <option
+                value="CREATED_AT"
+              >
+                Created
+              </option>
+              <option
+                value="UPDATED_AT"
+              >
+                Updated
+              </option>
+            </select>
+          </label>
+          <label>
+            Number of items to load
+            <input
+              max="10"
+              min="0"
+              name="numberOfItems"
+              type="number"
+              value="4"
+            />
+          </label>
+          <label>
+            Auto refresh every X seconds.
+            <input
+              min="15"
+              name="autoRefresh"
+              type="number"
+              value="60"
+            />
+          </label>
+          <label>
+            Theme
+            <select
+              name="theme"
+            >
+              <option
+                value="dark"
+              >
+                Dark
+              </option>
+              <option
+                value="light"
+              >
+                Light
+              </option>
+            </select>
+          </label>
+          <label>
+            <input
+              checked=""
+              name="updateFavicon"
+              type="checkbox"
+            />
+             
+            Highlight favicon if new/updated items?
+          </label>
+          <label>
+            Access token
+            <input
+              name="token"
+              placeholder="Access token"
+              type="text"
+              value="myToken"
+            />
+          </label>
+          <em>
+            (
+            4930
+             requests left of 
+            5000
+            . Resets in
+             
+            8 months
+            )
+          </em>
+          <div
+            class="credit"
+          >
+            <a
+              href="https://github.com/christianeide/github-sidebar"
+            >
+              Github Sidebar 
+              3.0.0
+            </a>
+          </div>
+        </li>
+      </ul>
+      <div
+        class="autoSave false"
+      >
+        Settings saved...
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`generic snapshots should render a splashscreen if token is missing 1`] = `
+<div>
+  <div
+    class="sidebar"
+  >
+    <main
+      class="splash"
+    >
+      <div
+        class="justifier"
+      >
+        <svg
+          class="icon"
+          height="155"
+          viewBox="0 0 446.157 192.594"
+          width="255"
+        >
+          <path
+            d="M127.657,528.892h21.466V550.23c-6.427,6.684-14.782,10.283-25.065,10.283-20.438,0-31.492-14.525-31.492-39.719,0-21.209,10.155-38.176,30.849-38.176,16.968,0,23.652,8.484,23.909,18.381h10.154c-0.385-14.01-8.612-27.507-33.677-27.507-26.993,0-41.775,19.409-41.775,47.431,0,27.507,11.7,48.331,41.9,48.331,9.64,0,23.522-2.314,33.934-14.525v-34.32H127.657v8.483Zm49.354,38.819h9.9V475.163h-9.9v92.548Zm52.183,0h10.027V484.032H268.27v-8.869H200.016v8.869h29.178v83.679Zm52.053,0h9.9v-43.7h48.331v43.7h9.9V475.163h-9.9v39.719H291.145V475.163h-9.9v92.548Zm88.944-92.548v58.228c0,24.68,13.754,35.863,34.32,35.863,22.494,0,34.063-12.083,34.063-35.863V475.163h-9.769v57.071c0,18.253-6.427,28.151-23.908,28.151-15.425,0-24.808-9-24.808-28.151V475.163h-9.9Zm118.894,8.612c12.982,0,20.695,3.856,20.695,15.168,0,13.5-10.669,16.838-22.623,16.838H469.29V483.775h19.795ZM469.29,524.394h21.98c13.625,0,23.009,3.856,23.009,16.324,0,11.183-7.2,18.381-21.723,18.381H469.29V524.394Zm-9.9,43.317h30.464c19.8,0,34.577-6.555,34.577-26.479,0-9.126-5.4-20.566-21.466-22.109v-0.257c12.211-1.8,16.967-11.954,16.967-20.952,0-14.4-8.483-22.751-29.05-22.751H459.392v92.548ZM78.684,653.854A39,39,0,0,0,107.149,666.1c16.33,0,27.217-8.959,27.217-23.362,0-12.134-6.01-17.691-22.681-23.362-13.949-4.763-20.98-7.144-20.98-16.557,0-9.186,7.371-13.722,17.011-13.722a27.722,27.722,0,0,1,20.866,9.526l5.1-5.33c-6.805-7.825-15.65-11.681-26.084-11.681-14.856,0-26.083,7.825-26.083,21.887,0,12.135,7.031,17.578,24.836,23.022,14.969,4.536,18.939,8.392,18.939,17.011,0,9.753-7.712,15.083-17.919,15.083-8.618,0-16.33-3.856-23.7-10.433Zm70.881,10.887H158.3V583.088h-8.732v81.653ZM200.6,591.027c21.434,0,30.393,11.794,30.393,33,0,21.434-8.959,32.775-30.393,32.775h-14.63V591.027H200.6Zm-23.362-7.939v81.653h21.547c27.1,0,41.394-11.794,41.394-40.713,0-28.011-14.176-40.94-40.146-40.94H177.235Zm78.706,81.653h51.94v-7.712H264.673V626.863h38.559v-7.825H264.673V590.913h42.3v-7.825H255.941v81.653Zm93.448-74.055c11.454,0,18.259,3.4,18.259,13.382,0,11.908-9.413,14.857-19.96,14.857H331.925V590.686h17.464Zm-17.464,35.837h19.392c12.021,0,20.3,3.4,20.3,14.4,0,9.866-6.351,16.217-19.166,16.217H331.925v-30.62Zm-8.733,38.218H350.07c17.464,0,30.506-5.784,30.506-23.362,0-8.052-4.763-18.145-18.939-19.506v-0.227c10.774-1.587,14.97-10.546,14.97-18.485,0-12.7-7.485-20.073-25.63-20.073H323.192v81.653Zm93-81.653-29.6,81.653H396l8.392-23.362h32.888l8.619,23.362h9.3l-29.826-81.653h-9.186Zm-9.3,50.353,13.949-40.486,13.949,40.486h-27.9Zm59.881-50.353v81.653H475.5V632.08h13.722a40.216,40.216,0,0,0,8.732-.794l17.352,33.455h9.526l-18.372-35.5c9.526-4.537,13.722-12.475,13.722-22.682,0-14.4-8.619-23.475-27.785-23.475H466.769Zm25.4,7.712c13.268,0,19.165,5.557,19.165,16.444,0,11.34-7.144,17.464-20.753,17.464H475.5V590.8h16.671Z"
+            fill-rule="evenodd"
+            transform="translate(-78.688 -473.5)"
+          />
+        </svg>
+        <p>
+          This extension requires an access token from Github to load data.
+           
+          <br />
+          <br />
+          <em>
+            (The token is only saved to your browsers local
+             
+            <b>
+              chrome.storage.local
+            </b>
+            . It is only used to communicate with Githubs API)
+          </em>
+        </p>
+        <p>
+          <a
+            href="https://github.com/settings/tokens/new?scopes=repo&description=Github%20sidebar%20browser%20extension"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            CREATE AN ACCESS TOKEN
+          </a>
+          <em>
+            (The necessary scopes are pre-selected)
+          </em>
+        </p>
+        <label>
+          Paste the token below:
+          <input
+            name="token"
+            placeholder="Access token"
+            type="text"
+            value=""
+          />
+        </label>
+        <button
+          disabled=""
+        >
+          Save token
+        </button>
+      </div>
+    </main>
+  </div>
+</div>
+`;
