@@ -24,7 +24,7 @@
     "react-sortable-hoc": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.10",
+    "@babel/core": "^7.14.2",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/plugin-transform-react-jsx": "^7.12.17",
     "@babel/preset-env": "^7.13.10",
