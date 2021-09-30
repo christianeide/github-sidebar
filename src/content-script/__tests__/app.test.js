@@ -45,9 +45,19 @@ function setupDataFromBackground(state) {
 	};
 }
 
+const OLD_ENV = process.env;
+
 beforeEach(() => {
 	postMessage.mockClear();
 	removeListener.mockClear();
+
+	// Allow to overwrite process.env
+	jest.resetModules();
+	process.env.npm_package_version = OLD_ENV; // Make a copy
+});
+
+afterAll(() => {
+	process.env.npm_package_version = OLD_ENV; // Restore old environment
 });
 
 describe('generic snapshots', () => {
@@ -75,6 +85,7 @@ describe('generic snapshots', () => {
 	});
 
 	it('should render settingspage', () => {
+		process.env.npm_package_version = '1.0.0';
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
 

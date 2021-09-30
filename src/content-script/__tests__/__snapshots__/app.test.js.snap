@@ -1823,7 +1823,7 @@ exports[`generic snapshots should render settingspage 1`] = `
               href="https://github.com/christianeide/github-sidebar"
             >
               Github Sidebar 
-              3.0.0
+              1.0.0
             </a>
           </div>
         </li>
