@@ -55,6 +55,7 @@ export function createRepoURL(options = {}) {
 export function mockFetchReject(data) {
 	global.fetch = jest.fn().mockImplementationOnce(() => Promise.reject(data));
 }
+
 export function mockFetchResolve(data) {
 	global.fetch = jest.fn().mockImplementationOnce(() =>
 		Promise.resolve({
