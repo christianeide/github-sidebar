@@ -123,6 +123,7 @@ export default class Repository extends React.PureComponent {
 						this.state.hover && 'hideHover'
 					}`}
 					onClick={this.handleToggleCollapsed}
+					aria-label="Toggle visibility of items"
 				>
 					<div
 						className="grid-1"
