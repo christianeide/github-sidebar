@@ -16,7 +16,6 @@
 		"prettier",
 		"plugin:react/recommended",
 		"plugin:react-hooks/recommended",
-		"plugin:prettier/recommended",
 		"plugin:jest-dom/recommended"
 	],
 	"globals": {
@@ -31,11 +30,7 @@
 		},
 		"allowImportExportEverywhere": true
 	},
-	"plugins": [
-		"react",
-		"prettier",
-		"jest-dom"
-	],
+	"plugins": ["react", "prettier", "jest-dom"],
 	"rules": {
 		"require-atomic-updates": "off",
 		"curly": "error",

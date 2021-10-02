@@ -9,9 +9,14 @@ const SortableItem = SortableElement(({ item, onRemoveRepo, listIndex }) => (
 					{item.owner} / {item.name}
 				</h5>
 
-				<div className="remove" onClick={onRemoveRepo} data-index={listIndex}>
+				<button
+					className="remove"
+					onClick={onRemoveRepo}
+					data-index={listIndex}
+					aria-label="Remove repo"
+				>
 					&#10005;
-				</div>
+				</button>
 			</div>
 		</div>
 	</li>

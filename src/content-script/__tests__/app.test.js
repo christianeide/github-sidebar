@@ -14,6 +14,29 @@ jest.mock('../utils/time.js', () => ({
 	ago: () => '1 month',
 }));
 
+// mock debounce
+import '../utils/utils.js';
+jest.mock('../utils/utils.js', () => ({
+	...jest.requireActual('../utils/utils.js'),
+	debounce: (func) => {
+		return function (...args) {
+			func.apply(this, args);
+		};
+	},
+}));
+
+// mock path functions
+const testRepo = { name: 'newRepo', owner: 'UserX' };
+import '../components/Settings/getPath.js';
+jest.mock('../components/Settings/getPath.js', () => ({
+	...jest.requireActual('../components/Settings/getPath.js'),
+	canAddRepository: () => true,
+	getCurrentPath: jest
+		.fn()
+		.mockReturnValueOnce(false)
+		.mockReturnValueOnce(testRepo),
+}));
+
 function render(props) {
 	const utils = tlrRender(<Index {...props} />);
 	return {
@@ -282,23 +305,213 @@ describe('single item', () => {
 });
 
 describe('settings', () => {
-	it('should set setting for listItemOfType', async () => {
+	it('should set setting for listItemOfType', () => {
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
 
 		const { getByLabelText, getByText } = render();
 		userEvent.click(getByLabelText(/show settings/i));
 
+		postMessage.mockClear();
 		const select = getByLabelText(/show items from/i);
 
 		userEvent.selectOptions(select, ['issues']);
 
-		expect(getByText('Issues')).toMatchInlineSnapshot(`
-		<option
-		  value="issues"
-		>
-		  Issues
-		</option>
-	`);
+		expect(getByText('Issues').selected).toBeTruthy();
+		expect(postMessage).toHaveBeenCalledTimes(1);
+		expect(postMessage.mock.calls[0][0].type).toBe('saveSettings');
+		expect(postMessage.mock.calls[0][0].settings.listItemOfType).toBe('issues');
+	});
+
+	it('should set setting for sortBy', () => {
+		const serverData = createQuickStorage();
+		setupDataFromBackground(serverData);
+
+		const { getByLabelText, getByText } = render();
+		userEvent.click(getByLabelText(/show settings/i));
+
+		postMessage.mockClear();
+
+		const select = getByLabelText(/sort items by/i);
+		userEvent.selectOptions(select, ['UPDATED_AT']);
+
+		expect(getByText('Updated').selected).toBeTruthy();
+		expect(getByText('Created').selected).toBeFalsy();
+		expect(postMessage.mock.calls[0][0].settings.sortBy).toBe('UPDATED_AT');
+	});
+
+	it('should set setting for numberOfItems', () => {
+		const serverData = createQuickStorage();
+		setupDataFromBackground(serverData);
+
+		const { getByLabelText } = render();
+		userEvent.click(getByLabelText(/show settings/i));
+
+		postMessage.mockClear();
+
+		const input = getByLabelText(/number of items to load/i);
+		userEvent.type(input, '{backspace}8');
+
+		expect(input).toHaveValue(8);
+		expect(postMessage.mock.calls[1][0].settings.numberOfItems).toBe(8);
+	});
+
+	it('should validate numberOfItems', () => {
+		const serverData = createQuickStorage();
+		setupDataFromBackground(serverData);
+
+		const { getByLabelText } = render();
+		userEvent.click(getByLabelText(/show settings/i));
+
+		const input = getByLabelText(/number of items to load/i);
+
+		// min
+		userEvent.type(input, '{backspace}-1');
+		userEvent.click(document.body); // move the focus away to trigger validation
+		expect(input).toHaveValue(0);
+
+		// Max
+		userEvent.type(input, '{backspace}100');
+		userEvent.click(document.body); // move the focus away to trigger validation
+		expect(input).toHaveValue(10);
+	});
+
+	it('should set setting for autoRefresh', () => {
+		const serverData = createQuickStorage();
+		setupDataFromBackground(serverData);
+
+		const { getByLabelText } = render();
+		userEvent.click(getByLabelText(/show settings/i));
+
+		postMessage.mockClear();
+
+		const input = getByLabelText(/auto refresh every/i);
+		userEvent.type(input, '{backspace}{backspace}30');
+
+		expect(input).toHaveValue(30);
+		expect(postMessage.mock.calls[3][0].settings.autoRefresh).toBe(30);
+	});
+
+	it('should validate autoRefresh', () => {
+		const serverData = createQuickStorage();
+		setupDataFromBackground(serverData);
+
+		const { getByLabelText } = render();
+		userEvent.click(getByLabelText(/show settings/i));
+
+		const input = getByLabelText(/auto refresh every/i);
+
+		// min
+		userEvent.type(input, '{backspace}{backspace}1');
+		userEvent.click(document.body); // move the focus away to trigger validation
+		expect(input).toHaveValue(15);
+	});
+
+	it('should set setting for theme', () => {
+		const serverData = createQuickStorage();
+		setupDataFromBackground(serverData);
+
+		const { getByLabelText, getByText } = render();
+		userEvent.click(getByLabelText(/show settings/i));
+
+		postMessage.mockClear();
+
+		const select = getByLabelText(/theme/i);
+		userEvent.selectOptions(select, ['light']);
+
+		expect(getByText('Light').selected).toBeTruthy();
+		expect(getByText('Dark').selected).toBeFalsy();
+		expect(postMessage.mock.calls[0][0].settings.theme).toBe('light');
+	});
+
+	it('should set setting for updateFavicon', () => {
+		const serverData = createQuickStorage();
+		setupDataFromBackground(serverData);
+
+		const { getByLabelText } = render();
+		userEvent.click(getByLabelText(/show settings/i));
+
+		postMessage.mockClear();
+
+		const checkbox = getByLabelText(/highlight favicon if/i);
+		expect(checkbox.checked).toBeTruthy();
+		userEvent.click(checkbox);
+
+		expect(checkbox.checked).toBeFalsy();
+		expect(postMessage.mock.calls[0][0].settings.updateFavicon).toBe(false);
+	});
+
+	it('should set setting for token', () => {
+		const serverData = createQuickStorage();
+		setupDataFromBackground(serverData);
+
+		const { getByLabelText } = render();
+		userEvent.click(getByLabelText(/show settings/i));
+
+		postMessage.mockClear();
+
+		const input = getByLabelText(/access token/i);
+		userEvent.type(input, 'Works');
+
+		const newValue = `${serverData.settings.token}Works`;
+		expect(input).toHaveValue(newValue);
+		expect(postMessage.mock.calls[4][0].settings.token).toBe(newValue);
+	});
+});
+
+describe('settings repohandling', () => {
+	it('should not add repo if repo data is not provided', () => {
+		const serverData = createQuickStorage();
+		setupDataFromBackground(serverData);
+
+		const { getByLabelText, getByText } = render();
+		userEvent.click(getByLabelText(/show settings/i));
+
+		postMessage.mockClear();
+
+		const select = getByText(/add current repository/i);
+		userEvent.click(select);
+
+		expect(postMessage).not.toHaveBeenCalled();
+	});
+
+	it('should add repo when repodata is provided', () => {
+		const serverData = createQuickStorage();
+		setupDataFromBackground(serverData);
+
+		const { getByLabelText, getByText } = render();
+		userEvent.click(getByLabelText(/show settings/i));
+
+		postMessage.mockClear();
+
+		const select = getByText(/add current repository/i);
+		userEvent.click(select);
+
+		expect(postMessage.mock.calls[0][0].settings.repos[4]).toBe(testRepo);
+	});
+
+	it('should handle delete repos', () => {
+		const serverData = createQuickStorage();
+		setupDataFromBackground(serverData);
+
+		const { getByLabelText, getAllByLabelText } = render();
+		userEvent.click(getByLabelText(/show settings/i));
+
+		postMessage.mockClear();
+
+		const select = getAllByLabelText(/remove repo/i)[2];
+		userEvent.click(select);
+
+		expect(postMessage).toHaveBeenCalledTimes(1);
+		expect(postMessage.mock.calls[0][0].settings.repos.length).toBe(3);
+		expect(postMessage.mock.calls[0][0].settings.repos[0].name).toBe(
+			serverData.settings.repos[0].name
+		);
+		expect(postMessage.mock.calls[0][0].settings.repos[1].name).toBe(
+			serverData.settings.repos[1].name
+		);
+		expect(postMessage.mock.calls[0][0].settings.repos[2].name).toBe(
+			serverData.settings.repos[3].name
+		);
 	});
 });

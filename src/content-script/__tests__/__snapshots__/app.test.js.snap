@@ -59,6 +59,7 @@ exports[`generic snapshots should render a splashscreen if token is missing 1`] 
           />
         </label>
         <button
+          class="sidebar-button"
           disabled=""
         >
           Save token
@@ -1615,12 +1616,13 @@ exports[`generic snapshots should render settingspage 1`] = `
                      / 
                     reponame
                   </h5>
-                  <div
+                  <button
+                    aria-label="Remove repo"
                     class="remove"
                     data-index="0"
                   >
                     ✕
-                  </div>
+                  </button>
                 </div>
               </div>
             </li>
@@ -1640,12 +1642,13 @@ exports[`generic snapshots should render settingspage 1`] = `
                      / 
                     myotherrepo
                   </h5>
-                  <div
+                  <button
+                    aria-label="Remove repo"
                     class="remove"
                     data-index="1"
                   >
                     ✕
-                  </div>
+                  </button>
                 </div>
               </div>
             </li>
@@ -1665,12 +1668,13 @@ exports[`generic snapshots should render settingspage 1`] = `
                      / 
                     mythirdrepo
                   </h5>
-                  <div
+                  <button
+                    aria-label="Remove repo"
                     class="remove"
                     data-index="2"
                   >
                     ✕
-                  </div>
+                  </button>
                 </div>
               </div>
             </li>
@@ -1690,19 +1694,19 @@ exports[`generic snapshots should render settingspage 1`] = `
                      / 
                     projectrepo
                   </h5>
-                  <div
+                  <button
+                    aria-label="Remove repo"
                     class="remove"
                     data-index="3"
                   >
                     ✕
-                  </div>
+                  </button>
                 </div>
               </div>
             </li>
           </ul>
           <button
-            class="add"
-            disabled=""
+            class="sidebar-button add"
           >
             Add current repository
           </button>

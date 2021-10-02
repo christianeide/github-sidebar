@@ -55,8 +55,6 @@
 				left: 0;
 				background: var(--sidebarButton);
 				padding: $sidePadding;
-				padding-right: $sidePadding * 3;
-				border-radius: 0 0.5rem 0 0;
 				color: var(--sidebarButtonText);
 				opacity: 0;
 				transition: 0.3s opacity;

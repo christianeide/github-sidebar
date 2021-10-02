@@ -3,17 +3,8 @@ import SortRepos from './sortRepos.jsx';
 import { until } from '../../utils/time.js';
 import arrayMove from 'array-move';
 import { getCurrentPath, canAddRepository } from './getPath.js';
-
 import './settings.scss';
-
-const debounce = (func, delay) => {
-	let inDebounce;
-	return function (...args) {
-		const context = this;
-		clearTimeout(inDebounce);
-		inDebounce = setTimeout(() => func.apply(context, args), delay);
-	};
-};
+import { debounce } from '../../utils/utils.js';
 
 export default class Settings extends React.Component {
 	constructor(props) {
@@ -70,9 +61,9 @@ export default class Settings extends React.Component {
 				value = target.value;
 		}
 
-		this.setState({ [name]: value });
-
-		this.handleSaveSettings();
+		this.setState({ [name]: value }, () => {
+			this.handleSaveSettings();
+		});
 	};
 
 	handleValidateInput = (event) => {
@@ -98,9 +89,9 @@ export default class Settings extends React.Component {
 		const name = target.name;
 		const value = imposeMinMax(target);
 
-		this.setState({ [name]: value });
-
-		this.handleSaveSettings();
+		this.setState({ [name]: value }, () => {
+			this.handleSaveSettings();
+		});
 	};
 
 	handleAddPage = () => {
@@ -110,34 +101,43 @@ export default class Settings extends React.Component {
 			return;
 		}
 
-		this.setState((prevState) => ({
-			repos: [...prevState.repos, repo],
-		}));
-
-		this.handleSaveSettings();
+		this.setState(
+			({ repos }) => ({
+				repos: [...repos, repo],
+			}),
+			() => {
+				this.handleSaveSettings();
+			}
+		);
 	};
 
 	handleSortRepos = ({ oldIndex, newIndex }) => {
-		this.setState(({ repos }) => ({
-			repos: arrayMove(repos, oldIndex, newIndex),
-		}));
-
-		this.handleSaveSettings();
+		this.setState(
+			({ repos }) => ({
+				repos: arrayMove(repos, oldIndex, newIndex),
+			}),
+			() => {
+				this.handleSaveSettings();
+			}
+		);
 	};
 
 	handleRemoveRepo = (e) => {
 		const indexToRemove = parseInt(e.target.getAttribute('data-index'));
 
-		this.setState(({ repos }) => ({
-			repos: repos.filter((repo, index) => index !== indexToRemove),
-		}));
-
-		this.handleSaveSettings();
+		this.setState(
+			({ repos }) => ({
+				repos: repos.filter((repo, index) => index !== indexToRemove),
+			}),
+			() => {
+				this.handleSaveSettings();
+			}
+		);
 	};
 
 	handleSaveSettings = debounce(() => {
 		this.saveSettings();
-	}, 500);
+	}, 1000);
 
 	saveSettings = () => {
 		this.props.port.postMessage({ type: 'saveSettings', settings: this.state });
@@ -194,7 +194,7 @@ export default class Settings extends React.Component {
 							helperContainer={this.getRef}
 						/>
 						<button
-							className="add"
+							className="sidebar-button add"
 							onClick={this.handleAddPage}
 							disabled={!canAddRepo}
 						>
