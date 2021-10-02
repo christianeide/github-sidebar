@@ -22,6 +22,7 @@
 %top {
 	display: flex;
 	justify-content: space-between;
+	user-select: none;
 }
 
 %remove {
@@ -30,4 +31,6 @@
 	margin-top: -0.5rem;
 	margin-bottom: -0.5rem;
 	color: var(--repoItemSubText);
+	background: transparent;
+	border: 0;
 }

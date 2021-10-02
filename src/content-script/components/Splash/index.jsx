@@ -62,7 +62,11 @@ export default class Splash extends React.Component {
 							/>
 						</label>
 
-						<button onClick={this.handleSaveToken} disabled={!tokenIsValid}>
+						<button
+							onClick={this.handleSaveToken}
+							disabled={!tokenIsValid}
+							className="sidebar-button"
+						>
 							Save token
 						</button>
 					</div>
