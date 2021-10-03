@@ -25,10 +25,10 @@ export function createSettings(overrides) {
 		numberOfItems,
 		sortBy,
 		repos: [
-			{ owner: defaultUserName, name: 'reponame' },
-			{ owner: defaultUserName, name: 'myotherrepo' },
-			{ owner: defaultUserName, name: 'mythirdrepo' },
-			{ owner: 'differentUser', name: 'projectrepo' },
+			{ name: 'reponame', owner: defaultUserName },
+			{ name: 'myotherrepo', owner: defaultUserName },
+			{ name: 'mythirdrepo', owner: defaultUserName },
+			{ name: 'projectrepo', owner: 'differentUser' },
 		],
 		...overrides,
 	};
