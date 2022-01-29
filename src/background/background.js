@@ -16,34 +16,45 @@ import { fetchData, apiErrors } from './api/';
 // 	}
 // });
 
-export const autoFetch = {
-	timer: undefined,
-	cb: fetchData,
+export const setAlarm = {
+	isRunning: false,
+	timerName: 'autoFetch',
 
 	start(interval) {
-		this.timer = setInterval(this.cb, this.calculateMS(interval));
+		console.log('start interval');
+		chrome.alarms.create(this.timerName, { periodInMinutes: 1 }); // TODO: Use user-interval in seconds
+		// this.timer = setInterval(this.cb, this.calculateMS(interval));
+
+		this.isRunning = true;
 	},
 
 	stop() {
-		if (!this.timer) {
+		if (!this.isRunning) {
 			return;
 		}
-		clearInterval(this.timer);
-		this.timer = undefined;
+		chrome.alarms.clear(this.timerName);
+		this.isRunning = false;
 	},
 
 	change(interval) {
-		if (!this.timer) {
+		if (!this.isRunning) {
 			return;
 		}
-		clearInterval(this.timer);
-		this.timer = setInterval(this.cb, this.calculateMS(interval));
+		chrome.alarms.create(this.timerName, { periodInMinutes: 1 }); // TODO: Intervla
+
+		// this.timer = setInterval(this.cb, this.calculateMS(interval));
 	},
 
 	calculateMS(min) {
 		return min * 1000;
 	},
+
+	alarmTick() {
+		fetchData();
+	},
 };
+
+chrome.alarms.onAlarm.addListener(setAlarm.alarmTick);
 
 // Most communication happens on this event
 chrome.runtime.onConnect.addListener((port) => {

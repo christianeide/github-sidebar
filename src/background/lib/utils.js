@@ -1,6 +1,6 @@
 import { quickStorage } from '../settings/';
 import { ports } from './index';
-import { autoFetch } from '../background.js';
+import { setAlarm } from '../background';
 import { fetchData } from '../api/';
 
 export function init(port) {
@@ -15,8 +15,8 @@ export function init(port) {
 			});
 
 			// If autofetching is not running, we will start it up again
-			if (!autoFetch.timer) {
-				autoFetch.start(settings.autoRefresh);
+			if (!setAlarm.isRunning) {
+				setAlarm.start(settings.autoRefresh);
 			}
 
 			// Add port to portmanagment

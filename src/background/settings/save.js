@@ -1,5 +1,5 @@
 import { quickStorage, defaultSettings } from './index';
-import { autoFetch } from '../background.js';
+import { setAlarm } from '../background.js';
 import { ports } from '../lib/';
 import { fetchData } from '../api/';
 
@@ -12,7 +12,7 @@ export function saveSettings(newSettings) {
 		newSettings.autoRefresh >= MIMIMUMREFRESHPERIOD &&
 		quickStorage.settings.autoRefresh !== newSettings.autoRefresh
 	) {
-		autoFetch.change(newSettings.autoRefresh);
+		setAlarm.change(newSettings.autoRefresh);
 	}
 
 	const settings = {
