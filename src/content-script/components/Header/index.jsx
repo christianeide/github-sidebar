@@ -24,17 +24,12 @@ export default class Header extends React.PureComponent {
 	};
 
 	toggleRead = () => {
-		this.props.port.postMessage({ type: 'toggleRead' });
+		this.props.sendToBackend({ type: 'toggleRead' });
 	};
 
 	render() {
-		const {
-			loading,
-			errors,
-			onToggleSettings,
-			showSettings,
-			port,
-		} = this.props;
+		const { loading, errors, onToggleSettings, showSettings, sendToBackend } =
+			this.props;
 
 		const loader = loading && <Icons icon="loader" className="loader" />;
 		const icon = showSettings ? 'cancel' : 'settings';
@@ -47,7 +42,7 @@ export default class Header extends React.PureComponent {
 				</span>
 
 				<span className="align-center">
-					<Errors errors={errors} port={port} />
+					<Errors errors={errors} sendToBackend={sendToBackend} />
 
 					<a
 						href="#"

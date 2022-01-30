@@ -7,7 +7,7 @@ export default function Repositories({
 	repositories,
 	onToggleSettings,
 	settings,
-	port,
+	sendToBackend,
 }) {
 	if (repositories.length === 0) {
 		return <NoRepos onToggleSettings={onToggleSettings} />;
@@ -22,7 +22,7 @@ export default function Repositories({
 							key={repo.url}
 							repo={repo}
 							settings={settings}
-							port={port}
+							sendToBackend={sendToBackend}
 						/>
 					);
 				})}

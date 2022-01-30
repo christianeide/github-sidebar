@@ -140,7 +140,7 @@ export default class Settings extends React.Component {
 	}, 1000);
 
 	saveSettings = () => {
-		this.props.port.postMessage({ type: 'saveSettings', settings: this.state });
+		this.props.sendToBackend({ type: 'saveSettings', settings: this.state });
 		this.setState({ settingsSaved: true });
 	};
 

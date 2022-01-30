@@ -6,7 +6,7 @@ import { isSelectedURL } from './utils.js';
 
 export default class Item extends React.PureComponent {
 	toggleRead = () => {
-		this.props.port.postMessage({
+		this.props.sendToBackend({
 			type: 'toggleRead',
 			id: this.props.item.id,
 		});

@@ -24,7 +24,7 @@ export default class Repository extends React.PureComponent {
 	}
 
 	handleToggleCollapsed = () => {
-		this.props.port.postMessage({
+		this.props.sendToBackend({
 			type: 'toggleCollapsed',
 			url: this.props.repo.url,
 		});
@@ -56,10 +56,10 @@ export default class Repository extends React.PureComponent {
 	toggleRead = (e) => {
 		e.stopPropagation();
 
-		const { repo, port } = this.props;
+		const { repo, sendToBackend } = this.props;
 		const repoHasUnreads = repoHasUnreadItems(repo);
 
-		port.postMessage({
+		sendToBackend({
 			type: 'toggleRead',
 			repo: repo.url,
 			status: repoHasUnreads,
