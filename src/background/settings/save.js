@@ -1,6 +1,6 @@
 import { quickStorage, defaultSettings } from './index';
 import { setAlarm } from '../background.js';
-import { ports } from '../lib/';
+import { sendToAllTabs } from '../lib/';
 import { fetchData } from '../api/';
 
 const MIMIMUMREFRESHPERIOD = 15;
@@ -22,7 +22,7 @@ export function saveSettings(newSettings) {
 
 	// Distribute settings to all tabs
 	quickStorage.settings = settings;
-	ports.sendToAllTabs({
+	sendToAllTabs({
 		settings,
 	});
 

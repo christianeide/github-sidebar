@@ -1,4 +1,4 @@
-import { ports } from '../lib/';
+import { sendToAllTabs } from '../lib/';
 import { quickStorage } from '../settings/';
 import { fetchData } from './index.js';
 
@@ -15,7 +15,7 @@ export function autoRemoveRepo(repoNr) {
 
 	// Distribute settings to all tabs
 	quickStorage.settings = newSettings;
-	ports.sendToAllTabs({
+	sendToAllTabs({
 		settings: newSettings,
 	});
 
