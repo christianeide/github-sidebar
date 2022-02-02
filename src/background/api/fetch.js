@@ -22,8 +22,8 @@ export let apiErrors = {
 // This function is a fire and forget function
 // that handles all internal erros by it self.
 // No callerfunction relies on the returned data from this function
-export function fetchData() {
-	const { settings } = quickStorage;
+export async function fetchData() {
+	const settings = await quickStorage.getSettings();
 	if (!settings || !settings.token) {
 		return;
 	}
@@ -33,34 +33,33 @@ export function fetchData() {
 		loading: true,
 	});
 
-	return fetchDataFromAPI(settings)
-		.then(({ rateLimit, ...restData }) => {
-			const newRepoData = mapDataToInternalFormat(restData);
+	try {
+		const { rateLimit, ...restData } = await fetchDataFromAPI(settings);
+		const newRepoData = await mapDataToInternalFormat(restData);
 
-			// Transfer read and collapsed-status from old repositories
-			const repositories = transferUserStatus(newRepoData);
+		// Transfer read and collapsed-status from old repositories
+		const repositories = await transferUserStatus(newRepoData);
 
-			// save and distribute
-			quickStorage.repositories = repositories;
-			quickStorage.rateLimit = rateLimit;
-			sendToAllTabs({
-				repositories,
-				rateLimit,
-				loading: false,
-			});
-		})
-		.catch((err) => {
-			if (!err) {
-				return;
-			}
-
-			apiErrors.push(err);
-
-			sendToAllTabs({
-				errors: apiErrors.get(),
-				loading: false,
-			});
+		// save and distribute
+		quickStorage.setRepositories(repositories);
+		quickStorage.setRateLimit(rateLimit);
+		sendToAllTabs({
+			repositories,
+			rateLimit,
+			loading: false,
 		});
+	} catch (err) {
+		if (!err) {
+			return;
+		}
+
+		apiErrors.push(err);
+
+		sendToAllTabs({
+			errors: apiErrors.get(),
+			loading: false,
+		});
+	}
 }
 
 function fetchDataFromAPI({ token, repos, numberOfItems, sortBy }) {

@@ -4,12 +4,13 @@ import { sendToAllTabs } from '../lib/';
 import { fetchData } from '../api/';
 import { MINIMUMREFRESHPERIOD } from '../../common';
 
-export function saveSettings(newSettings) {
+export async function saveSettings(newSettings) {
+	const currrentSettings = await quickStorage.getSettings();
 	// If refreshperiod has changed and is more than minimum val
 	if (
 		newSettings.autoRefresh &&
 		newSettings.autoRefresh >= MINIMUMREFRESHPERIOD &&
-		quickStorage.settings.autoRefresh !== newSettings.autoRefresh
+		currrentSettings.autoRefresh !== newSettings.autoRefresh
 	) {
 		setAlarm.change(newSettings.autoRefresh);
 	}
@@ -20,7 +21,7 @@ export function saveSettings(newSettings) {
 	};
 
 	// Distribute settings to all tabs
-	quickStorage.settings = settings;
+	quickStorage.setSettings(settings);
 	sendToAllTabs({
 		settings,
 	});

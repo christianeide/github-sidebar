@@ -2,23 +2,19 @@ import { quickStorage } from '../settings/';
 import { setAlarm } from '../background';
 import { fetchData } from '../api/';
 
-export function init(sendResponse) {
-	return quickStorage
-		.getStorage()
-		.then(({ settings, repositories, rateLimit }) => {
-			// Return initial data to on unit
-			sendResponse({
-				settings,
-				repositories,
-				rateLimit,
-			});
+export async function init(sendResponse) {
+	const { settings, repositories, rateLimit } = await quickStorage.getStorage();
 
-			// If autofetching is not running, we will start it up again
-			setAlarm.start(settings.autoRefresh);
-
-			// Always fetch new data when we have a init from a new contentscript
-			fetchData();
-		});
+	// Return initial data to on unit
+	sendResponse({
+		settings,
+		repositories,
+		rateLimit,
+	});
+	// If autofetching is not running, we will start it up again
+	setAlarm.start(settings.autoRefresh);
+	// Always fetch new data when we have a init from a new contentscript
+	fetchData();
 }
 
 export function sendToAllTabs(message) {
@@ -35,8 +31,9 @@ export function sendToAllTabs(message) {
 	});
 }
 
-export function toggleRead(request) {
-	const repositories = quickStorage.repositories.map((repo) => {
+export async function toggleRead(request) {
+	const storedRepos = await quickStorage.getRepositories();
+	const repositories = storedRepos.map((repo) => {
 		return {
 			...repo,
 			issues: setArrayItemReadStatus(repo.issues, repo.url, request),
@@ -49,7 +46,7 @@ export function toggleRead(request) {
 	});
 
 	// Save and distribute
-	quickStorage.repositories = repositories;
+	quickStorage.setRepositories(repositories);
 	sendToAllTabs({ repositories });
 }
 
@@ -78,8 +75,10 @@ export function setArrayItemReadStatus(type, repoURL, request) {
 	});
 }
 
-export function toggleCollapsed(request) {
-	const repositories = quickStorage.repositories.map((repo) => {
+export async function toggleCollapsed(request) {
+	const storedRepos = await quickStorage.getRepositories();
+
+	const repositories = storedRepos.map((repo) => {
 		if (repo.url === request.url) {
 			return { ...repo, collapsed: !repo.collapsed };
 		}
@@ -88,16 +87,19 @@ export function toggleCollapsed(request) {
 	});
 
 	// Save and distribute
-	quickStorage.repositories = repositories;
+	quickStorage.setRepositories(repositories);
 	sendToAllTabs({ repositories });
 }
 
-export function setItemInRepoAsReadBasedOnUrl(url) {
+export async function setItemInRepoAsReadBasedOnUrl(url) {
 	if (!url || url.indexOf('github.com') === -1) {
 		return;
 	}
+
+	const storedRepos = await quickStorage.getRepositories();
+
 	// Loop through all repos
-	return quickStorage?.repositories?.map((repo) => {
+	return storedRepos?.map((repo) => {
 		const issues = findItemByURL(repo.issues, url);
 		const pullRequests = findItemByURL(repo.pullRequests, url);
 
