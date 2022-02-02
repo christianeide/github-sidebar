@@ -4,9 +4,10 @@ import {
 	toggleRead,
 	toggleCollapsed,
 	setItemInRepoAsReadBasedOnUrl,
-	ports,
+	sendToAllTabs,
 } from './lib/';
 import { fetchData, apiErrors } from './api/';
+import { convertMsToSec } from '../common';
 
 // Uncomment this to erase chrome storage for developent
 // chrome.storage.local.clear(function () {
@@ -16,74 +17,93 @@ import { fetchData, apiErrors } from './api/';
 // 	}
 // });
 
+// TODO: Only for dev
+chrome.alarms.getAll((alarms) => {
+	console.log('🚀 => All alarms', alarms);
+});
+
 export const setAlarm = {
-	isRunning: false,
 	timerName: 'autoFetch',
+	lastAlarm: new Date(),
+
+	isRunning(cb) {
+		return chrome.alarms.get(this.timerName, cb);
+	},
 
 	start(interval) {
-		console.log('start interval');
-		chrome.alarms.create(this.timerName, { periodInMinutes: 1 }); // TODO: Use user-interval in seconds
-		// this.timer = setInterval(this.cb, this.calculateMS(interval));
+		this.isRunning((activeAlarm) => {
+			if (activeAlarm) {
+				return;
+			}
 
-		this.isRunning = true;
+			chrome.alarms.create(this.timerName, {
+				periodInMinutes: convertMsToSec(interval),
+			});
+		});
 	},
 
 	stop() {
-		if (!this.isRunning) {
-			return;
-		}
-		chrome.alarms.clear(this.timerName);
-		this.isRunning = false;
+		this.isRunning((activeAlarm) => {
+			if (!activeAlarm) {
+				return;
+			}
+
+			chrome.alarms.clear(this.timerName);
+		});
 	},
 
 	change(interval) {
-		if (!this.isRunning) {
-			return;
-		}
-		chrome.alarms.create(this.timerName, { periodInMinutes: 1 }); // TODO: Intervla
+		this.isRunning((activeAlarm) => {
+			if (!activeAlarm) {
+				return;
+			}
 
-		// this.timer = setInterval(this.cb, this.calculateMS(interval));
-	},
-
-	calculateMS(min) {
-		return min * 1000;
+			chrome.alarms.create(this.timerName, {
+				periodInMinutes: convertMsToSec(interval),
+			});
+		});
 	},
 
 	alarmTick() {
+		const newDdate = new Date();
+		const diff = newDdate - this.lastAlarm;
+		console.log('alarm alarm! sist for ', diff / 1000); // TODO: Remove
+
+		this.lastAlarm = newDdate;
 		fetchData();
 	},
 };
 
+//Setup listener for alarm/interval ticks
 chrome.alarms.onAlarm.addListener(setAlarm.alarmTick);
 
 // Most communication happens on this event
-chrome.runtime.onConnect.addListener((port) => {
-	port.onMessage.addListener((request) => {
-		switch (request.type) {
-			case 'init':
-				init(port);
-				break;
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	switch (request.type) {
+		case 'init':
+			init(sendResponse);
 
-			case 'toggleRead':
-				toggleRead(request);
-				break;
+			return true;
 
-			case 'toggleCollapsed':
-				toggleCollapsed(request);
-				break;
+		case 'toggleRead':
+			toggleRead(request);
+			break;
 
-			case 'saveSettings':
-				saveSettings(request.settings);
-				break;
+		case 'toggleCollapsed':
+			toggleCollapsed(request);
+			break;
 
-			case 'clearErrors':
-				apiErrors.set([]);
-				ports.sendToAllTabs({
-					errors: apiErrors.get(),
-				});
-				break;
-		}
-	});
+		case 'saveSettings':
+			saveSettings(request.settings);
+			break;
+
+		case 'clearErrors':
+			apiErrors.set([]);
+			sendToAllTabs({
+				errors: apiErrors.get(),
+			});
+			break;
+	}
 });
 
 // We update the read-status of items based on visited urls
@@ -93,7 +113,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
 	if (newRepositoriesData) {
 		// save and distribute
 		quickStorage.repositories = newRepositoriesData;
-		ports.sendToAllTabs({
+		sendToAllTabs({
 			repositories: newRepositoriesData,
 		});
 	}

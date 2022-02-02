@@ -2,14 +2,13 @@ import { quickStorage, defaultSettings } from './index';
 import { setAlarm } from '../background.js';
 import { sendToAllTabs } from '../lib/';
 import { fetchData } from '../api/';
-
-const MIMIMUMREFRESHPERIOD = 15;
+import { MINIMUMREFRESHPERIOD } from '../../common';
 
 export function saveSettings(newSettings) {
 	// If refreshperiod has changed and is more than minimum val
 	if (
 		newSettings.autoRefresh &&
-		newSettings.autoRefresh >= MIMIMUMREFRESHPERIOD &&
+		newSettings.autoRefresh >= MINIMUMREFRESHPERIOD &&
 		quickStorage.settings.autoRefresh !== newSettings.autoRefresh
 	) {
 		setAlarm.change(newSettings.autoRefresh);

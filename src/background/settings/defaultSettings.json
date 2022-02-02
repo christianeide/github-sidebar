@@ -1,7 +1,7 @@
 {
 	"token": null,
 	"autoUpdate": true,
-	"autoRefresh": 60,
+	"autoRefresh": 120000,
 	"listItemOfType": "all",
 	"numberOfItems": 4,
 	"updateFavicon": true,
