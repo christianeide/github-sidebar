@@ -10,7 +10,7 @@ module.exports = {
 		background: path.join(__dirname, './src/background/background.js'),
 	},
 	output: {
-		path: path.join(__dirname, '/build/'),
+		path: path.join(__dirname, '/dist/'),
 		filename: '[name].js',
 		publicPath: '',
 	},

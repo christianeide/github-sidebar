@@ -3,3 +3,6 @@
 /testToken.js
 /coverage
 /.vscode
+/dist
+/dist-archive
+/dev
