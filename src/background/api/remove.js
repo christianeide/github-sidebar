@@ -1,4 +1,4 @@
-import { sendToAllTabs } from '../lib/';
+import { sendToAllTabs } from '../lib/communication';
 import { quickStorage } from '../settings/';
 import { fetchData } from './index.js';
 

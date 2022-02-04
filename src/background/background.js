@@ -1,11 +1,11 @@
-import { quickStorage, saveSettings } from './settings/';
+import { saveSettings } from './settings/';
 import {
 	init,
 	toggleRead,
 	toggleCollapsed,
-	setItemInRepoAsReadBasedOnUrl,
-	sendToAllTabs,
+	handleBrowserNavigation,
 } from './lib/';
+import { sendToAllTabs } from './lib/communication';
 import { fetchData, apiErrors } from './api/';
 import { convertMsToSec } from '../common';
 
@@ -19,14 +19,8 @@ import { convertMsToSec } from '../common';
 // chrome.alarms.clearAll();
 // });
 
-// TODO: Only for dev
-chrome.alarms.getAll((alarms) => {
-	console.log('🚀 => All alarms', alarms);
-});
-
 export const setAlarm = {
 	timerName: 'autoFetch',
-	lastAlarm: new Date(),
 
 	isRunning(cb) {
 		return chrome.alarms.get(this.timerName, cb);
@@ -67,11 +61,6 @@ export const setAlarm = {
 	},
 
 	alarmTick() {
-		const newDdate = new Date();
-		const diff = newDdate - this.lastAlarm;
-		console.log('alarm alarm! sist for ', diff / 1000); // TODO: Remove
-
-		this.lastAlarm = newDdate;
 		fetchData();
 	},
 };
@@ -109,16 +98,4 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 // We update the read-status of items based on visited urls
-chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
-	const newRepositoriesData = await setItemInRepoAsReadBasedOnUrl(
-		changeInfo.url
-	);
-
-	if (newRepositoriesData) {
-		// save and distribute
-		quickStorage.setRepositories(newRepositoriesData);
-		sendToAllTabs({
-			repositories: newRepositoriesData,
-		});
-	}
-});
+chrome.tabs.onUpdated.addListener(handleBrowserNavigation);

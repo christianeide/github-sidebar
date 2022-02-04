@@ -3,15 +3,6 @@ import { chrome } from 'jest-chrome';
 import { createQuickStorage } from '../../../../test/generate.js';
 
 describe('quickstorage', () => {
-	it('should have an initial setup', () => {
-		expect(quickStorage).toEqual({
-			settings: undefined,
-			repositories: undefined,
-			rateLimit: undefined,
-			getStorage: expect.any(Function),
-		});
-	});
-
 	it('should get data from local storage if none is fetched', async () => {
 		const response = createQuickStorage();
 
@@ -28,12 +19,17 @@ describe('quickstorage', () => {
 		);
 
 		const mergedSettings = { ...defaultSettings, ...response.settings };
-		expect(quickStorage.settings).toEqual({
+
+		const settings = await quickStorage.getSettings();
+		const repositories = await quickStorage.getRepositories();
+		const rateLimit = await quickStorage.getRateLimit();
+
+		expect(settings).toEqual({
 			...defaultSettings,
 			...response.settings,
 		});
-		expect(quickStorage.repositories).toEqual(response.repositories);
-		expect(quickStorage.rateLimit).toEqual(response.rateLimit);
+		expect(repositories).toEqual(response.repositories);
+		expect(rateLimit).toEqual(response.rateLimit);
 
 		expect(getStorage).toEqual({ ...response, settings: mergedSettings });
 	});

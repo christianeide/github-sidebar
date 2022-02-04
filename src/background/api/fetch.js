@@ -4,7 +4,7 @@ import {
 	transferUserStatus,
 	autoRemoveRepo,
 } from './index.js';
-import { sendToAllTabs } from '../lib/';
+import { sendToAllTabs } from '../lib/communication';
 import { quickStorage } from '../settings/';
 export let apiErrors = {
 	_errors: [],

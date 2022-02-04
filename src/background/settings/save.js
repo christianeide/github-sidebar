@@ -1,6 +1,6 @@
 import { quickStorage, defaultSettings } from './index';
 import { setAlarm } from '../background.js';
-import { sendToAllTabs } from '../lib/';
+import { sendToAllTabs } from '../lib/communication';
 import { fetchData } from '../api/';
 import { MINIMUMREFRESHPERIOD } from '../../common';
 

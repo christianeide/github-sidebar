@@ -1,21 +1,22 @@
 import { chrome } from 'jest-chrome';
-import { autoFetch } from '../../background.js';
-import { defaultSettings, saveSettings } from '../../settings/';
 import {
 	init,
 	toggleRead,
 	toggleCollapsed,
 	setItemInRepoAsReadBasedOnUrl,
+	handleBrowserNavigation,
 } from '../index.js';
 
 import { fetchData } from '../../api/';
 jest.mock('../../api/');
 
-import { ports } from '../ports';
-jest.mock('../ports');
+import { setAlarm } from '../../background.js';
+jest.mock('../../background.js');
+
+import { sendToAllTabs } from '../communication';
+jest.mock('../communication');
 
 import {
-	createChromePort,
 	createRepoURL,
 	createInternalRepositories,
 	createQuickStorage,
@@ -28,29 +29,18 @@ beforeEach(async () => {
 
 describe('init', () => {
 	it('should return inital data on init', async () => {
-		const port = createChromePort();
-		await init(port);
+		const response = jest.fn();
+		await init(response);
 
-		expect(port.postMessage).toHaveBeenCalledTimes(1);
-		expect(port.postMessage).toHaveBeenCalledWith(createQuickStorage());
+		expect(response).toHaveBeenCalledTimes(1);
+		expect(response).toHaveBeenCalledWith(createQuickStorage());
 
-		expect(autoFetch.timer).toBeTruthy();
-
-		expect(ports.add).toHaveBeenCalledTimes(1);
-		expect(ports.add).toHaveBeenCalledWith(port);
+		expect(setAlarm.start).toHaveBeenCalledTimes(1);
+		expect(setAlarm.start).toHaveBeenCalledWith(
+			createQuickStorage().settings.autoRefresh
+		);
 
 		expect(fetchData).toHaveBeenCalledTimes(1);
-	});
-
-	it('should only start a autofetch if its not running', async () => {
-		const port = createChromePort();
-		await init(port);
-
-		const timerRef = autoFetch.timer;
-		expect(autoFetch.timer).toBeTruthy();
-
-		await init(port);
-		expect(autoFetch.timer).toEqual(timerRef);
 	});
 });
 
@@ -63,29 +53,29 @@ describe('toggleRead', () => {
 		// Make sure settings are saved
 		expect(chrome.storage.local.set).toHaveBeenCalled();
 
-		expect(
-			ports.sendToAllTabs.mock.calls[0][0].repositories[0].issues[0].read
-		).toBe(true);
+		expect(sendToAllTabs.mock.calls[0][0].repositories[0].issues[0].read).toBe(
+			true
+		);
 
 		// Toggle first issue to false
 		request = { id: 'issueID', type: 'toggleRead' };
 		await toggleRead(request);
-		expect(
-			ports.sendToAllTabs.mock.calls[1][0].repositories[0].issues[0].read
-		).toBe(false);
+		expect(sendToAllTabs.mock.calls[1][0].repositories[0].issues[0].read).toBe(
+			false
+		);
 
 		// Toggle first pull to true
 		request = { id: 'pullID', type: 'toggleRead' };
 		await toggleRead(request);
 		expect(
-			ports.sendToAllTabs.mock.calls[2][0].repositories[0].pullRequests[0].read
+			sendToAllTabs.mock.calls[2][0].repositories[0].pullRequests[0].read
 		).toBe(true);
 
 		// Toggle first issue to false
 		request = { id: 'pullID', type: 'toggleRead' };
 		await toggleRead(request);
 		expect(
-			ports.sendToAllTabs.mock.calls[3][0].repositories[0].pullRequests[0].read
+			sendToAllTabs.mock.calls[3][0].repositories[0].pullRequests[0].read
 		).toBe(false);
 	});
 
@@ -98,12 +88,12 @@ describe('toggleRead', () => {
 		};
 		await toggleRead(request);
 
-		let repo1 = ports.sendToAllTabs.mock.calls[0][0].repositories[0];
+		let repo1 = sendToAllTabs.mock.calls[0][0].repositories[0];
 		expect(repo1.issues[0].read).toBe(false);
 		expect(repo1.pullRequests[0].read).toBe(false);
 		expect(repo1.pullRequests[1].read).toBe(false);
 
-		ports.sendToAllTabs.mockClear();
+		sendToAllTabs.mockClear();
 
 		// Toggle first issue to false
 		request = {
@@ -113,8 +103,8 @@ describe('toggleRead', () => {
 		};
 		await toggleRead(request);
 
-		repo1 = ports.sendToAllTabs.mock.calls[0][0].repositories[0];
-		let repo2 = ports.sendToAllTabs.mock.calls[0][0].repositories[1];
+		repo1 = sendToAllTabs.mock.calls[0][0].repositories[0];
+		let repo2 = sendToAllTabs.mock.calls[0][0].repositories[1];
 
 		expect(repo1.issues[0].read).toBe(true);
 		expect(repo1.pullRequests[0].read).toBe(true);
@@ -133,8 +123,8 @@ describe('toggleRead', () => {
 		};
 		await toggleRead(request);
 
-		let repo1 = ports.sendToAllTabs.mock.calls[0][0].repositories[0];
-		let repo2 = ports.sendToAllTabs.mock.calls[0][0].repositories[1];
+		let repo1 = sendToAllTabs.mock.calls[0][0].repositories[0];
+		let repo2 = sendToAllTabs.mock.calls[0][0].repositories[1];
 
 		expect(repo1.issues[0].read).toBe(true);
 		expect(repo1.pullRequests[0].read).toBe(true);
@@ -143,7 +133,7 @@ describe('toggleRead', () => {
 		expect(repo2.pullRequests[0].read).toBe(true);
 		expect(repo2.pullRequests[1].read).toBe(true);
 
-		ports.sendToAllTabs.mockClear();
+		sendToAllTabs.mockClear();
 
 		// Toggle first issue to false
 		request = {
@@ -152,8 +142,8 @@ describe('toggleRead', () => {
 		};
 		await toggleRead(request);
 
-		repo1 = ports.sendToAllTabs.mock.calls[0][0].repositories[0];
-		repo2 = ports.sendToAllTabs.mock.calls[0][0].repositories[1];
+		repo1 = sendToAllTabs.mock.calls[0][0].repositories[0];
+		repo2 = sendToAllTabs.mock.calls[0][0].repositories[1];
 
 		expect(repo1.issues[0].read).toBe(false);
 		expect(repo1.pullRequests[0].read).toBe(false);
@@ -176,8 +166,8 @@ describe('toggleCollapsed', () => {
 		expect(chrome.storage.local.set).toHaveBeenCalled();
 
 		// See what before value is
-		let repo1 = ports.sendToAllTabs.mock.calls[0][0].repositories[0];
-		let repo2 = ports.sendToAllTabs.mock.calls[0][0].repositories[1];
+		let repo1 = sendToAllTabs.mock.calls[0][0].repositories[0];
+		let repo2 = sendToAllTabs.mock.calls[0][0].repositories[1];
 
 		expect(repo1.collapsed).toBe(false);
 		// Make sure the other repo have not changes status
@@ -185,58 +175,12 @@ describe('toggleCollapsed', () => {
 	});
 });
 
-describe('saveSettings', () => {
-	it('should save settings', async () => {
-		const newSettings = { token: 'mynewtoken' };
-		const completeSettings = {
-			settings: {
-				...defaultSettings,
-				...newSettings,
-			},
-		};
-		saveSettings(newSettings);
-
-		// Make sure settings are saved
-		expect(chrome.storage.local.set).toHaveBeenCalled();
-
-		expect(chrome.storage.local.set).toHaveBeenCalledWith(completeSettings);
-
-		expect(ports.sendToAllTabs).toHaveBeenCalledTimes(1);
-		expect(ports.sendToAllTabs).toHaveBeenNthCalledWith(1, completeSettings);
-
-		// Check that fetchData has been called
-		expect(fetchData).toHaveBeenCalledTimes(1);
-	});
-
-	it('should not change timer if autorefresh has not changed', async () => {
-		const changeSpy = jest.spyOn(autoFetch, 'change');
-
-		// Change should not be called if no autoRefresh
-		saveSettings({});
-		expect(changeSpy).not.toHaveBeenCalled();
-
-		// Change should not be called if autorrefresh is below minimum
-		saveSettings({ autoRefresh: 1 });
-		expect(changeSpy).not.toHaveBeenCalled();
-	});
-
-	it('should changee timer if autorefresh has changed', async () => {
-		const changeSpy = jest.spyOn(autoFetch, 'change');
-
-		// Change Only to be called if autorefresh changes
-		saveSettings({ autoRefresh: 15 });
-		saveSettings({ autoRefresh: 20 });
-		saveSettings({ autoRefresh: 20 });
-		expect(changeSpy).toHaveBeenCalledTimes(2);
-	});
-});
-
 describe('setItemInRepoAsReadBasedOnUrl', () => {
-	it('should set item as read based on incoming url', () => {
+	it('should set item as read based on incoming url', async () => {
 		const itemToChange = createInternalRepositories()[0].pullRequests[1];
 		expect(itemToChange.read).toBe(false);
 
-		const response = setItemInRepoAsReadBasedOnUrl(itemToChange.url);
+		const response = await setItemInRepoAsReadBasedOnUrl(itemToChange.url);
 
 		// See that this item has changed
 		expect(response[0].pullRequests[1].read).toBe(true);
@@ -246,11 +190,31 @@ describe('setItemInRepoAsReadBasedOnUrl', () => {
 		expect(response[0].pullRequests[0].read).toBe(false);
 	});
 
-	it('should only set item as read if url contains github', () => {
-		let response = setItemInRepoAsReadBasedOnUrl();
+	it('should only set item as read if url contains github', async () => {
+		let response = await setItemInRepoAsReadBasedOnUrl();
 		expect(response).toBeFalsy();
 
-		response = setItemInRepoAsReadBasedOnUrl('https://www.google.com');
+		response = await setItemInRepoAsReadBasedOnUrl('https://www.google.com');
 		expect(response).toBeFalsy();
+	});
+});
+
+describe('handeBrowserNavigation', () => {
+	it('should set new repodata if url matches a repo', async () => {
+		const tabId = 45;
+		await handleBrowserNavigation(tabId, {
+			url: createRepoURL(),
+		});
+
+		expect(sendToAllTabs).toHaveBeenCalledTimes(1);
+		expect(chrome.storage.local.set).toHaveBeenCalledTimes(1);
+	});
+
+	it('should not set new repodata if no data returned', async () => {
+		const tabId = 45;
+		await chrome.tabs.onUpdated.callListeners(tabId, {});
+
+		expect(sendToAllTabs).not.toHaveBeenCalled();
+		expect(chrome.storage.local.set).not.toHaveBeenCalled();
 	});
 });
