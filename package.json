@@ -17,6 +17,7 @@
     "lint": "eslint . --fix --ext .jsx,.js --ignore-path .gitignore"
   },
   "dependencies": {
+    "@babel/eslint-parser": "^7.17.0",
     "array-move": "^3.0.1",
     "favico.js": "^0.3.10",
     "react": "^17.0.2",
@@ -32,7 +33,6 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.1",
     "@testing-library/user-event": "^13.2.1",
-    "babel-eslint": "^10.1.0",
     "babel-jest": "^27.2.4",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^5.1.1",
