@@ -21,7 +21,7 @@
 	"globals": {
 		"chrome": "readonly"
 	},
-	"parser": "babel-eslint",
+	"parser": "@babel/eslint-parser",
 	"parserOptions": {
 		"ecmaVersion": 11,
 		"sourceType": "module",
@@ -30,7 +30,7 @@
 		},
 		"allowImportExportEverywhere": true
 	},
-	"plugins": ["react", "prettier", "jest-dom"],
+	"plugins": ["react", "jest-dom"],
 	"rules": {
 		"require-atomic-updates": "off",
 		"curly": "error",

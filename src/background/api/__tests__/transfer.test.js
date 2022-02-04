@@ -17,7 +17,7 @@ describe('transferUserStatus', () => {
 			collapsed: false,
 		});
 
-		const response = transferUserStatus(newFetchedRepositories);
+		const response = await transferUserStatus(newFetchedRepositories);
 		// console.log('🚀 => it => newFetchedRepositories', newFetchedRepositories);
 
 		const firstRepo = response[0];
@@ -38,7 +38,7 @@ describe('transferUserStatus', () => {
 		expect(firstRepo.pullRequests[1].read).toBe(false);
 	});
 
-	it('should handle if repoddata dont contain the specified type (issue or pulllrequest)', () => {
+	it('should handle if repoddata dont contain the specified type (issue or pulllrequest)', async () => {
 		const newFetchedRepositories = [
 			{
 				collapsed: true,
@@ -46,13 +46,13 @@ describe('transferUserStatus', () => {
 			},
 		];
 
-		const response = transferUserStatus(newFetchedRepositories);
+		const response = await transferUserStatus(newFetchedRepositories);
 
 		// just need to make sure nothing broke with data missing
 		expect(response).toBeTruthy();
 	});
 
-	it('should handle if if there is a new issue or pullrequest in a known repo', () => {
+	it('should handle if if there is a new issue or pullrequest in a known repo', async () => {
 		const firstRepo = createInternalRepositoryData({
 			collapsed: false,
 			read: false,
@@ -70,7 +70,7 @@ describe('transferUserStatus', () => {
 			}),
 		];
 
-		const response = transferUserStatus(newFetchedRepositories);
+		const response = await transferUserStatus(newFetchedRepositories);
 
 		// just need to make sure nothing broke with data missing
 		expect(response[0].issues[0].read).toBe(true);

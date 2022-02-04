@@ -2,7 +2,7 @@ import React from 'react';
 import Item from './item.jsx';
 import Icons from '../../images/svgs/icons.js';
 
-export default function Type({ settings, port, repo, type }) {
+export default function Type({ settings, sendToBackend, repo, type }) {
 	const itemData = {
 		issues: {
 			text: 'Issues',
@@ -52,7 +52,7 @@ export default function Type({ settings, port, repo, type }) {
 								key={item.id}
 								item={item}
 								type={type}
-								port={port}
+								sendToBackend={sendToBackend}
 								settings={settings}
 							/>
 						);

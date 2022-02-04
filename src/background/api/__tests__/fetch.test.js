@@ -5,8 +5,8 @@ import { toggleRead } from '../../lib/';
 
 import { autoRemoveRepo } from '../remove';
 jest.mock('../remove');
-import { ports } from '../../lib/ports';
-jest.mock('../../lib/ports');
+import { sendToAllTabs } from '../../lib/communication';
+jest.mock('../../lib/communication');
 
 import {
 	createSettings,
@@ -23,39 +23,34 @@ import { setupBackgroundTests } from '../../../../test/setup.js';
 beforeEach(async () => {
 	setupBackgroundTests();
 
-	ports.sendToAllTabs.mockClear();
+	sendToAllTabs.mockClear();
 });
 
 describe('fetchData', () => {
 	it('should not fetch if settings or token is missing', async () => {
-		// make sure it cheks for settings
-		quickStorage.settings = undefined;
-		await fetchData();
-		expect(global.fetch).not.toHaveBeenCalled();
-
 		// Make sure it cheks for token
-		quickStorage.settings = { someProp: '' };
+		quickStorage.setSettings({ someProp: '' });
 		await fetchData();
 		expect(global.fetch).not.toHaveBeenCalled();
 
 		// Make sure token actuallly have a value
-		quickStorage.settings = { someProp: '', token: '' };
+		quickStorage.setSettings({ someProp: '', token: '' });
 		await fetchData();
 		expect(global.fetch).not.toHaveBeenCalled();
 
 		// set settings to undefined so we can recreate settings
-		quickStorage.settings = undefined;
+		quickStorage.setSettings(undefined);
 	});
 
 	it('should fetch and transfer old data to new data', async () => {
 		await fetchData();
 
-		expect(ports.sendToAllTabs).toHaveBeenNthCalledWith(1, { loading: true });
+		expect(sendToAllTabs).toHaveBeenNthCalledWith(1, { loading: true });
 
 		// Make sure repositories and rateLimit have been set
 		expect(chrome.storage.local.set).toHaveBeenCalledTimes(2);
 
-		expect(ports.sendToAllTabs).toHaveBeenNthCalledWith(2, {
+		expect(sendToAllTabs).toHaveBeenNthCalledWith(2, {
 			repositories: createRepositoryData().internal,
 			rateLimit: createRateLimit(),
 			loading: false,
@@ -70,7 +65,7 @@ describe('fetchData', () => {
 
 		await fetchData();
 
-		expect(ports.sendToAllTabs).toHaveBeenNthCalledWith(2, {
+		expect(sendToAllTabs).toHaveBeenNthCalledWith(2, {
 			errors: [
 				{
 					message: 'Github message1',
@@ -88,18 +83,18 @@ describe('fetchData', () => {
 		await fetchData();
 
 		// Expect sendToAllTabs to only have been called once, not twice
-		expect(ports.sendToAllTabs).toHaveBeenCalledTimes(1);
+		expect(sendToAllTabs).toHaveBeenCalledTimes(1);
 	});
 
 	it('should error if numberofitems is not defined', async () => {
-		quickStorage.settings.numberOfItems = undefined;
+		quickStorage._settings.numberOfItems = undefined;
 
 		await fetchData();
 
 		expect(global.fetch).not.toHaveBeenCalled();
 
 		// Expect sendToAllTabs to only have been called once, not twice
-		expect(ports.sendToAllTabs).toHaveBeenCalledTimes(1);
+		expect(sendToAllTabs).toHaveBeenCalledTimes(1);
 	});
 
 	it('should error if returned data contain errors', async () => {
@@ -108,10 +103,10 @@ describe('fetchData', () => {
 		await fetchData();
 
 		expect(
-			ports.sendToAllTabs.mock.calls[1][0].errors[0].message
+			sendToAllTabs.mock.calls[1][0].errors[0].message
 		).toMatchInlineSnapshot(`"GithubError2"`);
 		expect(
-			ports.sendToAllTabs.mock.calls[1][0].errors[0].title
+			sendToAllTabs.mock.calls[1][0].errors[0].title
 		).toMatchInlineSnapshot(`"Error in API query to Github"`);
 	});
 
@@ -132,12 +127,12 @@ describe('fetchData', () => {
 		expect(autoRemoveRepo).toHaveBeenCalledWith(11);
 
 		expect(
-			ports.sendToAllTabs.mock.calls[1][0].errors[0].message
+			sendToAllTabs.mock.calls[1][0].errors[0].message
 		).toMatchInlineSnapshot(
 			`"GithubError: Will now autoremove repo from list."`
 		);
 		expect(
-			ports.sendToAllTabs.mock.calls[1][0].errors[0].title
+			sendToAllTabs.mock.calls[1][0].errors[0].title
 		).toMatchInlineSnapshot(`"Error in API query to Github"`);
 	});
 
@@ -147,10 +142,10 @@ describe('fetchData', () => {
 		await fetchData();
 
 		expect(
-			ports.sendToAllTabs.mock.calls[1][0].errors[0].message
+			sendToAllTabs.mock.calls[1][0].errors[0].message
 		).toMatchInlineSnapshot(`"My Error"`);
 		expect(
-			ports.sendToAllTabs.mock.calls[1][0].errors[0].title
+			sendToAllTabs.mock.calls[1][0].errors[0].title
 		).toMatchInlineSnapshot(`"Could not reach Githubs API at this moment"`);
 	});
 
@@ -159,7 +154,7 @@ describe('fetchData', () => {
 
 		await fetchData();
 		expect(
-			ports.sendToAllTabs.mock.calls[1][0].errors[0].message
+			sendToAllTabs.mock.calls[1][0].errors[0].message
 		).toMatchInlineSnapshot(`"Unknown error"`);
 	});
 
@@ -169,16 +164,16 @@ describe('fetchData', () => {
 		await fetchData();
 
 		// Expect sendToAllTabs to only have been called once, not twice
-		expect(ports.sendToAllTabs).toHaveBeenCalledTimes(1);
+		expect(sendToAllTabs).toHaveBeenCalledTimes(1);
 		expect(apiErrors.get()).toEqual([]);
 	});
 
 	it('should return repo data', async () => {
 		await fetchData();
 
-		expect(ports.sendToAllTabs).toHaveBeenCalledTimes(2);
+		expect(sendToAllTabs).toHaveBeenCalledTimes(2);
 
-		const repositories = ports.sendToAllTabs.mock.calls[1][0].repositories;
+		const repositories = sendToAllTabs.mock.calls[1][0].repositories;
 		expect(repositories).toBeInstanceOf(Array);
 		expect(repositories.length).toBe(4);
 
@@ -243,7 +238,7 @@ describe('fetchData', () => {
 		await fetchData();
 
 		expect(
-			ports.sendToAllTabs.mock.calls[1][0].repositories[0].pullRequests[1]
+			sendToAllTabs.mock.calls[1][0].repositories[0].pullRequests[1]
 				.reviewStatus
 		).toBe(null);
 	});
@@ -252,7 +247,7 @@ describe('fetchData', () => {
 		await fetchData();
 
 		expect(
-			ports.sendToAllTabs.mock.calls[1][0].repositories[2].pullRequests[0]
+			sendToAllTabs.mock.calls[1][0].repositories[2].pullRequests[0]
 				.reviewStatus
 		).toBe('APPROVED');
 	});
@@ -261,7 +256,7 @@ describe('fetchData', () => {
 		await fetchData();
 
 		expect(
-			ports.sendToAllTabs.mock.calls[1][0].repositories[0].pullRequests[0].read
+			sendToAllTabs.mock.calls[1][0].repositories[0].pullRequests[0].read
 		).toBe(false);
 	});
 
@@ -270,15 +265,15 @@ describe('fetchData', () => {
 
 		await fetchData();
 
-		expect(
-			ports.sendToAllTabs.mock.calls[1][0].repositories[0].issues.length
-		).toBe(2);
-		expect(
-			ports.sendToAllTabs.mock.calls[1][0].repositories[0].issues[0].read
-		).toBe(false);
-		expect(
-			ports.sendToAllTabs.mock.calls[1][0].repositories[0].issues[1].read
-		).toBe(true);
+		expect(sendToAllTabs.mock.calls[1][0].repositories[0].issues.length).toBe(
+			2
+		);
+		expect(sendToAllTabs.mock.calls[1][0].repositories[0].issues[0].read).toBe(
+			false
+		);
+		expect(sendToAllTabs.mock.calls[1][0].repositories[0].issues[1].read).toBe(
+			true
+		);
 	});
 
 	it('should set item to unread if changed since last fetch to ggithub', async () => {
@@ -294,7 +289,7 @@ describe('fetchData', () => {
 
 		await fetchData();
 
-		let repository = ports.sendToAllTabs.mock.calls[1][0].repositories[0];
+		let repository = sendToAllTabs.mock.calls[1][0].repositories[0];
 
 		expect(repository.totalItemsNumber).toBe(4);
 		expect(repository.issues[0].read).toBe(false);
@@ -307,7 +302,7 @@ describe('fetchData', () => {
 		};
 		await toggleRead(request);
 
-		ports.sendToAllTabs.mockClear();
+		sendToAllTabs.mockClear();
 
 		// Then we do a new fetch, but this time the last issue is removed,
 		// and a issue with a new ID is created. This new element should be unread
@@ -330,11 +325,11 @@ describe('fetchData', () => {
 		// Set max items to one more than before
 		externalRepoData.data.repos0.issuesMaxNumber.edges[0].node.number = 5;
 
-		ports.sendToAllTabs.mockClear();
+		sendToAllTabs.mockClear();
 		mockFetchResolve(externalRepoData);
 		await fetchData();
 
-		repository = ports.sendToAllTabs.mock.calls[1][0].repositories[0];
+		repository = sendToAllTabs.mock.calls[1][0].repositories[0];
 		expect(repository.totalItemsNumber).toBe(5);
 		expect(repository.issues[0].id).toBe('newID');
 		expect(repository.issues[0].read).toBe(false);
@@ -353,11 +348,11 @@ describe('fetchData', () => {
 		externalRepoData.data.repos0.issues.edges.shift();
 		externalRepoData.data.repos0.issues.edges.push(copyOfLastRepo);
 
-		ports.sendToAllTabs.mockClear();
+		sendToAllTabs.mockClear();
 		mockFetchResolve(externalRepoData);
 		await fetchData();
 
-		repository = ports.sendToAllTabs.mock.calls[1][0].repositories[0];
+		repository = sendToAllTabs.mock.calls[1][0].repositories[0];
 		expect(repository.totalItemsNumber).toBe(5);
 		expect(repository.issues[0].id).toBe('issueID');
 		expect(repository.issues[0].read).toBe(true);
@@ -386,10 +381,10 @@ describe('fetchData', () => {
 		);
 
 		mockFetchResolve(externalRepoData);
-		ports.sendToAllTabs.mockClear();
+		sendToAllTabs.mockClear();
 		await fetchData();
 
-		let repository = ports.sendToAllTabs.mock.calls[1][0].repositories[4];
+		let repository = sendToAllTabs.mock.calls[1][0].repositories[4];
 		expect(repository.issues[0].read).toBe(true);
 		expect(repository.pullRequests[0].read).toBe(true);
 		expect(repository.pullRequests[1].read).toBe(true);

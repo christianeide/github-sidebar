@@ -6,18 +6,6 @@ const numberOfItems = 4;
 const sortBy = 'CREATED_AT';
 const date = '2021-01-01T01:02:03Z';
 
-export function createChromePort(request = { type: null }) {
-	return {
-		postMessage: jest.fn(),
-		onDisconnect: { addListener: jest.fn() },
-		onMessage: {
-			addListener: jest.fn((cb) => {
-				return cb(request);
-			}),
-		},
-	};
-}
-
 export function createSettings(overrides) {
 	return {
 		...defaultSettings,

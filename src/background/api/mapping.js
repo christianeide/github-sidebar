@@ -1,14 +1,14 @@
 import { quickStorage } from '../settings/';
 
-export function mapDataToInternalFormat(data) {
+export async function mapDataToInternalFormat(data) {
 	const { viewer, ...repos } = data;
+
+	const repositories = await quickStorage.getRepositories();
 
 	// TODO: Can we do the transfer of data inside this function instead of doing seperate loop?
 	// Loop through each returned repo
 	return Object.values(repos).map((repo) => {
-		const oldRepo = quickStorage.repositories.find(
-			(oldRepo) => oldRepo.url === repo.url
-		);
+		const oldRepo = repositories.find((oldRepo) => oldRepo.url === repo.url);
 
 		const oldTotalItemsNumber = oldRepo?.totalItemsNumber;
 		const newTotalItemsNumber = calculateMaxNumber(repo);

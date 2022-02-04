@@ -5,6 +5,7 @@ import arrayMove from 'array-move';
 import { getCurrentPath, canAddRepository } from './getPath.js';
 import './settings.scss';
 import { debounce } from '../../utils/utils.js';
+import { convertMsToSec, convertSecToMs } from '../../../common';
 
 export default class Settings extends React.Component {
 	constructor(props) {
@@ -56,6 +57,10 @@ export default class Settings extends React.Component {
 				break;
 			case 'number':
 				value = target.value ? parseInt(target.value) : '';
+
+				if (name === 'autoRefresh') {
+					value = convertSecToMs(value);
+				}
 				break;
 			default:
 				value = target.value;
@@ -140,7 +145,7 @@ export default class Settings extends React.Component {
 	}, 1000);
 
 	saveSettings = () => {
-		this.props.port.postMessage({ type: 'saveSettings', settings: this.state });
+		this.props.sendToBackend({ type: 'saveSettings', settings: this.state });
 		this.setState({ settingsSaved: true });
 	};
 
@@ -243,14 +248,13 @@ export default class Settings extends React.Component {
 						</label>
 
 						<label>
-							Auto refresh every X seconds.
+							Get repo data every X minutes
 							<input
 								type="number"
 								name="autoRefresh"
-								min="15"
-								value={autoRefresh}
+								min="1"
+								value={convertMsToSec(autoRefresh)}
 								onChange={this.handleInputChange}
-								onBlur={this.handleValidateInput}
 							/>
 						</label>
 

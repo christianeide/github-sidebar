@@ -43,7 +43,7 @@ export default class Errors extends React.Component {
 			// See no reason to use time and screenposition
 			// for displaying errors to users
 			if (!this.state.showErrors) {
-				this.props.port.postMessage({ type: 'clearErrors' });
+				this.props.sendToBackend({ type: 'clearErrors' });
 			}
 		});
 	};

@@ -17,26 +17,26 @@ export default class App extends React.Component {
 			settings: undefined,
 			loading: false,
 		};
-
-		this.port = chrome.runtime.connect();
-		this.listenToBackground = null;
 	}
 
 	componentDidMount() {
 		// Get preloaded data
-		this.port.postMessage({ type: 'init' });
-		// Set up listener for new messages
-		this.listenToBackground = this.port.onMessage.addListener((newState) => {
-			this.setState({ ...newState });
+		this.sendToBackend({ type: 'init' }, (initialState) => {
+			this.setState({ ...initialState });
 		});
+
+		// Set up listener for new messages
+		chrome.runtime.onMessage.addListener((request) => {
+			this.setState({ ...request });
+		});
+	}
+
+	sendToBackend(message, cb = null) {
+		chrome.runtime.sendMessage(message, cb);
 	}
 
 	componentDidUpdate() {
 		setBadge(this.state.repositories, this.showFavicon());
-	}
-
-	componentWillUnmount() {
-		this.port.onMessage.removeListener(this.listenToBackground);
 	}
 
 	showFavicon() {
@@ -51,21 +51,15 @@ export default class App extends React.Component {
 	};
 
 	render() {
-		const {
-			showSettings,
-			settings,
-			loading,
-			errors,
-			rateLimit,
-			repositories,
-		} = this.state;
+		const { showSettings, settings, loading, errors, rateLimit, repositories } =
+			this.state;
 
 		if (!settings) {
 			return null;
 		}
 
 		if (!settings.token) {
-			return <Splash port={this.port} />;
+			return <Splash sendToBackend={this.sendToBackend} />;
 		}
 
 		return (
@@ -75,21 +69,21 @@ export default class App extends React.Component {
 					loading={loading}
 					errors={errors}
 					showSettings={showSettings}
-					port={this.port}
+					sendToBackend={this.sendToBackend}
 				/>
 
 				{showSettings ? (
 					<Settings
 						rateLimit={rateLimit}
 						settings={settings}
-						port={this.port}
+						sendToBackend={this.sendToBackend}
 					/>
 				) : (
 					<Repositories
 						repositories={repositories}
 						settings={settings}
 						onToggleSettings={this.handleToggleSettings}
-						port={this.port}
+						sendToBackend={this.sendToBackend}
 					/>
 				)}
 			</div>

@@ -2,12 +2,12 @@ import { quickStorage } from '../settings/';
 
 export let errors = [];
 
-export function transferUserStatus(repositories) {
+export async function transferUserStatus(repositories) {
+	const storedRepos = await quickStorage.getRepositories();
+
 	// Loop through all new repositories to copy settings from the old repodata
 	return repositories.map((newRepo) => {
-		const oldRepo = quickStorage.repositories.find(
-			(oldRepo) => oldRepo.url === newRepo.url
-		);
+		const oldRepo = storedRepos.find((oldRepo) => oldRepo.url === newRepo.url);
 
 		if (!oldRepo) {
 			return newRepo;

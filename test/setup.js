@@ -29,9 +29,9 @@ export function setupChromeStorage(options) {
 }
 
 export async function resetQuickStorage() {
-	quickStorage.settings = undefined;
-	quickStorage.repositories = undefined;
-	quickStorage.rateLimit = undefined;
+	quickStorage.setSettings(undefined);
+	quickStorage.setRepositories(undefined);
+	quickStorage.setRateLimit(undefined);
 	await quickStorage.getStorage();
 	chrome.storage.local.set.mockClear();
 }

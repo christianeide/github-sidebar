@@ -1,10 +1,10 @@
-import { ports } from '../lib/';
+import { sendToAllTabs } from '../lib/communication';
 import { quickStorage } from '../settings/';
 import { fetchData } from './index.js';
 
 // removes a repo by its index-value
-export function autoRemoveRepo(repoNr) {
-	const settings = quickStorage.settings;
+export async function autoRemoveRepo(repoNr) {
+	const settings = await quickStorage.getSettings();
 
 	const repos = settings.repos.filter((value, index) => index !== repoNr);
 
@@ -14,8 +14,8 @@ export function autoRemoveRepo(repoNr) {
 	};
 
 	// Distribute settings to all tabs
-	quickStorage.settings = newSettings;
-	ports.sendToAllTabs({
+	quickStorage.setSettings(newSettings);
+	sendToAllTabs({
 		settings: newSettings,
 	});
 

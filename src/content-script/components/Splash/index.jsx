@@ -16,7 +16,7 @@ export default class Splash extends React.Component {
 	};
 
 	handleSaveToken = () => {
-		this.props.port.postMessage({ type: 'saveSettings', settings: this.state });
+		this.props.sendToBackend({ type: 'saveSettings', settings: this.state });
 	};
 
 	render() {

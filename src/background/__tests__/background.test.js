@@ -1,28 +1,43 @@
 // Using rewire to get non exported functions
-import { autoFetch } from '../background.js';
+import { setAlarm } from '../background.js';
 import { chrome } from 'jest-chrome';
-import { fetchData } from '../api/';
-import {
-	init,
-	setItemInRepoAsReadBasedOnUrl,
-	toggleRead,
-	toggleCollapsed,
-	ports,
-} from '../lib/';
+
+import { fetchData, apiErrors } from '../api/';
+jest.mock('../api/', () => {
+	return {
+		apiErrors: {
+			set: jest.fn(),
+			get: jest.fn(() => {
+				return [];
+			}),
+		},
+		fetchData: jest.fn(),
+	};
+});
+
 // For some reason a default mock wont work, so need to manually mock each function.
 // It might have something to do with jest-chrome
+import { init, toggleRead, toggleCollapsed } from '../lib/';
 jest.mock('../lib/', () => {
 	return {
-		ports: {
-			sendToAllTabs: jest.fn(),
-		},
 		setItemInRepoAsReadBasedOnUrl: jest.fn(() => {
-			return 'mockRepoData';
+			return {
+				then: jest.fn(() => {
+					return 'mockRepoData';
+				}),
+			};
 		}),
 		init: jest.fn(),
 		toggleRead: jest.fn(),
 		toggleCollapsed: jest.fn(),
 		apiErrors: jest.fn(),
+	};
+});
+
+import { sendToAllTabs } from '../lib/communication';
+jest.mock('../lib/communication', () => {
+	return {
+		sendToAllTabs: jest.fn(),
 	};
 });
 
@@ -33,150 +48,154 @@ jest.mock('../settings/save.js', () => {
 	};
 });
 
-import { createChromePort, createRepoURL } from '../../../test/generate.js';
-
-jest.useFakeTimers();
-
-beforeEach(() => {
-	autoFetch.stop();
-	setInterval.mockClear();
-	clearInterval.mockClear();
+beforeEach(async () => {
+	setAlarm.stop();
 });
 
-describe('autoFetch', () => {
-	it('should start a new interval', async () => {
-		const timeInSeconds = 20;
-		const timeInMilliseconds = timeInSeconds * 1000;
+describe('setAlarm', () => {
+	it('should check if alarm is running', () => {
+		const callbackSpy = jest.fn();
+		const alarm = { active: true };
+		chrome.alarms.get.mockImplementation((message, callback) => {
+			callback(alarm);
+		});
 
-		expect(autoFetch.timer).toBeUndefined();
-		autoFetch.start(timeInSeconds);
+		setAlarm.isRunning(callbackSpy);
 
-		expect(autoFetch.timer).toBeTruthy();
-
-		expect(setInterval).toHaveBeenCalledTimes(1);
-		expect(setInterval).toHaveBeenLastCalledWith(fetchData, timeInMilliseconds);
+		expect(chrome.alarms.get).toHaveBeenLastCalledWith(
+			setAlarm.timerName,
+			callbackSpy
+		);
+		expect(callbackSpy).toHaveBeenCalledTimes(1);
+		expect(callbackSpy).toHaveBeenLastCalledWith(alarm);
 	});
 
-	it('should stop timer if timer is running', async () => {
-		const timeInSeconds = 20;
+	it('should not start a new alarm if one is already running', async () => {
+		const callbackSpy = jest.fn();
+		const alarm = { active: true };
+		chrome.alarms.get.mockImplementation((message, callback) => {
+			callback(alarm);
+		});
 
-		autoFetch.start(timeInSeconds);
-		const runningTimer = autoFetch.timer;
-		expect(runningTimer).toBeTruthy();
+		setAlarm.start(callbackSpy);
 
-		autoFetch.stop();
-		expect(autoFetch.timer).toBeUndefined();
-
-		expect(clearInterval).toHaveBeenCalledTimes(1);
-		expect(clearInterval).toHaveBeenLastCalledWith(runningTimer);
+		expect(chrome.alarms.create).not.toHaveBeenCalled();
 	});
 
-	it('should do nothing if timer is not running', async () => {
-		autoFetch.stop();
+	it('should start a new alarm if one is not already running', async () => {
+		const intervalInMs = 120000;
+		const intervalInSec = 2;
+		const alarm = null;
+		chrome.alarms.get.mockImplementation((message, callback) => {
+			callback(alarm);
+		});
 
-		expect(autoFetch.timer).toBeUndefined();
-		expect(clearInterval).not.toHaveBeenCalled();
+		setAlarm.start(intervalInMs);
+
+		expect(chrome.alarms.create).toHaveBeenCalledTimes(1);
+		expect(chrome.alarms.create).toHaveBeenLastCalledWith(setAlarm.timerName, {
+			periodInMinutes: intervalInSec,
+		});
+	});
+
+	it('should not stop alarm if no timer is running', async () => {
+		const alarm = null;
+		chrome.alarms.get.mockImplementation((message, callback) => {
+			callback(alarm);
+		});
+
+		setAlarm.stop();
+
+		expect(chrome.alarms.clear).not.toHaveBeenCalled();
+	});
+
+	it('should sttop a new alarm if one is not already running', async () => {
+		const alarm = { active: true };
+		chrome.alarms.get.mockImplementation((message, callback) => {
+			callback(alarm);
+		});
+
+		setAlarm.stop();
+
+		expect(chrome.alarms.clear).toHaveBeenCalledTimes(1);
+		expect(chrome.alarms.clear).toHaveBeenLastCalledWith(setAlarm.timerName);
 	});
 
 	it('should change timer if timer is running', async () => {
-		const timeInSeconds = 20;
+		const intervalInMs = 180000;
+		const intervalInSec = 3;
+		const alarm = { active: true };
+		chrome.alarms.get.mockImplementation((message, callback) => {
+			callback(alarm);
+		});
 
-		autoFetch.start(timeInSeconds);
-		setInterval.mockClear();
-		const runningTimer = autoFetch.timer;
+		setAlarm.change(intervalInMs);
 
-		const newTimeInSeconds = 30;
-		const timeInMilliseconds = newTimeInSeconds * 1000;
-
-		autoFetch.change(newTimeInSeconds);
-
-		expect(clearInterval).toHaveBeenCalledTimes(1);
-		expect(clearInterval).toHaveBeenLastCalledWith(runningTimer);
-
-		expect(runningTimer !== autoFetch.timer).toBe(true);
-		expect(setInterval).toHaveBeenCalledTimes(1);
-		expect(setInterval).toHaveBeenLastCalledWith(fetchData, timeInMilliseconds);
+		expect(chrome.alarms.create).toHaveBeenCalledTimes(1);
+		expect(chrome.alarms.create).toHaveBeenLastCalledWith(setAlarm.timerName, {
+			periodInMinutes: intervalInSec,
+		});
 	});
 
 	it('should not change timer if timer is not running', async () => {
-		const newTimeInSeconds = 30;
+		const alarm = null;
+		chrome.alarms.get.mockImplementation((message, callback) => {
+			callback(alarm);
+		});
 
-		autoFetch.change(newTimeInSeconds);
+		setAlarm.change();
 
-		expect(clearInterval).not.toHaveBeenCalled();
-		expect(setInterval).not.toHaveBeenCalled();
+		expect(chrome.alarms.create).not.toHaveBeenCalled();
+	});
+
+	it('should call fetch on each allarm tick', async () => {
+		setAlarm.alarmTick();
+
+		expect(fetchData).toHaveBeenCalledTimes(1);
 	});
 });
 
 describe('chrome.tabs.onUpdated', () => {
-	it('should set new repodata if url matches a repo', async () => {
+	it('should have a listener for onUpdated', async () => {
 		expect(chrome.tabs.onUpdated.hasListeners()).toBe(true);
-
-		const tabId = 45;
-		chrome.tabs.onUpdated.callListeners(tabId, {
-			url: createRepoURL(),
-		});
-
-		expect(setItemInRepoAsReadBasedOnUrl).toHaveBeenCalledTimes(1);
-
-		expect(ports.sendToAllTabs).toHaveBeenCalledTimes(1);
-
-		const expectedData = { repositories: 'mockRepoData' };
-		expect(ports.sendToAllTabs).toHaveBeenCalledWith(expectedData);
-
-		expect(chrome.storage.local.set).toHaveBeenCalledTimes(1);
-		expect(chrome.storage.local.set).toHaveBeenCalledWith(expectedData);
-	});
-
-	it('should not set new repodata if url dont match regex', async () => {
-		setItemInRepoAsReadBasedOnUrl.mockReturnValueOnce();
-
-		const tabId = 45;
-		chrome.tabs.onUpdated.callListeners(tabId, {
-			url: createRepoURL(),
-		});
-
-		expect(ports.sendToAllTabs).not.toHaveBeenCalled();
-
-		// Make sure repositories and rateLimit have been set
-		expect(chrome.storage.local.set).not.toHaveBeenCalled();
 	});
 });
 
-describe('chrome.runtime.onConnect', () => {
-	it('should setup listeners on incoming port', async () => {
-		expect(chrome.runtime.onConnect.hasListeners()).toBe(true);
-		const port = createChromePort();
-
-		chrome.runtime.onConnect.callListeners(port);
-
-		expect(port.onMessage.addListener).toHaveBeenCalled();
+describe('chrome.runtime.onMessage', () => {
+	it('should setup listeners for messages', async () => {
+		expect(chrome.runtime.onMessage.hasListeners()).toBe(true);
 	});
 
 	it('should call events based on incoming message', async () => {
-		let port = createChromePort({ type: 'init' });
-		chrome.runtime.onConnect.callListeners(port);
-		expect(init).toHaveBeenCalledTimes(1);
-		expect(init).toHaveBeenCalledWith(port);
+		const sender = jest.fn();
+		const sendResponse = jest.fn();
 
-		port = createChromePort({ type: 'toggleRead' });
-		chrome.runtime.onConnect.callListeners(port);
+		let request = { type: 'init' };
+		chrome.runtime.onMessage.callListeners(request, sender, sendResponse);
+		expect(init).toHaveBeenCalledTimes(1);
+		expect(init).toHaveBeenCalledWith(sendResponse);
+
+		request = { type: 'toggleRead' };
+		chrome.runtime.onMessage.callListeners(request);
 		expect(toggleRead).toHaveBeenCalledTimes(1);
 		expect(toggleRead).toHaveBeenCalledWith({ type: 'toggleRead' });
 
-		port = createChromePort({ type: 'toggleCollapsed' });
-		chrome.runtime.onConnect.callListeners(port);
+		request = { type: 'toggleCollapsed' };
+		chrome.runtime.onMessage.callListeners(request);
 		expect(toggleCollapsed).toHaveBeenCalledTimes(1);
 		expect(toggleCollapsed).toHaveBeenCalledWith({ type: 'toggleCollapsed' });
 
-		port = createChromePort({ type: 'saveSettings', settings: 'newSettings' });
-		chrome.runtime.onConnect.callListeners(port);
+		request = { type: 'saveSettings', settings: 'newSettings' };
+		chrome.runtime.onMessage.callListeners(request);
 		expect(saveSettings).toHaveBeenCalledTimes(1);
 		expect(saveSettings).toHaveBeenCalledWith('newSettings');
 
-		port = createChromePort({ type: 'clearErrors' });
-		chrome.runtime.onConnect.callListeners(port);
-		expect(ports.sendToAllTabs).toHaveBeenCalledTimes(1);
-		expect(ports.sendToAllTabs).toHaveBeenCalledWith({ errors: [] });
+		request = { type: 'clearErrors' };
+		chrome.runtime.onMessage.callListeners(request);
+		expect(sendToAllTabs).toHaveBeenCalledTimes(1);
+		expect(sendToAllTabs).toHaveBeenCalledWith({ errors: [] });
+		expect(apiErrors.set).toHaveBeenCalledTimes(1);
+		expect(apiErrors.set).toHaveBeenCalledWith([]);
+		expect(apiErrors.get).toHaveBeenCalledTimes(1);
 	});
 });

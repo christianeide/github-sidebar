@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const ChromeExtensionReloader = require('webpack-chrome-extension-reloader');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -18,7 +17,6 @@ module.exports = {
 		publicPath: '',
 	},
 	plugins: [
-		new ChromeExtensionReloader(),
 		new CopyWebpackPlugin(['./manifest.json', './images/logo_*']),
 		new MiniCssExtractPlugin({ filename: 'style.css' }),
 		new webpack.DefinePlugin({
