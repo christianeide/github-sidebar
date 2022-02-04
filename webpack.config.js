@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -32,7 +32,9 @@ module.exports = {
 				},
 		  }),
 	plugins: [
-		new CopyWebpackPlugin(['./manifest.json', './images/logo_*']),
+		new CopyPlugin({
+			patterns: ['./manifest.json', './images/logo_*'],
+		}),
 		new MiniCssExtractPlugin({ filename: 'style.css' }),
 		new webpack.DefinePlugin({
 			'process.env.npm_package_version': JSON.stringify(
