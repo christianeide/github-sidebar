@@ -1767,12 +1767,12 @@ exports[`generic snapshots should render settingspage 1`] = `
             />
           </label>
           <label>
-            Auto refresh every X seconds.
+            Get repo data every X minutes
             <input
-              min="15"
+              min="1"
               name="autoRefresh"
               type="number"
-              value="60"
+              value="2"
             />
           </label>
           <label>

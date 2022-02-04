@@ -44,26 +44,21 @@ function render(props) {
 	};
 }
 
-const postMessage = jest.fn();
-const removeListener = jest.fn();
+const sendMessage = jest.fn((message, cb) => {
+	if (cb) {
+		cb();
+	}
+});
 
 function setupDataFromBackground(state) {
 	global.chrome = {
 		runtime: {
-			connect: jest.fn(function () {
-				return {
-					postMessage,
-					onDisconnect: {
-						addListener: jest.fn(),
-					},
-					onMessage: {
-						addListener: jest.fn((listener) => {
-							listener(state);
-						}),
-						removeListener,
-					},
-				};
-			}),
+			onMessage: {
+				addListener: jest.fn((listener) => {
+					listener(state);
+				}),
+			},
+			sendMessage,
 		},
 	};
 }
@@ -71,8 +66,7 @@ function setupDataFromBackground(state) {
 const OLD_ENV = process.env;
 
 beforeEach(() => {
-	postMessage.mockClear();
-	removeListener.mockClear();
+	sendMessage.mockClear();
 
 	// Allow to overwrite process.env
 	jest.resetModules();
@@ -126,14 +120,14 @@ describe('index', () => {
 	it('should do a init to fetch initial data', () => {
 		setupDataFromBackground();
 
-		const { container, unmount } = render();
+		const { container } = render();
 		// Should not render anything if settings is missing
 		expect(container).toMatchInlineSnapshot(`<div />`);
-		expect(postMessage).toHaveBeenCalledTimes(1);
-		expect(postMessage).toHaveBeenCalledWith({ type: 'init' });
-
-		unmount();
-		expect(removeListener).toHaveBeenCalled();
+		expect(sendMessage).toHaveBeenCalledTimes(1);
+		expect(sendMessage).toHaveBeenCalledWith(
+			{ type: 'init' },
+			expect.any(Function)
+		);
 	});
 
 	it('should update badge based on repostatus', () => {
@@ -174,16 +168,19 @@ describe('repositories', () => {
 
 		const { getAllByTitle } = render();
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 		const button = getAllByTitle(/mark repo as read/i)[0];
 		userEvent.click(button);
 
-		expect(postMessage).toHaveBeenCalledTimes(1);
-		expect(postMessage).toHaveBeenCalledWith({
-			type: 'toggleRead',
-			repo: serverData.repositories[0].url,
-			status: true,
-		});
+		expect(sendMessage).toHaveBeenCalledTimes(1);
+		expect(sendMessage).toHaveBeenCalledWith(
+			{
+				type: 'toggleRead',
+				repo: serverData.repositories[0].url,
+				status: true,
+			},
+			null
+		);
 	});
 
 	it('should toggle the repo', async () => {
@@ -192,15 +189,18 @@ describe('repositories', () => {
 
 		const { getAllByLabelText } = render();
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 		const button = getAllByLabelText(/toggle visibility of items/i)[0];
 		userEvent.click(button);
 
-		expect(postMessage).toHaveBeenCalledTimes(1);
-		expect(postMessage).toHaveBeenCalledWith({
-			type: 'toggleCollapsed',
-			url: serverData.repositories[0].url,
-		});
+		expect(sendMessage).toHaveBeenCalledTimes(1);
+		expect(sendMessage).toHaveBeenCalledWith(
+			{
+				type: 'toggleCollapsed',
+				url: serverData.repositories[0].url,
+			},
+			null
+		);
 	});
 
 	it('should prevent that toggle collapse is triggered when a linkk in header is clicked', async () => {
@@ -209,13 +209,13 @@ describe('repositories', () => {
 
 		const { getAllByText } = render();
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 		const button = getAllByText(serverData.repositories[0].issues[0].author)[0];
 		userEvent.click(button);
 
 		// if stopPropagation work as expected then postmessage
 		// should not have been called
-		expect(postMessage).not.toHaveBeenCalledTimes(1);
+		expect(sendMessage).not.toHaveBeenCalledTimes(1);
 	});
 
 	it('should show total number of items of a type', async () => {
@@ -239,15 +239,18 @@ describe('single item', () => {
 
 		const { getAllByTitle } = render();
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 		const button = getAllByTitle(/mark as read/i)[0];
 		userEvent.click(button);
 
-		expect(postMessage).toHaveBeenCalledTimes(1);
-		expect(postMessage).toHaveBeenCalledWith({
-			type: 'toggleRead',
-			id: serverData.repositories[0].issues[0].id,
-		});
+		expect(sendMessage).toHaveBeenCalledTimes(1);
+		expect(sendMessage).toHaveBeenCalledWith(
+			{
+				type: 'toggleRead',
+				id: serverData.repositories[0].issues[0].id,
+			},
+			null
+		);
 	});
 
 	it('should only render a comment icon if there is any comments', async () => {
@@ -257,7 +260,7 @@ describe('single item', () => {
 
 		const { getAllByTitle } = render();
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 		const repo = getAllByTitle(serverData.repositories[0].issues[0].title)[0];
 		expect(repo).toMatchSnapshot();
 	});
@@ -282,7 +285,7 @@ describe('single item', () => {
 		).toBeFalsy();
 	});
 
-	it('should render updated text based on sortby setttings', async () => {
+	it('should render updated text based on sortby settings', async () => {
 		let serverData = createQuickStorage();
 		serverData.settings.sortBy = 'UPDATED_AT';
 		setupDataFromBackground(serverData);
@@ -312,15 +315,15 @@ describe('settings', () => {
 		const { getByLabelText, getByText } = render();
 		userEvent.click(getByLabelText(/show settings/i));
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 		const select = getByLabelText(/show items from/i);
 
 		userEvent.selectOptions(select, ['issues']);
 
 		expect(getByText('Issues').selected).toBeTruthy();
-		expect(postMessage).toHaveBeenCalledTimes(1);
-		expect(postMessage.mock.calls[0][0].type).toBe('saveSettings');
-		expect(postMessage.mock.calls[0][0].settings.listItemOfType).toBe('issues');
+		expect(sendMessage).toHaveBeenCalledTimes(1);
+		expect(sendMessage.mock.calls[0][0].type).toBe('saveSettings');
+		expect(sendMessage.mock.calls[0][0].settings.listItemOfType).toBe('issues');
 	});
 
 	it('should set setting for sortBy', () => {
@@ -330,14 +333,14 @@ describe('settings', () => {
 		const { getByLabelText, getByText } = render();
 		userEvent.click(getByLabelText(/show settings/i));
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 
 		const select = getByLabelText(/sort items by/i);
 		userEvent.selectOptions(select, ['UPDATED_AT']);
 
 		expect(getByText('Updated').selected).toBeTruthy();
 		expect(getByText('Created').selected).toBeFalsy();
-		expect(postMessage.mock.calls[0][0].settings.sortBy).toBe('UPDATED_AT');
+		expect(sendMessage.mock.calls[0][0].settings.sortBy).toBe('UPDATED_AT');
 	});
 
 	it('should set setting for numberOfItems', () => {
@@ -347,13 +350,13 @@ describe('settings', () => {
 		const { getByLabelText } = render();
 		userEvent.click(getByLabelText(/show settings/i));
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 
 		const input = getByLabelText(/number of items to load/i);
 		userEvent.type(input, '{backspace}8');
 
 		expect(input).toHaveValue(8);
-		expect(postMessage.mock.calls[1][0].settings.numberOfItems).toBe(8);
+		expect(sendMessage.mock.calls[1][0].settings.numberOfItems).toBe(8);
 	});
 
 	it('should validate numberOfItems', () => {
@@ -376,35 +379,20 @@ describe('settings', () => {
 		expect(input).toHaveValue(10);
 	});
 
-	it('should set setting for autoRefresh', () => {
+	it('should set setting for autoRefresh', async () => {
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
 
 		const { getByLabelText } = render();
 		userEvent.click(getByLabelText(/show settings/i));
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 
-		const input = getByLabelText(/auto refresh every/i);
-		userEvent.type(input, '{backspace}{backspace}30');
+		const input = getByLabelText(/get repo data every/i);
+		userEvent.type(input, '{backspace}3{arrowright}{backspace}');
 
-		expect(input).toHaveValue(30);
-		expect(postMessage.mock.calls[3][0].settings.autoRefresh).toBe(30);
-	});
-
-	it('should validate autoRefresh', () => {
-		const serverData = createQuickStorage();
-		setupDataFromBackground(serverData);
-
-		const { getByLabelText } = render();
-		userEvent.click(getByLabelText(/show settings/i));
-
-		const input = getByLabelText(/auto refresh every/i);
-
-		// min
-		userEvent.type(input, '{backspace}{backspace}1');
-		userEvent.click(document.body); // move the focus away to trigger validation
-		expect(input).toHaveValue(15);
+		expect(input).toHaveValue(3);
+		expect(sendMessage.mock.calls[2][0].settings.autoRefresh).toBe(180000);
 	});
 
 	it('should set setting for theme', () => {
@@ -414,14 +402,14 @@ describe('settings', () => {
 		const { getByLabelText, getByText } = render();
 		userEvent.click(getByLabelText(/show settings/i));
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 
 		const select = getByLabelText(/theme/i);
 		userEvent.selectOptions(select, ['light']);
 
 		expect(getByText('Light').selected).toBeTruthy();
 		expect(getByText('Dark').selected).toBeFalsy();
-		expect(postMessage.mock.calls[0][0].settings.theme).toBe('light');
+		expect(sendMessage.mock.calls[0][0].settings.theme).toBe('light');
 	});
 
 	it('should set setting for updateFavicon', () => {
@@ -431,14 +419,14 @@ describe('settings', () => {
 		const { getByLabelText } = render();
 		userEvent.click(getByLabelText(/show settings/i));
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 
 		const checkbox = getByLabelText(/highlight favicon if/i);
 		expect(checkbox.checked).toBeTruthy();
 		userEvent.click(checkbox);
 
 		expect(checkbox.checked).toBeFalsy();
-		expect(postMessage.mock.calls[0][0].settings.updateFavicon).toBe(false);
+		expect(sendMessage.mock.calls[0][0].settings.updateFavicon).toBe(false);
 	});
 
 	it('should set setting for token', () => {
@@ -448,14 +436,14 @@ describe('settings', () => {
 		const { getByLabelText } = render();
 		userEvent.click(getByLabelText(/show settings/i));
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 
 		const input = getByLabelText(/access token/i);
 		userEvent.type(input, 'Works');
 
 		const newValue = `${serverData.settings.token}Works`;
 		expect(input).toHaveValue(newValue);
-		expect(postMessage.mock.calls[4][0].settings.token).toBe(newValue);
+		expect(sendMessage.mock.calls[4][0].settings.token).toBe(newValue);
 	});
 });
 
@@ -467,12 +455,12 @@ describe('settings repohandling', () => {
 		const { getByLabelText, getByText } = render();
 		userEvent.click(getByLabelText(/show settings/i));
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 
 		const select = getByText(/add current repository/i);
 		userEvent.click(select);
 
-		expect(postMessage).not.toHaveBeenCalled();
+		expect(sendMessage).not.toHaveBeenCalled();
 	});
 
 	it('should add repo when repodata is provided', () => {
@@ -482,12 +470,12 @@ describe('settings repohandling', () => {
 		const { getByLabelText, getByText } = render();
 		userEvent.click(getByLabelText(/show settings/i));
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 
 		const select = getByText(/add current repository/i);
 		userEvent.click(select);
 
-		expect(postMessage.mock.calls[0][0].settings.repos[4]).toBe(testRepo);
+		expect(sendMessage.mock.calls[0][0].settings.repos[4]).toBe(testRepo);
 	});
 
 	it('should handle delete repos', () => {
@@ -497,20 +485,20 @@ describe('settings repohandling', () => {
 		const { getByLabelText, getAllByLabelText } = render();
 		userEvent.click(getByLabelText(/show settings/i));
 
-		postMessage.mockClear();
+		sendMessage.mockClear();
 
 		const select = getAllByLabelText(/remove repo/i)[2];
 		userEvent.click(select);
 
-		expect(postMessage).toHaveBeenCalledTimes(1);
-		expect(postMessage.mock.calls[0][0].settings.repos.length).toBe(3);
-		expect(postMessage.mock.calls[0][0].settings.repos[0].name).toBe(
+		expect(sendMessage).toHaveBeenCalledTimes(1);
+		expect(sendMessage.mock.calls[0][0].settings.repos.length).toBe(3);
+		expect(sendMessage.mock.calls[0][0].settings.repos[0].name).toBe(
 			serverData.settings.repos[0].name
 		);
-		expect(postMessage.mock.calls[0][0].settings.repos[1].name).toBe(
+		expect(sendMessage.mock.calls[0][0].settings.repos[1].name).toBe(
 			serverData.settings.repos[1].name
 		);
-		expect(postMessage.mock.calls[0][0].settings.repos[2].name).toBe(
+		expect(sendMessage.mock.calls[0][0].settings.repos[2].name).toBe(
 			serverData.settings.repos[3].name
 		);
 	});

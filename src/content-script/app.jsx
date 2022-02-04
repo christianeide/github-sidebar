@@ -26,7 +26,7 @@ export default class App extends React.Component {
 		});
 
 		// Set up listener for new messages
-		chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+		chrome.runtime.onMessage.addListener((request) => {
 			this.setState({ ...request });
 		});
 	}
