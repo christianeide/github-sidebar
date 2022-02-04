@@ -1,10 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+const env = process.env.NODE_ENV;
+const isDev = env === 'development';
 
 module.exports = {
-	mode: 'development',
+	mode: env,
 	watch: true,
 	devtool: 'inline-source-map',
 	entry: {
@@ -12,64 +16,44 @@ module.exports = {
 		background: path.join(__dirname, './src/background/background.js'),
 	},
 	output: {
-		path: path.join(__dirname, '/dev/'),
+		path: path.join(__dirname, isDev ? '/dev/' : '/dist/'),
 		filename: '[name].js',
 		publicPath: '',
 	},
+	stats: 'minimal',
+	...(isDev
+		? {
+				watch: true,
+				devtool: 'inline-source-map',
+		  }
+		: {
+				optimization: {
+					minimize: true,
+				},
+		  }),
 	plugins: [
-		new CopyWebpackPlugin(['./manifest.json', './images/logo_*']),
+		new CopyPlugin({
+			patterns: ['./manifest.json', './images/logo_*'],
+		}),
 		new MiniCssExtractPlugin({ filename: 'style.css' }),
 		new webpack.DefinePlugin({
 			'process.env.npm_package_version': JSON.stringify(
 				process.env.npm_package_version
 			),
 		}),
+		new webpack.ProgressPlugin(),
+		new CleanWebpackPlugin(),
 	],
 	module: {
 		rules: [
 			{
 				test: /\.jsx?$/,
 				include: [path.resolve(__dirname, 'src')],
-				use: [
-					{
-						loader: 'babel-loader',
-					},
-				],
+				loader: 'babel-loader',
 			},
 			{
-				test: /\.json$/,
-				exclude: /node_modules/,
-			},
-			{
-				test: /\.css$/,
-				use: [
-					{
-						loader: MiniCssExtractPlugin.loader,
-					},
-					{
-						loader: 'css-loader',
-					},
-				],
-			},
-			{
-				test: /\.scss$/,
-				use: [
-					{
-						loader: MiniCssExtractPlugin.loader,
-					},
-					{
-						loader: 'css-loader',
-						options: {
-							sourceMap: true,
-						},
-					},
-					{
-						loader: 'sass-loader',
-						options: {
-							sourceMap: true,
-						},
-					},
-				],
+				test: /\.scss|.css$/,
+				use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
 			},
 		],
 	},

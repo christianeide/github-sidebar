@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { getCurrentPath, canAddRepository } from '../getPath';
 import { createSettings } from '../../../../../test/generate';
 

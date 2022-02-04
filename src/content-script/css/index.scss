@@ -67,7 +67,7 @@ body {
 
 	// Grid
 	.grid-1 {
-		$marginRight: $sidePadding/5;
+		$marginRight: calc($sidePadding / 5);
 
 		display: flex;
 		align-items: center;

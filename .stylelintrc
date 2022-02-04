@@ -1,11 +1,20 @@
 {
-  "extends": [
-    "stylelint-config-standard",
-    "stylelint-config-prettier"
-  ],
-  "plugins": ["stylelint-prettier"],
-  "rules": {
-    "at-rule-no-unknown": null,
-    "prettier/prettier": true
-  },
+	"extends": [
+		"stylelint-config-standard",
+		"stylelint-config-prettier",
+		"stylelint-config-recess-order"
+	],
+	"plugins": ["stylelint-prettier"],
+	"rules": {
+		"at-rule-no-unknown": null,
+		"value-keyword-case": null,
+		"rule-empty-line-before": [
+			"always-multi-line",
+			{
+				"except": ["first-nested", "after-single-line-comment"]
+			}
+		],
+		"no-descending-specificity": null
+	},
+	"ignoreFiles": ["**/*.js", "**/*.jsx"]
 }
