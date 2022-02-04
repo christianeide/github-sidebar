@@ -1,6 +1,7 @@
 import { quickStorage } from '../settings/';
 import { setAlarm } from '../background';
 import { fetchData } from '../api/';
+import { sendToAllTabs } from './communication';
 
 export async function init(sendResponse) {
 	const { settings, repositories, rateLimit } = await quickStorage.getStorage();
@@ -11,24 +12,11 @@ export async function init(sendResponse) {
 		repositories,
 		rateLimit,
 	});
+
 	// If autofetching is not running, we will start it up again
 	setAlarm.start(settings.autoRefresh);
 	// Always fetch new data when we have a init from a new contentscript
 	fetchData();
-}
-
-export function sendToAllTabs(message) {
-	chrome.tabs.query({ url: 'https://github.com/*' }, (tabs) => {
-		// If we dont have any tabs and by that any content script,
-		// then we will stop the interval
-		if (!tabs || tabs.length === 0) {
-			return setAlarm.stop();
-		}
-
-		tabs.map((tab) => {
-			chrome.tabs.sendMessage(tab.id, message);
-		});
-	});
 }
 
 export async function toggleRead(request) {
@@ -119,4 +107,18 @@ function findItemByURL(type, url) {
 
 		return { ...item, read: true };
 	});
+}
+
+export async function handleBrowserNavigation(tabId, changeInfo) {
+	const newRepositoriesData = await setItemInRepoAsReadBasedOnUrl(
+		changeInfo.url
+	);
+
+	if (newRepositoriesData) {
+		// save and distribute
+		quickStorage.setRepositories(newRepositoriesData);
+		sendToAllTabs({
+			repositories: newRepositoriesData,
+		});
+	}
 }
