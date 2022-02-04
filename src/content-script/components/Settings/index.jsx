@@ -1,7 +1,7 @@
 import React from 'react';
 import SortRepos from './sortRepos.jsx';
 import { until } from '../../utils/time.js';
-import arrayMove from 'array-move';
+import { arrayMoveImmutable } from 'array-move';
 import { getCurrentPath, canAddRepository } from './getPath.js';
 import './settings.scss';
 import { debounce } from '../../utils/utils.js';
@@ -119,7 +119,7 @@ export default class Settings extends React.Component {
 	handleSortRepos = ({ oldIndex, newIndex }) => {
 		this.setState(
 			({ repos }) => ({
-				repos: arrayMove(repos, oldIndex, newIndex),
+				repos: arrayMoveImmutable(repos, oldIndex, newIndex),
 			}),
 			() => {
 				this.handleSaveSettings();
