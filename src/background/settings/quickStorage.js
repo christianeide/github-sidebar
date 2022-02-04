@@ -1,57 +1,43 @@
 import { defaultSettings } from './index';
 
-// TODO: Use HOF
 export const quickStorage = {
 	_settings: undefined,
 	_repositories: undefined,
 	_rateLimit: undefined,
-	getRateLimit() {
+	setValue(name, value) {
+		chrome.storage.local.set({
+			[name]: value,
+		});
+
+		this[`_${name}`] = value;
+	},
+	getValue(name) {
 		return new Promise((resolve) => {
-			if (this._rateLimit) {
-				return resolve(this._rateLimit);
+			const nameProp = `_${name}`;
+			if (this[nameProp]) {
+				return resolve(this[nameProp]);
 			}
 
-			this.getStorage().then(() => resolve(this._rateLimit));
+			this.getStorage().then(() => resolve(this[nameProp]));
 		});
+	},
+	getRateLimit() {
+		return this.getValue('rateLimit');
 	},
 	setRateLimit(rateLimit) {
-		chrome.storage.local.set({
-			rateLimit,
-		});
-
-		this._rateLimit = rateLimit;
+		this.setValue('rateLimit', rateLimit);
 	},
 	getRepositories() {
-		return new Promise((resolve) => {
-			if (this._repositories) {
-				return resolve(this._repositories);
-			}
-
-			this.getStorage().then(() => resolve(this._repositories));
-		});
+		return this.getValue('repositories');
 	},
 	setRepositories(repositories) {
-		chrome.storage.local.set({
-			repositories,
-		});
-
-		this._repositories = repositories;
+		this.setValue('repositories', repositories);
 	},
 	getSettings() {
-		return new Promise((resolve) => {
-			if (this._settings) {
-				return resolve(this._settings);
-			}
-
-			this.getStorage().then(() => resolve(this._settings));
-		});
+		return this.getValue('settings');
 	},
 	setSettings(settings) {
-		chrome.storage.local.set({
-			settings,
-		});
-
-		this._settings = settings;
+		this.setValue('settings', settings);
 	},
 	getStorage() {
 		return new Promise((resolve) => {
