@@ -166,7 +166,6 @@ export default class Settings extends React.Component {
 			updateFavicon,
 			token,
 			sortBy,
-			theme,
 			settingsSaved,
 		} = this.state;
 
@@ -213,18 +212,6 @@ export default class Settings extends React.Component {
 
 					<li className="list miscellaneous">
 						<h4>Options</h4>
-
-						<label>
-							Theme
-							<select
-								name="theme"
-								value={theme}
-								onChange={this.handleInputChange}
-							>
-								<option value="dark">Dark</option>
-								<option value="light">Light</option>
-							</select>
-						</label>
 
 						<label>
 							Show items from
