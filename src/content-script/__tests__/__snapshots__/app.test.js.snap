@@ -3,7 +3,7 @@
 exports[`generic snapshots should render repos 1`] = `
 <div>
   <div
-    class="sidebar dark"
+    class="sidebar"
   >
     <header
       class="text-bold"
@@ -1483,7 +1483,7 @@ exports[`generic snapshots should render repos 1`] = `
 exports[`generic snapshots should render settingspage 1`] = `
 <div>
   <div
-    class="sidebar dark"
+    class="sidebar"
   >
     <header
       class="text-bold"
@@ -1660,23 +1660,6 @@ exports[`generic snapshots should render settingspage 1`] = `
           <h4>
             Options
           </h4>
-          <label>
-            Theme
-            <select
-              name="theme"
-            >
-              <option
-                value="dark"
-              >
-                Dark
-              </option>
-              <option
-                value="light"
-              >
-                Light
-              </option>
-            </select>
-          </label>
           <label>
             Show items from
             <select

@@ -58,7 +58,7 @@ export default class App extends React.Component {
 		}
 
 		return (
-			<div className={`sidebar ${settings.theme}`}>
+			<div className="sidebar">
 				<Header
 					onToggleSettings={this.handleToggleSettings}
 					loading={loading}

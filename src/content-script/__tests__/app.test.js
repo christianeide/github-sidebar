@@ -389,23 +389,6 @@ describe('settings', () => {
 		expect(sendMessage.mock.calls[2][0].settings.autoRefresh).toBe(180000);
 	});
 
-	it('should set setting for theme', () => {
-		const serverData = createQuickStorage();
-		setupDataFromBackground(serverData);
-
-		const { getByLabelText, getByText } = render();
-		userEvent.click(getByLabelText(/show settings/i));
-
-		sendMessage.mockClear();
-
-		const select = getByLabelText(/theme/i);
-		userEvent.selectOptions(select, ['light']);
-
-		expect(getByText('Light').selected).toBeTruthy();
-		expect(getByText('Dark').selected).toBeFalsy();
-		expect(sendMessage.mock.calls[0][0].settings.theme).toBe('light');
-	});
-
 	it('should set setting for updateFavicon', () => {
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
