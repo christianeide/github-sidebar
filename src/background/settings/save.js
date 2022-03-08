@@ -6,8 +6,17 @@ import { MINIMUMREFRESHPERIOD } from '../../common';
 
 export async function saveSettings(newSettings) {
 	const currrentSettings = await quickStorage.getSettings();
-	// If refreshperiod has changed and is more than minimum val
-	if (
+
+	// Stop alarm if no token
+	if (!newSettings.token) {
+		setAlarm.stop();
+
+		// Start alarm if token has changed
+	} else if (currrentSettings.token !== newSettings.token) {
+		setAlarm.start(newSettings.autoRefresh);
+
+		// Change alarm time if refreshperiod has changed and is more than minimum val
+	} else if (
 		newSettings.autoRefresh &&
 		newSettings.autoRefresh >= MINIMUMREFRESHPERIOD &&
 		currrentSettings.autoRefresh !== newSettings.autoRefresh

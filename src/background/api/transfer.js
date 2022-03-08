@@ -7,7 +7,12 @@ export async function transferUserStatus(repositories) {
 
 	// Loop through all new repositories to copy settings from the old repodata
 	return repositories.map((newRepo) => {
-		const oldRepo = storedRepos.find((oldRepo) => oldRepo.url === newRepo.url);
+		const oldRepo = storedRepos.find((oldRepo) => {
+			if (!oldRepo) {
+				return;
+			}
+			return oldRepo.url === newRepo.url;
+		});
 
 		if (!oldRepo) {
 			return newRepo;

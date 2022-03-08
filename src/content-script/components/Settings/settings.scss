@@ -9,10 +9,6 @@
 			.list {
 				margin-bottom: 0.5rem;
 
-				&.miscellaneous {
-					margin-top: 3rem;
-				}
-
 				.listItem {
 					margin-top: 0.15rem;
 					margin-bottom: 0.15rem;
@@ -26,7 +22,8 @@
 
 			button {
 				&.add {
-					margin-top: 0.5rem;
+					margin-bottom: 0.5rem;
+					margin-top: 0rem;
 					padding: 1.5rem;
 				}
 			}
@@ -36,6 +33,11 @@
 				background: var(--repoItemBg);
 				color: var(--repoItemText);
 				border: 0;
+			}
+
+			input:disabled,
+			select:disabled {
+				opacity: 0.2;
 			}
 
 			.listItem:hover {

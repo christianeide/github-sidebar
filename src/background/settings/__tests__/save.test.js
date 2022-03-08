@@ -10,13 +10,15 @@ jest.mock('../../lib/communication');
 
 import { setupBackgroundTests } from '../../../../test/setup.js';
 
+const token = 'abcdefghijk';
+
 beforeEach(async () => {
 	await setupBackgroundTests();
 });
 
 describe('saveSettings', () => {
 	it('should save settings', async () => {
-		const newSettings = { token: 'mynewtoken' };
+		const newSettings = { token };
 		const completeSettings = {
 			settings: {
 				...defaultSettings,
@@ -47,12 +49,14 @@ describe('saveSettings', () => {
 
 	it('should changee timer if autorefresh has changed', async () => {
 		const changeSpy = jest.spyOn(setAlarm, 'change');
+		const startSpy = jest.spyOn(setAlarm, 'start');
 
 		// Change Only to be called if autorefresh changes
 		const minInMs = 60000;
-		await saveSettings({ autoRefresh: minInMs });
-		await saveSettings({ autoRefresh: minInMs * 2 });
-		await saveSettings({ autoRefresh: minInMs * 2 });
-		expect(changeSpy).toHaveBeenCalledTimes(2);
+		await saveSettings({ token, autoRefresh: minInMs });
+		await saveSettings({ token, autoRefresh: minInMs * 2 });
+		await saveSettings({ token, autoRefresh: minInMs * 2 });
+		expect(changeSpy).toHaveBeenCalledTimes(1);
+		expect(startSpy).toHaveBeenCalledTimes(1);
 	});
 });

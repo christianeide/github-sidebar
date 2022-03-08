@@ -2,7 +2,6 @@ import React from 'react';
 import Header from './components/Header/index.jsx';
 import Repositories from './components/Repositories/index.jsx';
 import Settings from './components/Settings/index.jsx';
-import Splash from './components/Splash/index.jsx';
 import setBadge from './utils/setBadge';
 
 export default class App extends React.Component {
@@ -56,10 +55,6 @@ export default class App extends React.Component {
 
 		if (!settings) {
 			return null;
-		}
-
-		if (!settings.token) {
-			return <Splash sendToBackend={this.sendToBackend} />;
 		}
 
 		return (
