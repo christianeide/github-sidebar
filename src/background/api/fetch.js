@@ -6,6 +6,7 @@ import {
 } from './index.js';
 import { sendToAllTabs } from '../lib/communication';
 import { quickStorage } from '../settings/';
+import { mapUnauthorizedDataToInternalFormat } from './mapping.js';
 export let apiErrors = {
 	_errors: [],
 	get() {
@@ -22,25 +23,39 @@ export let apiErrors = {
 // This function is a fire and forget function
 // that handles all internal erros by it self.
 // No callerfunction relies on the returned data from this function
+// TODO: Rename function to other than fetchDdata?? getRepoData?
 export async function fetchData() {
-	const settings = await quickStorage.getSettings();
-	if (!settings || !settings.token) {
-		return;
-	}
-
-	// Show loadinganimation when we are fetching data
-	sendToAllTabs({
-		loading: true,
-	});
-
 	try {
-		const { rateLimit, ...restData } = await fetchDataFromAPI(settings);
-		const newRepoData = await mapDataToInternalFormat(restData);
+		const settings = await quickStorage.getSettings();
+		if (!settings) {
+			return;
+		}
+
+		let newRepoData;
+		let rateLimit;
+		if (settings.token) {
+			// Show loadinganimation when we are fetching data
+			sendToAllTabs({
+				loading: true,
+			});
+
+			let { rateLimit: tmpRateLimit, ...restData } = await fetchDataFromAPI(
+				settings
+			);
+			// Assign to variable in outer scope
+			rateLimit = tmpRateLimit;
+			newRepoData = await mapDataToInternalFormat(restData);
+
+			// If we dont have a token, then we will not get data from github api
+			// Instead we will load a basic setup of the repos the user has added
+		} else {
+			newRepoData = mapUnauthorizedDataToInternalFormat(settings.repos);
+		}
 
 		// Transfer read and collapsed-status from old repositories
 		const repositories = await transferUserStatus(newRepoData);
 
-		// save and distribute
+		// Save and distribute
 		quickStorage.setRepositories(repositories);
 		quickStorage.setRateLimit(rateLimit);
 		sendToAllTabs({

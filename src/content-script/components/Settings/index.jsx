@@ -1,11 +1,12 @@
 import React from 'react';
 import SortRepos from './sortRepos.jsx';
 import { until } from '../../utils/time.js';
-import { arrayMoveImmutable } from 'array-move';
+import arrayMove from 'array-move';
 import { getCurrentPath, canAddRepository } from './getPath.js';
 import './settings.scss';
 import { debounce } from '../../utils/utils.js';
 import { convertMsToSec, convertSecToMs } from '../../../common';
+import TokenPusher from '../TokenPusher';
 
 export default class Settings extends React.Component {
 	constructor(props) {
@@ -119,7 +120,7 @@ export default class Settings extends React.Component {
 	handleSortRepos = ({ oldIndex, newIndex }) => {
 		this.setState(
 			({ repos }) => ({
-				repos: arrayMoveImmutable(repos, oldIndex, newIndex),
+				repos: arrayMove(repos, oldIndex, newIndex),
 			}),
 			() => {
 				this.handleSaveSettings();
@@ -169,14 +170,13 @@ export default class Settings extends React.Component {
 			settingsSaved,
 		} = this.state;
 
-		const remaing = rateLimit ? (
-			<em>
-				({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in{' '}
-				{until(rateLimit.resetAt)})
-			</em>
-		) : (
-			<em>(Loading...)</em>
-		);
+		const remaing =
+			token && rateLimit ? (
+				<em>
+					({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in{' '}
+					{until(rateLimit.resetAt)})
+				</em>
+			) : null;
 
 		const canAddRepo = canAddRepository(repos);
 
@@ -189,6 +189,15 @@ export default class Settings extends React.Component {
 							Navigate to a Github-repository you want to monitor and click the
 							button below.
 						</p>
+						<button
+							className="sidebar-button add"
+							onClick={this.handleAddPage}
+							disabled={!canAddRepo}
+							title={canAddRepo ? '' : 'Already added'}
+						>
+							Add current repository
+						</button>
+
 						<SortRepos
 							items={repos}
 							onSortEnd={this.handleSortRepos}
@@ -198,22 +207,31 @@ export default class Settings extends React.Component {
 							lockAxis="y"
 							helperContainer={this.getRef}
 						/>
-						<button
-							className="sidebar-button add"
-							onClick={this.handleAddPage}
-							disabled={!canAddRepo}
-						>
-							Add current repository
-						</button>
 					</li>
+
+					<TokenPusher value={token} onChange={this.handleInputChange} />
 
 					<li className="list miscellaneous">
 						<h4>Options</h4>
+
+						<label>
+							Theme
+							<select
+								name="theme"
+								value={theme}
+								onChange={this.handleInputChange}
+							>
+								<option value="dark">Dark</option>
+								<option value="light">Light</option>
+							</select>
+						</label>
+
 						<label>
 							Show items from
 							<select
 								name="listItemOfType"
 								value={listItemOfType}
+								disabled={!token}
 								onChange={this.handleInputChange}
 							>
 								<option value="all">Pull requests and issues</option>
@@ -228,6 +246,7 @@ export default class Settings extends React.Component {
 								name="sortBy"
 								value={sortBy}
 								onChange={this.handleInputChange}
+								disabled={!token}
 							>
 								<option value="CREATED_AT">Created</option>
 								<option value="UPDATED_AT">Updated</option>
@@ -244,6 +263,7 @@ export default class Settings extends React.Component {
 								value={numberOfItems}
 								onChange={this.handleInputChange}
 								onBlur={this.handleValidateInput}
+								disabled={!token}
 							/>
 						</label>
 
@@ -255,19 +275,8 @@ export default class Settings extends React.Component {
 								min="1"
 								value={convertMsToSec(autoRefresh)}
 								onChange={this.handleInputChange}
+								disabled={!token}
 							/>
-						</label>
-
-						<label>
-							Theme
-							<select
-								name="theme"
-								value={theme}
-								onChange={this.handleInputChange}
-							>
-								<option value="dark">Dark</option>
-								<option value="light">Light</option>
-							</select>
 						</label>
 
 						<label>
@@ -275,20 +284,10 @@ export default class Settings extends React.Component {
 								type="checkbox"
 								name="updateFavicon"
 								checked={updateFavicon}
+								disabled={!token}
 								onChange={this.handleInputChange}
 							/>{' '}
 							Highlight favicon if new/updated items?
-						</label>
-
-						<label>
-							Access token
-							<input
-								type="text"
-								name="token"
-								value={token}
-								onChange={this.handleInputChange}
-								placeholder="Access token"
-							/>
 						</label>
 
 						{remaing}

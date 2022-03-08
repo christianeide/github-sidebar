@@ -1,0 +1,41 @@
+@import '../../css/globals.scss';
+
+#github-sidebar {
+	.settings {
+		.singleAccessToken {
+			margin-top: 2rem;
+			margin-bottom: 2rem;
+		}
+
+		.accessTokenPusher {
+			background-color: var(--sidebarLink);
+			color: var(--darkYellow);
+			margin-left: -1rem;
+			margin-right: -1rem;
+			padding: 1rem;
+			margin-top: 2rem;
+			margin-bottom: 2rem;
+			display: grid;
+			gap: 4px;
+
+			ul {
+				list-style-type: disc;
+				padding-left: 1rem;
+			}
+
+			em {
+				text-align: center;
+			}
+
+			img {
+				margin: 1rem auto;
+			}
+
+			.tokenInput {
+				background: var(--white);
+				margin-top: 1rem;
+				color: var(--darkYellow);
+			}
+		}
+	}
+}

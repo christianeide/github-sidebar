@@ -21,5 +21,11 @@
 			"js": ["content-script.js"],
 			"css": ["style.css"]
 		}
+	],
+	"web_accessible_resources": [
+		{
+			"resources": ["*.png"],
+			"matches": ["https://github.com/*"]
+		}
 	]
 }

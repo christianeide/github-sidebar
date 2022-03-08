@@ -17,7 +17,6 @@
     "lint": "eslint . --fix --ext .jsx,.js --ignore-path .gitignore"
   },
   "dependencies": {
-    "@babel/eslint-parser": "^7.17.0",
     "array-move": "^3.0.1",
     "favico.js": "^0.3.10",
     "react": "^17.0.2",
@@ -26,6 +25,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.0",
+    "@babel/eslint-parser": "^7.17.0",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/plugin-transform-react-jsx": "^7.16.7",
     "@babel/preset-env": "^7.16.11",

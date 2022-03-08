@@ -21,20 +21,36 @@ export async function mapDataToInternalFormat(data) {
 			oldTotalItemsNumber
 		);
 
-		return {
-			name: repo.name,
-			owner: repo.owner.login,
-			url: repo.url,
-			collapsed: true,
-			totalItemsNumber: newTotalItemsNumber,
-			totalItems: {
-				issues: repo.issues.totalCount,
-				pullRequests: repo.pullRequests.totalCount,
-			},
-			issues,
-			pullRequests,
-		};
+		return createRepoData(repo, issues, pullRequests, newTotalItemsNumber);
 	});
+}
+
+export function mapUnauthorizedDataToInternalFormat(repos = []) {
+	return repos.map((repo) => createRepoData(repo));
+}
+
+function createRepoData(
+	repo,
+	issues = [],
+	pullRequests = [],
+	newTotalItemsNumber
+) {
+	const name = repo.name;
+	const owner = repo.owner.login || repo.owner;
+	return {
+		name,
+		owner,
+		// If we dont have an url, then we create on for our self
+		url: repo.url || createGithubUrl(owner, name),
+		collapsed: true,
+		totalItemsNumber: newTotalItemsNumber,
+		totalItems: {
+			issues: repo.issues?.totalCount,
+			pullRequests: repo.pullRequests?.totalCount,
+		},
+		issues,
+		pullRequests,
+	};
 }
 
 function listItems(element, { login }, totalItemNumber) {
@@ -85,4 +101,8 @@ function calculateMaxNumber(repo) {
 		repo.pullRequestsMaxNumber?.edges[0]?.node?.number || 0;
 
 	return Math.max(maxIssues, maxPullRequests);
+}
+
+function createGithubUrl(owner, name) {
+	return `https://github.com/${owner}/${name}`;
 }

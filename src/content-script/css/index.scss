@@ -129,6 +129,15 @@ body {
 			white-space: nowrap;
 		}
 
+		.ghs-btn {
+			background: var(--darkYellow);
+			text-align: center;
+			padding: 1rem;
+			border: 2px solid #bb8f4c;
+			box-shadow: 0px 0px 6px rgb(0 0 0 / 40%);
+			border-radius: 4px;
+		}
+
 		.sidebar-button {
 			background: var(--sidebarButton);
 			border-radius: 0.25em;

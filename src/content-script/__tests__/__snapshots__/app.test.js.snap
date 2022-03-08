@@ -1,75 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`generic snapshots should render a splashscreen if token is missing 1`] = `
-<div>
-  <div
-    class="sidebar"
-  >
-    <main
-      class="splash"
-    >
-      <div
-        class="justifier"
-      >
-        <svg
-          class="icon"
-          height="155"
-          viewBox="0 0 446.157 192.594"
-          width="255"
-        >
-          <path
-            d="M127.657,528.892h21.466V550.23c-6.427,6.684-14.782,10.283-25.065,10.283-20.438,0-31.492-14.525-31.492-39.719,0-21.209,10.155-38.176,30.849-38.176,16.968,0,23.652,8.484,23.909,18.381h10.154c-0.385-14.01-8.612-27.507-33.677-27.507-26.993,0-41.775,19.409-41.775,47.431,0,27.507,11.7,48.331,41.9,48.331,9.64,0,23.522-2.314,33.934-14.525v-34.32H127.657v8.483Zm49.354,38.819h9.9V475.163h-9.9v92.548Zm52.183,0h10.027V484.032H268.27v-8.869H200.016v8.869h29.178v83.679Zm52.053,0h9.9v-43.7h48.331v43.7h9.9V475.163h-9.9v39.719H291.145V475.163h-9.9v92.548Zm88.944-92.548v58.228c0,24.68,13.754,35.863,34.32,35.863,22.494,0,34.063-12.083,34.063-35.863V475.163h-9.769v57.071c0,18.253-6.427,28.151-23.908,28.151-15.425,0-24.808-9-24.808-28.151V475.163h-9.9Zm118.894,8.612c12.982,0,20.695,3.856,20.695,15.168,0,13.5-10.669,16.838-22.623,16.838H469.29V483.775h19.795ZM469.29,524.394h21.98c13.625,0,23.009,3.856,23.009,16.324,0,11.183-7.2,18.381-21.723,18.381H469.29V524.394Zm-9.9,43.317h30.464c19.8,0,34.577-6.555,34.577-26.479,0-9.126-5.4-20.566-21.466-22.109v-0.257c12.211-1.8,16.967-11.954,16.967-20.952,0-14.4-8.483-22.751-29.05-22.751H459.392v92.548ZM78.684,653.854A39,39,0,0,0,107.149,666.1c16.33,0,27.217-8.959,27.217-23.362,0-12.134-6.01-17.691-22.681-23.362-13.949-4.763-20.98-7.144-20.98-16.557,0-9.186,7.371-13.722,17.011-13.722a27.722,27.722,0,0,1,20.866,9.526l5.1-5.33c-6.805-7.825-15.65-11.681-26.084-11.681-14.856,0-26.083,7.825-26.083,21.887,0,12.135,7.031,17.578,24.836,23.022,14.969,4.536,18.939,8.392,18.939,17.011,0,9.753-7.712,15.083-17.919,15.083-8.618,0-16.33-3.856-23.7-10.433Zm70.881,10.887H158.3V583.088h-8.732v81.653ZM200.6,591.027c21.434,0,30.393,11.794,30.393,33,0,21.434-8.959,32.775-30.393,32.775h-14.63V591.027H200.6Zm-23.362-7.939v81.653h21.547c27.1,0,41.394-11.794,41.394-40.713,0-28.011-14.176-40.94-40.146-40.94H177.235Zm78.706,81.653h51.94v-7.712H264.673V626.863h38.559v-7.825H264.673V590.913h42.3v-7.825H255.941v81.653Zm93.448-74.055c11.454,0,18.259,3.4,18.259,13.382,0,11.908-9.413,14.857-19.96,14.857H331.925V590.686h17.464Zm-17.464,35.837h19.392c12.021,0,20.3,3.4,20.3,14.4,0,9.866-6.351,16.217-19.166,16.217H331.925v-30.62Zm-8.733,38.218H350.07c17.464,0,30.506-5.784,30.506-23.362,0-8.052-4.763-18.145-18.939-19.506v-0.227c10.774-1.587,14.97-10.546,14.97-18.485,0-12.7-7.485-20.073-25.63-20.073H323.192v81.653Zm93-81.653-29.6,81.653H396l8.392-23.362h32.888l8.619,23.362h9.3l-29.826-81.653h-9.186Zm-9.3,50.353,13.949-40.486,13.949,40.486h-27.9Zm59.881-50.353v81.653H475.5V632.08h13.722a40.216,40.216,0,0,0,8.732-.794l17.352,33.455h9.526l-18.372-35.5c9.526-4.537,13.722-12.475,13.722-22.682,0-14.4-8.619-23.475-27.785-23.475H466.769Zm25.4,7.712c13.268,0,19.165,5.557,19.165,16.444,0,11.34-7.144,17.464-20.753,17.464H475.5V590.8h16.671Z"
-            fill-rule="evenodd"
-            transform="translate(-78.688 -473.5)"
-          />
-        </svg>
-        <p>
-          This extension requires an access token from Github to load data.
-           
-          <br />
-          <br />
-          <em>
-            (The token is only saved to your browsers local
-             
-            <b>
-              chrome.storage.local
-            </b>
-            . It is only used to communicate with Githubs API)
-          </em>
-        </p>
-        <p>
-          <a
-            href="https://github.com/settings/tokens/new?scopes=repo&description=Github%20sidebar%20browser%20extension"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            CREATE AN ACCESS TOKEN
-          </a>
-          <em>
-            (The necessary scopes are pre-selected)
-          </em>
-        </p>
-        <label>
-          Paste the token below:
-          <input
-            name="token"
-            placeholder="Access token"
-            type="text"
-            value=""
-          />
-        </label>
-        <button
-          class="sidebar-button"
-          disabled=""
-        >
-          Save token
-        </button>
-      </div>
-    </main>
-  </div>
-</div>
-`;
-
 exports[`generic snapshots should render repos 1`] = `
 <div>
   <div
@@ -1599,6 +1529,12 @@ exports[`generic snapshots should render settingspage 1`] = `
           <p>
             Navigate to a Github-repository you want to monitor and click the button below.
           </p>
+          <button
+            class="sidebar-button add"
+            title=""
+          >
+            Add current repository
+          </button>
           <ul>
             <li
               class="listItem"
@@ -1705,18 +1641,42 @@ exports[`generic snapshots should render settingspage 1`] = `
               </div>
             </li>
           </ul>
-          <button
-            class="sidebar-button add"
-          >
-            Add current repository
-          </button>
         </li>
+        <label
+          class="singleAccessToken"
+        >
+          Access token
+          <input
+            class="tokenInput"
+            name="token"
+            placeholder="Enter token"
+            type="text"
+            value="myToken"
+          />
+        </label>
         <li
           class="list miscellaneous"
         >
           <h4>
             Options
           </h4>
+          <label>
+            Theme
+            <select
+              name="theme"
+            >
+              <option
+                value="dark"
+              >
+                Dark
+              </option>
+              <option
+                value="light"
+              >
+                Light
+              </option>
+            </select>
+          </label>
           <label>
             Show items from
             <select
@@ -1776,23 +1736,6 @@ exports[`generic snapshots should render settingspage 1`] = `
             />
           </label>
           <label>
-            Theme
-            <select
-              name="theme"
-            >
-              <option
-                value="dark"
-              >
-                Dark
-              </option>
-              <option
-                value="light"
-              >
-                Light
-              </option>
-            </select>
-          </label>
-          <label>
             <input
               checked=""
               name="updateFavicon"
@@ -1800,15 +1743,6 @@ exports[`generic snapshots should render settingspage 1`] = `
             />
              
             Highlight favicon if new/updated items?
-          </label>
-          <label>
-            Access token
-            <input
-              name="token"
-              placeholder="Access token"
-              type="text"
-              value="myToken"
-            />
           </label>
           <em>
             (

@@ -10,6 +10,7 @@ import userEvent from '@testing-library/user-event';
 import { createQuickStorage } from '../../../test/generate';
 import setBadge from '../utils/setBadge.js';
 jest.mock('../utils/setBadge.js');
+
 // Mock timespecific functions
 import '../utils/time.js';
 jest.mock('../utils/time.js', () => ({
@@ -63,6 +64,7 @@ function setupDataFromBackground(state) {
 				}),
 			},
 			sendMessage,
+			getURL: () => 'mockURL',
 		},
 	};
 }
@@ -82,18 +84,6 @@ afterAll(() => {
 });
 
 describe('generic snapshots', () => {
-	it('should render a splashscreen if token is missing', () => {
-		const serverData = createQuickStorage();
-		delete serverData.settings.token;
-		setupDataFromBackground(serverData);
-
-		const { container } = render();
-
-		// We do one snapshot of each type to get any essential changes
-		// that can be made
-		expect(container).toMatchSnapshot();
-	});
-
 	it('should render repos', () => {
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
@@ -437,17 +427,32 @@ describe('settings', () => {
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
 
-		const { getByLabelText } = render();
+		const { getByLabelText, getByPlaceholderText } = render();
 		userEvent.click(getByLabelText(/show settings/i));
 
 		sendMessage.mockClear();
 
-		const input = getByLabelText(/access token/i);
+		const input = getByPlaceholderText(/enter token/i);
 		userEvent.type(input, 'Works');
+		userEvent.tab();
 
 		const newValue = `${serverData.settings.token}Works`;
 		expect(input).toHaveValue(newValue);
-		expect(sendMessage.mock.calls[4][0].settings.token).toBe(newValue);
+		expect(sendMessage.mock.calls[0][0].settings.token).toBe(newValue);
+	});
+
+	it('should show tokenpusher when token is missing', () => {
+		const serverData = createQuickStorage();
+		serverData.settings.token = undefined;
+		setupDataFromBackground(serverData);
+
+		const { getByLabelText, getByRole } = render();
+		userEvent.click(getByLabelText(/show settings/i));
+
+		sendMessage.mockClear();
+
+		const link = getByRole('button', { name: /create an access token/i });
+		expect(link).toBeInTheDocument();
 	});
 });
 
