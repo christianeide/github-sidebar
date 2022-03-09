@@ -130,7 +130,9 @@ describe('index', () => {
 
 		render();
 
-		expect(setBadge).toHaveBeenCalledTimes(1);
+		// Expect to be called twice: First with initial data, and then
+		// with updated repodata
+		expect(setBadge).toHaveBeenCalledTimes(2);
 		expect(setBadge).toHaveBeenCalledWith(
 			serverData.repositories,
 			serverData.settings.updateFavicon

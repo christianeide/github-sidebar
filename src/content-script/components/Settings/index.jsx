@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import SortRepos from './sortRepos.jsx';
 import { until } from '../../utils/time.js';
 import arrayMove from 'array-move';
@@ -8,46 +8,47 @@ import { debounce } from '../../utils/utils.js';
 import { convertMsToSec, convertSecToMs } from '../../../common';
 import TokenPusher from '../TokenPusher';
 
-export default class Settings extends React.Component {
-	constructor(props) {
-		super(props);
+export default function Settings({
+	settings: defaultSettings,
+	sendToBackend,
+	rateLimit,
+}) {
+	// We copy parent props to state only on mount of component
+	// We use theese props as a startingpoint when we edit settings
+	const [settings, setSettings] = useState(() => defaultSettings);
+	const [settingsSaved, setSettingsSaved] = useState(false);
 
-		// We copy parent props to state only on mount of component
-		// We use theese props as a startingpoint when we edit settings
-		this.state = {
-			...props.settings,
-			settingsSaved: false,
-		};
+	let timer = useRef(null);
+	let mainContRef = useRef(null);
 
-		this.timer = null;
-		this.mainContRef = React.createRef();
-	}
+	const saveSettings = useCallback(
+		(newSettings) => {
+			sendToBackend({ type: 'saveSettings', settings: newSettings });
+			setSettingsSaved(true);
+		},
+		[sendToBackend]
+	);
 
-	componentWillUnmount() {
-		// Save settings when we go back
-		this.saveSettings();
-
-		clearTimeout(this.timer);
-	}
-
-	componentDidUpdate() {
-		if (this.state.settingsSaved) {
+	useEffect(() => {
+		if (settingsSaved) {
 			// Clear timer before we start a new
-			if (this.timer) {
-				clearTimeout(this.timer);
-				this.timer = null;
+			if (timer) {
+				clearTimeout(timer);
+				timer.current = null;
 			}
 
 			// Set a timer to show the save confirmation for a given time in ms
-			this.timer = setTimeout(() => {
-				this.setState({ settingsSaved: false });
+			timer.current = setTimeout(() => {
+				setSettingsSaved(false);
 
-				this.timer = null;
+				timer.current = null;
 			}, 2000);
 		}
-	}
 
-	handleInputChange = (event) => {
+		return () => clearTimeout(timer);
+	}, [settingsSaved]);
+
+	const handleInputChange = (event) => {
 		const target = event.target;
 		const name = target.name;
 
@@ -67,12 +68,12 @@ export default class Settings extends React.Component {
 				value = target.value;
 		}
 
-		this.setState({ [name]: value }, () => {
-			this.handleSaveSettings();
-		});
+		const newSettings = { ...settings, [name]: value };
+		setSettings(newSettings);
+		handleSaveSettings(newSettings);
 	};
 
-	handleValidateInput = (event) => {
+	const handleValidateInput = (event) => {
 		function imposeMinMax(el) {
 			const min = parseInt(el.min);
 			const max = parseInt(el.max);
@@ -95,204 +96,192 @@ export default class Settings extends React.Component {
 		const name = target.name;
 		const value = imposeMinMax(target);
 
-		this.setState({ [name]: value }, () => {
-			this.handleSaveSettings();
-		});
+		const newSettings = { ...settings, [name]: value };
+		setSettings(newSettings);
+		handleSaveSettings(newSettings);
 	};
 
-	handleAddPage = () => {
+	const handleAddPage = () => {
 		const repo = getCurrentPath();
 
 		if (!repo) {
 			return;
 		}
 
-		this.setState(
-			({ repos }) => ({
-				repos: [...repos, repo],
-			}),
-			() => {
-				this.handleSaveSettings();
-			}
-		);
+		const newSettings = {
+			...settings,
+			repos: [...settings.repos, repo],
+		};
+
+		setSettings(newSettings);
+		handleSaveSettings(newSettings);
 	};
 
-	handleSortRepos = ({ oldIndex, newIndex }) => {
-		this.setState(
-			({ repos }) => ({
-				repos: arrayMove(repos, oldIndex, newIndex),
-			}),
-			() => {
-				this.handleSaveSettings();
-			}
-		);
+	const handleSortRepos = ({ oldIndex, newIndex }) => {
+		const newSettings = {
+			...settings,
+			repos: arrayMove(settings.repos, oldIndex, newIndex),
+		};
+
+		setSettings(newSettings);
+		handleSaveSettings(newSettings);
 	};
 
-	handleRemoveRepo = (e) => {
+	const handleRemoveRepo = (e) => {
 		const indexToRemove = parseInt(e.target.getAttribute('data-index'));
 
-		this.setState(
-			({ repos }) => ({
-				repos: repos.filter((repo, index) => index !== indexToRemove),
-			}),
-			() => {
-				this.handleSaveSettings();
-			}
-		);
+		const newSettings = {
+			...settings,
+			repos: settings.repos.filter((repo, index) => index !== indexToRemove),
+		};
+
+		setSettings(newSettings);
+		handleSaveSettings(newSettings);
 	};
 
-	handleSaveSettings = debounce(() => {
-		this.saveSettings();
-	}, 1000);
+	const handleSaveSettings = debounce(
+		(newSettings) => saveSettings(newSettings),
+		1000
+	);
 
-	saveSettings = () => {
-		this.props.sendToBackend({ type: 'saveSettings', settings: this.state });
-		this.setState({ settingsSaved: true });
+	const {
+		repos,
+		listItemOfType,
+		numberOfItems,
+		autoRefresh,
+		updateFavicon,
+		token,
+		sortBy,
+	} = settings;
+
+	const remaing =
+		token && rateLimit ? (
+			<em>
+				({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in{' '}
+				{until(rateLimit.resetAt)})
+			</em>
+		) : null;
+
+	const canAddRepo = canAddRepository(repos);
+
+	const getRef = () => mainContRef;
+	const setRef = (el) => {
+		mainContRef = el;
 	};
 
-	getRef = () => this.mainContRef;
+	return (
+		<main className="settings" ref={setRef}>
+			<ul>
+				<li className="list">
+					<h4>Repositories</h4>
+					<p>
+						Navigate to a Github-repository you want to monitor and click the
+						button below.
+					</p>
+					<button
+						className="sidebar-button add"
+						onClick={handleAddPage}
+						disabled={!canAddRepo}
+						title={canAddRepo ? '' : 'Already added'}
+					>
+						Add current repository
+					</button>
 
-	setRef = (el) => {
-		this.mainContRef = el;
-	};
+					<SortRepos
+						items={repos}
+						onSortEnd={handleSortRepos}
+						helperClass="github-sidebar-sort"
+						onRemoveRepo={handleRemoveRepo}
+						pressDelay={100}
+						lockAxis="y"
+						helperContainer={getRef}
+					/>
+				</li>
 
-	render() {
-		const { rateLimit } = this.props;
-		const {
-			repos,
-			listItemOfType,
-			numberOfItems,
-			autoRefresh,
-			updateFavicon,
-			token,
-			sortBy,
-			settingsSaved,
-		} = this.state;
+				<TokenPusher value={token} onChange={handleInputChange} />
 
-		const remaing =
-			token && rateLimit ? (
-				<em>
-					({rateLimit.remaining} requests left of {rateLimit.limit}. Resets in{' '}
-					{until(rateLimit.resetAt)})
-				</em>
-			) : null;
+				<li className="list miscellaneous">
+					<h4>Options</h4>
 
-		const canAddRepo = canAddRepository(repos);
-
-		return (
-			<main className="settings" ref={this.setRef}>
-				<ul>
-					<li className="list">
-						<h4>Repositories</h4>
-						<p>
-							Navigate to a Github-repository you want to monitor and click the
-							button below.
-						</p>
-						<button
-							className="sidebar-button add"
-							onClick={this.handleAddPage}
-							disabled={!canAddRepo}
-							title={canAddRepo ? '' : 'Already added'}
+					<label>
+						Show items from
+						<select
+							name="listItemOfType"
+							value={listItemOfType}
+							disabled={!token}
+							onChange={handleInputChange}
 						>
-							Add current repository
-						</button>
+							<option value="all">Pull requests and issues</option>
+							<option value="pullRequests">Pull requests</option>
+							<option value="issues">Issues</option>
+						</select>
+					</label>
 
-						<SortRepos
-							items={repos}
-							onSortEnd={this.handleSortRepos}
-							helperClass="github-sidebar-sort"
-							onRemoveRepo={this.handleRemoveRepo}
-							pressDelay={100}
-							lockAxis="y"
-							helperContainer={this.getRef}
+					<label>
+						Sort items by
+						<select
+							name="sortBy"
+							value={sortBy}
+							onChange={handleInputChange}
+							disabled={!token}
+						>
+							<option value="CREATED_AT">Created</option>
+							<option value="UPDATED_AT">Updated</option>
+						</select>
+					</label>
+
+					<label>
+						Number of items to load
+						<input
+							type="number"
+							name="numberOfItems"
+							min="0"
+							max="10"
+							value={numberOfItems}
+							onChange={handleInputChange}
+							onBlur={handleValidateInput}
+							disabled={!token}
 						/>
-					</li>
+					</label>
 
-					<TokenPusher value={token} onChange={this.handleInputChange} />
+					<label>
+						Get repo data every X minutes
+						<input
+							type="number"
+							name="autoRefresh"
+							min="1"
+							value={convertMsToSec(autoRefresh)}
+							onChange={handleInputChange}
+							disabled={!token}
+						/>
+					</label>
 
-					<li className="list miscellaneous">
-						<h4>Options</h4>
+					<label>
+						<input
+							type="checkbox"
+							name="updateFavicon"
+							checked={updateFavicon}
+							disabled={!token}
+							onChange={handleInputChange}
+						/>{' '}
+						Highlight favicon if new/updated items?
+					</label>
 
-						<label>
-							Show items from
-							<select
-								name="listItemOfType"
-								value={listItemOfType}
-								disabled={!token}
-								onChange={this.handleInputChange}
-							>
-								<option value="all">Pull requests and issues</option>
-								<option value="pullRequests">Pull requests</option>
-								<option value="issues">Issues</option>
-							</select>
-						</label>
+					{remaing}
 
-						<label>
-							Sort items by
-							<select
-								name="sortBy"
-								value={sortBy}
-								onChange={this.handleInputChange}
-								disabled={!token}
-							>
-								<option value="CREATED_AT">Created</option>
-								<option value="UPDATED_AT">Updated</option>
-							</select>
-						</label>
-
-						<label>
-							Number of items to load
-							<input
-								type="number"
-								name="numberOfItems"
-								min="0"
-								max="10"
-								value={numberOfItems}
-								onChange={this.handleInputChange}
-								onBlur={this.handleValidateInput}
-								disabled={!token}
-							/>
-						</label>
-
-						<label>
-							Get repo data every X minutes
-							<input
-								type="number"
-								name="autoRefresh"
-								min="1"
-								value={convertMsToSec(autoRefresh)}
-								onChange={this.handleInputChange}
-								disabled={!token}
-							/>
-						</label>
-
-						<label>
-							<input
-								type="checkbox"
-								name="updateFavicon"
-								checked={updateFavicon}
-								disabled={!token}
-								onChange={this.handleInputChange}
-							/>{' '}
-							Highlight favicon if new/updated items?
-						</label>
-
-						{remaing}
-
-						<div className="credit">
-							<a href="https://github.com/christianeide/github-sidebar">
-								Github Sidebar {process.env.npm_package_version}
-							</a>
-						</div>
-					</li>
-				</ul>
-
-				{
-					<div className={`autoSave ${settingsSaved && 'show'}`}>
-						Settings saved...
+					<div className="credit">
+						<a href="https://github.com/christianeide/github-sidebar">
+							Github Sidebar {process.env.npm_package_version}
+						</a>
 					</div>
-				}
-			</main>
-		);
-	}
+				</li>
+			</ul>
+
+			{
+				<div className={`autoSave ${settingsSaved && 'show'}`}>
+					Settings saved...
+				</div>
+			}
+		</main>
+	);
 }
