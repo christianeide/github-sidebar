@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Type from './type.jsx';
 import Icons from '../../images/svgs/icons.js';
 import Read from '../Read/index.jsx';
@@ -28,7 +28,6 @@ const calculateMaxHeight = (repo, repoHeight) => {
 export default function Repository(props) {
 	const { repo, settings, sendToBackend } = props;
 
-	const [repoHeight, setRepoHeight] = useState(0);
 	const [hover, setHover] = useState(false);
 
 	const repoHeightRef = useRef(null);
@@ -56,12 +55,7 @@ export default function Repository(props) {
 		});
 	};
 
-	useEffect(() => {
-		const newRepoHeight = repoHeightRef?.current?.scrollHeight;
-		if (repoHeight !== newRepoHeight) {
-			setRepoHeight(newRepoHeight);
-		}
-	}, [repoHeight]);
+	const repoHeight = repoHeightRef?.current?.scrollHeight;
 
 	const availableItems =
 		settings.listItemOfType === 'all'
