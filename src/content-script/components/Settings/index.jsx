@@ -18,7 +18,6 @@ export default function Settings({
 	const [settings, setSettings] = useState(() => defaultSettings);
 	const [settingsSaved, setSettingsSaved] = useState(false);
 
-	let timer = useRef(null);
 	let mainContRef = useRef(null);
 
 	const saveSettings = useCallback(
@@ -30,22 +29,15 @@ export default function Settings({
 	);
 
 	useEffect(() => {
+		let timerTimeout;
 		if (settingsSaved) {
-			// Clear timer before we start a new
-			if (timer) {
-				clearTimeout(timer);
-				timer.current = null;
-			}
-
 			// Set a timer to show the save confirmation for a given time in ms
-			timer.current = setTimeout(() => {
+			timerTimeout = setTimeout(() => {
 				setSettingsSaved(false);
-
-				timer.current = null;
 			}, 2000);
 		}
 
-		return () => clearTimeout(timer);
+		return () => clearTimeout(timerTimeout);
 	}, [settingsSaved]);
 
 	const handleInputChange = (event) => {
