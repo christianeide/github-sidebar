@@ -26,8 +26,14 @@ export default function App() {
 		});
 
 		// Set up listener for new messages
-		chrome.runtime.onMessage.addListener((request) => {
+		chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			setBackgroundData((state) => ({ ...state, ...request }));
+
+			// ! Because of a bug in chrome 99+, we need to always
+			// call sendresponse for all events https://bugs.chromium.org/p/chromium/issues/detail?id=1304272
+			if (sendResponse) {
+				sendResponse();
+			}
 		});
 	}, []);
 

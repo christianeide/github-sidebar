@@ -70,30 +70,42 @@ chrome.alarms.onAlarm.addListener(setAlarm.alarmTick);
 
 // Most communication happens on this event
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	switch (request.type) {
-		case 'init':
-			init(sendResponse);
+	// We seperate async requests and regular requests
+	// Async
+	if (request.type === 'init') {
+		init(sendResponse);
 
-			return true;
+		return true;
 
-		case 'toggleRead':
-			toggleRead(request);
-			break;
+		// Sync
+	} else {
+		switch (request.type) {
+			case 'toggleRead':
+				toggleRead(request);
+				break;
 
-		case 'toggleCollapsed':
-			toggleCollapsed(request);
-			break;
+			case 'toggleCollapsed':
+				toggleCollapsed(request);
+				break;
 
-		case 'saveSettings':
-			saveSettings(request.settings);
-			break;
+			case 'saveSettings':
+				saveSettings(request.settings);
+				break;
 
-		case 'clearErrors':
-			apiErrors.set([]);
-			sendToAllTabs({
-				errors: apiErrors.get(),
-			});
-			break;
+			case 'clearErrors':
+				apiErrors.set([]);
+				sendToAllTabs({
+					errors: apiErrors.get(),
+				});
+				break;
+		}
+
+		// !Because of a bug in chrome 99+, we need to always
+		// call sendresponse for all events
+		// https://bugs.chromium.org/p/chromium/issues/detail?id=1304272
+		if (sendResponse) {
+			sendResponse();
+		}
 	}
 });
 
