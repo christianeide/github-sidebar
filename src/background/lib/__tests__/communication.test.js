@@ -34,6 +34,11 @@ describe('sendToAllTabs', () => {
 		chrome.tabs.query.mockImplementation((message, callback) => {
 			callback(response);
 		});
+		chrome.tabs.sendMessage.mockImplementation(() => {
+			return {
+				catch: jest.fn(),
+			};
+		});
 		chrome.tabs.query(message, callbackSpy);
 
 		sendToAllTabs(message);
