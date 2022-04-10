@@ -9,7 +9,7 @@ export function sendToAllTabs(message) {
 		}
 
 		tabs.map((tab) => {
-			chrome.tabs.sendMessage(tab.id, message);
+			chrome.tabs.sendMessage(tab.id, message).catch(() => {}); // Catch if we cant send to the tab
 		});
 	});
 }
