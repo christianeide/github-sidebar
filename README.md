@@ -20,9 +20,7 @@ The extension can be installed through the [Chrome Web Store](https://chrome.goo
 ![](images/screenshot_1.png)
 ![](images/screenshot_2.png)
 ![](images/screenshot_3.png)
-![](images/screenshot_4.png)
 ![](images/screenshot_5.png)
-![](images/screenshot_6.png)
 
 # Settings
 
@@ -34,7 +32,7 @@ You can sort the order of repositories by simply drag&drop.
 
 ### Access Token
 
-This extension requires an access token from Github to load data. Please [create an access token](https://github.com/settings/tokens/new?scopes=repo&description=Github%20sidebar%20browser%20extension) to allow this extension to fetch necessary data from Github. The necessary scopes for the token is already selected if you follow the link above. All you need is to press "Generate Token", and copy/paste the token into the extension.
+For all features of this extension to work, you will need to provide an access token from Github. This is not a requirement, but it will make the extension load data about issues and pull requests from your repositories. Please [create an access token](https://github.com/settings/tokens/new?scopes=repo&description=Github%20sidebar%20browser%20extension) to allow this extension to fetch necessary data from Github. The necessary scopes for the token is already selected if you follow the link above. All you need is to press "Generate Token", and copy/paste the token into the extension.
 
 **Note:** The token is only saved to your browsers local _chrome.storage.local_ and only used to communicate with Githubs API.
 
