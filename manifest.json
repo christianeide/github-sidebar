@@ -2,7 +2,7 @@
 	"name": "Github Sidebar",
 	"description": "Make shortcuts to repositories you frequently use on Github. Faster navigation and better control over your repositories.",
 	"author": "Christian Gogstad Eide",
-	"version": "3.0.2",
+	"version": "4.0.0",
 	"manifest_version": 3,
 	"icons": {
 		"16": "images/logo_16.png",
