@@ -68,7 +68,7 @@ export default defineConfig(({ mode }) => {
 		define: {
 			'process.env.NODE_ENV': JSON.stringify(nodeEnv),
 			'process.env.npm_package_version': JSON.stringify(
-				process.env.npm_package_version
+				process.env.npm_package_version,
 			),
 		},
 		test: {
