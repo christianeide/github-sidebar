@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Type from './type.jsx';
-import Icons from '../../images/svgs/icons.js';
+import Icons from '../../images/svgs/icons';
 import Read from '../Read/index.jsx';
 import { repoHasUnreadItems } from '../../utils/utils.js';
 import { isSelectedURL } from './utils.js';

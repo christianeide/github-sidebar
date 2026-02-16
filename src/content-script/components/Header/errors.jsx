@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Icons from '../../images/svgs/icons.js';
+import Icons from '../../images/svgs/icons';
 import { ago } from '../../utils/time.js';
 
 export default function Errors({ errors, sendToBackend }) {

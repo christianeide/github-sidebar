@@ -9,9 +9,9 @@
   "author": "Christian Gogstad Eide",
   "license": "MIT",
   "scripts": {
-    "start": "NODE_ENV=development webpack",
+    "dev": "(BUILD_TARGET=content vite build --mode development --watch & BUILD_TARGET=background vite build --mode development --watch & wait)",
     "version": "node ./version.js",
-    "build": "NODE_ENV=production webpack",
+    "build": "BUILD_TARGET=content vite build --mode production && BUILD_TARGET=background vite build --mode production",
     "test": "jest --coverage --config config/jest.config.js --runInBand",
     "test-watch": "jest --watch --config config/jest.config.js --runInBand",
     "lint": "eslint . --fix --ext .jsx,.js --ignore-path .gitignore"
@@ -33,6 +33,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+    "@vitejs/plugin-react": "^5.1.4",
     "babel-jest": "^27.5.1",
     "babel-loader": "^8.2.4",
     "clean-webpack-plugin": "^4.0.0",
@@ -61,6 +62,8 @@
     "stylelint-config-recess-order": "^3.0.0",
     "stylelint-config-standard": "^25.0.0",
     "stylelint-prettier": "^2.0.0",
+    "vite": "^7.3.1",
+    "vite-plugin-static-copy": "^3.2.0",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2"
   },

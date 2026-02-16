@@ -1,5 +1,5 @@
 import React from 'react';
-import Icons from '../../images/svgs/icons.js';
+import Icons from '../../images/svgs/icons';
 import { ago } from '../../utils/time.js';
 import Read from '../Read/index.jsx';
 import { isSelectedURL } from './utils.js';
