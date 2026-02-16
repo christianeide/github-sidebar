@@ -39,9 +39,8 @@ export async function fetchData() {
 				loading: true,
 			});
 
-			let { rateLimit: tmpRateLimit, ...restData } = await fetchDataFromAPI(
-				settings
-			);
+			let { rateLimit: tmpRateLimit, ...restData } =
+				await fetchDataFromAPI(settings);
 			// Assign to variable in outer scope
 			rateLimit = tmpRateLimit;
 			newRepoData = await mapDataToInternalFormat(restData);
@@ -100,7 +99,7 @@ function fetchDataFromAPI({ token, repos, numberOfItems, sortBy }) {
 						if (item.type === 'NOT_FOUND') {
 							// Repos are named 'repo{number}' in graphql-kalls
 							const missingRepoNumber = Number(
-								item.path[0].replace('repo', '')
+								item.path[0].replace('repo', ''),
 							);
 
 							autoRemoveRepo(missingRepoNumber);

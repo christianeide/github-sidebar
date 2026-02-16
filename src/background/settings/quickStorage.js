@@ -64,7 +64,7 @@ export const quickStorage = {
 						repositories: this._repositories,
 						rateLimit: this._rateLimit,
 					});
-				}
+				},
 			);
 		});
 	},

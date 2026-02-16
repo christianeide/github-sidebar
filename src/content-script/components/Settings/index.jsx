@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import SortRepos from './sortRepos.jsx';
 import { until } from '../../utils/time.js';
-import arrayMove from 'array-move';
+import { arrayMoveImmutable } from 'array-move';
 import { getCurrentPath, canAddRepository } from './getPath.js';
 import './settings.scss';
 import { debounce } from '../../utils/utils.js';
@@ -25,7 +25,7 @@ export default function Settings({
 			sendToBackend({ type: 'saveSettings', settings: newSettings });
 			setSettingsSaved(true);
 		},
-		[sendToBackend]
+		[sendToBackend],
 	);
 
 	useEffect(() => {
@@ -112,7 +112,7 @@ export default function Settings({
 	const handleSortRepos = ({ oldIndex, newIndex }) => {
 		const newSettings = {
 			...settings,
-			repos: arrayMove(settings.repos, oldIndex, newIndex),
+			repos: arrayMoveImmutable(settings.repos, oldIndex, newIndex),
 		};
 
 		setSettings(newSettings);
@@ -133,7 +133,7 @@ export default function Settings({
 
 	const handleSaveSettings = debounce(
 		(newSettings) => saveSettings(newSettings),
-		1000
+		1000,
 	);
 
 	const {

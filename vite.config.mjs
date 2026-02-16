@@ -13,13 +13,14 @@ export default defineConfig(({ mode }) => {
 
 	const reactPlugin = react({
 		include: /\.[jt]sx?$/,
-		jsxRuntime: 'classic',
+		jsxRuntime: 'automatic',
 	});
 
 	const isDev = mode === 'development';
 	const isContent = target === 'content';
 	const isWatch = process.argv.includes('--watch');
 	const outDir = isDev ? 'dev' : 'build';
+	const nodeEnv = isTest ? 'test' : isDev ? 'development' : 'production';
 
 	return {
 		build: {
@@ -65,11 +66,9 @@ export default defineConfig(({ mode }) => {
 				: []),
 		],
 		define: {
-			'process.env.NODE_ENV': JSON.stringify(
-				isDev ? 'development' : 'production'
-			),
+			'process.env.NODE_ENV': JSON.stringify(nodeEnv),
 			'process.env.npm_package_version': JSON.stringify(
-				process.env.npm_package_version
+				process.env.npm_package_version,
 			),
 		},
 		test: {

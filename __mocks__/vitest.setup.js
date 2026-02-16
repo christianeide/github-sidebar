@@ -1,4 +1,4 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import * as matchers from '@testing-library/jest-dom/matchers';
 import { expect, vi } from 'vitest';
 import * as jestChrome from 'jest-chrome';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Index from '../app';
 
-import { render as tlrRender } from '@testing-library/react';
+import { fireEvent, render as tlrRender } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createQuickStorage } from '../../../test/generate';
 import setBadge from '../utils/setBadge.js';
@@ -108,14 +108,14 @@ describe('generic snapshots', () => {
 		expect(container).toMatchSnapshot();
 	});
 
-	it('should render settingspage', () => {
+	it('should render settingspage', async () => {
 		process.env.npm_package_version = '1.0.0';
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
 
 		const { container, getByLabelText } = render();
 
-		userEvent.click(getByLabelText(/show settings/i));
+		await userEvent.click(getByLabelText(/show settings/i));
 
 		// We do one snapshot of each type to get any essential changes
 		// that can be made
@@ -133,7 +133,7 @@ describe('index', () => {
 		expect(sendMessage).toHaveBeenCalledTimes(1);
 		expect(sendMessage).toHaveBeenCalledWith(
 			{ type: 'init' },
-			expect.any(Function)
+			expect.any(Function),
 		);
 	});
 
@@ -148,13 +148,13 @@ describe('index', () => {
 		expect(setBadge).toHaveBeenCalledTimes(2);
 		expect(setBadge).toHaveBeenCalledWith(
 			serverData.repositories,
-			serverData.settings.updateFavicon
+			serverData.settings.updateFavicon,
 		);
 	});
 });
 
 describe('repositories', () => {
-	it('should render a placholder if no repos are added', () => {
+	it('should render a placholder if no repos are added', async () => {
 		const serverData = createQuickStorage();
 		serverData.repositories = [];
 		setupDataFromBackground(serverData);
@@ -165,7 +165,7 @@ describe('repositories', () => {
 		expect(queryByText('No repositories added')).toBeInTheDocument();
 
 		// Click link to go to settingspage
-		userEvent.click(getByText(/settings page/i));
+		await userEvent.click(getByText(/settings page/i));
 
 		// Expect settingspage to be shown
 		expect(queryByText(/no repositories added/i)).not.toBeInTheDocument();
@@ -179,7 +179,7 @@ describe('repositories', () => {
 
 		sendMessage.mockClear();
 		const button = getAllByTitle(/mark repo as read/i)[0];
-		userEvent.click(button);
+		await userEvent.click(button);
 
 		expect(sendMessage).toHaveBeenCalledTimes(1);
 		expect(sendMessage).toHaveBeenCalledWith(
@@ -188,7 +188,7 @@ describe('repositories', () => {
 				repo: serverData.repositories[0].url,
 				status: true,
 			},
-			null
+			null,
 		);
 	});
 
@@ -200,7 +200,7 @@ describe('repositories', () => {
 
 		sendMessage.mockClear();
 		const button = getAllByLabelText(/toggle visibility of items/i)[0];
-		userEvent.click(button);
+		await userEvent.click(button);
 
 		expect(sendMessage).toHaveBeenCalledTimes(1);
 		expect(sendMessage).toHaveBeenCalledWith(
@@ -208,7 +208,7 @@ describe('repositories', () => {
 				type: 'toggleCollapsed',
 				url: serverData.repositories[0].url,
 			},
-			null
+			null,
 		);
 	});
 
@@ -220,7 +220,7 @@ describe('repositories', () => {
 
 		sendMessage.mockClear();
 		const button = getAllByText(serverData.repositories[0].issues[0].author)[0];
-		userEvent.click(button);
+		await userEvent.click(button);
 
 		// if stopPropagation work as expected then postmessage
 		// should not have been called
@@ -236,7 +236,7 @@ describe('repositories', () => {
 		const { queryAllByText } = render();
 
 		expect(
-			queryAllByText((_, node) => node.textContent === 'Issues (4 of 100)')[0]
+			queryAllByText((_, node) => node.textContent === 'Issues (4 of 100)')[0],
 		).toBeInTheDocument();
 	});
 });
@@ -250,7 +250,7 @@ describe('single item', () => {
 
 		sendMessage.mockClear();
 		const button = getAllByTitle(/mark as read/i)[0];
-		userEvent.click(button);
+		await userEvent.click(button);
 
 		expect(sendMessage).toHaveBeenCalledTimes(1);
 		expect(sendMessage).toHaveBeenCalledWith(
@@ -258,7 +258,7 @@ describe('single item', () => {
 				type: 'toggleRead',
 				id: serverData.repositories[0].issues[0].id,
 			},
-			null
+			null,
 		);
 	});
 
@@ -286,11 +286,11 @@ describe('single item', () => {
 		const updatedText = `${issue.title} ${issue.comments}By ${issue.author}, updated`;
 
 		expect(
-			queryAllByText((_, node) => node.textContent.startsWith(createdText))[0]
+			queryAllByText((_, node) => node.textContent.startsWith(createdText))[0],
 		).toBeInTheDocument();
 
 		expect(
-			queryAllByText((_, node) => node.textContent.startsWith(updatedText))[0]
+			queryAllByText((_, node) => node.textContent.startsWith(updatedText))[0],
 		).toBeFalsy();
 	});
 
@@ -307,27 +307,27 @@ describe('single item', () => {
 		const updatedText = `${issue.title} ${issue.comments}By ${issue.author}, updated`;
 
 		expect(
-			queryAllByText((_, node) => node.textContent.startsWith(createdText))[0]
+			queryAllByText((_, node) => node.textContent.startsWith(createdText))[0],
 		).toBeFalsy();
 
 		expect(
-			queryAllByText((_, node) => node.textContent.startsWith(updatedText))[0]
+			queryAllByText((_, node) => node.textContent.startsWith(updatedText))[0],
 		).toBeInTheDocument();
 	});
 });
 
 describe('settings', () => {
-	it('should set setting for listItemOfType', () => {
+	it('should set setting for listItemOfType', async () => {
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
 
 		const { getByLabelText, getByText } = render();
-		userEvent.click(getByLabelText(/show settings/i));
+		await userEvent.click(getByLabelText(/show settings/i));
 
 		sendMessage.mockClear();
 		const select = getByLabelText(/show items from/i);
 
-		userEvent.selectOptions(select, ['issues']);
+		await userEvent.selectOptions(select, ['issues']);
 
 		expect(getByText('Issues').selected).toBeTruthy();
 		expect(sendMessage).toHaveBeenCalledTimes(1);
@@ -335,56 +335,56 @@ describe('settings', () => {
 		expect(sendMessage.mock.calls[0][0].settings.listItemOfType).toBe('issues');
 	});
 
-	it('should set setting for sortBy', () => {
+	it('should set setting for sortBy', async () => {
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
 
 		const { getByLabelText, getByText } = render();
-		userEvent.click(getByLabelText(/show settings/i));
+		await userEvent.click(getByLabelText(/show settings/i));
 
 		sendMessage.mockClear();
 
 		const select = getByLabelText(/sort items by/i);
-		userEvent.selectOptions(select, ['UPDATED_AT']);
+		await userEvent.selectOptions(select, ['UPDATED_AT']);
 
 		expect(getByText('Updated').selected).toBeTruthy();
 		expect(getByText('Created').selected).toBeFalsy();
 		expect(sendMessage.mock.calls[0][0].settings.sortBy).toBe('UPDATED_AT');
 	});
 
-	it('should set setting for numberOfItems', () => {
+	it('should set setting for numberOfItems', async () => {
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
 
 		const { getByLabelText } = render();
-		userEvent.click(getByLabelText(/show settings/i));
+		await userEvent.click(getByLabelText(/show settings/i));
 
 		sendMessage.mockClear();
 
 		const input = getByLabelText(/number of items to load/i);
-		userEvent.type(input, '{backspace}8');
+		await userEvent.type(input, '{backspace}8');
 
 		expect(input).toHaveValue(8);
 		expect(sendMessage.mock.calls[1][0].settings.numberOfItems).toBe(8);
 	});
 
-	it('should validate numberOfItems', () => {
+	it('should validate numberOfItems', async () => {
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
 
 		const { getByLabelText } = render();
-		userEvent.click(getByLabelText(/show settings/i));
+		await userEvent.click(getByLabelText(/show settings/i));
 
 		const input = getByLabelText(/number of items to load/i);
 
 		// min
-		userEvent.type(input, '{backspace}-1');
-		userEvent.click(document.body); // move the focus away to trigger validation
+		await userEvent.type(input, '{backspace}-1');
+		await userEvent.click(document.body); // move the focus away to trigger validation
 		expect(input).toHaveValue(0);
 
 		// Max
-		userEvent.type(input, '{backspace}100');
-		userEvent.click(document.body); // move the focus away to trigger validation
+		await userEvent.type(input, '{backspace}100');
+		await userEvent.click(document.body); // move the focus away to trigger validation
 		expect(input).toHaveValue(10);
 	});
 
@@ -393,59 +393,59 @@ describe('settings', () => {
 		setupDataFromBackground(serverData);
 
 		const { getByLabelText } = render();
-		userEvent.click(getByLabelText(/show settings/i));
+		await userEvent.click(getByLabelText(/show settings/i));
 
 		sendMessage.mockClear();
 
 		const input = getByLabelText(/get repo data every/i);
-		userEvent.type(input, '{backspace}3{arrowright}{backspace}');
+		fireEvent.change(input, { target: { value: '3' } });
 
 		expect(input).toHaveValue(3);
-		expect(sendMessage.mock.calls[2][0].settings.autoRefresh).toBe(180000);
+		expect(sendMessage.mock.calls.at(-1)[0].settings.autoRefresh).toBe(180000);
 	});
 
-	it('should set setting for updateFavicon', () => {
+	it('should set setting for updateFavicon', async () => {
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
 
 		const { getByLabelText } = render();
-		userEvent.click(getByLabelText(/show settings/i));
+		await userEvent.click(getByLabelText(/show settings/i));
 
 		sendMessage.mockClear();
 
 		const checkbox = getByLabelText(/highlight favicon if/i);
 		expect(checkbox.checked).toBeTruthy();
-		userEvent.click(checkbox);
+		await userEvent.click(checkbox);
 
 		expect(checkbox.checked).toBeFalsy();
 		expect(sendMessage.mock.calls[0][0].settings.updateFavicon).toBe(false);
 	});
 
-	it('should set setting for token', () => {
+	it('should set setting for token', async () => {
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
 
 		const { getByLabelText, getByPlaceholderText } = render();
-		userEvent.click(getByLabelText(/show settings/i));
+		await userEvent.click(getByLabelText(/show settings/i));
 
 		sendMessage.mockClear();
 
 		const input = getByPlaceholderText(/enter token/i);
-		userEvent.type(input, 'Works');
-		userEvent.tab();
+		await userEvent.type(input, 'Works');
+		await userEvent.tab();
 
 		const newValue = `${serverData.settings.token}Works`;
 		expect(input).toHaveValue(newValue);
 		expect(sendMessage.mock.calls[0][0].settings.token).toBe(newValue);
 	});
 
-	it('should show tokenpusher when token is missing', () => {
+	it('should show tokenpusher when token is missing', async () => {
 		const serverData = createQuickStorage();
 		serverData.settings.token = undefined;
 		setupDataFromBackground(serverData);
 
 		const { getByLabelText, getByRole } = render();
-		userEvent.click(getByLabelText(/show settings/i));
+		await userEvent.click(getByLabelText(/show settings/i));
 
 		sendMessage.mockClear();
 
@@ -455,58 +455,58 @@ describe('settings', () => {
 });
 
 describe('settings repohandling', () => {
-	it('should not add repo if repo data is not provided', () => {
+	it('should not add repo if repo data is not provided', async () => {
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
 
 		const { getByLabelText, getByText } = render();
-		userEvent.click(getByLabelText(/show settings/i));
+		await userEvent.click(getByLabelText(/show settings/i));
 
 		sendMessage.mockClear();
 
 		const select = getByText(/add current repository/i);
-		userEvent.click(select);
+		await userEvent.click(select);
 
 		expect(sendMessage).not.toHaveBeenCalled();
 	});
 
-	it('should add repo when repodata is provided', () => {
+	it('should add repo when repodata is provided', async () => {
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
 
 		const { getByLabelText, getByText } = render();
-		userEvent.click(getByLabelText(/show settings/i));
+		await userEvent.click(getByLabelText(/show settings/i));
 
 		sendMessage.mockClear();
 
 		const select = getByText(/add current repository/i);
-		userEvent.click(select);
+		await userEvent.click(select);
 
 		expect(sendMessage.mock.calls[0][0].settings.repos[4]).toBe(testRepo);
 	});
 
-	it('should handle delete repos', () => {
+	it('should handle delete repos', async () => {
 		const serverData = createQuickStorage();
 		setupDataFromBackground(serverData);
 
 		const { getByLabelText, getAllByLabelText } = render();
-		userEvent.click(getByLabelText(/show settings/i));
+		await userEvent.click(getByLabelText(/show settings/i));
 
 		sendMessage.mockClear();
 
 		const select = getAllByLabelText(/remove repo/i)[2];
-		userEvent.click(select);
+		await userEvent.click(select);
 
 		expect(sendMessage).toHaveBeenCalledTimes(1);
 		expect(sendMessage.mock.calls[0][0].settings.repos.length).toBe(3);
 		expect(sendMessage.mock.calls[0][0].settings.repos[0].name).toBe(
-			serverData.settings.repos[0].name
+			serverData.settings.repos[0].name,
 		);
 		expect(sendMessage.mock.calls[0][0].settings.repos[1].name).toBe(
-			serverData.settings.repos[1].name
+			serverData.settings.repos[1].name,
 		);
 		expect(sendMessage.mock.calls[0][0].settings.repos[2].name).toBe(
-			serverData.settings.repos[3].name
+			serverData.settings.repos[3].name,
 		);
 	});
 });

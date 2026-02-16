@@ -40,7 +40,7 @@ export default function App() {
 	useEffect(() => {
 		setBadge(
 			backgroundData.repositories,
-			backgroundData.settings?.updateFavicon
+			backgroundData.settings?.updateFavicon,
 		);
 	}, [backgroundData.repositories, backgroundData.settings?.updateFavicon]);
 
