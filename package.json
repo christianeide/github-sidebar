@@ -14,7 +14,9 @@
     "build": "BUILD_TARGET=content vite build --mode production && BUILD_TARGET=background vite build --mode production",
     "test": "vitest",
     "test:once": "vitest --run",
-    "lint": "eslint . --fix --ext .jsx,.js --ignore-path .gitignore"
+    "lint": "eslint . --fix --ext .jsx,.js --ignore-path .gitignore",
+    "prepare": "husky",
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
     "array-move": "^3.0.1",
@@ -34,10 +36,10 @@
     "eslint-plugin-jest-dom": "^4.0.1",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.4.0",
-    "husky": "^7.0.4",
+    "husky": "^9.1.7",
     "jest-chrome": "^0.7.2",
     "jsdom": "^28.1.0",
-    "lint-staged": "^12.3.7",
+    "lint-staged": "^16.2.7",
     "prettier": "^2.6.2",
     "pretty-quick": "^3.1.3",
     "sass": "^1.50.0",
@@ -59,12 +61,10 @@
   "lint-staged": {
     "*.{js,jsx}": [
       "prettier --write",
-      "eslint",
-      "git add"
+      "eslint"
     ],
     "*.{scss,json}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "prettier": {
