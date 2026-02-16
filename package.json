@@ -13,6 +13,7 @@
     "version": "node ./version.js",
     "build": "BUILD_TARGET=content vite build --mode production && BUILD_TARGET=background vite build --mode production",
     "test": "vitest",
+    "test:once": "vitest --run",
     "lint": "eslint . --fix --ext .jsx,.js --ignore-path .gitignore"
   },
   "dependencies": {
@@ -23,18 +24,11 @@
     "react-sortable-hoc": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.9",
-    "@babel/eslint-parser": "^7.17.0",
-    "@babel/plugin-proposal-class-properties": "^7.16.7",
-    "@babel/plugin-transform-react-jsx": "^7.17.3",
-    "@babel/preset-env": "^7.16.11",
-    "@babel/preset-react": "^7.16.7",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "@vitejs/plugin-react": "^5.1.4",
     "@vitest/coverage-v8": "^4.0.18",
-    "core-js": "^3.21.1",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-jest-dom": "^4.0.1",
@@ -56,23 +50,6 @@
     "vite": "^7.3.1",
     "vite-plugin-static-copy": "^3.2.0",
     "vitest": "^4.0.18"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "useBuiltIns": "usage",
-          "corejs": 3,
-          "targets": "defaults"
-        }
-      ],
-      "@babel/preset-react"
-    ],
-    "plugins": [
-      "@babel/plugin-proposal-class-properties",
-      "@babel/plugin-transform-react-jsx"
-    ]
   },
   "husky": {
     "hooks": {
