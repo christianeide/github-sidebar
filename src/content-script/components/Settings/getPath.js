@@ -74,6 +74,6 @@ export function canAddRepository(currentRepos) {
 
 	// We dont allow users to add the same repository several times
 	return !currentRepos.find(
-		(currentRepo) => JSON.stringify(currentRepo) === JSON.stringify(validPage)
+		(currentRepo) => JSON.stringify(currentRepo) === JSON.stringify(validPage),
 	);
 }

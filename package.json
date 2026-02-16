@@ -15,6 +15,7 @@
     "test": "vitest",
     "test:once": "vitest --run",
     "lint": "eslint . --fix",
+		"format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky",
     "lint-staged": "lint-staged"
   },

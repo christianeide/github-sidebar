@@ -66,7 +66,7 @@ describe('setAlarm', () => {
 
 		expect(chrome.alarms.get).toHaveBeenLastCalledWith(
 			setAlarm.timerName,
-			callbackSpy
+			callbackSpy,
 		);
 		expect(callbackSpy).toHaveBeenCalledTimes(1);
 		expect(callbackSpy).toHaveBeenLastCalledWith(alarm);

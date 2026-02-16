@@ -24,7 +24,7 @@ export async function transferUserStatus(repositories) {
 		const issues = tranferReadStatusOfItem(newRepo.issues, oldRepo.issues);
 		const pullRequests = tranferReadStatusOfItem(
 			newRepo.pullRequests,
-			oldRepo.pullRequests
+			oldRepo.pullRequests,
 		);
 
 		return {

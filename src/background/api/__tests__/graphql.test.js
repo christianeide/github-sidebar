@@ -9,7 +9,7 @@ describe('graphql', () => {
 		const graphqlData = createPullRequestsQuery(
 			repositories,
 			numberOfItems,
-			sortBy
+			sortBy,
 		);
 		expect(graphqlData).toMatchInlineSnapshot(`
 			"query {

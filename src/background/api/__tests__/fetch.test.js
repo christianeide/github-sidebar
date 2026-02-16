@@ -104,10 +104,10 @@ describe('fetchData', () => {
 		await fetchData();
 
 		expect(
-			sendToAllTabs.mock.calls[1][0].errors[0].message
+			sendToAllTabs.mock.calls[1][0].errors[0].message,
 		).toMatchInlineSnapshot(`"GithubError2"`);
 		expect(
-			sendToAllTabs.mock.calls[1][0].errors[0].title
+			sendToAllTabs.mock.calls[1][0].errors[0].title,
 		).toMatchInlineSnapshot(`"Error in API query to Github"`);
 	});
 
@@ -128,12 +128,12 @@ describe('fetchData', () => {
 		expect(autoRemoveRepo).toHaveBeenCalledWith(11);
 
 		expect(
-			sendToAllTabs.mock.calls[1][0].errors[0].message
+			sendToAllTabs.mock.calls[1][0].errors[0].message,
 		).toMatchInlineSnapshot(
-			`"GithubError: Will now autoremove repo from list."`
+			`"GithubError: Will now autoremove repo from list."`,
 		);
 		expect(
-			sendToAllTabs.mock.calls[1][0].errors[0].title
+			sendToAllTabs.mock.calls[1][0].errors[0].title,
 		).toMatchInlineSnapshot(`"Error in API query to Github"`);
 	});
 
@@ -143,10 +143,10 @@ describe('fetchData', () => {
 		await fetchData();
 
 		expect(
-			sendToAllTabs.mock.calls[1][0].errors[0].message
+			sendToAllTabs.mock.calls[1][0].errors[0].message,
 		).toMatchInlineSnapshot(`"My Error"`);
 		expect(
-			sendToAllTabs.mock.calls[1][0].errors[0].title
+			sendToAllTabs.mock.calls[1][0].errors[0].title,
 		).toMatchInlineSnapshot(`"Could not reach Githubs API at this moment"`);
 	});
 
@@ -155,7 +155,7 @@ describe('fetchData', () => {
 
 		await fetchData();
 		expect(
-			sendToAllTabs.mock.calls[1][0].errors[0].message
+			sendToAllTabs.mock.calls[1][0].errors[0].message,
 		).toMatchInlineSnapshot(`"Unknown error"`);
 	});
 
@@ -185,7 +185,7 @@ describe('fetchData', () => {
 		expect(repositories[3].name).toBe(`${defaultRepoName}_4`);
 
 		expect(firstRepo.url).toMatchInlineSnapshot(
-			`"https://github.com/githubusername/github-sidebar"`
+			`"https://github.com/githubusername/github-sidebar"`,
 		);
 		expect(firstRepo.collapsed).toBeTruthy();
 		expect(firstRepo.totalItems.issues).toBe(1);
@@ -240,7 +240,7 @@ describe('fetchData', () => {
 
 		expect(
 			sendToAllTabs.mock.calls[1][0].repositories[0].pullRequests[1]
-				.reviewStatus
+				.reviewStatus,
 		).toBe(null);
 	});
 
@@ -249,7 +249,7 @@ describe('fetchData', () => {
 
 		expect(
 			sendToAllTabs.mock.calls[1][0].repositories[2].pullRequests[0]
-				.reviewStatus
+				.reviewStatus,
 		).toBe('APPROVED');
 	});
 
@@ -257,7 +257,7 @@ describe('fetchData', () => {
 		await fetchData();
 
 		expect(
-			sendToAllTabs.mock.calls[1][0].repositories[0].pullRequests[0].read
+			sendToAllTabs.mock.calls[1][0].repositories[0].pullRequests[0].read,
 		).toBe(false);
 	});
 
@@ -267,13 +267,13 @@ describe('fetchData', () => {
 		await fetchData();
 
 		expect(sendToAllTabs.mock.calls[1][0].repositories[0].issues.length).toBe(
-			2
+			2,
 		);
 		expect(sendToAllTabs.mock.calls[1][0].repositories[0].issues[0].read).toBe(
-			false
+			false,
 		);
 		expect(sendToAllTabs.mock.calls[1][0].repositories[0].issues[1].read).toBe(
-			true
+			true,
 		);
 	});
 
@@ -312,7 +312,7 @@ describe('fetchData', () => {
 				issues: 4,
 				issueAuthor: 'anotherAuthor',
 				issuesMaxNumber: 5,
-			})
+			}),
 		);
 
 		// We are showing 4 issues at a time, so we will remove the last item from the array,
@@ -378,7 +378,7 @@ describe('fetchData', () => {
 			{},
 			{
 				issueAuthor: 'anotherAuthor',
-			}
+			},
 		);
 
 		mockFetchResolve(externalRepoData);
@@ -409,7 +409,7 @@ describe('fetching in fetchDataFromAPI', () => {
 				body: JSON.stringify({
 					query: createPullRequestsQuery(repos, numberOfItems, sortBy),
 				}),
-			}
+			},
 		);
 	});
 });

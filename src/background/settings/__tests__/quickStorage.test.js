@@ -15,7 +15,7 @@ describe('quickstorage', () => {
 		expect(chrome.storage.local.get).toHaveBeenCalledTimes(1);
 		expect(chrome.storage.local.get).toBeCalledWith(
 			['settings', 'repositories', 'rateLimit'],
-			expect.any(Function)
+			expect.any(Function),
 		);
 
 		const mergedSettings = { ...defaultSettings, ...response.settings };

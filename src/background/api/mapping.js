@@ -18,7 +18,7 @@ export async function mapDataToInternalFormat(data) {
 		const pullRequests = listItems(
 			repo.pullRequests,
 			viewer,
-			oldTotalItemsNumber
+			oldTotalItemsNumber,
 		);
 
 		return createRepoData(repo, issues, pullRequests, newTotalItemsNumber);
@@ -33,7 +33,7 @@ function createRepoData(
 	repo,
 	issues = [],
 	pullRequests = [],
-	newTotalItemsNumber
+	newTotalItemsNumber,
 ) {
 	const name = repo.name;
 	const owner = repo.owner.login || repo.owner;

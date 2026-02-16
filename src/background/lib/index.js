@@ -28,7 +28,7 @@ export async function toggleRead(request) {
 			pullRequests: setArrayItemReadStatus(
 				repo.pullRequests,
 				repo.url,
-				request
+				request,
 			),
 		};
 	});
@@ -111,7 +111,7 @@ function findItemByURL(type, url) {
 
 export async function handleBrowserNavigation(tabId, changeInfo) {
 	const newRepositoriesData = await setItemInRepoAsReadBasedOnUrl(
-		changeInfo.url
+		changeInfo.url,
 	);
 
 	if (newRepositoriesData) {

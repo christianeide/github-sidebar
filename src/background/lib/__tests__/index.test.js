@@ -38,7 +38,7 @@ describe('init', () => {
 
 		expect(setAlarm.start).toHaveBeenCalledTimes(1);
 		expect(setAlarm.start).toHaveBeenCalledWith(
-			createQuickStorage().settings.autoRefresh
+			createQuickStorage().settings.autoRefresh,
 		);
 
 		expect(fetchData).toHaveBeenCalledTimes(1);
@@ -55,28 +55,28 @@ describe('toggleRead', () => {
 		expect(chrome.storage.local.set).toHaveBeenCalled();
 
 		expect(sendToAllTabs.mock.calls[0][0].repositories[0].issues[0].read).toBe(
-			true
+			true,
 		);
 
 		// Toggle first issue to false
 		request = { id: 'issueID', type: 'toggleRead' };
 		await toggleRead(request);
 		expect(sendToAllTabs.mock.calls[1][0].repositories[0].issues[0].read).toBe(
-			false
+			false,
 		);
 
 		// Toggle first pull to true
 		request = { id: 'pullID', type: 'toggleRead' };
 		await toggleRead(request);
 		expect(
-			sendToAllTabs.mock.calls[2][0].repositories[0].pullRequests[0].read
+			sendToAllTabs.mock.calls[2][0].repositories[0].pullRequests[0].read,
 		).toBe(true);
 
 		// Toggle first issue to false
 		request = { id: 'pullID', type: 'toggleRead' };
 		await toggleRead(request);
 		expect(
-			sendToAllTabs.mock.calls[3][0].repositories[0].pullRequests[0].read
+			sendToAllTabs.mock.calls[3][0].repositories[0].pullRequests[0].read,
 		).toBe(false);
 	});
 
