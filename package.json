@@ -41,7 +41,7 @@
     "jsdom": "^28.1.0",
     "lint-staged": "^16.2.7",
     "prettier": "^3.8.1",
-    "sass": "^1.50.0",
+    "sass-embedded": "^1.97.3",
     "semver": "^7.3.5",
     "stylelint": "^17.3.0",
     "stylelint-config-recess-order": "^7.6.1",
@@ -52,8 +52,8 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "prettier --write",
-      "eslint"
+      "eslint",
+      "prettier --write"
     ],
     "*.{scss,json}": [
       "prettier --write"
