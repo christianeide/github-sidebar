@@ -19,7 +19,7 @@
     "lint-staged": "lint-staged"
   },
   "dependencies": {
-    "array-move": "^3.0.1",
+    "array-move": "^4.0.0",
     "favico.js": "^0.3.10",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
