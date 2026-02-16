@@ -1538,6 +1538,8 @@ exports[`generic snapshots > should render settingspage 1`] = `
           <ul>
             <li
               class="listItem"
+              data-index="0"
+              draggable="true"
             >
               <div
                 class="content text-truncate"
@@ -1564,6 +1566,8 @@ exports[`generic snapshots > should render settingspage 1`] = `
             </li>
             <li
               class="listItem"
+              data-index="1"
+              draggable="true"
             >
               <div
                 class="content text-truncate"
@@ -1590,6 +1594,8 @@ exports[`generic snapshots > should render settingspage 1`] = `
             </li>
             <li
               class="listItem"
+              data-index="2"
+              draggable="true"
             >
               <div
                 class="content text-truncate"
@@ -1616,6 +1622,8 @@ exports[`generic snapshots > should render settingspage 1`] = `
             </li>
             <li
               class="listItem"
+              data-index="3"
+              draggable="true"
             >
               <div
                 class="content text-truncate"

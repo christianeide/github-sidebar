@@ -1,41 +1,55 @@
 import React from 'react';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 
-const SortableItem = SortableElement(({ item, onRemoveRepo, listIndex }) => (
-	<li className="listItem">
-		<div className="content text-truncate">
-			<div className="top">
-				<h5 className="text-truncate">
-					{item.owner} / {item.name}
-				</h5>
+export default function SortRepos({ items, onRemoveRepo, onSortEnd }) {
+	const onDrop = (event) => {
+		const fromIndex = Number(event.dataTransfer.getData('text/plain'));
+		const toIndex = Number(event.currentTarget.getAttribute('data-index'));
+		event.preventDefault();
 
-				<button
-					className="remove"
-					onClick={onRemoveRepo}
-					data-index={listIndex}
-					aria-label="Remove repo"
-				>
-					&#10005;
-				</button>
-			</div>
-		</div>
-	</li>
-));
+		if (
+			Number.isNaN(fromIndex) ||
+			Number.isNaN(toIndex) ||
+			fromIndex === toIndex
+		) {
+			return;
+		}
 
-const SortableList = SortableContainer(({ items, onRemoveRepo }) => {
+		onSortEnd({ oldIndex: fromIndex, newIndex: toIndex });
+	};
+
 	return (
 		<ul>
 			{items.map((item, index) => (
-				<SortableItem
+				<li
 					key={`${item.owner}/${item.name}`}
-					item={item}
-					listIndex={index}
-					index={index}
-					onRemoveRepo={onRemoveRepo}
-				/>
+					className="listItem"
+					data-index={index}
+					draggable
+					onDragStart={(event) => {
+						event.dataTransfer.effectAllowed = 'move';
+						event.dataTransfer.setData('text/plain', String(index));
+					}}
+					onDragOver={(event) => event.preventDefault()}
+					onDrop={onDrop}
+				>
+					<div className="content text-truncate">
+						<div className="top">
+							<h5 className="text-truncate">
+								{item.owner} / {item.name}
+							</h5>
+
+							<button
+								className="remove"
+								onClick={onRemoveRepo}
+								data-index={index}
+								aria-label="Remove repo"
+							>
+								&#10005;
+							</button>
+						</div>
+					</div>
+				</li>
 			))}
 		</ul>
 	);
-});
-
-export default SortableList;
+}
