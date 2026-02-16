@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import React from 'react';
 import Index from '../app';
 
@@ -9,47 +5,64 @@ import { render as tlrRender } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createQuickStorage } from '../../../test/generate';
 import setBadge from '../utils/setBadge.js';
-jest.mock('../utils/setBadge.js');
+import { vi } from 'vitest';
+
+vi.mock('../utils/setBadge.js');
 
 // Mock timespecific functions
 import '../utils/time.js';
-jest.mock('../utils/time.js', () => ({
-	...jest.requireActual('../utils/time.js'),
-	until: () => '1 month',
-	ago: () => '1 month',
-}));
+vi.mock('../utils/time.js', async (importOriginal) => {
+	const actual = await importOriginal();
+	return {
+		...actual,
+		until: () => '1 month',
+		ago: () => '1 month',
+	};
+});
 
 // mock debounce
 import '../utils/utils.js';
-jest.mock('../utils/utils.js', () => ({
-	...jest.requireActual('../utils/utils.js'),
-	debounce: (func) => {
-		return function (...args) {
-			func.apply(this, args);
-		};
-	},
-}));
+vi.mock('../utils/utils.js', async (importOriginal) => {
+	const actual = await importOriginal();
+	return {
+		...actual,
+		debounce: (func) => {
+			return function (...args) {
+				func.apply(this, args);
+			};
+		},
+	};
+});
 
 // mock path functions
-const testRepo = { name: 'newRepo', owner: 'UserX' };
+const { testRepo, getCurrentPathMock } = vi.hoisted(() => {
+	const repository = { name: 'newRepo', owner: 'UserX' };
+	return {
+		testRepo: repository,
+		getCurrentPathMock: vi
+			.fn()
+			.mockReturnValueOnce(false)
+			.mockReturnValueOnce(repository),
+	};
+});
 import '../components/Settings/getPath.js';
-jest.mock('../components/Settings/getPath.js', () => ({
-	...jest.requireActual('../components/Settings/getPath.js'),
-	canAddRepository: () => true,
-	getCurrentPath: jest
-		.fn()
-		.mockReturnValueOnce(false)
-		.mockReturnValueOnce(testRepo),
-}));
+vi.mock('../components/Settings/getPath.js', async (importOriginal) => {
+	const actual = await importOriginal();
+	return {
+		...actual,
+		canAddRepository: () => true,
+		getCurrentPath: getCurrentPathMock,
+	};
+});
 
 function render(props) {
-	const utils = tlrRender(<Index {...props} />);
+	const utils = tlrRender(React.createElement(Index, props));
 	return {
 		...utils,
 	};
 }
 
-const sendMessage = jest.fn((message, cb) => {
+const sendMessage = vi.fn((message, cb) => {
 	if (cb) {
 		cb();
 	}
@@ -59,7 +72,7 @@ function setupDataFromBackground(state) {
 	global.chrome = {
 		runtime: {
 			onMessage: {
-				addListener: jest.fn((listener) => {
+				addListener: vi.fn((listener) => {
 					listener(state);
 				}),
 			},
@@ -75,7 +88,7 @@ beforeEach(() => {
 	sendMessage.mockClear();
 
 	// Allow to overwrite process.env
-	jest.resetModules();
+	vi.resetModules();
 	process.env.npm_package_version = OLD_ENV; // Make a copy
 });
 

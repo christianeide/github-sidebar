@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { defaultSettings } from '../src/background/settings/';
 
 export const defaultUserName = 'githubusername';
@@ -41,11 +42,11 @@ export function createRepoURL(options = {}) {
 }
 
 export function mockFetchReject(data) {
-	global.fetch = jest.fn().mockImplementationOnce(() => Promise.reject(data));
+	global.fetch = vi.fn().mockImplementationOnce(() => Promise.reject(data));
 }
 
 export function mockFetchResolve(data) {
-	global.fetch = jest.fn().mockImplementationOnce(() =>
+	global.fetch = vi.fn().mockImplementationOnce(() =>
 		Promise.resolve({
 			json: () => Promise.resolve(data),
 		})

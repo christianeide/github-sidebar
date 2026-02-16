@@ -9,12 +9,14 @@
   "author": "Christian Gogstad Eide",
   "license": "MIT",
   "scripts": {
-    "start": "NODE_ENV=development webpack",
+    "dev": "(BUILD_TARGET=content vite build --mode development --watch & BUILD_TARGET=background vite build --mode development --watch & wait)",
     "version": "node ./version.js",
-    "build": "NODE_ENV=production webpack",
-    "test": "jest --coverage --config config/jest.config.js --runInBand",
-    "test-watch": "jest --watch --config config/jest.config.js --runInBand",
-    "lint": "eslint . --fix --ext .jsx,.js --ignore-path .gitignore"
+    "build": "BUILD_TARGET=content vite build --mode production && BUILD_TARGET=background vite build --mode production",
+    "test": "vitest",
+    "test:once": "vitest --run",
+    "lint": "eslint . --fix --ext .jsx,.js --ignore-path .gitignore",
+    "prepare": "husky",
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
     "array-move": "^3.0.1",
@@ -24,77 +26,37 @@
     "react-sortable-hoc": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.9",
-    "@babel/eslint-parser": "^7.17.0",
-    "@babel/plugin-proposal-class-properties": "^7.16.7",
-    "@babel/plugin-transform-react-jsx": "^7.17.3",
-    "@babel/preset-env": "^7.16.11",
-    "@babel/preset-react": "^7.16.7",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
-    "babel-jest": "^27.5.1",
-    "babel-loader": "^8.2.4",
-    "clean-webpack-plugin": "^4.0.0",
-    "copy-webpack-plugin": "^10.2.4",
-    "core-js": "^3.21.1",
-    "css-loader": "^6.7.1",
+    "@vitejs/plugin-react": "^5.1.4",
+    "@vitest/coverage-v8": "^4.0.18",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-jest-dom": "^4.0.1",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.4.0",
-    "file-loader": "^6.2.0",
-    "husky": "^7.0.4",
-    "jest": "^27.5.1",
+    "husky": "^9.1.7",
     "jest-chrome": "^0.7.2",
-    "jest-watch-typeahead": "^1.0.0",
-    "lint-staged": "^12.3.7",
-    "mini-css-extract-plugin": "^2.6.0",
-    "prettier": "^2.6.2",
-    "pretty-quick": "^3.1.3",
+    "jsdom": "^28.1.0",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.1",
     "sass": "^1.50.0",
-    "sass-loader": "^12.6.0",
     "semver": "^7.3.5",
-    "stylelint": "^14.6.1",
-    "stylelint-config-prettier": "^9.0.3",
-    "stylelint-config-recess-order": "^3.0.0",
-    "stylelint-config-standard": "^25.0.0",
-    "stylelint-prettier": "^2.0.0",
-    "webpack": "^5.72.0",
-    "webpack-cli": "^4.9.2"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "useBuiltIns": "usage",
-          "corejs": 3,
-          "targets": "defaults"
-        }
-      ],
-      "@babel/preset-react"
-    ],
-    "plugins": [
-      "@babel/plugin-proposal-class-properties",
-      "@babel/plugin-transform-react-jsx"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "stylelint": "^17.3.0",
+    "stylelint-config-recess-order": "^7.6.1",
+    "stylelint-config-standard": "^40.0.0",
+    "vite": "^7.3.1",
+    "vite-plugin-static-copy": "^3.2.0",
+    "vitest": "^4.0.18"
   },
   "lint-staged": {
     "*.{js,jsx}": [
       "prettier --write",
-      "eslint",
-      "git add"
+      "eslint"
     ],
     "*.{scss,json}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "prettier": {

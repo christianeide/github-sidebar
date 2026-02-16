@@ -19,16 +19,15 @@
 		"plugin:jest-dom/recommended"
 	],
 	"globals": {
-		"chrome": "readonly"
+		"chrome": "readonly",
+		"globalThis": "readonly"
 	},
-	"parser": "@babel/eslint-parser",
 	"parserOptions": {
-		"ecmaVersion": 11,
+		"ecmaVersion": "latest",
 		"sourceType": "module",
 		"ecmaFeatures": {
-			"experimentalObjectRestSpread": true
-		},
-		"allowImportExportEverywhere": true
+			"jsx": true
+		}
 	},
 	"plugins": ["react", "jest-dom"],
 	"rules": {

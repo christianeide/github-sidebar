@@ -2,11 +2,12 @@ import { fetchData, apiErrors } from '../fetch.js';
 import { quickStorage } from '../../settings/';
 import { createPullRequestsQuery } from '../index.js';
 import { toggleRead } from '../../lib/';
+import { vi } from 'vitest';
 
 import { autoRemoveRepo } from '../remove';
-jest.mock('../remove');
+vi.mock('../remove');
 import { sendToAllTabs } from '../../lib/communication';
-jest.mock('../../lib/communication');
+vi.mock('../../lib/communication');
 
 import {
 	createSettings,
@@ -191,47 +192,47 @@ describe('fetchData', () => {
 		expect(firstRepo.totalItems.pullRequests).toBe(2);
 
 		expect(firstRepo.issues).toMatchInlineSnapshot(`
-		Array [
-		  Object {
-		    "author": "githubusername",
-		    "comments": 2,
-		    "createdAt": "2021-01-01T01:02:03Z",
-		    "id": "issueID",
-		    "read": false,
-		    "reviewStatus": null,
-		    "title": "Issue title 1",
-		    "updatedAt": "2021-01-01T01:02:03Z",
-		    "url": "https://github.com/githubusername/github-sidebar/issues/1",
-		  },
-		]
-	`);
+			[
+			  {
+			    "author": "githubusername",
+			    "comments": 2,
+			    "createdAt": "2021-01-01T01:02:03Z",
+			    "id": "issueID",
+			    "read": false,
+			    "reviewStatus": null,
+			    "title": "Issue title 1",
+			    "updatedAt": "2021-01-01T01:02:03Z",
+			    "url": "https://github.com/githubusername/github-sidebar/issues/1",
+			  },
+			]
+		`);
 
 		expect(firstRepo.pullRequests).toMatchInlineSnapshot(`
-		Array [
-		  Object {
-		    "author": "githubusername",
-		    "comments": 3,
-		    "createdAt": "2021-01-01T01:02:03Z",
-		    "id": "pullID",
-		    "read": false,
-		    "reviewStatus": "APPROVED",
-		    "title": "Pull title 1",
-		    "updatedAt": "2021-01-01T01:02:03Z",
-		    "url": "https://github.com/githubusername/github-sidebar/pull/2",
-		  },
-		  Object {
-		    "author": "githubusername",
-		    "comments": 4,
-		    "createdAt": "2021-01-01T01:02:03Z",
-		    "id": "pullID_2",
-		    "read": false,
-		    "reviewStatus": null,
-		    "title": "Pull title 2",
-		    "updatedAt": "2021-01-01T01:02:03Z",
-		    "url": "https://github.com/githubusername/github-sidebar/pull/3",
-		  },
-		]
-	`);
+			[
+			  {
+			    "author": "githubusername",
+			    "comments": 3,
+			    "createdAt": "2021-01-01T01:02:03Z",
+			    "id": "pullID",
+			    "read": false,
+			    "reviewStatus": "APPROVED",
+			    "title": "Pull title 1",
+			    "updatedAt": "2021-01-01T01:02:03Z",
+			    "url": "https://github.com/githubusername/github-sidebar/pull/2",
+			  },
+			  {
+			    "author": "githubusername",
+			    "comments": 4,
+			    "createdAt": "2021-01-01T01:02:03Z",
+			    "id": "pullID_2",
+			    "read": false,
+			    "reviewStatus": null,
+			    "title": "Pull title 2",
+			    "updatedAt": "2021-01-01T01:02:03Z",
+			    "url": "https://github.com/githubusername/github-sidebar/pull/3",
+			  },
+			]
+		`);
 	});
 
 	it('should return null for reviewstatatus if not provided', async () => {

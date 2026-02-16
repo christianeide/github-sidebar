@@ -1,6 +1,7 @@
+import { vi } from 'vitest';
 import { sendToAllTabs } from '../communication';
 import { setAlarm } from '../../background';
-jest.mock('../../background');
+vi.mock('../../background');
 import { chrome } from 'jest-chrome';
 
 const message = 'This is my message!';
@@ -8,7 +9,7 @@ const message = 'This is my message!';
 describe('sendToAllTabs', () => {
 	it('should stop the alarm if no active tabs', async () => {
 		// Make sure we handle both an empty array and missing data
-		const callbackSpy = jest.fn();
+		const callbackSpy = vi.fn();
 		chrome.tabs.query.mockImplementation((message, callback) => {
 			callback(undefined);
 		});
@@ -29,14 +30,14 @@ describe('sendToAllTabs', () => {
 	});
 
 	it('should send message to all tabs', async () => {
-		const callbackSpy = jest.fn();
+		const callbackSpy = vi.fn();
 		const response = [{ id: 1 }, { id: 2 }, { id: 3 }];
 		chrome.tabs.query.mockImplementation((message, callback) => {
 			callback(response);
 		});
 		chrome.tabs.sendMessage.mockImplementation(() => {
 			return {
-				catch: jest.fn(),
+				catch: vi.fn(),
 			};
 		});
 		chrome.tabs.query(message, callbackSpy);

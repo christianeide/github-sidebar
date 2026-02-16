@@ -1,12 +1,13 @@
+import { vi } from 'vitest';
 import { chrome } from 'jest-chrome';
 import { setAlarm } from '../../background.js';
 import { defaultSettings, saveSettings } from '../index';
 
 import { fetchData } from '../../api/';
-jest.mock('../../api/');
+vi.mock('../../api/');
 
 import { sendToAllTabs } from '../../lib/communication';
-jest.mock('../../lib/communication');
+vi.mock('../../lib/communication');
 
 import { setupBackgroundTests } from '../../../../test/setup.js';
 
@@ -36,7 +37,7 @@ describe('saveSettings', () => {
 	});
 
 	it('should not change timer if autorefresh has not changed', async () => {
-		const changeSpy = jest.spyOn(setAlarm, 'change');
+		const changeSpy = vi.spyOn(setAlarm, 'change');
 
 		// Change should not be called if no autoRefresh
 		await saveSettings({});
@@ -48,8 +49,8 @@ describe('saveSettings', () => {
 	});
 
 	it('should changee timer if autorefresh has changed', async () => {
-		const changeSpy = jest.spyOn(setAlarm, 'change');
-		const startSpy = jest.spyOn(setAlarm, 'start');
+		const changeSpy = vi.spyOn(setAlarm, 'change');
+		const startSpy = vi.spyOn(setAlarm, 'start');
 
 		// Change Only to be called if autorefresh changes
 		const minInMs = 60000;

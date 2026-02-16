@@ -1,4 +1,4 @@
-@import '../../css/globals.scss';
+@use '../../css/globals';
 
 #github-sidebar {
 	.settings {
@@ -8,19 +8,19 @@
 		}
 
 		.accessTokenPusher {
-			background-color: var(--sidebarLink);
-			color: var(--darkYellow);
-			margin-left: -1rem;
-			margin-right: -1rem;
-			padding: 1rem;
-			margin-top: 2rem;
-			margin-bottom: 2rem;
 			display: grid;
 			gap: 4px;
+			padding: 1rem;
+			margin-top: 2rem;
+			margin-right: -1rem;
+			margin-bottom: 2rem;
+			margin-left: -1rem;
+			color: var(--darkYellow);
+			background-color: var(--sidebarLink);
 
 			ul {
-				list-style-type: disc;
 				padding-left: 1rem;
+				list-style-type: disc;
 			}
 
 			em {
@@ -32,9 +32,9 @@
 			}
 
 			.tokenInput {
-				background: var(--white);
 				margin-top: 1rem;
 				color: var(--darkYellow);
+				background: var(--white);
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 import React from 'react';
 import Item from './item.jsx';
-import Icons from '../../images/svgs/icons.js';
+import Icons from '../../images/svgs/icons';
 
 export default function Type({ settings, sendToBackend, repo, type }) {
 	const itemData = {

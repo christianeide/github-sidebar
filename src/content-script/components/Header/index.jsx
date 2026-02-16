@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './header.scss';
-import Icons from '../../images/svgs/icons.js';
+import Icons from '../../images/svgs/icons';
 import Errors from './errors.jsx';
 
 export default function Header(props) {

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`generic snapshots should render repos 1`] = `
+exports[`generic snapshots > should render repos 1`] = `
 <div>
   <div
     class="sidebar"
@@ -1480,7 +1480,7 @@ exports[`generic snapshots should render repos 1`] = `
 </div>
 `;
 
-exports[`generic snapshots should render settingspage 1`] = `
+exports[`generic snapshots > should render settingspage 1`] = `
 <div>
   <div
     class="sidebar"
@@ -1759,7 +1759,7 @@ exports[`generic snapshots should render settingspage 1`] = `
 </div>
 `;
 
-exports[`single item should only render a comment icon if there is any comments 1`] = `
+exports[`single item > should only render a comment icon if there is any comments 1`] = `
 <a
   href="https://github.com/githubusername/github-sidebar/issues/1"
   title="Issue title 1"

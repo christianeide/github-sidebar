@@ -1,10 +1,5 @@
 {
-	"extends": [
-		"stylelint-config-standard",
-		"stylelint-config-prettier",
-		"stylelint-config-recess-order"
-	],
-	"plugins": ["stylelint-prettier"],
+	"extends": ["stylelint-config-standard", "stylelint-config-recess-order"],
 	"rules": {
 		"at-rule-no-unknown": null,
 		"value-keyword-case": null,

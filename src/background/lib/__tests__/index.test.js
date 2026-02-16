@@ -6,15 +6,16 @@ import {
 	setItemInRepoAsReadBasedOnUrl,
 	handleBrowserNavigation,
 } from '../index.js';
+import { vi } from 'vitest';
 
 import { fetchData } from '../../api/';
-jest.mock('../../api/');
+vi.mock('../../api/');
 
 import { setAlarm } from '../../background.js';
-jest.mock('../../background.js');
+vi.mock('../../background.js');
 
 import { sendToAllTabs } from '../communication';
-jest.mock('../communication');
+vi.mock('../communication');
 
 import {
 	createRepoURL,
@@ -29,7 +30,7 @@ beforeEach(async () => {
 
 describe('init', () => {
 	it('should return inital data on init', async () => {
-		const response = jest.fn();
+		const response = vi.fn();
 		await init(response);
 
 		expect(response).toHaveBeenCalledTimes(1);

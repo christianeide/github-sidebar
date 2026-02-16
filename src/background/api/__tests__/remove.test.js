@@ -1,9 +1,10 @@
+import { vi } from 'vitest';
 import { autoRemoveRepo } from '../remove.js';
 import { quickStorage } from '../../settings/';
 import { sendToAllTabs } from '../../lib/communication';
-jest.mock('../../lib/communication');
+vi.mock('../../lib/communication');
 import { fetchData } from '../index';
-jest.mock('../index');
+vi.mock('../index');
 
 import { setupBackgroundTests } from '../../../../test/setup.js';
 
