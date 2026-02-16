@@ -1,12 +1,12 @@
-@import './_variables.scss';
+@use './_variables';
 
 %listItem {
+	position: relative;
+	padding: 0.3rem 0.5rem;
+	overflow: hidden;
+	color: var(--repoItemText);
 	background-color: var(--repoItemBg);
 	border-radius: 0 2px 2px 0;
-	padding: 0.3rem 0.5rem;
-	color: var(--repoItemText);
-	position: relative;
-	overflow: hidden;
 }
 
 %text-truncate {
@@ -26,10 +26,10 @@
 }
 
 %remove {
-	font-weight: unset;
-	font-size: 1.5rem;
 	margin-top: -0.5rem;
 	margin-bottom: -0.5rem;
+	font-size: 1.5rem;
+	font-weight: unset;
 	color: var(--repoItemSubText);
 	background: transparent;
 	border: 0;

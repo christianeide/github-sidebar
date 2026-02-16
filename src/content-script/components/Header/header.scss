@@ -1,22 +1,23 @@
-@import '../../css/globals.scss';
+@use '../../css/globals';
+@use '../../css/variables';
 
 #github-sidebar {
 	.sidebar {
 		header {
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: variables.$sidePadding;
+			color: var(--headerText);
+			background: var(--headerBg);
 			border-right: 1px solid var(--headerBorder);
 			border-bottom: 1px solid var(--headerBorder);
-			background: var(--headerBg);
-			padding: $sidePadding;
-			color: var(--headerText);
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			position: relative;
 
 			.loader {
+				height: 5rem;
 				margin-left: 1rem;
 				opacity: 0.4;
-				height: 5rem;
 			}
 
 			.iconBtn {
@@ -28,8 +29,8 @@
 			}
 
 			.warningBtn {
-				color: var(--red);
 				margin-right: 0.5rem;
+				color: var(--red);
 
 				&:hover {
 					opacity: 0.7;
@@ -39,30 +40,30 @@
 			.error {
 				ul {
 					position: absolute;
-					background: var(--errorBg);
+					left: 0.5rem;
+					z-index: 4000;
+					width: variables.$sidebarWidth - 1;
+					padding: 0.4rem;
+					margin-top: 1rem;
 					color: var(--errorText);
 					list-style-type: none;
+					background: var(--errorBg);
 					border: 1px solid var(--errorBorder);
-					z-index: 4000;
-					width: $sidebarWidth - 1;
-					box-shadow: rgba(0, 0, 0, 0.24) 0 0 6px 0;
-					margin-top: 1rem;
-					left: 0.5rem;
-					padding: 0.4rem;
+					box-shadow: rgb(0 0 0 / 24%) 0 0 6px 0;
 
 					&::after {
+						position: absolute;
 						bottom: 100%;
 						left: 86%;
-						border: solid transparent;
-						content: ' ';
-						height: 0;
 						width: 0;
-						position: absolute;
-						pointer-events: none;
-						border-color: rgba(0, 0, 0, 0);
-						border-bottom-color: var(--errorBg);
-						border-width: 10px;
+						height: 0;
 						margin-left: -10px;
+						pointer-events: none;
+						content: ' ';
+						border: solid transparent;
+						border-color: rgb(0 0 0 / 0%);
+						border-width: 10px;
+						border-bottom-color: var(--errorBg);
 					}
 
 					li {
@@ -77,9 +78,9 @@
 						}
 
 						p {
-							color: var(--errorSubText);
 							margin: 0;
-							@include fontSizeSmall();
+							color: var(--errorSubText);
+							@include globals.fontSizeSmall();
 						}
 					}
 				}

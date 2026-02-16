@@ -1,5 +1,5 @@
-@import './_variables.scss';
-@import './extends.scss';
+@use './_variables';
+@use './extends';
 
 @mixin fontSizeNormal {
 	font-size: 0.875rem;

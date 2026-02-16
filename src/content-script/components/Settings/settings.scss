@@ -1,9 +1,10 @@
-@import '../../css/globals.scss';
+@use '../../css/globals';
+@use '../../css/variables';
 
 #github-sidebar {
 	.sidebar {
 		.settings {
-			padding: $topPadding $sidePadding;
+			padding: variables.$topPadding variables.$sidePadding;
 			color: var(--settingsText);
 
 			.list {
@@ -22,16 +23,16 @@
 
 			button {
 				&.add {
-					margin-bottom: 0.5rem;
-					margin-top: 0rem;
 					padding: 1.5rem;
+					margin-top: 0;
+					margin-bottom: 0.5rem;
 				}
 			}
 
 			input,
 			select {
-				background: var(--repoItemBg);
 				color: var(--repoItemText);
+				background: var(--repoItemBg);
 				border: 0;
 			}
 
@@ -45,22 +46,22 @@
 			}
 
 			.credit {
-				@include fontSizeSmall();
+				@include globals.fontSizeSmall();
 
-				text-align: right;
 				margin-top: 2rem;
+				text-align: right;
 			}
 
 			.autoSave {
 				position: fixed;
 				bottom: 0;
 				left: 0;
-				background: var(--sidebarButton);
-				padding: $sidePadding;
+				padding: variables.$sidePadding;
 				color: var(--sidebarButtonText);
+				background: var(--sidebarButton);
+				box-shadow: 0 0 4px 2px rgb(0 0 0 / 25%);
 				opacity: 0;
 				transition: 0.3s opacity;
-				box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.25);
 
 				&.show {
 					opacity: 1;

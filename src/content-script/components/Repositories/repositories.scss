@@ -1,4 +1,5 @@
-@import '../../css/globals.scss';
+@use '../../css/globals';
+@use '../../css/variables';
 
 #github-sidebar {
 	.sidebar {
@@ -11,15 +12,15 @@
 
 					.item {
 						display: flex;
-						overflow: hidden;
 						margin-top: 0.15rem;
 						margin-bottom: 0.15rem;
+						overflow: hidden;
 					}
 
 					.itemHeading {
-						padding: 0.8rem 0 0.2rem 0;
 						display: flex;
 						align-items: center;
+						padding: 0.8rem 0 0.2rem;
 
 						.icon {
 							color: var(--repoTypeText);
@@ -27,26 +28,26 @@
 
 						h4 {
 							display: inline;
-							@include fontSizeNormal();
+							@include globals.fontSizeNormal();
 
 							a {
-								color: var(--repoTypeText);
 								font-weight: normal;
+								color: var(--repoTypeText);
 							}
 						}
 					}
 
 					.repoHeading {
 						display: flex;
-						background: var(--repoHeaderBg);
 						color: var(--repoHeaderText);
+						background: var(--repoHeaderBg);
 
 						.readButton {
 							justify-content: flex-start;
 
 							.color {
-								border-radius: 0 2px 2px 0;
 								width: 70%;
+								border-radius: 0 2px 2px 0;
 							}
 
 							&:hover {
@@ -88,10 +89,10 @@
 						}
 
 						h3 {
-							@include fontSizeNormal();
+							@include globals.fontSizeNormal();
 
-							padding-top: $topPadding;
-							padding-bottom: $topPadding;
+							padding-top: variables.$topPadding;
+							padding-bottom: variables.$topPadding;
 
 							a {
 								color: var(--repoHeaderText);
@@ -112,19 +113,18 @@
 						.repoCount {
 							display: flex;
 							flex-direction: column;
+							margin-left: 0.5rem;
 							line-height: 1rem;
 							color: var(--repoHeaderSubText);
-							@include fontSizeSmall();
-
 							text-align: right;
-							margin-left: 0.5rem;
+							@include globals.fontSizeSmall();
 						}
 					}
 
 					// Set colors if repo is selected
 					.repoHeading.selected {
-						background: var(--selected);
 						color: var(--selectedText);
+						background: var(--selected);
 
 						&:not(.hideHover):hover {
 							.expand {
@@ -177,15 +177,15 @@
 			}
 
 			&.noRepos {
-				padding: 2rem;
 				display: flex;
+				padding: 2rem;
 
 				.justifier {
 					margin: auto;
 
 					p {
-						color: var(--sidebarText);
 						line-height: 1rem;
+						color: var(--sidebarText);
 					}
 				}
 			}
