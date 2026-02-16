@@ -10,11 +10,11 @@
   "license": "MIT",
   "scripts": {
     "dev": "(BUILD_TARGET=content vite build --mode development --watch & BUILD_TARGET=background vite build --mode development --watch & wait)",
-    "version": "node ./version.js",
     "build": "BUILD_TARGET=content vite build --mode production && BUILD_TARGET=background vite build --mode production",
+    "version": "node ./version.js",
     "test": "vitest",
     "test:once": "vitest --run",
-    "lint": "eslint . --fix --ext .jsx,.js --ignore-path .gitignore",
+    "lint": "eslint . --fix",
     "prepare": "husky",
     "lint-staged": "lint-staged"
   },
@@ -26,23 +26,24 @@
     "react-sortable-hoc": "^2.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "@vitejs/plugin-react": "^5.1.4",
     "@vitest/coverage-v8": "^4.0.18",
-    "eslint": "^8.13.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-jest-dom": "^4.0.1",
-    "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "globals": "^17.3.0",
     "husky": "^9.1.7",
-    "jest-chrome": "^0.7.2",
+    "jest-chrome": "^0.8.0",
     "jsdom": "^28.1.0",
     "lint-staged": "^16.2.7",
     "prettier": "^3.8.1",
-    "sass": "^1.50.0",
-    "semver": "^7.3.5",
+    "sass-embedded": "^1.97.3",
+    "semver": "^7.7.4",
     "stylelint": "^17.3.0",
     "stylelint-config-recess-order": "^7.6.1",
     "stylelint-config-standard": "^40.0.0",
@@ -52,8 +53,8 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "prettier --write",
-      "eslint"
+      "eslint",
+      "prettier --write"
     ],
     "*.{scss,json}": [
       "prettier --write"
