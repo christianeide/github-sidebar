@@ -8,13 +8,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default defineConfig(({ mode }) => {
-	const target = process.env.BUILD_TARGET;
+	const isTest = mode === 'test';
+	const target = process.env.BUILD_TARGET ?? 'content';
 
-	if (!['content', 'background'].includes(target)) {
-		throw new Error(
-			'Missing BUILD_TARGET. Use BUILD_TARGET=content or BUILD_TARGET=background.'
-		);
-	}
+	const reactPlugin = react({
+		include: /\.[jt]sx?$/,
+		jsxRuntime: 'classic',
+	});
 
 	const isDev = mode === 'development';
 	const isContent = target === 'content';
@@ -52,16 +52,17 @@ export default defineConfig(({ mode }) => {
 			},
 		},
 		plugins: [
-			react({
-				include: /\.[jt]sx?$/,
-				jsxRuntime: 'classic',
-			}),
-			viteStaticCopy({
-				targets: [
-					{ src: 'manifest.json', dest: '.' },
-					{ src: 'images/logo_*', dest: 'images' },
-				],
-			}),
+			reactPlugin,
+			...(!isTest
+				? [
+						viteStaticCopy({
+							targets: [
+								{ src: 'manifest.json', dest: '.' },
+								{ src: 'images/logo_*', dest: 'images' },
+							],
+						}),
+					]
+				: []),
 		],
 		define: {
 			'process.env.NODE_ENV': JSON.stringify(
@@ -70,6 +71,18 @@ export default defineConfig(({ mode }) => {
 			'process.env.npm_package_version': JSON.stringify(
 				process.env.npm_package_version
 			),
+		},
+		test: {
+			globals: true,
+			environment: 'jsdom',
+			setupFiles: ['./__mocks__/vitest.setup.js'],
+			include: ['src/**/*.test.{js,jsx}'],
+			clearMocks: true,
+			coverage: {
+				provider: 'v8',
+				reporter: ['text', 'lcov'],
+				include: ['src/**/*.{js,jsx}'],
+			},
 		},
 	};
 });

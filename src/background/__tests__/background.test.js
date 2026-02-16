@@ -1,50 +1,52 @@
 // Using rewire to get non exported functions
+import { vi } from 'vitest';
 import { setAlarm } from '../background.js';
 import { chrome } from 'jest-chrome';
 
 import { fetchData, apiErrors } from '../api/';
-jest.mock('../api/', () => {
+vi.mock('../api/', () => {
 	return {
 		apiErrors: {
-			set: jest.fn(),
-			get: jest.fn(() => {
+			set: vi.fn(),
+			get: vi.fn(() => {
 				return [];
 			}),
 		},
-		fetchData: jest.fn(),
+		fetchData: vi.fn(),
 	};
 });
 
 // For some reason a default mock wont work, so need to manually mock each function.
 // It might have something to do with jest-chrome
 import { init, toggleRead, toggleCollapsed } from '../lib/';
-jest.mock('../lib/', () => {
+vi.mock('../lib/', () => {
 	return {
-		setItemInRepoAsReadBasedOnUrl: jest.fn(() => {
+		setItemInRepoAsReadBasedOnUrl: vi.fn(() => {
 			return {
-				then: jest.fn(() => {
+				then: vi.fn(() => {
 					return 'mockRepoData';
 				}),
 			};
 		}),
-		init: jest.fn(),
-		toggleRead: jest.fn(),
-		toggleCollapsed: jest.fn(),
-		apiErrors: jest.fn(),
+		handleBrowserNavigation: vi.fn(),
+		init: vi.fn(),
+		toggleRead: vi.fn(),
+		toggleCollapsed: vi.fn(),
+		apiErrors: vi.fn(),
 	};
 });
 
 import { sendToAllTabs } from '../lib/communication';
-jest.mock('../lib/communication', () => {
+vi.mock('../lib/communication', () => {
 	return {
-		sendToAllTabs: jest.fn(),
+		sendToAllTabs: vi.fn(),
 	};
 });
 
 import { saveSettings } from '../settings/save.js';
-jest.mock('../settings/save.js', () => {
+vi.mock('../settings/save.js', () => {
 	return {
-		saveSettings: jest.fn(),
+		saveSettings: vi.fn(),
 	};
 });
 
@@ -54,7 +56,7 @@ beforeEach(async () => {
 
 describe('setAlarm', () => {
 	it('should check if alarm is running', () => {
-		const callbackSpy = jest.fn();
+		const callbackSpy = vi.fn();
 		const alarm = { active: true };
 		chrome.alarms.get.mockImplementation((message, callback) => {
 			callback(alarm);
@@ -71,7 +73,7 @@ describe('setAlarm', () => {
 	});
 
 	it('should not start a new alarm if one is already running', async () => {
-		const callbackSpy = jest.fn();
+		const callbackSpy = vi.fn();
 		const alarm = { active: true };
 		chrome.alarms.get.mockImplementation((message, callback) => {
 			callback(alarm);
@@ -167,8 +169,8 @@ describe('chrome.runtime.onMessage', () => {
 	});
 
 	it('should call events based on incoming message', async () => {
-		const sender = jest.fn();
-		const sendResponse = jest.fn();
+		const sender = vi.fn();
+		const sendResponse = vi.fn();
 
 		let request = { type: 'init' };
 		chrome.runtime.onMessage.callListeners(request, sender, sendResponse);

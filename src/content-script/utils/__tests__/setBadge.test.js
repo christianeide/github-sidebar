@@ -1,31 +1,35 @@
-import setBadge from '../setBadge';
-import Favico from 'favico.js';
-
+import { vi } from 'vitest';
+import setBadge, { faviconOptions, __getFaviconForTests } from '../setBadge';
 import { hasUnreadItems } from '../utils';
-jest.mock('../utils');
+
+vi.mock('../utils');
 
 let showFavicon;
 const repositories = [];
 let favicon;
-beforeEach(() => {
-	showFavicon = true;
-	favicon = new Favico();
-});
 
 describe('favico initial setup', () => {
-	// Test initial setup of favico
-	expect(Favico).toHaveBeenCalledTimes(1);
-	expect(Favico.mock.calls[0][0]).toMatchInlineSnapshot(`
-	Object {
-	  "animation": "none",
-	  "bgColor": "#FDB23C",
-	  "position": "upleft",
-	  "textColor": "#FDB23C",
-	}
-`);
+	it('should initialize favico with default settings', () => {
+		expect(faviconOptions).toMatchInlineSnapshot(`
+		{
+		  "animation": "none",
+		  "bgColor": "#FDB23C",
+		  "position": "upleft",
+		  "textColor": "#FDB23C",
+		}
+	`);
+	});
 });
 
 describe('setBadge', () => {
+	beforeEach(() => {
+		showFavicon = true;
+		favicon = __getFaviconForTests();
+		favicon.reset = vi.fn();
+		favicon.badge = vi.fn();
+		hasUnreadItems.mockReset();
+	});
+
 	it('should not show favicon if settings parameter is false', () => {
 		showFavicon = false;
 

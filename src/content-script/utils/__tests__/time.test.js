@@ -1,12 +1,13 @@
+import { vi } from 'vitest';
 import { ago, until } from '../time';
 
 beforeAll(() => {
-	jest.useFakeTimers('modern');
-	jest.setSystemTime(new Date('2021-02-01T12:00:00Z'));
+	vi.useFakeTimers();
+	vi.setSystemTime(new Date('2021-02-01T12:00:00Z'));
 });
 
 afterAll(() => {
-	jest.useRealTimers();
+	vi.useRealTimers();
 });
 
 describe('ago (and until)', () => {
