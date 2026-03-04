@@ -9,13 +9,13 @@
   "author": "Christian Gogstad Eide",
   "license": "MIT",
   "scripts": {
-    "dev": "(BUILD_TARGET=content vite build --mode development --watch & BUILD_TARGET=background vite build --mode development --watch & wait)",
-    "build": "BUILD_TARGET=content vite build --mode production && BUILD_TARGET=background vite build --mode production",
+    "dev": "vite dev",
+    "build": "vite build",
     "version": "node ./version.js",
     "test": "vitest",
     "test:once": "vitest --run",
     "lint": "eslint . --fix",
-		"format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky",
     "lint-staged": "lint-staged"
   },
