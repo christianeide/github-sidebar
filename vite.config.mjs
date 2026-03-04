@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import webExtension from 'vite-plugin-web-extension';
 
 export default defineConfig(({ mode }) => {
 	const isTest = mode === 'test';
@@ -47,6 +48,11 @@ export default defineConfig(({ mode }) => {
 			react({
 				include: /\.[jt]sx?$/,
 				jsxRuntime: 'automatic',
+			}),
+			webExtension({
+				manifest: './manifest.json',
+				watchFilePaths: ['manifest.json'],
+				disableAutoLaunch: true,
 			}),
 			viteStaticCopy({
 				targets: [{ src: 'images/logo_*', dest: 'images' }],
