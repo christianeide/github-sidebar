@@ -5,7 +5,7 @@
 	.sidebar {
 		main {
 			.repositories {
-				margin-bottom: 2rem;
+				margin-bottom: 1rem;
 
 				.repository {
 					margin-bottom: 2px;
@@ -28,6 +28,7 @@
 
 						h4 {
 							display: inline;
+
 							@include globals.fontSizeNormal();
 
 							a {
@@ -82,9 +83,9 @@
 						.expand {
 							.icon {
 								color: var(--repoHeaderSubText);
+								transform: scale(0.7);
 								translate: rotateZ(0deg);
 								transition: transform 0.2s ease-out;
-								transform: scale(0.7);
 							}
 						}
 
@@ -117,6 +118,7 @@
 							line-height: 1rem;
 							color: var(--repoHeaderSubText);
 							text-align: right;
+
 							@include globals.fontSizeSmall();
 						}
 					}
