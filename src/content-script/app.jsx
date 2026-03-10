@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Header from './components/Header/index.jsx';
 import Repositories from './components/Repositories/index.jsx';
 import Settings from './components/Settings/index.jsx';
+import Icons from './images/svgs/icons.jsx';
+import useSidebarVisibility from './hooks/useSidebarVisibility.js';
 import setBadge from './utils/setBadge';
 
 export default function App() {
@@ -14,6 +16,7 @@ export default function App() {
 	});
 
 	const [showSettings, setShowSettings] = useState(false);
+	const { sidebarVisible, toggleSidebarVisibility } = useSidebarVisibility();
 
 	const sendToBackend = (message, cb = null) => {
 		chrome.runtime.sendMessage(message, cb);
@@ -53,34 +56,51 @@ export default function App() {
 
 	const { settings, loading, errors, rateLimit, repositories } = backgroundData;
 
-	if (!settings) {
-		return null;
-	}
-
 	return (
-		<div className="sidebar">
-			<Header
-				onToggleSettings={handleToggleSettings}
-				loading={loading}
-				errors={errors}
-				showSettings={showSettings}
-				sendToBackend={sendToBackend}
-			/>
+		<>
+			<div className={`sidebar ${!sidebarVisible ? 'sidebar--hidden' : ''}`}>
+				{!settings ? null : (
+					<>
+						<Header
+							onToggleSettings={handleToggleSettings}
+							loading={loading}
+							errors={errors}
+							showSettings={showSettings}
+							sendToBackend={sendToBackend}
+						/>
 
-			{showSettings ? (
-				<Settings
-					rateLimit={rateLimit}
-					settings={settings}
-					sendToBackend={sendToBackend}
-				/>
-			) : (
-				<Repositories
-					repositories={repositories}
-					settings={settings}
-					onToggleSettings={handleToggleSettings}
-					sendToBackend={sendToBackend}
-				/>
-			)}
-		</div>
+						{showSettings ? (
+							<Settings
+								rateLimit={rateLimit}
+								settings={settings}
+								sendToBackend={sendToBackend}
+							/>
+						) : (
+							<Repositories
+								repositories={repositories}
+								settings={settings}
+								onToggleSettings={handleToggleSettings}
+								sendToBackend={sendToBackend}
+							/>
+						)}
+					</>
+				)}
+			</div>
+
+			<div
+				className={`footer ${!sidebarVisible ? 'footer--hidden' : ''}`}
+				onClick={toggleSidebarVisibility}
+				title={sidebarVisible ? 'Hide Github sidebar' : 'Show Github sidebar'}
+			>
+				<button
+					className="toggleSidebarBtn  align-center"
+					aria-label={
+						sidebarVisible ? 'Hide Github sidebar' : 'Show Github sidebar'
+					}
+				>
+					<Icons icon="arrowHorizontal" />
+				</button>
+			</div>
+		</>
 	);
 }

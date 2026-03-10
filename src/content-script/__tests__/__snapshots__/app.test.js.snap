@@ -3,7 +3,7 @@
 exports[`generic snapshots > should render repos 1`] = `
 <div>
   <div
-    class="sidebar"
+    class="sidebar "
   >
     <header
       class="text-bold"
@@ -1477,13 +1477,33 @@ exports[`generic snapshots > should render repos 1`] = `
       </ul>
     </main>
   </div>
+  <div
+    class="footer "
+    title="Hide Github sidebar"
+  >
+    <button
+      aria-label="Hide Github sidebar"
+      class="toggleSidebarBtn  align-center"
+    >
+      <svg
+        class="icon"
+        height="14"
+        viewBox="0 0 15.5 25.563"
+        width="8.488"
+      >
+        <path
+          d="M0.443,11.609a1.406,1.406,0,0,0,0,1.989L11.831,24.985a1.406,1.406,0,0,0,1.989,0l1.328-1.328a1.406,1.406,0,0,0,0-1.986l-9.025-9.067,9.025-9.067a1.406,1.406,0,0,0,0-1.986L13.82,0.123a1.406,1.406,0,0,0-1.989,0Z"
+        />
+      </svg>
+    </button>
+  </div>
 </div>
 `;
 
 exports[`generic snapshots > should render settingspage 1`] = `
 <div>
   <div
-    class="sidebar"
+    class="sidebar "
   >
     <header
       class="text-bold"
@@ -1763,6 +1783,26 @@ exports[`generic snapshots > should render settingspage 1`] = `
         Settings saved...
       </div>
     </main>
+  </div>
+  <div
+    class="footer "
+    title="Hide Github sidebar"
+  >
+    <button
+      aria-label="Hide Github sidebar"
+      class="toggleSidebarBtn  align-center"
+    >
+      <svg
+        class="icon"
+        height="14"
+        viewBox="0 0 15.5 25.563"
+        width="8.488"
+      >
+        <path
+          d="M0.443,11.609a1.406,1.406,0,0,0,0,1.989L11.831,24.985a1.406,1.406,0,0,0,1.989,0l1.328-1.328a1.406,1.406,0,0,0,0-1.986l-9.025-9.067,9.025-9.067a1.406,1.406,0,0,0,0-1.986L13.82,0.123a1.406,1.406,0,0,0-1.989,0Z"
+        />
+      </svg>
+    </button>
   </div>
 </div>
 `;

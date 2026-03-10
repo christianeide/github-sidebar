@@ -8,6 +8,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+			height: 100px; // Default height in most cases
 			padding: variables.$sidePadding;
 			color: var(--headerText);
 			background: var(--headerBg);
@@ -80,6 +81,7 @@
 						p {
 							margin: 0;
 							color: var(--errorSubText);
+
 							@include globals.fontSizeSmall();
 						}
 					}

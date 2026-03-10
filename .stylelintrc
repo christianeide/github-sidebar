@@ -9,7 +9,9 @@
 				"except": ["first-nested", "after-single-line-comment"]
 			}
 		],
-		"no-descending-specificity": null
+		"no-descending-specificity": null,
+		"custom-property-pattern": null,
+		"selector-class-pattern": null
 	},
 	"ignoreFiles": ["**/*.js", "**/*.jsx"]
 }

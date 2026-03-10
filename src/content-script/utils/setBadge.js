@@ -9,10 +9,17 @@ export const faviconOptions = {
 	position: 'upleft',
 };
 
-const favicon = new Favico(faviconOptions);
+let favicon = null;
+
+function getFavicon() {
+	if (!favicon) {
+		favicon = new Favico(faviconOptions);
+	}
+	return favicon;
+}
 
 export function __getFaviconForTests() {
-	return favicon;
+	return getFavicon();
 }
 
 let OldUnReadStatus = false;
@@ -20,7 +27,7 @@ let OldUnReadStatus = false;
 export default function setBadge(repositories, showFavicon) {
 	if (!showFavicon) {
 		OldUnReadStatus = false;
-		favicon.reset();
+		getFavicon().reset();
 		return;
 	}
 
@@ -28,9 +35,9 @@ export default function setBadge(repositories, showFavicon) {
 
 	if (OldUnReadStatus !== hasUnread) {
 		if (hasUnread) {
-			favicon.badge('+');
+			getFavicon().badge('+');
 		} else {
-			favicon.reset();
+			getFavicon().reset();
 		}
 
 		OldUnReadStatus = hasUnread;
