@@ -2,10 +2,44 @@
 @use './theme';
 @use './variables';
 
-body {
-	padding-left: variables.$sidebarWidth !important;
+// Styles for host-page layout when sidebar is hidden/default.
+body:has(#github-sidebar .sidebar.sidebar--hidden) {
+	padding-left: 0 !important;
+	transition: padding-left 0.3s ease;
+
+	#files_bucket > .position-relative {
+		width: 100vw !important;
+		margin-left: -50vw !important;
+		transition:
+			width 0.3s ease,
+			margin-left 0.3s ease;
+	}
+
+	[class^='prc-PageHeader-TitleArea'] {
+		min-width: revert !important;
+		transition: min-width 0.3s ease;
+	}
 }
 
+body:has(#github-sidebar .sidebar:not(.sidebar--hidden)) {
+	padding-left: variables.$sidebarWidth !important;
+	transition: padding-left 0.3s ease;
+
+	#files_bucket > .position-relative {
+		width: calc(100vw - variables.$sidebarWidth) !important;
+		margin-left: calc(-50vw + (variables.$sidebarWidth / 2)) !important;
+		transition:
+			width 0.3s ease,
+			margin-left 0.3s ease;
+	}
+
+	[class^='prc-PageHeader-TitleArea'] {
+		min-width: unset !important;
+		transition: min-width 0.3s ease;
+	}
+}
+
+// Extension
 #github-sidebar {
 	position: fixed;
 	top: 0;
@@ -13,6 +47,7 @@ body {
 	z-index: 1000;
 	width: variables.$sidebarWidth;
 	height: 100%;
+	pointer-events: none;
 
 	// Define custom scrollbar
 	::-webkit-scrollbar {
@@ -96,9 +131,15 @@ body {
 	.sidebar {
 		display: flex;
 		flex-direction: column;
-		height: 100%;
+		height: calc(100% - 40px);
 		color: var(--sidebarText);
+		pointer-events: auto;
 		background-color: var(--sidebarBg);
+		transition: transform 0.3s ease;
+
+		&--hidden {
+			transform: translateX(calc(-1 * variables.$sidebarWidth));
+		}
 
 		ul {
 			list-style-type: none;
@@ -143,12 +184,13 @@ body {
 			width: 100%;
 			padding: 0.375rem 0.75rem;
 			margin-top: 2rem;
-			color: var(--sidebarButtonText);
 			vertical-align: middle;
+			color: var(--sidebarButtonText);
 			cursor: pointer;
 			background: var(--sidebarButton);
 			border: none;
 			border-radius: 0.25em;
+
 			@include globals.fontSizeNormal();
 
 			&:hover {
@@ -240,6 +282,55 @@ body {
 					color: var(--selectedSubText);
 				}
 			}
+		}
+	}
+
+	.footer {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		display: flex;
+		align-items: center;
+		justify-content: right;
+		width: 100%;
+		height: 40px;
+		padding: 0 variables.$sidePadding;
+		pointer-events: auto;
+		cursor: pointer;
+		background: var(--gray-700);
+		border-top: 1px solid var(--gray-600);
+		transition: all 0.3s ease;
+
+		&--hidden {
+			left: calc(-100% + 20px);
+			padding-right: 0;
+			border-radius: 0.25em;
+
+			& .toggleSidebarBtn {
+				transform: rotate(180deg);
+			}
+
+			&:hover {
+				left: calc(-100% + 40px);
+				padding-right: 10px;
+			}
+		}
+
+		&:hover .toggleSidebarBtn {
+			color: var(--headerIconHover);
+		}
+
+		.toggleSidebarBtn {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 20px;
+			height: 20px;
+			padding: 0;
+			color: var(--headerIcon);
+			background: none;
+			border: none;
+			transition: transform 0.3s ease;
 		}
 	}
 }

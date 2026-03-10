@@ -6,6 +6,7 @@
 	--white: #fff;
 	--gray-100: #c5c8ca;
 	--gray-500: #989da1;
+	--gray-600: #6d7378;
 	--gray-700: #414950;
 	--gray-800: #2e343a;
 	--gray-900: #222629;
@@ -31,6 +32,10 @@
 	--headerText: var(--white);
 	--headerIcon: var(--gray-500);
 	--headerIconHover: var(--white);
+
+	// Footer
+	--footerBg: var(--gray-700);
+	--footerBorder: var(--gray-600);
 
 	// Errormessages
 	--errorBg: var(--gray-700);
