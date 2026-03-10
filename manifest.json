@@ -18,8 +18,12 @@
 	"content_scripts": [
 		{
 			"matches": ["https://github.com/*"],
-			"js": ["src/content-script/index.jsx"],
-			"css": ["src/content-script/css/index.scss"]
+			"js": [
+				"src/content-script/loadVisibility.js",
+				"src/content-script/index.jsx"
+			],
+			"css": ["src/content-script/css/index.scss"],
+			"run_at": "document_start"
 		}
 	],
 	"web_accessible_resources": [
