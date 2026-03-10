@@ -3,7 +3,8 @@ import Header from './components/Header/index.jsx';
 import Repositories from './components/Repositories/index.jsx';
 import Settings from './components/Settings/index.jsx';
 import Icons from './images/svgs/icons.jsx';
-import setBadge from './utils/setBadge';
+import useSidebarVisibility from './hooks/useSidebarVisibility.js';
+// import setBadge from './utils/setBadge';
 
 export default function App() {
 	const [backgroundData, setBackgroundData] = useState({
@@ -15,6 +16,7 @@ export default function App() {
 	});
 
 	const [showSettings, setShowSettings] = useState(false);
+	const { sidebarVisible, toggleSidebarVisibility } = useSidebarVisibility();
 
 	const sendToBackend = (message, cb = null) => {
 		chrome.runtime.sendMessage(message, cb);
@@ -39,10 +41,10 @@ export default function App() {
 	}, []);
 
 	useEffect(() => {
-		setBadge(
-			backgroundData.repositories,
-			backgroundData.settings?.updateFavicon,
-		);
+		// setBadge(
+		// 	backgroundData.repositories,
+		// 	backgroundData.settings?.updateFavicon,
+		// );
 	}, [backgroundData.repositories, backgroundData.settings?.updateFavicon]);
 
 	const handleToggleSettings = (e) => {
@@ -53,18 +55,6 @@ export default function App() {
 	};
 
 	const { settings, loading, errors, rateLimit, repositories } = backgroundData;
-
-	const sidebarVisible = settings?.sidebarVisible ?? true;
-
-	const handleToggleSidebar = () => {
-		const newSidebarVisible = !sidebarVisible;
-		const newSettings = {
-			...backgroundData.settings,
-			sidebarVisible: newSidebarVisible,
-		};
-
-		sendToBackend({ type: 'saveSettings', settings: newSettings });
-	};
 
 	if (!settings) {
 		return null;
@@ -99,7 +89,7 @@ export default function App() {
 
 			<div
 				className={`footer ${!sidebarVisible ? 'footer--hidden' : ''}`}
-				onClick={handleToggleSidebar}
+				onClick={toggleSidebarVisibility}
 				title={sidebarVisible ? 'Hide Github sidebar' : 'Show Github sidebar'}
 			>
 				<button

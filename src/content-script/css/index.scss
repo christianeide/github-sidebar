@@ -3,7 +3,7 @@
 @use './variables';
 
 // Styles for host-page layout when sidebar is hidden/default.
-body:has(#github-sidebar .sidebar.sidebar--hidden) {
+html[data-github-sidebar-visible='false'] body {
 	padding-left: 0 !important;
 	transition: padding-left 0.3s ease;
 
@@ -21,7 +21,7 @@ body:has(#github-sidebar .sidebar.sidebar--hidden) {
 	}
 }
 
-body:has(#github-sidebar .sidebar:not(.sidebar--hidden)) {
+html[data-github-sidebar-visible='true'] body {
 	padding-left: variables.$sidebarWidth !important;
 	transition: padding-left 0.3s ease;
 
