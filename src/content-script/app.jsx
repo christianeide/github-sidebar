@@ -4,7 +4,7 @@ import Repositories from './components/Repositories/index.jsx';
 import Settings from './components/Settings/index.jsx';
 import Icons from './images/svgs/icons.jsx';
 import useSidebarVisibility from './hooks/useSidebarVisibility.js';
-// import setBadge from './utils/setBadge';
+import setBadge from './utils/setBadge';
 
 export default function App() {
 	const [backgroundData, setBackgroundData] = useState({
@@ -41,10 +41,10 @@ export default function App() {
 	}, []);
 
 	useEffect(() => {
-		// setBadge(
-		// 	backgroundData.repositories,
-		// 	backgroundData.settings?.updateFavicon,
-		// );
+		setBadge(
+			backgroundData.repositories,
+			backgroundData.settings?.updateFavicon,
+		);
 	}, [backgroundData.repositories, backgroundData.settings?.updateFavicon]);
 
 	const handleToggleSettings = (e) => {
