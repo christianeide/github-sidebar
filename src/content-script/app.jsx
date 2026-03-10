@@ -56,34 +56,34 @@ export default function App() {
 
 	const { settings, loading, errors, rateLimit, repositories } = backgroundData;
 
-	if (!settings) {
-		return null;
-	}
-
 	return (
 		<>
 			<div className={`sidebar ${!sidebarVisible ? 'sidebar--hidden' : ''}`}>
-				<Header
-					onToggleSettings={handleToggleSettings}
-					loading={loading}
-					errors={errors}
-					showSettings={showSettings}
-					sendToBackend={sendToBackend}
-				/>
+				{!settings ? null : (
+					<>
+						<Header
+							onToggleSettings={handleToggleSettings}
+							loading={loading}
+							errors={errors}
+							showSettings={showSettings}
+							sendToBackend={sendToBackend}
+						/>
 
-				{showSettings ? (
-					<Settings
-						rateLimit={rateLimit}
-						settings={settings}
-						sendToBackend={sendToBackend}
-					/>
-				) : (
-					<Repositories
-						repositories={repositories}
-						settings={settings}
-						onToggleSettings={handleToggleSettings}
-						sendToBackend={sendToBackend}
-					/>
+						{showSettings ? (
+							<Settings
+								rateLimit={rateLimit}
+								settings={settings}
+								sendToBackend={sendToBackend}
+							/>
+						) : (
+							<Repositories
+								repositories={repositories}
+								settings={settings}
+								onToggleSettings={handleToggleSettings}
+								sendToBackend={sendToBackend}
+							/>
+						)}
+					</>
 				)}
 			</div>
 

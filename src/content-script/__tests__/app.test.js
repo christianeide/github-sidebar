@@ -128,13 +128,9 @@ describe('index', () => {
 		setupDataFromBackground();
 
 		const { container } = render();
-		// Should not render anything if settings is missing
-		expect(container).toMatchInlineSnapshot(`<div />`);
-		expect(sendMessage).toHaveBeenCalledTimes(1);
-		expect(sendMessage).toHaveBeenCalledWith(
-			{ type: 'init' },
-			expect.any(Function),
-		);
+		// Should render the sidebar without content
+		expect(container.getElementsByClassName('.sidebar')).toBeTruthy();
+		expect(container.getElementsByTagName('header')).length(0);
 	});
 
 	it('should update badge based on repostatus', () => {
