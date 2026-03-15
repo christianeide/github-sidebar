@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AccessTokenEx from '../../images/accesstokenex.png';
+import AccessTokenEx from '~/assets/accesstokenex.png';
 import './index.scss';
 
 export default function TokenPusher({ onChange, value }) {
@@ -46,7 +46,7 @@ export default function TokenPusher({ onChange, value }) {
 			</ul>
 
 			<img
-				src={chrome.runtime.getURL(AccessTokenEx)}
+				src={AccessTokenEx}
 				alt="Example of repo data that can be collected"
 			/>
 
