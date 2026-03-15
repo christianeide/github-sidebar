@@ -18,6 +18,7 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'#imports': resolve(__dirname, '__mocks__/wxt-imports.js'),
+			'~': resolve(__dirname, 'src'),
 		},
 	},
 	test: {
