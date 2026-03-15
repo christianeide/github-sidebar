@@ -12,6 +12,8 @@ const projectIgnores = [
 	'dist/**',
 	'dist-archive/**',
 	'dev/**',
+	'.wxt/**',
+	'.output/**',
 	'testToken.js',
 ];
 

@@ -6,3 +6,5 @@
 /dist
 /dist-archive
 /dev
+/.wxt
+/.output

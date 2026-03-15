@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-import { defaultSettings } from '../src/background/settings/';
+import { defaultSettings } from '../src/entrypoints/background/settings/';
 
 export const defaultUserName = 'githubusername';
 export const defaultRepoName = 'github-sidebar';
@@ -49,7 +49,7 @@ export function mockFetchResolve(data) {
 	global.fetch = vi.fn().mockImplementationOnce(() =>
 		Promise.resolve({
 			json: () => Promise.resolve(data),
-		})
+		}),
 	);
 }
 
